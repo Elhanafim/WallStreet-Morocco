@@ -31,7 +31,7 @@ export default function DashboardMarketPage() {
             </div>
             <span className="ml-auto text-xs bg-success/10 text-success font-semibold px-2 py-0.5 rounded-full">Live</span>
           </div>
-          <TradingViewChart symbol="CASABLANCA:MASI" height={380} theme="light" interval="D" />
+          <TradingViewChart symbol="BCAS:MASI" height={380} theme="light" interval="D" />
         </div>
 
         {/* Watchlist — 1 col */}
@@ -43,8 +43,8 @@ export default function DashboardMarketPage() {
       {/* ATW and IAM charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {[
-          { symbol: 'CASABLANCA:ATW', name: 'Attijariwafa Bank' },
-          { symbol: 'CASABLANCA:IAM', name: 'Maroc Telecom' },
+          { symbol: 'BCAS:ATW', name: 'Attijariwafa Bank' },
+          { symbol: 'BCAS:IAM', name: 'Maroc Telecom' },
         ].map(({ symbol, name }) => (
           <div key={symbol} className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
             <div className="px-5 py-3 border-b border-surface-100 flex items-center gap-2">

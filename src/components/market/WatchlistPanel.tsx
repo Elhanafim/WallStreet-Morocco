@@ -9,26 +9,33 @@ const TradingViewSymbolInfo = dynamic(
 );
 
 const DEFAULT_ASSETS = [
-  { symbol: 'CASABLANCA:MASI', name: 'MASI Index', sector: 'Indice' },
-  { symbol: 'CASABLANCA:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
-  { symbol: 'CASABLANCA:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
-  { symbol: 'CASABLANCA:BCP', name: 'Banque Pop.', sector: 'Banque' },
-  { symbol: 'CASABLANCA:LHM', name: 'LafargeHolcim', sector: 'Matériaux' },
-  { symbol: 'CASABLANCA:CIH', name: 'CIH Bank', sector: 'Banque' },
-  { symbol: 'CASABLANCA:CSR', name: 'Cosumar', sector: 'Agroalimentaire' },
-  { symbol: 'CASABLANCA:ADH', name: 'Addoha', sector: 'Immobilier' },
-  { symbol: 'CASABLANCA:WAA', name: 'Wafa Assurance', sector: 'Assurance' },
-  { symbol: 'CASABLANCA:LYDEC', name: 'Lydec', sector: 'Utilities' },
+  { symbol: 'BCAS:MASI', name: 'MASI Index', sector: 'Indice' },
+  { symbol: 'BCAS:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
+  { symbol: 'BCAS:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
+  { symbol: 'BCAS:BCP', name: 'Banque Pop.', sector: 'Banque' },
+  { symbol: 'BCAS:LHM', name: 'LafargeHolcim', sector: 'Matériaux' },
+  { symbol: 'BCAS:CIH', name: 'CIH Bank', sector: 'Banque' },
+  { symbol: 'BCAS:CSR', name: 'Cosumar', sector: 'Agroalimentaire' },
+  { symbol: 'BCAS:ADH', name: 'Addoha', sector: 'Immobilier' },
+  { symbol: 'BCAS:WAA', name: 'Wafa Assurance', sector: 'Assurance' },
+  { symbol: 'BCAS:LYDEC', name: 'Lydec', sector: 'Utilities' },
 ];
 
 export default function WatchlistPanel() {
-  const [watchlist, setWatchlist] = useState<string[]>(['CASABLANCA:MASI', 'CASABLANCA:ATW', 'CASABLANCA:IAM']);
-  const [activeSymbol, setActiveSymbol] = useState('CASABLANCA:MASI');
+  const [watchlist, setWatchlist] = useState<string[]>(['BCAS:MASI', 'BCAS:ATW', 'BCAS:IAM']);
+  const [activeSymbol, setActiveSymbol] = useState('BCAS:MASI');
   const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('wsm_watchlist');
-    if (saved) setWatchlist(JSON.parse(saved));
+    if (saved) {
+      // Migrate old CASABLANCA: prefix to BCAS:
+      const migrated = (JSON.parse(saved) as string[]).map(s =>
+        s.replace('CASABLANCA:', 'BCAS:')
+      );
+      localStorage.setItem('wsm_watchlist', JSON.stringify(migrated));
+      setWatchlist(migrated);
+    }
   }, []);
 
   const toggleWatch = (symbol: string) => {

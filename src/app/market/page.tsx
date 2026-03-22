@@ -8,12 +8,12 @@ const MarketSummary = dynamic(() => import('@/components/market/MarketSummary'),
 const AssetWidget = dynamic(() => import('@/components/market/AssetWidget'), { ssr: false });
 
 const ASSETS = [
-  { symbol: 'CASABLANCA:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
-  { symbol: 'CASABLANCA:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
-  { symbol: 'CASABLANCA:BCP', name: 'Banque Pop.', sector: 'Banque' },
-  { symbol: 'CASABLANCA:LHM', name: 'LafargeHolcim Maroc', sector: 'Matériaux' },
-  { symbol: 'CASABLANCA:CIH', name: 'CIH Bank', sector: 'Banque' },
-  { symbol: 'CASABLANCA:CSR', name: 'Cosumar', sector: 'Agroalimentaire' },
+  { symbol: 'BCAS:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
+  { symbol: 'BCAS:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
+  { symbol: 'BCAS:BCP', name: 'Banque Pop.', sector: 'Banque' },
+  { symbol: 'BCAS:LHM', name: 'LafargeHolcim Maroc', sector: 'Matériaux' },
+  { symbol: 'BCAS:CIH', name: 'CIH Bank', sector: 'Banque' },
+  { symbol: 'BCAS:CSR', name: 'Cosumar', sector: 'Agroalimentaire' },
 ];
 
 export const metadata = {
@@ -64,7 +64,7 @@ export default function MarketPage() {
                 </div>
                 <span className="text-xs bg-success/10 text-success font-semibold px-2 py-1 rounded-full">Live</span>
               </div>
-              <TradingViewChart symbol="CASABLANCA:MASI" height={450} theme="light" interval="D" showToolbar={true} />
+              <TradingViewChart symbol="BCAS:MASI" height={450} theme="light" interval="D" showToolbar={true} />
             </div>
 
             {/* Market Summary */}

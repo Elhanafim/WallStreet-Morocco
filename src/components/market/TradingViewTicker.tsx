@@ -2,15 +2,15 @@
 import { useEffect, useRef } from 'react';
 
 const moroccanSymbols = [
-  { proName: 'CASABLANCA:MASI', title: 'MASI' },
-  { proName: 'CASABLANCA:ATW', title: 'Attijariwafa' },
-  { proName: 'CASABLANCA:IAM', title: 'Maroc Telecom' },
-  { proName: 'CASABLANCA:BCP', title: 'BCP' },
-  { proName: 'CASABLANCA:LHM', title: 'LafargeHolcim' },
-  { proName: 'CASABLANCA:CIH', title: 'CIH Bank' },
-  { proName: 'CASABLANCA:CSR', title: 'Cosumar' },
-  { proName: 'CASABLANCA:ADH', title: 'Addoha' },
-  { proName: 'CASABLANCA:WAA', title: 'Wafa Assurance' },
+  { proName: 'BCAS:MASI', title: 'MASI' },
+  { proName: 'BCAS:ATW', title: 'Attijariwafa' },
+  { proName: 'BCAS:IAM', title: 'Maroc Telecom' },
+  { proName: 'BCAS:BCP', title: 'BCP' },
+  { proName: 'BCAS:LHM', title: 'LafargeHolcim' },
+  { proName: 'BCAS:CIH', title: 'CIH Bank' },
+  { proName: 'BCAS:CSR', title: 'Cosumar' },
+  { proName: 'BCAS:ADH', title: 'Addoha' },
+  { proName: 'BCAS:WAA', title: 'Wafa Assurance' },
 ];
 
 export default function TradingViewTicker() {
