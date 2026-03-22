@@ -7,7 +7,6 @@ import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 const navLinks = [
   { href: '/learn', label: 'Apprendre' },
@@ -50,7 +49,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2.5 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`${BASE}/logo-icon.svg`}
+              src="/logo-icon.svg"
               alt="WallStreet Morocco"
               width={36}
               height={36}

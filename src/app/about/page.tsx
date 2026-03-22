@@ -115,7 +115,7 @@ export default function AboutPage() {
                 <div className="relative w-72 sm:w-80 rounded-3xl overflow-hidden shadow-2xl border border-white/20">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/images/founder.jpg`}
+                    src="/images/founder.jpg"
                     alt="El Hanafi Mohammed — Fondateur WallStreet Morocco"
                     width={320}
                     height={400}

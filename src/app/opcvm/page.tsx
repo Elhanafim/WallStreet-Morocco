@@ -9,14 +9,12 @@ import { Badge } from '@/components/ui/Badge';
 
 type FundType = 'Tous' | OPCVMFund['type'];
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
-
-// Bank logos: SVG recreations for all banks
+// Bank logos
 const bankLogos: Record<string, string> = {
-  ATW:  `${BASE}/images/banks/attijariwafa.svg`,
-  BMCE: `${BASE}/images/banks/bmce.svg`,
-  CIH:  `${BASE}/images/banks/cih.png`,
-  CDG:  `${BASE}/images/banks/cdg.svg`,
+  ATW:  '/images/banks/attijariwafa.svg',
+  BMCE: '/images/banks/bmce.svg',
+  CIH:  '/images/banks/cih.png',
+  CDG:  '/images/banks/cdg.svg',
 };
 
 const bankColors: Record<string, string> = {
