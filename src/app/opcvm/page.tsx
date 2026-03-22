@@ -13,7 +13,7 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 // Bank logos: SVG recreations for all banks
 const bankLogos: Record<string, string> = {
-  ATW:  `${BASE}/images/banks/attijariwafa.svg`,
+  ATW:  `${BASE}/images/banks/attijariwafa.gif`,
   BMCE: `${BASE}/images/banks/bmce.svg`,
   CIH:  `${BASE}/images/banks/cih.png`,
   CDG:  `${BASE}/images/banks/cdg.svg`,
