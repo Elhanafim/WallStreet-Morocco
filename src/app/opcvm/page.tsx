@@ -15,7 +15,7 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 const bankLogos: Record<string, string> = {
   ATW:  `${BASE}/images/banks/attijariwafa.svg`,
   BMCE: `${BASE}/images/banks/bmce.svg`,
-  CIH:  `${BASE}/images/banks/cih.svg`,
+  CIH:  `${BASE}/images/banks/cih.png`,
   CDG:  `${BASE}/images/banks/cdg.svg`,
 };
 
