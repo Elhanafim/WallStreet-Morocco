@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Linkedin, Twitter, Mail, Globe, BookOpen, TrendingUp, Target, Users } from 'lucide-react';
 import FounderPortfolio from '@/components/about/FounderPortfolio';
@@ -114,13 +113,14 @@ export default function AboutPage() {
                 <div className="absolute inset-0 rounded-3xl border border-white/10 scale-110" />
 
                 <div className="relative w-72 sm:w-80 rounded-3xl overflow-hidden shadow-2xl border border-white/20">
-                  <Image
-                    src="/images/founder.jpg"
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/images/founder.jpg`}
                     alt="El Hanafi Mohammed — Fondateur WallStreet Morocco"
                     width={320}
                     height={400}
                     className="w-full h-96 object-cover object-top"
-                    priority
+                    loading="eager"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/90 to-transparent p-5">
                     <p className="text-white font-bold text-lg">El Hanafi Mohammed</p>

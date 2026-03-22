@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 const navLinks = [
   { href: '/learn', label: 'Apprendre' },
@@ -47,8 +48,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <Image
-              src="/logo-icon.svg"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`${BASE}/logo-icon.svg`}
               alt="WallStreet Morocco"
               width={36}
               height={36}

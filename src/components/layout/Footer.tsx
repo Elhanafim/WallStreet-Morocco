@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Twitter, Linkedin, Mail, Phone } from 'lucide-react';
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 const platformLinks = [
   { href: '/simulator', label: 'Simulateur' },
@@ -32,8 +33,9 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-4 group">
-              <Image
-                src="/logo-icon.svg"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`${BASE}/logo-icon.svg`}
                 alt="WallStreet Morocco"
                 width={40}
                 height={40}
