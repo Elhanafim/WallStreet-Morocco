@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #0A2540;
+    --color-secondary: #3A86FF;
+    --color-accent: #D4AF37;
+    --color-background: #FFFFFF;
+    --color-surface: #F8FAFC;
+    --color-success: #10B981;
+    --color-danger: #EF4444;
+    --color-warning: #F59E0B;
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html,
+  body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #FFFFFF;
+    color: #0A2540;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 #F1F5F9;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, #3A86FF, #D4AF37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #D4AF37, #F5D166, #D4AF37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark-card {
+    background: linear-gradient(135deg, rgba(10, 37, 64, 0.95), rgba(30, 63, 110, 0.95));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(58, 134, 255, 0.2);
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .btn-primary {
+    @apply bg-secondary text-white font-semibold px-6 py-3 rounded-xl hover:bg-secondary-600 transition-all duration-200 shadow-md hover:shadow-glow-blue;
+  }
+
+  .btn-outline {
+    @apply border-2 border-accent text-accent font-semibold px-6 py-3 rounded-xl hover:bg-accent hover:text-primary transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-surface-200 bg-white text-primary placeholder-surface-300 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .ticker-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-move {
+    display: inline-block;
+    animation: ticker 40s linear infinite;
+  }
+
+  .ticker-move:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Blur overlay for premium content */
+.blur-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.blur-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, rgba(255, 255, 255, 0.95) 70%);
+  pointer-events: none;
+}
+
+/* Table styles */
+.table-fintech {
+  @apply w-full border-collapse;
+}
+
+.table-fintech th {
+  @apply text-left text-xs font-semibold text-primary/60 uppercase tracking-wider px-4 py-3 bg-surface-50 border-b border-surface-200;
+}
+
+.table-fintech td {
+  @apply px-4 py-3 text-sm text-primary border-b border-surface-100;
+}
+
+.table-fintech tr:hover td {
+  @apply bg-surface-50;
+}
+
+/* Chart tooltip customization */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+.custom-tooltip {
+  @apply bg-primary text-white px-3 py-2 rounded-lg shadow-lg text-sm border border-secondary/20;
+}
+
+/* Impact score bars */
+.impact-bar {
+  @apply h-2 rounded-full bg-surface-200 overflow-hidden;
+}
+
+.impact-bar-fill {
+  @apply h-full rounded-full transition-all duration-500;
+}
+
+/* Loading skeleton */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f4f8 25%, #e2e8f0 50%, #f0f4f8 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
