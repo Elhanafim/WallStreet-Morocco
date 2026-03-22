@@ -12,11 +12,13 @@ import {
   TrendingUp,
   LogOut,
   X,
+  BarChart2,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/portfolio', label: 'Portfolio', icon: Briefcase },
+  { href: '/dashboard/market', label: 'Marchés', icon: BarChart2 },
   { href: '/learn', label: 'Apprendre', icon: BookOpen },
   { href: '/calendar', label: 'Calendrier', icon: Calendar },
   { href: '/dashboard/profile', label: 'Profil', icon: User },

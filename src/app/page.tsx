@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, TrendingUp, TrendingDown, Star, Lock, BookOpen, BarChart2, Zap } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
 import MarketTicker from '@/components/home/MarketTicker';
 import StatsSection from '@/components/home/StatsSection';
@@ -9,6 +10,8 @@ import { listedStocks } from '@/lib/data/stocks';
 import { opcvmFunds } from '@/lib/data/opcvm';
 import { formatCurrency, formatPercent, getChangeBgColor } from '@/lib/utils';
 
+const TradingViewTicker = dynamic(() => import('@/components/market/TradingViewTicker'), { ssr: false });
+
 export default function HomePage() {
   const featuredArticles = getFeaturedArticles(6);
   const topStocks = listedStocks.slice(0, 6);
@@ -17,6 +20,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <div className="bg-primary">
+        <TradingViewTicker />
+      </div>
       <MarketTicker />
 
       {/* Market Overview Section */}
@@ -29,12 +35,21 @@ export default function HomePage() {
               </h2>
               <p className="text-primary/60">Cours en temps réel de la Bourse de Casablanca</p>
             </div>
-            <Link
-              href="/learn"
-              className="hidden sm:flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all"
-            >
-              Toutes les valeurs <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="hidden sm:flex items-center gap-4">
+              <Link
+                href="/market"
+                className="flex items-center gap-2 bg-secondary text-white font-semibold text-sm px-4 py-2 rounded-xl hover:bg-secondary-600 transition-all"
+              >
+                <BarChart2 className="w-4 h-4" />
+                Voir les marchés en direct
+              </Link>
+              <Link
+                href="/learn"
+                className="flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all"
+              >
+                Toutes les valeurs <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

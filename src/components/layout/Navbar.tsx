@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/simulator', label: 'Simulateur' },
   { href: '/calendar', label: 'Calendrier' },
   { href: '/opcvm', label: 'OPCVM' },
+  { href: '/market', label: 'Marchés' },
   { href: '/about', label: 'Fondateur' },
   { href: '/premium', label: 'Premium', highlight: true },
 ];
