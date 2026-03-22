@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80">
+  <!-- CDG in dark navy/slate -->
+  <!-- C -->
+  <text x="8" y="58" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="52" font-weight="900" fill="#2E3D52" letter-spacing="-2">CDG</text>
+  <!-- CAPITAL in olive green -->
+  <text x="168" y="58" font-family="Arial Rounded MT Bold, Arial, sans-serif" font-size="52" font-weight="900" fill="#5C7A2A" letter-spacing="-1">CAPITAL</text>
+</svg>

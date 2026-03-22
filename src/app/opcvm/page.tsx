@@ -11,9 +11,12 @@ type FundType = 'Tous' | OPCVMFund['type'];
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
-// Bank logos: local SVG for ATW, initials fallback for others
+// Bank logos: SVG recreations for all banks
 const bankLogos: Record<string, string> = {
-  ATW: `${BASE}/images/banks/attijariwafa.svg`,
+  ATW:  `${BASE}/images/banks/attijariwafa.svg`,
+  BMCE: `${BASE}/images/banks/bmce.svg`,
+  CIH:  `${BASE}/images/banks/cih.svg`,
+  CDG:  `${BASE}/images/banks/cdg.svg`,
 };
 
 const bankColors: Record<string, string> = {
