@@ -54,11 +54,14 @@ export async function POST(request: NextRequest) {
       { message: 'Compte créé avec succès', user },
       { status: 201 }
     );
-  } catch (error) {
-    console.error('Register error:', error);
-    return NextResponse.json(
-      { error: 'Une erreur est survenue lors de la création du compte' },
-      { status: 500 }
-    );
+  } catch (error: any) {
+    console.error('Register error:', error?.message ?? error);
+    const message =
+      error?.code === 'P2002'
+        ? 'Cette adresse email est déjà utilisée'
+        : error?.message?.includes('connect')
+        ? 'Impossible de se connecter à la base de données. Vérifiez DATABASE_URL.'
+        : 'Une erreur est survenue lors de la création du compte';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
