@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { TrendingUp, Twitter, Linkedin, Mail, Phone } from 'lucide-react';
+import Image from 'next/image';
+import { Twitter, Linkedin, Mail, Phone } from 'lucide-react';
 
 const platformLinks = [
   { href: '/simulator', label: 'Simulateur' },
@@ -30,11 +31,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4 group">
-              <div className="w-9 h-9 bg-secondary/20 rounded-lg flex items-center justify-center border border-secondary/30">
-                <TrendingUp className="w-5 h-5 text-accent" />
-              </div>
-              <span className="font-bold text-xl text-white">
+            <Link href="/" className="flex items-center gap-3 mb-4 group">
+              <Image
+                src="/logo-icon.svg"
+                alt="WallStreet Morocco"
+                width={40}
+                height={40}
+                className="w-10 h-10 group-hover:scale-105 transition-transform duration-200"
+              />
+              <span className="font-extrabold text-xl text-white">
                 WallStreet <span className="text-accent">Morocco</span>
               </span>
             </Link>

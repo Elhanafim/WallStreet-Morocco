@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, TrendingUp, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 
@@ -12,6 +13,7 @@ const navLinks = [
   { href: '/simulator', label: 'Simulateur' },
   { href: '/calendar', label: 'Calendrier' },
   { href: '/opcvm', label: 'OPCVM' },
+  { href: '/about', label: 'Fondateur' },
   { href: '/premium', label: 'Premium', highlight: true },
 ];
 
@@ -44,11 +46,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center group-hover:bg-secondary transition-colors duration-200">
-              <TrendingUp className="w-4 h-4 text-accent" />
-            </div>
-            <span className="font-bold text-primary text-lg leading-tight">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <Image
+              src="/logo-icon.svg"
+              alt="WallStreet Morocco"
+              width={36}
+              height={36}
+              className="w-9 h-9 group-hover:scale-105 transition-transform duration-200"
+            />
+            <span className="font-extrabold text-primary text-lg leading-tight hidden sm:block">
               WallStreet{' '}
               <span className="text-accent">Morocco</span>
             </span>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120">
+  <!-- Icon -->
+  <g transform="translate(0, 10) scale(1)">
+    <circle cx="50" cy="50" r="50" fill="#0A2540"/>
+    <polygon points="50,8 92,50 50,92 8,50" fill="white"/>
+    <rect x="27" y="27" width="46" height="46" rx="5" fill="#0A2540"/>
+    <line x1="36" y1="64" x2="57" y2="43" stroke="white" stroke-width="5" stroke-linecap="round"/>
+    <polygon points="52,36 67,44 59,59" fill="#D4AF37"/>
+    <circle cx="50" cy="10" r="5.5" fill="#D4AF37"/>
+    <circle cx="90" cy="50" r="5.5" fill="#D4AF37"/>
+    <circle cx="50" cy="90" r="5.5" fill="#D4AF37"/>
+    <circle cx="10" cy="50" r="5.5" fill="#D4AF37"/>
+  </g>
+  <!-- Text -->
+  <text x="115" y="48" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800" fill="#0A2540">WallStreet</text>
+  <text x="115" y="78" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800" fill="#D4AF37">Morocco</text>
+  <!-- Divider line -->
+  <line x1="115" y1="88" x2="390" y2="88" stroke="#0A2540" stroke-width="1.5" opacity="0.3"/>
+  <text x="115" y="104" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#0A2540" opacity="0.7">Financial Education</text>
+</svg>
