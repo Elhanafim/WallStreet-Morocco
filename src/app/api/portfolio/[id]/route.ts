@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 const updateSchema = z.object({
   assetName: z.string().min(1).optional(),
   assetType: z.enum(['STOCK', 'OPCVM', 'ETF', 'BOND', 'OTHER']).optional(),

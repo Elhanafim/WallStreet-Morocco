@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 const portfolioSchema = z.object({
   assetName: z.string().min(1, 'Le nom de l\'actif est requis'),
   assetType: z.enum(['STOCK', 'OPCVM', 'ETF', 'BOND', 'OTHER']),
