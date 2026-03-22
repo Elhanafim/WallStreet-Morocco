@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160">
+  <!-- Orange square background -->
+  <rect x="10" y="5" width="95" height="85" fill="#F47920"/>
+
+  <!-- ATW mountain/wave symbol (black) -->
+  <!-- Left arch -->
+  <path d="M22 72 L35 38 L48 72" fill="none" stroke="black" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Middle arch (taller) -->
+  <path d="M42 72 L58 24 L74 72" fill="none" stroke="black" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Right arch -->
+  <path d="M68 72 L82 38 L95 72" fill="none" stroke="black" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Small dot below left arch -->
+  <circle cx="35" cy="78" r="3.5" fill="black"/>
+
+  <!-- Arabic text: التجاري وفا بنك -->
+  <text x="115" y="45" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#D32F2F" text-anchor="start" direction="rtl">بنك</text>
+  <text x="190" y="45" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="black" text-anchor="end" direction="rtl">التجاري وفا</text>
+
+  <!-- Latin text: Attijariwafa -->
+  <text x="10" y="115" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="black">Attijariwafa</text>
+  <!-- bank in red -->
+  <text x="10" y="140" font-family="Arial, sans-serif" font-size="18" fill="#D32F2F">bank</text>
+</svg>

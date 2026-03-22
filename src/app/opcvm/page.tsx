@@ -9,17 +9,51 @@ import { Badge } from '@/components/ui/Badge';
 
 type FundType = 'Tous' | OPCVMFund['type'];
 
-function BankInitialsLogo({ bankCode, bankName }: { bankCode: string; bankName: string }) {
-  const colors: Record<string, string> = {
-    ATW: 'bg-[#D4AF37]',
-    BMCE: 'bg-[#0066CC]',
-    CDG: 'bg-[#00A86B]',
-    CIH: 'bg-[#E63946]',
-  };
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
+// Bank logos: local SVG for ATW, initials fallback for others
+const bankLogos: Record<string, string> = {
+  ATW: `${BASE}/images/banks/attijariwafa.svg`,
+};
+
+const bankColors: Record<string, string> = {
+  ATW: 'bg-[#F47920]',
+  BMCE: 'bg-[#0066CC]',
+  CDG: 'bg-[#00A86B]',
+  CIH: 'bg-[#E63946]',
+};
+
+function BankLogo({ bankCode, bankName, size = 'md' }: { bankCode: string; bankName: string; size?: 'sm' | 'md' | 'lg' }) {
+  const sizeClass = size === 'lg' ? 'w-20 h-20' : size === 'sm' ? 'w-8 h-8' : 'w-12 h-12';
+  const textSize = size === 'lg' ? 'text-lg' : size === 'sm' ? 'text-xs' : 'text-sm';
+  const logoSrc = bankLogos[bankCode];
+
+  if (logoSrc) {
+    return (
+      <div className={`${sizeClass} rounded-xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center p-1`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={logoSrc}
+          alt={bankName}
+          className="w-full h-full object-contain"
+          onError={(e) => {
+            // fallback to initials on error
+            const target = e.currentTarget as HTMLImageElement;
+            target.style.display = 'none';
+            const parent = target.parentElement;
+            if (parent) {
+              parent.className = `${sizeClass} ${bankColors[bankCode] || 'bg-primary'} rounded-xl flex items-center justify-center`;
+              parent.innerHTML = `<span class="text-white font-black ${textSize}">${bankCode.slice(0, 3)}</span>`;
+            }
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className={`w-12 h-12 ${colors[bankCode] || 'bg-primary'} rounded-xl flex items-center justify-center`}>
-      <span className="text-white font-black text-sm">{bankCode.slice(0, 3)}</span>
+    <div className={`${sizeClass} ${bankColors[bankCode] || 'bg-primary'} rounded-xl flex items-center justify-center`}>
+      <span className={`text-white font-black ${textSize}`}>{bankCode.slice(0, 3)}</span>
     </div>
   );
 }
@@ -117,7 +151,7 @@ function BankSection({ bankCode }: { bankCode: string }) {
     <div className="bg-surface-50 rounded-3xl p-6 sm:p-8">
       {/* Bank Header */}
       <div className="flex items-center gap-4 mb-6">
-        <BankInitialsLogo bankCode={bank.code} bankName={bank.name} />
+        <BankLogo bankCode={bank.code} bankName={bank.name} size="md" />
         <div>
           <h2 className="text-xl font-black text-primary">{bank.name}</h2>
           <p className="text-primary/50 text-sm">{funds.length} fonds disponibles</p>
