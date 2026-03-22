@@ -13,7 +13,7 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 // Bank logos: SVG recreations for all banks
 const bankLogos: Record<string, string> = {
-  ATW:  `${BASE}/images/banks/attijariwafa.png`,
+  ATW:  `${BASE}/images/banks/attijariwafa.svg`,
   BMCE: `${BASE}/images/banks/bmce.svg`,
   CIH:  `${BASE}/images/banks/cih.png`,
   CDG:  `${BASE}/images/banks/cdg.svg`,
@@ -33,12 +33,12 @@ function BankLogo({ bankCode, bankName, size = 'md' }: { bankCode: string; bankN
 
   if (logoSrc) {
     return (
-      <div className={`${sizeClass} rounded-xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center p-1`}>
+      <div className={`${sizeClass} rounded-xl overflow-hidden bg-white border border-gray-100 flex items-center justify-center p-0`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={logoSrc}
           alt={bankName}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-cover"
           onError={(e) => {
             // fallback to initials on error
             const target = e.currentTarget as HTMLImageElement;
