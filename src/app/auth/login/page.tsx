@@ -2,20 +2,45 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, EyeOff, TrendingUp, Mail, Lock, ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { Eye, EyeOff, TrendingUp, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
+
+    try {
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        if (result.error === 'CredentialsSignin') {
+          setError('Email ou mot de passe incorrect.');
+        } else {
+          setError('Une erreur est survenue. Veuillez réessayer.');
+        }
+      } else {
+        router.push('/dashboard');
+        router.refresh();
+      }
+    } catch (err) {
+      setError('Une erreur est survenue. Veuillez réessayer.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -56,6 +81,13 @@ export default function LoginPage() {
               Connectez-vous pour accéder à votre espace investisseur
             </p>
           </div>
+
+          {error && (
+            <div className="mb-5 flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl p-3.5">
+              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
@@ -192,7 +224,7 @@ export default function LoginPage() {
 
         {/* Security note */}
         <p className="text-center text-white/40 text-xs mt-6">
-          🔒 Connexion sécurisée SSL 256-bit
+          Connexion securisee SSL 256-bit
         </p>
       </div>
     </div>

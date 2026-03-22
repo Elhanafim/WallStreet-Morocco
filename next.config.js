@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  basePath: '/WallStreet-Morocco',
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
@@ -14,5 +12,4 @@ const nextConfig = {
     ],
   },
 };
-
 module.exports = nextConfig;

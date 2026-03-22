@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, EyeOff, TrendingUp, Mail, Lock, User, Check, ArrowRight, Zap } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { Eye, EyeOff, TrendingUp, Mail, Lock, User, Check, ArrowRight, Zap, AlertCircle } from 'lucide-react';
 
 const passwordStrength = (password: string) => {
   let score = 0;
@@ -17,6 +19,7 @@ const strengthLabels = ['', 'Faible', 'Passable', 'Bien', 'Excellent'];
 const strengthColors = ['', 'bg-danger', 'bg-warning', 'bg-secondary', 'bg-success'];
 
 export default function SignupPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,6 +33,7 @@ export default function SignupPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [apiError, setApiError] = useState('');
 
   const strength = passwordStrength(formData.password);
 
@@ -46,14 +50,51 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError('');
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsLoading(false);
+
+    try {
+      const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`;
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fullName,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setApiError(data.error || 'Une erreur est survenue');
+        setIsLoading(false);
+        return;
+      }
+
+      // Auto sign-in after registration
+      const signInResult = await signIn('credentials', {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        router.push('/auth/login');
+      } else {
+        router.push('/dashboard');
+        router.refresh();
+      }
+    } catch (err) {
+      setApiError('Une erreur réseau est survenue. Veuillez réessayer.');
+      setIsLoading(false);
+    }
   };
 
   const update = (field: string, value: string | boolean) => {
@@ -118,6 +159,13 @@ export default function SignupPage() {
               ))}
             </div>
           </div>
+
+          {apiError && (
+            <div className="mb-4 flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl p-3.5">
+              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+              <p className="text-sm text-red-600">{apiError}</p>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name row */}
@@ -193,7 +241,6 @@ export default function SignupPage() {
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {/* Strength bar */}
               {formData.password && (
                 <div className="mt-2">
                   <div className="flex gap-1 mb-1">
@@ -317,7 +364,7 @@ export default function SignupPage() {
         </div>
 
         <p className="text-center text-white/40 text-xs mt-6">
-          🔒 Vos données sont protégées et ne sont jamais revendues
+          Vos données sont protégées et ne sont jamais revendues
         </p>
       </div>
     </div>
