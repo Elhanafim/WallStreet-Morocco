@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
+  basePath: '/WallStreet-Morocco',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -15,9 +18,6 @@ const nextConfig = {
         hostname: 'upload.wikimedia.org',
       },
     ],
-  },
-  experimental: {
-    typedRoutes: false,
   },
 };
 
