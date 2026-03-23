@@ -17,10 +17,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  portfolio     Portfolio[]
-  subscription  Subscription?
-  accounts      Account[]
-  sessions      Session[]
+  portfolio        Portfolio[]
+  namedPortfolios  NamedPortfolio[]
+  subscription     Subscription?
+  accounts         Account[]
+  sessions         Session[]
 }
 
 enum Role {
@@ -77,6 +78,35 @@ enum SubscriptionStatus {
   CANCELLED
   EXPIRED
   TRIAL
+}
+
+// Portfolio Builder models
+enum HoldingType {
+  STOCK
+  OPCVM
+}
+
+model NamedPortfolio {
+  id        String             @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  holdings  PortfolioHolding[]
+}
+
+model PortfolioHolding {
+  id            String         @id @default(cuid())
+  portfolioId   String
+  assetType     HoldingType    @default(STOCK)
+  assetSymbol   String
+  assetName     String
+  quantity      Float
+  purchasePrice Float
+  purchaseDate  DateTime       @default(now())
+  createdAt     DateTime       @default(now())
+  portfolio     NamedPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
 }
 
 // NextAuth required models

@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Briefcase } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 
@@ -22,6 +23,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,17 +86,34 @@ export default function Navbar() {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/auth/login"
-              className="text-sm font-medium text-primary/70 hover:text-primary transition-colors"
-            >
-              Se connecter
-            </Link>
-            <Link href="/auth/signup">
-              <Button size="sm" variant="primary">
-                S&apos;inscrire
-              </Button>
-            </Link>
+            {session ? (
+              <Link
+                href="/portfolio"
+                className={cn(
+                  'flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
+                  pathname === '/portfolio' || pathname.startsWith('/portfolio/')
+                    ? 'bg-secondary text-white shadow-sm'
+                    : 'bg-secondary/10 text-secondary hover:bg-secondary/20'
+                )}
+              >
+                <Briefcase className="w-3.5 h-3.5" />
+                Mon Portefeuille
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="text-sm font-medium text-primary/70 hover:text-primary transition-colors"
+                >
+                  Se connecter
+                </Link>
+                <Link href="/auth/signup">
+                  <Button size="sm" variant="primary">
+                    S&apos;inscrire
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Toggle */}
@@ -138,18 +157,34 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-3 border-t border-surface-100 flex flex-col gap-2">
-            <Link
-              href="/auth/login"
-              className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-primary border border-surface-200 hover:bg-surface-50 transition-colors"
-            >
-              Se connecter
-            </Link>
-            <Link
-              href="/auth/signup"
-              className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-secondary text-white hover:bg-secondary-600 transition-colors"
-            >
-              S&apos;inscrire gratuitement
-            </Link>
+            {session ? (
+              <Link
+                href="/portfolio"
+                className={cn(
+                  'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200',
+                  pathname === '/portfolio' || pathname.startsWith('/portfolio/')
+                    ? 'bg-secondary text-white'
+                    : 'bg-secondary/10 text-secondary border border-secondary/20'
+                )}
+              >
+                <Briefcase className="w-4 h-4" /> Mon Portefeuille
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/auth/login"
+                  className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-primary border border-surface-200 hover:bg-surface-50 transition-colors"
+                >
+                  Se connecter
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-secondary text-white hover:bg-secondary-600 transition-colors"
+                >
+                  S&apos;inscrire gratuitement
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

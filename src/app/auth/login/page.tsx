@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, TrendingUp, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +34,9 @@ export default function LoginPage() {
           setError('Une erreur est survenue. Veuillez réessayer.');
         }
       } else {
-        router.push('/dashboard');
+        // Redirect to the originally requested page if present, else dashboard
+        const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
+        router.push(callbackUrl);
         router.refresh();
       }
     } catch (err) {
@@ -228,5 +231,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
