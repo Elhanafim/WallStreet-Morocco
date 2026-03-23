@@ -23,6 +23,12 @@ const TradingViewMarketOverview = dynamic(
     ),
   }
 );
+const AssetWidget = dynamic(() => import('@/components/market/AssetWidget'), { ssr: false });
+
+/** Thin wrapper so we can pass a Forex symbol to AssetWidget without a sector label. */
+function ForexWidget({ symbol, name }: { symbol: string; name: string }) {
+  return <AssetWidget symbol={symbol} name={name} sector="Forex" />;
+}
 
 export default function HomePage() {
   const featuredArticles = getFeaturedArticles(6);
@@ -73,6 +79,41 @@ export default function HomePage() {
           <p className="text-center text-xs text-primary/30 mt-3">
             Données fournies par TradingView · Actualisation automatique
           </p>
+        </div>
+      </section>
+
+      {/* ── Forex Section ────────────────────────────────────────── */}
+      <section className="py-16 bg-surface-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl font-black text-primary mb-1">
+              Taux de Change — Dirham Marocain (MAD)
+            </h2>
+            <p className="text-primary/60 text-sm">
+              Cours interbancaires indicatifs · Actualisation automatique
+            </p>
+          </div>
+
+          {/* Two forex mini widgets */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+            <ForexWidget symbol="FX_IDC:EURMAD" name="EUR / MAD" />
+            <ForexWidget symbol="FX_IDC:USDMAD" name="USD / MAD" />
+          </div>
+
+          {/* Disclaimer card */}
+          <div className="bg-white border border-surface-200 rounded-2xl px-5 py-4 text-xs text-primary/50 leading-relaxed">
+            Le dirham marocain (MAD) est une devise non convertible.
+            Les taux affichés sont indicatifs (marché interbancaire international).
+            Pour les taux officiels, consultez{' '}
+            <a
+              href="https://www.bkam.ma"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-primary"
+            >
+              Bank Al-Maghrib
+            </a>.
+          </div>
         </div>
       </section>
 

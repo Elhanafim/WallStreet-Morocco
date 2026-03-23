@@ -5,9 +5,10 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, X, Search, TrendingUp, TrendingDown,
   Minus, DollarSign, BarChart2, Briefcase, Loader2, AlertCircle,
-  ChevronRight, BadgeInfo, Download, FileText,
+  ChevronRight, BadgeInfo, Download, FileText, CheckCircle, Wifi, WifiOff, Pencil,
 } from 'lucide-react';
 import { STOCK_ASSETS, OPCVM_ASSETS, type CatalogueAsset, type OpcvmAsset } from '@/lib/data/assets';
+import { fetchLivePrice, sourceLabel, type PriceResult } from '@/lib/priceService';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -205,6 +206,15 @@ function DeleteHoldingModal({
   );
 }
 
+// ─── Price field state machine ────────────────────────────────────────────────
+
+type PriceState =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'trying_next'; attempt: number }
+  | { status: 'success'; result: PriceResult }
+  | { status: 'manual' };
+
 // ─── Add Holding Panel ────────────────────────────────────────────────────────
 
 function AddHoldingPanel({
@@ -222,6 +232,7 @@ function AddHoldingPanel({
   const [selected, setSelected]       = useState<CatalogueAsset | null>(null);
   const [quantity, setQuantity]       = useState('');
   const [price, setPrice]             = useState('');
+  const [priceState, setPriceState]   = useState<PriceState>({ status: 'idle' });
   const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0, 10));
   const [notes, setNotes]             = useState('');
   const [loading, setLoading]         = useState(false);
@@ -245,14 +256,28 @@ function AddHoldingPanel({
   // ── Select asset ──
   const handleSelect = (asset: CatalogueAsset) => {
     setSelected(asset);
-    if (asset.type === 'opcvm') {
-      setPrice(String((asset as OpcvmAsset).nav));
-    } else {
-      setPrice('');
-    }
     setQuantity('');
     setNotes('');
     setError('');
+
+    if (asset.type === 'opcvm') {
+      // OPCVM: use static NAV as editable reference
+      setPrice(String((asset as OpcvmAsset).nav));
+      setPriceState({ status: 'idle' });
+    } else {
+      // Stock: kick off the live price fallback chain
+      setPrice('');
+      setPriceState({ status: 'loading' });
+      fetchLivePrice(asset.symbol).then((result) => {
+        if (result.success) {
+          setPrice(String(result.price));
+          setPriceState({ status: 'success', result });
+        } else {
+          setPriceState({ status: 'manual' });
+        }
+      });
+    }
+
     setStep(2);
   };
 
@@ -268,7 +293,11 @@ function AddHoldingPanel({
     e.preventDefault();
     if (!selected) return;
     const q = parseFloat(quantity);
-    const p = parseFloat(price);
+    // Use the fetched price if available, else what user typed
+    const resolvedPrice = priceState.status === 'success' && !price
+      ? priceState.result.price
+      : parseFloat(price);
+    const p = resolvedPrice;
     if (!q || q <= 0 || !p || p <= 0) {
       setError('Quantité et prix doivent être supérieurs à 0.');
       return;
@@ -479,20 +508,84 @@ function AddHoldingPanel({
                     </span>
                   )}
                 </label>
-                <input
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="0.00"
-                  min="0.001"
-                  step="0.01"
-                  required
-                  className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
-                />
-                {selected.type === 'stock' && (
+
+                {/* ── Price states (stocks only) ── */}
+                {selected.type === 'stock' && priceState.status === 'loading' && (
+                  <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-surface-200 bg-surface-50 text-sm text-primary/50 animate-pulse">
+                    <Loader2 className="w-4 h-4 animate-spin text-secondary" />
+                    Récupération du prix en cours…
+                  </div>
+                )}
+
+                {selected.type === 'stock' && priceState.status === 'success' && (
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-sm">
+                      <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                      <span className="font-bold text-emerald-700">{fmtMAD(priceState.result.price)}</span>
+                      <span className="text-emerald-600/70 text-xs">
+                        · {sourceLabel(priceState.result.source)}
+                        · {new Date(priceState.result.timestamp).toLocaleTimeString('fr-MA', { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setPriceState({ status: 'manual' })}
+                        className="ml-auto text-emerald-600/60 hover:text-emerald-700"
+                        title="Modifier le prix"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <input type="hidden" value={price} />
+                  </div>
+                )}
+
+                {selected.type === 'stock' && priceState.status === 'manual' && (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-700">
+                      <WifiOff className="w-3.5 h-3.5 flex-shrink-0" />
+                      Prix en temps réel indisponible — saisissez votre prix d&apos;achat manuellement.
+                    </div>
+                    <input
+                      type="number"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      placeholder="0.00"
+                      min="0.001"
+                      step="0.01"
+                      required
+                      autoFocus
+                      className="w-full px-4 py-3 rounded-xl border border-amber-300 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent text-sm"
+                    />
+                  </div>
+                )}
+
+                {/* OPCVM always editable */}
+                {selected.type === 'opcvm' && (
+                  <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    placeholder="0.00"
+                    min="0.001"
+                    step="0.01"
+                    required
+                    className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
+                  />
+                )}
+
+                {/* OPCVM info note */}
+                {selected.type === 'opcvm' && (
                   <p className="text-xs text-primary/40 mt-1.5 flex items-center gap-1">
                     <BadgeInfo className="w-3 h-3" />
-                    Prix cours BVC non disponible en temps réel — saisissez votre prix d&apos;achat
+                    VL hebdomadaire — non disponible en temps réel.{' '}
+                    <a
+                      href="https://www.wafabourse.com/fr/opc-maroc"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-secondary"
+                    >
+                      Consulter la VL sur Wafa Bourse →
+                    </a>
                   </p>
                 )}
               </div>
@@ -568,7 +661,14 @@ function AddHoldingPanel({
             <div className="px-6 py-4 border-t border-surface-100">
               <button
                 type="submit"
-                disabled={loading || !quantity || !price || parseFloat(quantity) <= 0 || parseFloat(price) <= 0}
+                disabled={
+                loading ||
+                !quantity ||
+                parseFloat(quantity) <= 0 ||
+                (priceState.status === 'loading') ||
+                (!price && priceState.status !== 'success') ||
+                (!!price && parseFloat(price) <= 0)
+              }
                 className="w-full bg-secondary text-white font-bold py-3.5 rounded-xl hover:bg-secondary-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm"
               >
                 {loading ? (
