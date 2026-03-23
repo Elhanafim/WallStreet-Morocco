@@ -14,6 +14,7 @@ const navLinks = [
   { href: '/calendar', label: 'Calendrier' },
   { href: '/opcvm', label: 'OPCVM' },
   { href: '/market', label: 'Marchés' },
+  { href: '/parcours', label: 'Mon Parcours' },
   { href: '/about', label: 'Fondateur' },
   { href: '/premium', label: 'Premium', highlight: true },
 ];
