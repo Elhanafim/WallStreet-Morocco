@@ -27,12 +27,12 @@ export default function MarketSummary() {
             <Activity className="w-4 h-4 text-secondary" />
           </div>
           <div>
-            <h3 className="font-bold text-primary text-sm">MASI — Indice Principal</h3>
+            <h3 className="font-bold text-primary text-sm">MSI20 — Indice Blue Chips</h3>
             <p className="text-xs text-primary/50">Bourse de Casablanca · Temps réel via TradingView</p>
           </div>
         </div>
         <div className="p-2">
-          <TradingViewChart symbol="MASI INDEX" height={320} theme="light" interval="D" />
+          <TradingViewChart symbol="CSEMA:MSI20" height={320} theme="light" interval="D" />
         </div>
       </div>
 

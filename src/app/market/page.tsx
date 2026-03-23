@@ -72,7 +72,7 @@ export default function MarketPage() {
                 </div>
                 <span className="text-xs bg-success/10 text-success font-semibold px-2 py-1 rounded-full">Live</span>
               </div>
-              <TradingViewChart symbol="MASI INDEX" height={450} theme="light" interval="D" showToolbar={true} />
+              <TradingViewChart symbol="CSEMA:MASI" height={450} theme="light" interval="D" showToolbar={true} />
             </div>
 
             {/* Market Summary */}
