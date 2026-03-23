@@ -30,7 +30,7 @@ export default function TradingViewTicker() {
       showSymbolLogo: true,
       isTransparent: false,
       displayMode: 'adaptive',
-      colorTheme: 'dark',
+      colorTheme: 'light',
       locale: 'fr',
     });
     ref.current.appendChild(script);

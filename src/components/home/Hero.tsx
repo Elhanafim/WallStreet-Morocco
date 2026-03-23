@@ -112,7 +112,7 @@ export default function Hero() {
               <TradingViewChart
                 symbol="CSEMA:MASI"
                 height={400}
-                theme="dark"
+                theme="light"
                 interval="D"
                 showToolbar={false}
               />

@@ -12,7 +12,7 @@ interface TradingViewChartProps {
 function TradingViewChart({
   symbol = 'CSEMA:MASI',
   height = 400,
-  theme = 'dark',
+  theme = 'light',
   interval = 'D',
   showToolbar = true,
 }: TradingViewChartProps) {
