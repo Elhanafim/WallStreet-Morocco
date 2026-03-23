@@ -4,130 +4,149 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend,
+  PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
 } from 'recharts';
 import {
-  Wallet, TrendingUp, BarChart2, PlusCircle, ArrowRight, Calendar,
+  Wallet, TrendingUp, BarChart2, ArrowRight, Briefcase, Plus,
+  Calendar, DollarSign,
 } from 'lucide-react';
 import MetricCard from '@/components/dashboard/MetricCard';
-import AddAssetModal from '@/components/dashboard/AddAssetModal';
 
-interface PortfolioEntry {
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface Holding {
   id: string;
+  assetType: 'STOCK' | 'OPCVM';
+  assetSymbol: string;
   assetName: string;
-  assetType: string;
-  ticker?: string;
-  amountInvested: number;
-  quantity?: number;
-  purchasePrice?: number;
-  currentPrice?: number;
-  date: string;
-  notes?: string;
-  createdAt: string;
+  quantity: number;
+  purchasePrice: number;
+  purchaseDate: string;
 }
 
-const ASSET_COLORS: Record<string, string> = {
+interface NamedPortfolio {
+  id: string;
+  name: string;
+  strategy: string;
+  createdAt: string;
+  holdings: Holding[];
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function fmtMAD(n: number): string {
+  if (Math.abs(n) >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M MAD`;
+  if (Math.abs(n) >= 1_000) return `${(n / 1_000).toFixed(1)}k MAD`;
+  return `${n.toFixed(2)} MAD`;
+}
+
+const STRATEGY_LABELS: Record<string, string> = {
+  COURT_TERME: 'Court terme',
+  LONG_TERME: 'Long terme',
+  RETRAITE: 'Retraite',
+  EPARGNE: 'Épargne',
+  AUTRE: 'Autre',
+};
+
+const TYPE_COLORS: Record<string, string> = {
   STOCK: '#3A86FF',
   OPCVM: '#8B5CF6',
-  ETF: '#10B981',
-  BOND: '#F59E0B',
-  OTHER: '#6B7280',
 };
 
-const ASSET_LABELS: Record<string, string> = {
-  STOCK: 'Actions',
-  OPCVM: 'OPCVM',
-  ETF: 'ETF',
-  BOND: 'Obligations',
-  OTHER: 'Autre',
-};
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
 
-function formatMAD(value: number): string {
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(2)}M MAD`;
-  if (value >= 1_000) return `${(value / 1_000).toFixed(1)}k MAD`;
-  return `${value.toFixed(2)} MAD`;
+function Skeleton({ className }: { className: string }) {
+  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className}`} />;
 }
 
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString('fr-MA', { day: '2-digit', month: 'short', year: 'numeric' });
+// ─── Portfolio Summary Card ───────────────────────────────────────────────────
+
+function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
+  const invested = portfolio.holdings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
+  return (
+    <Link
+      href={`/portfolio/${portfolio.id}`}
+      className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col gap-3"
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-sm font-black text-[#0A2540] leading-tight">{portfolio.name}</p>
+          <p className="text-xs text-gray-400 mt-0.5">
+            {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy} · {portfolio.holdings.length} position{portfolio.holdings.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+        <div className="w-8 h-8 bg-[#3A86FF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <Briefcase className="w-4 h-4 text-[#3A86FF]" />
+        </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-lg font-black text-[#0A2540]">{fmtMAD(invested)}</span>
+        <div className="flex gap-1.5">
+          {(['STOCK', 'OPCVM'] as const).map((t) => {
+            const c = portfolio.holdings.filter((h) => h.assetType === t).length;
+            if (!c) return null;
+            return (
+              <span
+                key={t}
+                className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                style={{ backgroundColor: `${TYPE_COLORS[t]}18`, color: TYPE_COLORS[t] }}
+              >
+                {c} {t === 'STOCK' ? 'Action' : 'OPCVM'}{c > 1 ? 's' : ''}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    </Link>
+  );
 }
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  const [portfolio, setPortfolio] = useState<PortfolioEntry[]>([]);
+  const [portfolios, setPortfolios] = useState<NamedPortfolio[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
 
-  const fetchPortfolio = async () => {
-    try {
-      const res = await fetch('/api/portfolio');
-      if (res.ok) {
-        const data = await res.json();
-        setPortfolio(data);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    fetch('/api/portfolios')
+      .then((r) => (r.ok ? r.json() : []))
+      .then(setPortfolios)
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
-  useEffect(() => { fetchPortfolio(); }, []);
+  // ── Aggregated stats across all portfolios ──
+  const allHoldings = portfolios.flatMap((p) => p.holdings);
+  const totalInvested = allHoldings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
 
-  // Calculations
-  const totalInvested = portfolio.reduce((sum, e) => sum + e.amountInvested, 0);
-  const simulatedGrowthRate = 0.087; // 8.7% simulated annual return
-  const estimatedValue = totalInvested * (1 + simulatedGrowthRate);
-  const performancePct = totalInvested > 0 ? ((estimatedValue - totalInvested) / totalInvested) * 100 : 0;
-
-  // Monthly contribution (this month)
+  // This month contributions
   const now = new Date();
-  const monthlyContrib = portfolio
-    .filter((e) => {
-      const d = new Date(e.date);
+  const monthlyContrib = allHoldings
+    .filter((h) => {
+      const d = new Date(h.purchaseDate);
       return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     })
-    .reduce((sum, e) => sum + e.amountInvested, 0);
+    .reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
 
-  // Growth chart data — cumulative investment over time
-  const sorted = [...portfolio].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  let cumulative = 0;
-  const chartData = sorted.map((e) => {
-    cumulative += e.amountInvested;
-    return {
-      date: new Date(e.date).toLocaleDateString('fr-MA', { month: 'short', day: 'numeric' }),
-      investi: Math.round(cumulative),
-      valeur: Math.round(cumulative * (1 + simulatedGrowthRate)),
-    };
-  });
-
-  // Allocation pie data
+  // Allocation donut by type
   const allocationMap: Record<string, number> = {};
-  portfolio.forEach((e) => {
-    allocationMap[e.assetType] = (allocationMap[e.assetType] ?? 0) + e.amountInvested;
+  allHoldings.forEach((h) => {
+    allocationMap[h.assetType] = (allocationMap[h.assetType] ?? 0) + h.quantity * h.purchasePrice;
   });
   const pieData = Object.entries(allocationMap).map(([type, value]) => ({
-    name: ASSET_LABELS[type] ?? type,
+    name: type === 'STOCK' ? 'Actions BVC' : 'OPCVM',
     value: Math.round(value),
-    color: ASSET_COLORS[type] ?? '#6B7280',
+    color: TYPE_COLORS[type] ?? '#6B7280',
   }));
 
-  const recent = [...portfolio].slice(0, 5);
+  // Recent holdings across all portfolios (latest 5)
+  const recentHoldings = [...allHoldings]
+    .sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime())
+    .slice(0, 5);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="flex items-center gap-3 text-gray-400">
-          <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-          Chargement...
-        </div>
-      </div>
-    );
-  }
+  const previewPortfolios = portfolios.slice(0, 3);
+  const hasMore = portfolios.length > 3;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -141,206 +160,207 @@ export default function DashboardPage() {
             {new Date().toLocaleDateString('fr-MA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </p>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
+        <Link
+          href="/portfolio"
           className="flex items-center gap-2 px-4 py-2.5 bg-[#0A2540] text-white text-sm font-bold rounded-xl hover:bg-[#3A86FF] transition-colors shadow-sm"
         >
-          <PlusCircle className="w-4 h-4" />
-          Ajouter un actif
-        </button>
+          <Briefcase className="w-4 h-4" />
+          Mes Portefeuilles
+        </Link>
       </div>
 
-      {portfolio.length === 0 ? (
-        /* Empty State */
+      {loading ? (
+        /* ── Skeleton ── */
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28" />)}
+          </div>
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+            <Skeleton className="xl:col-span-2 h-64" />
+            <Skeleton className="h-64" />
+          </div>
+        </>
+      ) : portfolios.length === 0 ? (
+        /* ── Empty State ── */
         <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-12 text-center">
           <div className="w-16 h-16 bg-[#0A2540]/5 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <BarChart2 className="w-8 h-8 text-[#0A2540]/40" />
           </div>
-          <h3 className="text-lg font-black text-[#0A2540] mb-2">Votre portfolio est vide</h3>
+          <h3 className="text-lg font-black text-[#0A2540] mb-2">Aucun portefeuille</h3>
           <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
-            Commencez par ajouter vos premiers investissements pour suivre vos performances.
+            Créez votre premier portefeuille pour commencer à suivre vos investissements BVC et OPCVM.
           </p>
-          <button
-            onClick={() => setShowModal(true)}
+          <Link
+            href="/portfolio"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A2540] text-white font-bold rounded-xl hover:bg-[#3A86FF] transition-colors"
           >
-            <PlusCircle className="w-4 h-4" />
-            Ajouter mon premier actif
-          </button>
+            <Plus className="w-4 h-4" />
+            Créer un portefeuille
+          </Link>
         </div>
       ) : (
         <>
-          {/* Metric Cards */}
+          {/* ── KPI Strip ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             <MetricCard
               label="Total Investi"
-              value={formatMAD(totalInvested)}
+              value={fmtMAD(totalInvested)}
               icon={Wallet}
               iconColor="text-[#0A2540]"
               iconBg="bg-[#0A2540]/10"
             />
             <MetricCard
-              label="Valeur Actuelle"
-              value={formatMAD(estimatedValue)}
-              change={estimatedValue - totalInvested}
-              changeSuffix=" MAD"
+              label="Portefeuilles"
+              value={`${portfolios.length}`}
+              icon={Briefcase}
+              iconColor="text-[#3A86FF]"
+              iconBg="bg-blue-50"
+            />
+            <MetricCard
+              label="Positions"
+              value={`${allHoldings.length}`}
               icon={TrendingUp}
               iconColor="text-emerald-600"
               iconBg="bg-emerald-50"
-              trend="up"
-            />
-            <MetricCard
-              label="Performance"
-              value={`+${performancePct.toFixed(2)}%`}
-              change={performancePct}
-              icon={BarChart2}
-              iconColor="text-[#3A86FF]"
-              iconBg="bg-blue-50"
-              trend={performancePct >= 0 ? 'up' : 'down'}
-              badge="Estimé"
             />
             <MetricCard
               label="Contrib. ce mois"
-              value={formatMAD(monthlyContrib)}
+              value={fmtMAD(monthlyContrib)}
               icon={Calendar}
               iconColor="text-amber-600"
               iconBg="bg-amber-50"
             />
           </div>
 
-          {/* Charts Row */}
+          {/* ── Charts + Portfolios ── */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-            {/* Line Chart */}
-            <div className="xl:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="text-base font-black text-[#0A2540]">Évolution du portefeuille</h3>
-                  <p className="text-xs text-gray-500 mt-0.5">Cumul investi vs valeur estimée</p>
-                </div>
+            {/* Portfolio cards preview */}
+            <div className="xl:col-span-2 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-black text-[#0A2540]">Mes Portefeuilles</h3>
+                <Link
+                  href="/portfolio"
+                  className="text-xs font-semibold text-[#3A86FF] hover:text-[#0A2540] flex items-center gap-1 transition-colors"
+                >
+                  Voir tout <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
-              {chartData.length < 2 ? (
-                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
-                  Ajoutez plus d&apos;actifs pour voir le graphique
-                </div>
-              ) : (
-                <ResponsiveContainer width="100%" height={220}>
-                  <LineChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#9CA3AF' }} />
-                    <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
-                    <Tooltip
-                      formatter={(value: number, name: string) => [
-                        `${value.toLocaleString('fr-MA')} MAD`,
-                        name === 'investi' ? 'Investi' : 'Valeur estimée',
-                      ]}
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #E5E7EB', fontSize: '12px' }}
-                    />
-                    <Line type="monotone" dataKey="investi" stroke="#0A2540" strokeWidth={2} dot={false} />
-                    <Line type="monotone" dataKey="valeur" stroke="#3A86FF" strokeWidth={2} dot={false} strokeDasharray="5 5" />
-                  </LineChart>
-                </ResponsiveContainer>
-              )}
-              <div className="flex items-center gap-5 mt-3">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-0.5 bg-[#0A2540] rounded" />
-                  <span className="text-xs text-gray-500">Investi</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-0.5 bg-[#3A86FF] rounded border-dashed" style={{ borderTop: '2px dashed #3A86FF', background: 'none' }} />
-                  <span className="text-xs text-gray-500">Valeur estimée</span>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {previewPortfolios.map((p) => (
+                  <PortfolioSummaryCard key={p.id} portfolio={p} />
+                ))}
+                {hasMore && (
+                  <Link
+                    href="/portfolio"
+                    className="bg-white rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#3A86FF] hover:bg-blue-50/30 transition-all duration-200 p-5 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-[#3A86FF] min-h-[100px]"
+                  >
+                    <Plus className="w-6 h-6" />
+                    <span className="text-xs font-semibold">+{portfolios.length - 3} autres</span>
+                  </Link>
+                )}
+                <Link
+                  href="/portfolio"
+                  className="bg-white rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#3A86FF] hover:bg-blue-50/30 transition-all duration-200 p-5 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-[#3A86FF] min-h-[100px]"
+                >
+                  <Plus className="w-6 h-6" />
+                  <span className="text-xs font-semibold">Nouveau</span>
+                </Link>
               </div>
             </div>
 
-            {/* Pie Chart */}
+            {/* Allocation donut */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <div className="mb-6">
-                <h3 className="text-base font-black text-[#0A2540]">Allocation</h3>
+              <div className="mb-4">
+                <h3 className="text-base font-black text-[#0A2540]">Allocation globale</h3>
                 <p className="text-xs text-gray-500 mt-0.5">Par type d&apos;actif</p>
               </div>
               {pieData.length === 0 ? (
-                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">Aucune donnée</div>
+                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
+                  Aucune position
+                </div>
               ) : (
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart>
-                    <Pie
-                      data={pieData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={50}
-                      outerRadius={80}
-                      paddingAngle={3}
-                      dataKey="value"
-                    >
-                      {pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number) => [`${value.toLocaleString('fr-MA')} MAD`]}
-                      contentStyle={{ borderRadius: '12px', border: '1px solid #E5E7EB', fontSize: '12px' }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
+                <>
+                  <ResponsiveContainer width="100%" height={180}>
+                    <PieChart>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={52}
+                        outerRadius={78}
+                        paddingAngle={3}
+                        dataKey="value"
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        formatter={(value: number) => [`${value.toLocaleString('fr-MA')} MAD`]}
+                        contentStyle={{ borderRadius: '12px', border: '1px solid #E5E7EB', fontSize: '12px' }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="space-y-2 mt-2">
+                    {pieData.map((item) => (
+                      <div key={item.name} className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
+                          <span className="text-gray-600">{item.name}</span>
+                        </div>
+                        <span className="font-semibold text-[#0A2540]">
+                          {totalInvested > 0 ? ((item.value / totalInvested) * 100).toFixed(1) : 0}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </>
               )}
-              <div className="space-y-2 mt-2">
-                {pieData.map((item) => (
-                  <div key={item.name} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
-                      <span className="text-gray-600">{item.name}</span>
+            </div>
+          </div>
+
+          {/* ── Recent holdings ── */}
+          {recentHoldings.length > 0 && (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-gray-50">
+                <h3 className="text-base font-black text-[#0A2540]">Dernières positions</h3>
+                <Link
+                  href="/portfolio"
+                  className="text-xs font-semibold text-[#3A86FF] hover:text-[#0A2540] flex items-center gap-1 transition-colors"
+                >
+                  Voir tout <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {recentHoldings.map((h) => (
+                  <div key={h.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                        style={{ backgroundColor: TYPE_COLORS[h.assetType] ?? '#6B7280' }}
+                      >
+                        {h.assetSymbol.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-[#0A2540]">{h.assetName}</p>
+                        <p className="text-xs text-gray-400">
+                          {h.assetType === 'STOCK' ? 'Action BVC' : 'OPCVM'} ·{' '}
+                          {new Intl.DateTimeFormat('fr-MA', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(h.purchaseDate))}
+                        </p>
+                      </div>
                     </div>
-                    <span className="font-semibold text-[#0A2540]">{totalInvested > 0 ? ((item.value / totalInvested) * 100).toFixed(1) : 0}%</span>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-[#0A2540]">
+                        {(h.quantity * h.purchasePrice).toLocaleString('fr-MA')} MAD
+                      </p>
+                      <p className="text-xs text-gray-400">{h.quantity} × {h.purchasePrice.toLocaleString('fr-MA')}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-          </div>
-
-          {/* Recent Transactions */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div className="flex items-center justify-between p-6 border-b border-gray-50">
-              <h3 className="text-base font-black text-[#0A2540]">Transactions récentes</h3>
-              <Link
-                href="/dashboard/portfolio"
-                className="text-xs font-semibold text-[#3A86FF] hover:text-[#0A2540] flex items-center gap-1 transition-colors"
-              >
-                Voir tout <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
-            <div className="divide-y divide-gray-50">
-              {recent.map((entry) => (
-                <div key={entry.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                      style={{ backgroundColor: ASSET_COLORS[entry.assetType] ?? '#6B7280' }}
-                    >
-                      {entry.assetName[0].toUpperCase()}
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-[#0A2540]">{entry.assetName}</p>
-                      <p className="text-xs text-gray-400">{ASSET_LABELS[entry.assetType]} • {formatDate(entry.date)}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-[#0A2540]">{entry.amountInvested.toLocaleString('fr-MA')} MAD</p>
-                    {entry.quantity && (
-                      <p className="text-xs text-gray-400">{entry.quantity} unités</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
         </>
-      )}
-
-      {showModal && (
-        <AddAssetModal
-          onClose={() => setShowModal(false)}
-          onSuccess={() => { setShowModal(false); fetchPortfolio(); }}
-        />
       )}
     </div>
   );

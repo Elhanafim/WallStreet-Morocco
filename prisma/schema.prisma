@@ -17,11 +17,11 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  portfolio        Portfolio[]
-  namedPortfolios  NamedPortfolio[]
-  subscription     Subscription?
-  accounts         Account[]
-  sessions         Session[]
+  portfolio       Portfolio[]
+  namedPortfolios NamedPortfolio[]
+  subscription    Subscription?
+  accounts        Account[]
+  sessions        Session[]
 }
 
 enum Role {
@@ -86,10 +86,19 @@ enum HoldingType {
   OPCVM
 }
 
+enum PortfolioStrategy {
+  COURT_TERME
+  LONG_TERME
+  RETRAITE
+  EPARGNE
+  AUTRE
+}
+
 model NamedPortfolio {
   id        String             @id @default(cuid())
   userId    String
   name      String
+  strategy  PortfolioStrategy  @default(AUTRE)
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -105,6 +114,7 @@ model PortfolioHolding {
   quantity      Float
   purchasePrice Float
   purchaseDate  DateTime       @default(now())
+  notes         String?
   createdAt     DateTime       @default(now())
   portfolio     NamedPortfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
 }

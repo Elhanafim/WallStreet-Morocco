@@ -22,13 +22,14 @@ interface Holding {
 interface NamedPortfolio {
   id: string;
   name: string;
+  strategy: string;
   createdAt: string;
   holdings: Holding[];
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function totalInvested(holdings: Holding[]) {
+function calcInvested(holdings: Holding[]) {
   return holdings.reduce((sum, h) => sum + h.quantity * h.purchasePrice, 0);
 }
 
@@ -37,6 +38,22 @@ function fmtMAD(n: number) {
     style: 'currency', currency: 'MAD', maximumFractionDigits: 0,
   }).format(n);
 }
+
+const STRATEGY_LABELS: Record<string, string> = {
+  COURT_TERME: 'Court terme',
+  LONG_TERME:  'Long terme',
+  RETRAITE:    'Retraite',
+  EPARGNE:     'Épargne',
+  AUTRE:       'Autre',
+};
+
+const STRATEGY_OPTIONS = [
+  { value: 'LONG_TERME',  label: 'Long terme' },
+  { value: 'COURT_TERME', label: 'Court terme' },
+  { value: 'RETRAITE',    label: 'Retraite' },
+  { value: 'EPARGNE',     label: 'Épargne' },
+  { value: 'AUTRE',       label: 'Autre' },
+];
 
 // ─── Create Portfolio Modal ────────────────────────────────────────────────────
 
@@ -48,6 +65,7 @@ function CreatePortfolioModal({
   onCreated: (p: NamedPortfolio) => void;
 }) {
   const [name, setName] = useState('');
+  const [strategy, setStrategy] = useState('LONG_TERME');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -60,7 +78,7 @@ function CreatePortfolioModal({
       const res = await fetch('/api/portfolios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim() }),
+        body: JSON.stringify({ name: name.trim(), strategy }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -112,6 +130,28 @@ function CreatePortfolioModal({
               autoFocus
               className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-primary mb-1.5">
+              Stratégie
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {STRATEGY_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setStrategy(opt.value)}
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all ${
+                    strategy === opt.value
+                      ? 'bg-secondary text-white border-secondary'
+                      : 'bg-surface-50 text-primary/60 border-surface-200 hover:border-secondary/50'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">
@@ -208,21 +248,26 @@ function PortfolioCard({
   portfolio: NamedPortfolio;
   onDelete: (p: NamedPortfolio) => void;
 }) {
-  const invested = totalInvested(portfolio.holdings);
+  const invested = calcInvested(portfolio.holdings);
 
   return (
     <div className="bg-white rounded-2xl border border-surface-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 p-6">
       {/* Header */}
-      <div className="flex items-start justify-between mb-5">
+      <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
             <Briefcase className="w-5 h-5 text-secondary" />
           </div>
           <div>
             <h3 className="font-black text-primary text-base leading-tight">{portfolio.name}</h3>
-            <p className="text-xs text-primary/40 mt-0.5">
-              {portfolio.holdings.length} position{portfolio.holdings.length !== 1 ? 's' : ''}
-            </p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-xs font-semibold text-secondary/70 bg-secondary/10 px-2 py-0.5 rounded-full">
+                {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy}
+              </span>
+              <span className="text-xs text-primary/40">
+                {portfolio.holdings.length} position{portfolio.holdings.length !== 1 ? 's' : ''}
+              </span>
+            </div>
           </div>
         </div>
         <button
@@ -235,7 +280,7 @@ function PortfolioCard({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-3 mb-5">
+      <div className="grid grid-cols-2 gap-3 mb-4">
         <div className="bg-surface-50 rounded-xl p-3">
           <p className="text-xs text-primary/40 mb-1 flex items-center gap-1">
             <DollarSign className="w-3 h-3" /> Total investi
@@ -252,8 +297,8 @@ function PortfolioCard({
 
       {/* Asset type breakdown */}
       {portfolio.holdings.length > 0 && (
-        <div className="flex gap-2 mb-5 flex-wrap">
-          {['STOCK', 'OPCVM'].map((type) => {
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {(['STOCK', 'OPCVM'] as const).map((type) => {
             const count = portfolio.holdings.filter((h) => h.assetType === type).length;
             if (!count) return null;
             return (
@@ -301,6 +346,27 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
       >
         <Plus className="w-4 h-4" /> Créer mon premier portefeuille
       </button>
+    </div>
+  );
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+function SkeletonCard() {
+  return (
+    <div className="bg-white rounded-2xl border border-surface-200 p-6 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="w-11 h-11 bg-surface-100 rounded-xl animate-pulse" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 bg-surface-100 rounded-lg animate-pulse w-3/4" />
+          <div className="h-3 bg-surface-100 rounded-lg animate-pulse w-1/2" />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="h-16 bg-surface-100 rounded-xl animate-pulse" />
+        <div className="h-16 bg-surface-100 rounded-xl animate-pulse" />
+      </div>
+      <div className="h-11 bg-surface-100 rounded-xl animate-pulse" />
     </div>
   );
 }
@@ -366,8 +432,8 @@ export default function PortfolioPage() {
       {/* ── Content ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-secondary animate-spin" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[...Array(3)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : portfolios.length === 0 ? (
           <EmptyState onCreate={() => setShowCreate(true)} />

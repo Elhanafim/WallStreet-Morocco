@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {
   ArrowLeft, Plus, Trash2, X, Search, TrendingUp, TrendingDown,
   Minus, DollarSign, BarChart2, Briefcase, Loader2, AlertCircle,
-  ChevronRight, BadgeInfo,
+  ChevronRight, BadgeInfo, Download, FileText,
 } from 'lucide-react';
 import { STOCK_ASSETS, OPCVM_ASSETS, type CatalogueAsset, type OpcvmAsset } from '@/lib/data/assets';
 
@@ -19,12 +19,14 @@ interface Holding {
   quantity: number;
   purchasePrice: number;
   purchaseDate: string;
+  notes?: string | null;
   createdAt: string;
 }
 
 interface NamedPortfolio {
   id: string;
   name: string;
+  strategy: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -44,12 +46,18 @@ function fmtDate(d: string) {
   return new Intl.DateTimeFormat('fr-MA', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(d));
 }
 
-/** For a holding, we use purchasePrice as both cost and current price (no live feed).
- *  gainLoss will be 0 unless we later add a live price. This is by design —
- *  we never pretend to have live data we don't have. */
+const STRATEGY_LABELS: Record<string, string> = {
+  COURT_TERME: 'Court terme',
+  LONG_TERME:  'Long terme',
+  RETRAITE:    'Retraite',
+  EPARGNE:     'Épargne',
+  AUTRE:       'Autre',
+};
+
+/** For a holding, we use purchasePrice as both cost and current price (no live feed). */
 function calcPerf(h: Holding) {
   const cost         = h.quantity * h.purchasePrice;
-  const currentValue = cost; // no live price → currentValue = cost
+  const currentValue = cost;
   const gainLoss     = 0;
   const gainLossPct  = 0;
   return { cost, currentValue, gainLoss, gainLossPct };
@@ -60,6 +68,32 @@ function totalStats(holdings: Holding[]) {
   return { totalCost, totalValue: totalCost, totalGain: 0, totalGainPct: 0 };
 }
 
+// ─── CSV Export ───────────────────────────────────────────────────────────────
+
+function exportCSV(holdings: Holding[], portfolioName: string) {
+  const header = ['Actif', 'Type', 'Symbole', 'Quantité', "Prix d'achat (MAD)", "Date d'achat", 'Valeur investie (MAD)', 'Notes'];
+  const rows = holdings.map((h) => [
+    h.assetName,
+    h.assetType === 'STOCK' ? 'Action BVC' : 'OPCVM',
+    h.assetSymbol,
+    String(h.quantity),
+    String(h.purchasePrice),
+    new Date(h.purchaseDate).toLocaleDateString('fr-MA'),
+    String(h.quantity * h.purchasePrice),
+    h.notes ?? '',
+  ]);
+  const csv = [header, ...rows]
+    .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+    .join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${portfolioName.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 // ─── G/P display cell ─────────────────────────────────────────────────────────
 
 function GpCell({ value, pct }: { value: number; pct: number }) {
@@ -67,7 +101,7 @@ function GpCell({ value, pct }: { value: number; pct: number }) {
   const pos = value > 0;
   const Icon = pos ? TrendingUp : TrendingDown;
   return (
-    <div className={`flex flex-col items-end ${pos ? 'text-success' : 'text-danger'}`}>
+    <div className={`flex flex-col items-end ${pos ? 'text-emerald-600' : 'text-red-500'}`}>
       <span className="text-sm font-bold flex items-center gap-0.5">
         <Icon className="w-3.5 h-3.5" />
         {pos ? '+' : ''}{fmtMAD(value)}
@@ -75,6 +109,35 @@ function GpCell({ value, pct }: { value: number; pct: number }) {
       <span className="text-xs">
         {pos ? '+' : ''}{pct.toFixed(2)}%
       </span>
+    </div>
+  );
+}
+
+// ─── Notes popover ────────────────────────────────────────────────────────────
+
+function NotesCell({ notes }: { notes?: string | null }) {
+  const [open, setOpen] = useState(false);
+  if (!notes) return <span className="text-primary/20 text-xs">—</span>;
+  return (
+    <div className="relative inline-block">
+      <button
+        onClick={() => setOpen(!open)}
+        className="text-secondary hover:text-secondary-600 transition-colors"
+        title="Voir la note"
+      >
+        <FileText className="w-4 h-4" />
+      </button>
+      {open && (
+        <div className="absolute right-0 bottom-full mb-2 w-56 bg-white border border-surface-200 rounded-xl shadow-lg p-3 z-10 text-left">
+          <p className="text-xs text-primary leading-relaxed">{notes}</p>
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-2 right-2 text-primary/30 hover:text-primary"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -159,12 +222,10 @@ function AddHoldingPanel({
   const [selected, setSelected]       = useState<CatalogueAsset | null>(null);
   const [quantity, setQuantity]       = useState('');
   const [price, setPrice]             = useState('');
+  const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0, 10));
+  const [notes, setNotes]             = useState('');
   const [loading, setLoading]         = useState(false);
   const [error, setError]             = useState('');
-
-  const today = new Date().toLocaleDateString('fr-MA', {
-    day: '2-digit', month: 'long', year: 'numeric',
-  });
 
   // ── Filtered asset list ──
   const assets = useMemo(() => {
@@ -184,13 +245,13 @@ function AddHoldingPanel({
   // ── Select asset ──
   const handleSelect = (asset: CatalogueAsset) => {
     setSelected(asset);
-    // Auto-fill reference price for OPCVM
     if (asset.type === 'opcvm') {
       setPrice(String((asset as OpcvmAsset).nav));
     } else {
       setPrice('');
     }
     setQuantity('');
+    setNotes('');
     setError('');
     setStep(2);
   };
@@ -224,11 +285,13 @@ function AddHoldingPanel({
           assetName:     selected.name,
           quantity:      q,
           purchasePrice: p,
+          purchaseDate:  purchaseDate,
+          notes:         notes.trim() || undefined,
         }),
       });
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || 'Erreur lors de l\'ajout.');
+        setError(data.error || "Erreur lors de l'ajout.");
         return;
       }
       const holding = await res.json();
@@ -369,10 +432,10 @@ function AddHoldingPanel({
           </div>
         )}
 
-        {/* ── STEP 2: Quantity + price ── */}
+        {/* ── STEP 2: Quantity + price + date + notes ── */}
         {step === 2 && selected && (
           <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0 overflow-y-auto">
-            <div className="px-6 py-4 flex-1 space-y-5">
+            <div className="px-6 py-4 flex-1 space-y-4">
 
               {/* Selected asset recap */}
               <div className={`flex items-center gap-3 p-4 rounded-2xl border ${
@@ -434,20 +497,6 @@ function AddHoldingPanel({
                 )}
               </div>
 
-              {/* Date d'achat (read-only) */}
-              <div>
-                <label className="block text-sm font-semibold text-primary mb-1.5">
-                  Date d&apos;achat
-                </label>
-                <input
-                  type="text"
-                  value={today}
-                  readOnly
-                  className="w-full px-4 py-3 rounded-xl border border-surface-100 bg-surface-50 text-primary/60 text-sm cursor-not-allowed"
-                />
-                <p className="text-xs text-primary/30 mt-1">Automatiquement défini à aujourd&apos;hui</p>
-              </div>
-
               {/* Quantité */}
               <div>
                 <label className="block text-sm font-semibold text-primary mb-1.5">
@@ -466,11 +515,41 @@ function AddHoldingPanel({
                 />
               </div>
 
+              {/* Date d'achat */}
+              <div>
+                <label className="block text-sm font-semibold text-primary mb-1.5">
+                  Date d&apos;achat
+                </label>
+                <input
+                  type="date"
+                  value={purchaseDate}
+                  onChange={(e) => setPurchaseDate(e.target.value)}
+                  max={new Date().toISOString().slice(0, 10)}
+                  className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
+                />
+              </div>
+
+              {/* Notes (optional) */}
+              <div>
+                <label className="block text-sm font-semibold text-primary mb-1.5">
+                  Note <span className="text-primary/40 font-normal">(optionnel, 200 car. max)</span>
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="ex. Achat sur renforcement, cible long terme..."
+                  maxLength={200}
+                  rows={2}
+                  className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm resize-none"
+                />
+                <p className="text-xs text-primary/30 text-right mt-0.5">{notes.length}/200</p>
+              </div>
+
               {/* Estimated total */}
               {estimatedTotal !== null && (
-                <div className="bg-success/8 border border-success/20 rounded-xl p-4">
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
                   <p className="text-xs text-primary/50 mb-0.5">Valeur totale estimée</p>
-                  <p className="text-xl font-black text-success">{fmtMAD(estimatedTotal)}</p>
+                  <p className="text-xl font-black text-emerald-600">{fmtMAD(estimatedTotal)}</p>
                   <p className="text-xs text-primary/30 mt-0.5">
                     {parseFloat(quantity)} × {fmtMAD(parseFloat(price))}
                   </p>
@@ -523,14 +602,14 @@ function HoldingsTable({
     <>
       <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[750px]">
+          <table className="w-full min-w-[780px]">
             <thead className="bg-surface-50 border-b border-surface-100">
               <tr>
-                {['Actif', 'Type', 'Symbole', 'Qté', "Prix d'achat", "Date d'achat", 'Valeur investie', 'G/P', ''].map((h, i) => (
+                {['Actif', 'Type', 'Symbole', 'Qté', "Prix d'achat", "Date d'achat", 'Valeur investie', 'G/P', 'Note', ''].map((h, i) => (
                   <th
                     key={h + i}
                     className={`px-4 py-3.5 text-xs font-semibold text-primary/50 uppercase tracking-wider ${
-                      i === 0 ? 'text-left' : i === 8 ? 'text-center' : 'text-right'
+                      i === 0 ? 'text-left' : i >= 8 ? 'text-center' : 'text-right'
                     }`}
                   >
                     {h}
@@ -597,6 +676,10 @@ function HoldingsTable({
                     {/* G/P */}
                     <td className="px-4 py-3.5 text-right">
                       <GpCell value={gainLoss} pct={gainLossPct} />
+                    </td>
+                    {/* Notes */}
+                    <td className="px-4 py-3.5 text-center">
+                      <NotesCell notes={h.notes} />
                     </td>
                     {/* Delete */}
                     <td className="px-4 py-3.5 text-center">
@@ -731,22 +814,39 @@ export default function PortfolioDetailPage({
 
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <div className="flex items-center gap-3 mb-1">
+              <div className="flex items-center gap-3 mb-2">
                 <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
                   <Briefcase className="w-5 h-5 text-accent" />
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-black text-white">{portfolio.name}</h1>
               </div>
-              <p className="text-white/50 text-sm mt-2">
-                {holdings.length} position{holdings.length !== 1 ? 's' : ''} · Créé le {fmtDate(portfolio.createdAt)}
-              </p>
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-xs font-semibold text-accent bg-accent/20 px-3 py-1 rounded-full">
+                  {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy}
+                </span>
+                <span className="text-white/50 text-sm">
+                  {holdings.length} position{holdings.length !== 1 ? 's' : ''} · Créé le {fmtDate(portfolio.createdAt)}
+                </span>
+              </div>
             </div>
-            <button
-              onClick={() => setShowPanel(true)}
-              className="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm flex-shrink-0"
-            >
-              <Plus className="w-4 h-4" /> Ajouter un actif
-            </button>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {holdings.length > 0 && (
+                <button
+                  onClick={() => exportCSV(holdings, portfolio.name)}
+                  className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
+                  title="Exporter CSV"
+                >
+                  <Download className="w-4 h-4" />
+                  CSV
+                </button>
+              )}
+              <button
+                onClick={() => setShowPanel(true)}
+                className="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm"
+              >
+                <Plus className="w-4 h-4" /> Ajouter un actif
+              </button>
+            </div>
           </div>
 
           {/* KPI strip */}

@@ -10,6 +10,8 @@ const holdingSchema = z.object({
   assetName:     z.string().min(1),
   quantity:      z.number().positive('La quantité doit être supérieure à 0'),
   purchasePrice: z.number().positive('Le prix doit être supérieur à 0'),
+  purchaseDate:  z.string().optional(),
+  notes:         z.string().max(200).optional(),
 });
 
 // GET /api/portfolios/[id]/holdings — list holdings for a portfolio
@@ -76,7 +78,8 @@ export async function POST(
       assetName:     parsed.data.assetName,
       quantity:      parsed.data.quantity,
       purchasePrice: parsed.data.purchasePrice,
-      purchaseDate:  new Date(),
+      purchaseDate:  parsed.data.purchaseDate ? new Date(parsed.data.purchaseDate) : new Date(),
+      notes:         parsed.data.notes ?? null,
     },
   });
 

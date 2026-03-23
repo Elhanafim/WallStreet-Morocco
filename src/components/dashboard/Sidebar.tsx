@@ -17,7 +17,7 @@ import {
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/portfolio', label: 'Portfolio', icon: Briefcase },
+  { href: '/portfolio', label: 'Mon Portefeuille', icon: Briefcase },
   { href: '/dashboard/market', label: 'Marchés', icon: BarChart2 },
   { href: '/learn', label: 'Apprendre', icon: BookOpen },
   { href: '/calendar', label: 'Calendrier', icon: Calendar },
