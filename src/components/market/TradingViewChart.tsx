@@ -10,7 +10,7 @@ interface TradingViewChartProps {
 }
 
 function TradingViewChart({
-  symbol = 'MASI INDEX',
+  symbol = 'CSEMA:MASI',
   height = 400,
   theme = 'dark',
   interval = 'D',

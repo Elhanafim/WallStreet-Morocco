@@ -110,7 +110,7 @@ export default function Hero() {
             <div className="relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
                  style={{ height: '400px' }}>
               <TradingViewChart
-                symbol="MASI INDEX"
+                symbol="CSEMA:MASI"
                 height={400}
                 theme="dark"
                 interval="D"

@@ -8,12 +8,20 @@ const MarketSummary = dynamic(() => import('@/components/market/MarketSummary'),
 const AssetWidget = dynamic(() => import('@/components/market/AssetWidget'), { ssr: false });
 
 const ASSETS = [
-  { symbol: 'BCAS:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
-  { symbol: 'BCAS:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
-  { symbol: 'BCAS:BCP', name: 'Banque Pop.', sector: 'Banque' },
-  { symbol: 'BCAS:LHM', name: 'LafargeHolcim Maroc', sector: 'Matériaux' },
-  { symbol: 'BCAS:CIH', name: 'CIH Bank', sector: 'Banque' },
-  { symbol: 'BCAS:CSR', name: 'Cosumar', sector: 'Agroalimentaire' },
+  { symbol: 'CSEMA:ATW',  name: 'Attijariwafa Bank',        sector: 'Banque'          },
+  { symbol: 'CSEMA:IAM',  name: 'Maroc Telecom',            sector: 'Télécoms'        },
+  { symbol: 'CSEMA:BCP',  name: 'Banque Pop.',              sector: 'Banque'          },
+  { symbol: 'CSEMA:LHM',  name: 'LafargeHolcim Maroc',      sector: 'Matériaux'       },
+  { symbol: 'CSEMA:CIH',  name: 'CIH Bank',                 sector: 'Banque'          },
+  { symbol: 'CSEMA:CSR',  name: 'Cosumar',                  sector: 'Agroalimentaire' },
+  { symbol: 'CSEMA:BOA',  name: 'Bank of Africa',           sector: 'Banque'          },
+  { symbol: 'CSEMA:WAA',  name: 'Wafa Assurance',           sector: 'Assurance'       },
+  { symbol: 'CSEMA:LES',  name: 'Lesieur Cristal',          sector: 'Agroalimentaire' },
+  { symbol: 'CSEMA:CDM',  name: 'Crédit du Maroc',          sector: 'Banque'          },
+  { symbol: 'CSEMA:NEJ',  name: 'Auto Nejma',               sector: 'Distribution'    },
+  { symbol: 'CSEMA:ADH',  name: 'Addoha',                   sector: 'Immobilier'      },
+  { symbol: 'CSEMA:ADI',  name: 'Alliances Dév. Immobilier',sector: 'Immobilier'      },
+  { symbol: 'CSEMA:LBV',  name: "Label'Vie",                sector: 'Distribution'    },
 ];
 
 export const metadata = {
