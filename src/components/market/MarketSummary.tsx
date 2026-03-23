@@ -32,7 +32,7 @@ export default function MarketSummary() {
           </div>
         </div>
         <div className="p-2">
-          <TradingViewChart symbol="BCAS:MASI" height={320} theme="light" interval="D" />
+          <TradingViewChart symbol="MASI INDEX" height={320} theme="light" interval="D" />
         </div>
       </div>
 

@@ -37,7 +37,7 @@ export default function TradingViewMarketOverview() {
         {
           title: 'Maroc',
           symbols: [
-            { s: 'BCAS:MASI',  d: 'MASI Index'          },
+            { s: 'MASI INDEX',  d: 'MASI Index'          },
             { s: 'BCAS:ATW',   d: 'Attijariwafa Bank'   },
             { s: 'BCAS:IAM',   d: 'Maroc Telecom'       },
             { s: 'BCAS:BCP',   d: 'Banque Pop.'         },

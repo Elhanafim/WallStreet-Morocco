@@ -31,7 +31,7 @@ export default function DashboardMarketPage() {
             </div>
             <span className="ml-auto text-xs bg-success/10 text-success font-semibold px-2 py-0.5 rounded-full">Live</span>
           </div>
-          <TradingViewChart symbol="BCAS:MASI" height={380} theme="light" interval="D" />
+          <TradingViewChart symbol="MASI INDEX" height={380} theme="light" interval="D" />
         </div>
 
         {/* Watchlist — 1 col */}

@@ -9,7 +9,7 @@ const TradingViewSymbolInfo = dynamic(
 );
 
 const DEFAULT_ASSETS = [
-  { symbol: 'BCAS:MASI', name: 'MASI Index', sector: 'Indice' },
+  { symbol: 'MASI INDEX', name: 'MASI Index', sector: 'Indice' },
   { symbol: 'BCAS:ATW', name: 'Attijariwafa Bank', sector: 'Banque' },
   { symbol: 'BCAS:IAM', name: 'Maroc Telecom', sector: 'Télécoms' },
   { symbol: 'BCAS:BCP', name: 'Banque Pop.', sector: 'Banque' },
@@ -22,8 +22,8 @@ const DEFAULT_ASSETS = [
 ];
 
 export default function WatchlistPanel() {
-  const [watchlist, setWatchlist] = useState<string[]>(['BCAS:MASI', 'BCAS:ATW', 'BCAS:IAM']);
-  const [activeSymbol, setActiveSymbol] = useState('BCAS:MASI');
+  const [watchlist, setWatchlist] = useState<string[]>(['MASI INDEX', 'BCAS:ATW', 'BCAS:IAM']);
+  const [activeSymbol, setActiveSymbol] = useState('MASI INDEX');
   const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {

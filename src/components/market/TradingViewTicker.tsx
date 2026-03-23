@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 
 const moroccanSymbols = [
-  { proName: 'BCAS:MASI', title: 'MASI' },
+  { proName: 'MASI INDEX', title: 'MASI' },
   { proName: 'BCAS:ATW', title: 'Attijariwafa' },
   { proName: 'BCAS:IAM', title: 'Maroc Telecom' },
   { proName: 'BCAS:BCP', title: 'BCP' },

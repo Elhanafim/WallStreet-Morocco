@@ -10,7 +10,7 @@ interface TradingViewChartProps {
 }
 
 function TradingViewChart({
-  symbol = 'BCAS:MASI',
+  symbol = 'MASI INDEX',
   height = 400,
   theme = 'dark',
   interval = 'D',
