@@ -1,93 +1,85 @@
 import Link from 'next/link';
-import { ArrowRight, TrendingUp, TrendingDown, Star, Lock, BookOpen, BarChart2, Zap } from 'lucide-react';
+import { ArrowRight, Lock, BookOpen, BarChart2, Zap, Star } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
-import MarketTicker from '@/components/home/MarketTicker';
 import StatsSection from '@/components/home/StatsSection';
 import ArticleCard from '@/components/learn/ArticleCard';
 import { getFeaturedArticles } from '@/lib/data/articles';
-import { listedStocks } from '@/lib/data/stocks';
 import { opcvmFunds } from '@/lib/data/opcvm';
-import { formatCurrency, formatPercent, getChangeBgColor } from '@/lib/utils';
+import { formatPercent } from '@/lib/utils';
 
-const TradingViewTicker = dynamic(() => import('@/components/market/TradingViewTicker'), { ssr: false });
+// All TradingView widgets — client-side only, no SSR
+const TradingViewTicker = dynamic(
+  () => import('@/components/market/TradingViewTicker'),
+  { ssr: false }
+);
+const TradingViewMarketOverview = dynamic(
+  () => import('@/components/market/TradingViewMarketOverview'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full rounded-2xl bg-surface-50 border border-surface-200 animate-pulse"
+           style={{ minHeight: '660px' }} />
+    ),
+  }
+);
 
 export default function HomePage() {
   const featuredArticles = getFeaturedArticles(6);
-  const topStocks = listedStocks.slice(0, 6);
-  const featuredFunds = opcvmFunds.slice(0, 4);
+  const featuredFunds    = opcvmFunds.slice(0, 4);
 
   return (
     <>
+      {/* ── Hero ─────────────────────────────────────────────────── */}
       <Hero />
+
+      {/* ── Live Ticker Tape ────────────────────────────────────── */}
       <div className="bg-primary">
         <TradingViewTicker />
       </div>
-      <MarketTicker />
 
-      {/* Market Overview Section */}
+      {/* ── Live Market Overview ─────────────────────────────────── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
+          {/* Section header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <h2 className="text-3xl font-black text-primary mb-2">
-                Aperçu du marché
+              <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 mb-3">
+                <span className="w-1.5 h-1.5 bg-success rounded-full animate-pulse" />
+                <span className="text-success text-xs font-semibold uppercase tracking-wide">Données en direct</span>
+              </div>
+              <h2 className="text-3xl font-black text-primary mb-1">
+                Marchés Marocains & Mondiaux
               </h2>
-              <p className="text-primary/60">Cours en temps réel de la Bourse de Casablanca</p>
+              <p className="text-primary/60 text-sm">
+                Cours en temps réel · Bourse de Casablanca · Indices globaux
+              </p>
             </div>
-            <div className="hidden sm:flex items-center gap-4">
-              <Link
-                href="/market"
-                className="flex items-center gap-2 bg-secondary text-white font-semibold text-sm px-4 py-2 rounded-xl hover:bg-secondary-600 transition-all"
-              >
-                <BarChart2 className="w-4 h-4" />
-                Voir les marchés en direct
-              </Link>
-              <Link
-                href="/learn"
-                className="flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all"
-              >
-                Toutes les valeurs <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <Link
+              href="/market"
+              className="inline-flex items-center gap-2 bg-secondary text-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-secondary-600 transition-all whitespace-nowrap"
+            >
+              <BarChart2 className="w-4 h-4" />
+              Voir tous les marchés
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {topStocks.map((stock) => (
-              <div
-                key={stock.symbol}
-                className="bg-white border border-surface-200 rounded-2xl p-5 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center mb-2">
-                      <span className="text-accent font-black text-xs">{stock.symbol.slice(0, 3)}</span>
-                    </div>
-                    <p className="font-bold text-primary text-sm">{stock.symbol}</p>
-                    <p className="text-primary/50 text-xs">{stock.name}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-black text-primary text-lg">{stock.price.toFixed(2)}</p>
-                    <p className="text-primary/40 text-xs">MAD</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-primary/40">
-                    Vol: {stock.volume.toLocaleString('fr-MA')}
-                  </span>
-                  <span className={`text-xs font-bold px-2.5 py-1 rounded-lg ${getChangeBgColor(stock.changePercent)}`}>
-                    {stock.changePercent >= 0 ? '+' : ''}{stock.changePercent.toFixed(2)}%
-                  </span>
-                </div>
-              </div>
-            ))}
+          {/* TradingView Market Overview — real-time, no static data */}
+          <div className="rounded-2xl overflow-hidden border border-surface-200 shadow-card">
+            <TradingViewMarketOverview />
           </div>
+
+          {/* Fallback note */}
+          <p className="text-center text-xs text-primary/30 mt-3">
+            Données fournies par TradingView · Actualisation automatique
+          </p>
         </div>
       </section>
 
+      {/* ── Platform Stats ───────────────────────────────────────── */}
       <StatsSection />
 
-      {/* Featured Articles */}
+      {/* ── Featured Articles ────────────────────────────────────── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-10">
@@ -121,7 +113,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* OPCVM Preview */}
+      {/* ── OPCVM Preview ────────────────────────────────────────── */}
       <section className="py-20 bg-surface-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-10">
@@ -141,23 +133,23 @@ export default function HomePage() {
 
           <div className="overflow-x-auto -mx-4 sm:mx-0">
             <div className="min-w-[640px] px-4 sm:px-0">
-              <table className="w-full">
+              <table className="w-full border-separate border-spacing-y-2">
                 <thead>
-                  <tr className="bg-white border border-surface-200 rounded-xl">
-                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3.5 first:rounded-l-xl">Fonds</th>
-                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3.5">Banque</th>
-                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3.5">Type</th>
-                    <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3.5">Perf. 1 an</th>
-                    <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3.5 last:rounded-r-xl">Risque</th>
+                  <tr>
+                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">Fonds</th>
+                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">Banque</th>
+                    <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">Type</th>
+                    <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">Perf. 1 an</th>
+                    <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">Risque</th>
                   </tr>
                 </thead>
-                <tbody className="space-y-2">
-                  {featuredFunds.map((fund, i) => (
+                <tbody>
+                  {featuredFunds.map((fund) => (
                     <tr
                       key={fund.id}
                       className="bg-white border border-surface-200 rounded-xl hover:border-secondary/30 hover:shadow-sm transition-all duration-200"
                     >
-                      <td className="px-5 py-4 first:rounded-l-xl">
+                      <td className="px-5 py-4 rounded-l-xl">
                         <p className="font-semibold text-primary text-sm">{fund.name}</p>
                       </td>
                       <td className="px-5 py-4">
@@ -167,9 +159,9 @@ export default function HomePage() {
                       </td>
                       <td className="px-5 py-4">
                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                          fund.type === 'Actions' ? 'bg-success/10 text-success' :
+                          fund.type === 'Actions'     ? 'bg-success/10 text-success'   :
                           fund.type === 'Obligataire' ? 'bg-secondary/10 text-secondary' :
-                          fund.type === 'Monétaire' ? 'bg-surface-200 text-primary/60' :
+                          fund.type === 'Monétaire'   ? 'bg-surface-200 text-primary/60' :
                           'bg-accent/10 text-accent-600'
                         }`}>
                           {fund.type}
@@ -180,7 +172,7 @@ export default function HomePage() {
                           {formatPercent(fund.performance1Y)}
                         </span>
                       </td>
-                      <td className="px-5 py-4 text-right last:rounded-r-xl">
+                      <td className="px-5 py-4 text-right rounded-r-xl">
                         <div className="flex items-center justify-end gap-1">
                           {Array.from({ length: 7 }, (_, j) => (
                             <div
@@ -197,9 +189,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center sm:hidden">
             <Link href="/opcvm">
-              <button className="inline-flex items-center gap-2 text-secondary font-semibold border border-secondary rounded-xl px-6 py-3 hover:bg-secondary hover:text-white transition-colors sm:hidden">
+              <button className="inline-flex items-center gap-2 text-secondary font-semibold border border-secondary rounded-xl px-6 py-3 hover:bg-secondary hover:text-white transition-colors">
                 Tous les OPCVM <ArrowRight className="w-4 h-4" />
               </button>
             </Link>
@@ -207,11 +199,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Premium CTA Section */}
+      {/* ── Premium CTA ──────────────────────────────────────────── */}
       <section className="py-20 bg-gradient-hero relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl transform -translate-x-1/4 translate-y-1/4" />
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -231,7 +223,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/premium">
-                  <button className="inline-flex items-center gap-2 bg-accent text-primary font-bold px-8 py-4 rounded-xl hover:bg-accent-600 transition-colors shadow-md hover:shadow-glow-gold text-lg">
+                  <button className="inline-flex items-center gap-2 bg-accent text-primary font-bold px-8 py-4 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-lg">
                     Voir les offres Premium
                     <ArrowRight className="w-5 h-5" />
                   </button>
@@ -244,21 +236,19 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="hidden lg:block">
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Lock, label: 'Analyses exclusives', desc: '50+ analyses par mois' },
-                  { icon: BarChart2, label: 'Données avancées', desc: 'Historique complet 10 ans' },
-                  { icon: Star, label: 'Alertes marchés', desc: 'Notifications en temps réel' },
-                  { icon: BookOpen, label: 'Cours complets', desc: 'Formation vidéo incluse' },
-                ].map((feature) => (
-                  <div key={feature.label} className="bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/15 transition-colors">
-                    <feature.icon className="w-6 h-6 text-accent mb-3" />
-                    <p className="text-white font-bold text-sm mb-1">{feature.label}</p>
-                    <p className="text-white/50 text-xs">{feature.desc}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="hidden lg:grid grid-cols-2 gap-4">
+              {[
+                { icon: Lock,     label: 'Analyses exclusives', desc: '50+ analyses par mois'       },
+                { icon: BarChart2, label: 'Données avancées',   desc: 'Historique complet 10 ans'   },
+                { icon: Star,     label: 'Alertes marchés',     desc: 'Notifications en temps réel' },
+                { icon: BookOpen, label: 'Cours complets',      desc: 'Formation vidéo incluse'     },
+              ].map((feature) => (
+                <div key={feature.label} className="bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/15 transition-colors">
+                  <feature.icon className="w-6 h-6 text-accent mb-3" />
+                  <p className="text-white font-bold text-sm mb-1">{feature.label}</p>
+                  <p className="text-white/50 text-xs">{feature.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
