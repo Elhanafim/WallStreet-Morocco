@@ -82,6 +82,7 @@ function PriceField({
   priceInput,
   onPriceChange,
   onRetry,
+  onEdit,
   marketStatus,
 }: {
   asset: ModalAsset;
@@ -89,6 +90,7 @@ function PriceField({
   priceInput: string;
   onPriceChange: (v: string) => void;
   onRetry: () => void;
+  onEdit: () => void;
   marketStatus: MarketStatus | null;
 }) {
   if (asset.type === 'opcvm') {
@@ -163,7 +165,7 @@ function PriceField({
             )}
             <button
               type="button"
-              onClick={handleEditPrice}
+              onClick={onEdit}
               title="Modifier le prix"
               className="text-primary/30 hover:text-secondary transition-colors ml-1"
             >
@@ -608,6 +610,7 @@ export default function AddToPortfolioModal({
             priceInput={priceInput}
             onPriceChange={setPriceInput}
             onRetry={loadPrice}
+            onEdit={handleEditPrice}
             marketStatus={marketStatus}
           />
 
