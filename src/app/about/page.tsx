@@ -6,7 +6,7 @@ import {
   GraduationCap, Briefcase, Rocket, Lightbulb,
   ArrowRight, CheckCircle,
 } from 'lucide-react';
-import FounderPortfolio from '@/components/about/FounderPortfolio';
+import StrategySection from '@/components/founder/StrategySection';
 
 export const metadata: Metadata = {
   title: 'Fondateur & Mon Parcours | WallStreet Morocco',
@@ -276,8 +276,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ══ PORTFOLIO PERFORMANCE ══════════════════════════════════════════════ */}
-      <FounderPortfolio />
+      {/* ══ STRATÉGIE & PERFORMANCE ════════════════════════════════════════════ */}
+      <StrategySection />
 
       {/* ══ VISION ════════════════════════════════════════════════════════════ */}
       <section className="bg-white py-24">
