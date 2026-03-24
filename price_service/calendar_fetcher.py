@@ -9,7 +9,7 @@ import logging
 import os
 import re
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from typing import Dict, List, Optional, Union
 from urllib.parse import urljoin
 
 import requests
@@ -30,7 +30,7 @@ TIMEOUT = 12  # seconds per HTTP request
 
 # ── HTTP helper ────────────────────────────────────────────────────────────────
 
-def _get(url: str, params: Optional[dict] = None, headers: Optional[dict] = None) -> Optional[dict | list | str]:
+def _get(url: str, params: Optional[dict] = None, headers: Optional[dict] = None) -> Optional[Union[dict, list, str]]:
     try:
         r = requests.get(url, params=params, headers=headers, timeout=TIMEOUT)
         r.raise_for_status()
@@ -108,7 +108,8 @@ def fetch_forexfactory() -> list[dict]:
 
     result = []
     for ev in data:
-        currency = str(ev.get("currency", "")).upper()
+        # ForexFactory JSON uses "country" field for the currency code (e.g. "USD", "EUR")
+        currency = str(ev.get("country", ev.get("currency", ""))).upper()
         country = FF_COUNTRY_MAP.get(currency, currency[:2] if len(currency) >= 2 else "XX")
         title = str(ev.get("title", "")).strip()
         date_raw = str(ev.get("date", ""))
@@ -166,7 +167,7 @@ def _parse_ff_date(raw: str) -> Optional[str]:
 
 # ── 3. Bank Al-Maghrib (BAM) ──────────────────────────────────────────────────
 
-BAM_URL = "https://www.bkam.ma/En/Monetary-Policy/Monetary-policy-decisions"
+BAM_URL = "https://www.bkam.ma/Politique-monetaire/Cadre-strategique/Decision-de-la-politique-monetaire/Historique-des-decisions"
 
 
 def fetch_bam() -> list[dict]:
@@ -186,24 +187,18 @@ def fetch_bam() -> list[dict]:
 
     # BAM lists decision dates in a table or list; look for year patterns
     # Pattern: find any text that looks like a meeting date
-    date_pattern = re.compile(r"\b(\d{1,2})\s+([A-Za-z]+)\s+(20\d{2})\b")
+    # French date pattern: "24 mars 2026" or "4 octobre 2022"
+    date_pattern = re.compile(r"\b(\d{1,2})\s+([\w\u00e0-\u00ff]+)\s+(20\d{2})\b", re.UNICODE)
     seen: set[str] = set()
 
-    for tag in soup.find_all(["td", "li", "p", "h4", "h3"]):
+    for tag in soup.find_all(["td", "li", "p", "h4", "h3", "a", "span"]):
         text = tag.get_text(separator=" ", strip=True)
         m = date_pattern.search(text)
         if not m:
             continue
-        try:
-            dt = datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%d %B %Y")
-        except ValueError:
-            try:
-                dt = datetime.strptime(f"{m.group(1)} {m.group(2)} {m.group(3)}", "%d %b %Y")
-            except ValueError:
-                continue
-
-        date_str = dt.strftime("%Y-%m-%d")
-        if date_str in seen:
+        raw_date = f"{m.group(1)} {m.group(2)} {m.group(3)}"
+        date_str = _parse_arabic_or_french_date(raw_date)
+        if not date_str or date_str in seen:
             continue
         seen.add(date_str)
 
@@ -229,7 +224,7 @@ def fetch_bam() -> list[dict]:
 
 # ── 4. HCP Morocco Statistics ─────────────────────────────────────────────────
 
-HCP_AGENDA_URL = "https://www.hcp.ma/Agenda-des-publications_a334.html"
+HCP_AGENDA_URL = "https://www.hcp.ma/Calendrier-des-publications_r630.html"
 
 
 def fetch_hcp() -> list[dict]:
@@ -309,7 +304,7 @@ def _parse_arabic_or_french_date(raw: str) -> Optional[str]:
         "jan": 1, "fév": 2, "mar": 3, "avr": 4,
         "jun": 6, "jul": 7, "aoû": 8, "sep": 9, "oct": 10, "nov": 11, "déc": 12,
     }
-    m2 = re.match(r"(\d{1,2})\s+(\w+)\s+(20\d{2})", raw.lower())
+    m2 = re.match(r"(\d{1,2})\s+([\w\u00e0-\u00ff]+)\s+(20\d{2})", raw.lower(), re.UNICODE)
     if m2:
         month_n = months_fr.get(m2.group(2))
         if month_n:
@@ -329,12 +324,20 @@ RSS_FEEDS: list[dict] = [
         "category": "news",
     },
     {
-        "url": "https://www.boursenews.ma/feed/",
+        "url": "https://boursenews.ma/feed",
         "source": "boursenews",
         "source_name": "BourseNews",
-        "source_url": "https://www.boursenews.ma/",
+        "source_url": "https://boursenews.ma/",
         "country": "MA",
         "category": "market",
+    },
+    {
+        "url": "https://www.hcp.ma/xml/syndication.rss",
+        "source": "hcp",
+        "source_name": "HCP Maroc",
+        "source_url": "https://www.hcp.ma/",
+        "country": "MA",
+        "category": "statistics",
     },
 ]
 
