@@ -1,12 +1,16 @@
 /**
- * Frontend client for the calendar endpoints on the BVC Price Microservice.
+ * Frontend client for calendar events.
+ * On Vercel (no NEXT_PUBLIC_PRICE_SERVICE_URL): calls /api/calendar/events (Next.js route).
+ * Locally with Python service running: calls http://localhost:8001/calendar/events.
  */
 
 import { LiveCalendarEvent } from '@/types';
 
-const BASE_URL =
-  (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_PRICE_SERVICE_URL) ||
-  'http://localhost:8001';
+const PRICE_SERVICE =
+  (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_PRICE_SERVICE_URL) || '';
+
+// Paths relative to base — no leading /calendar segment since CALENDAR_BASE already includes it
+const CALENDAR_BASE = PRICE_SERVICE ? `${PRICE_SERVICE}/calendar` : '/api/calendar';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -16,16 +20,6 @@ export interface CalendarEventsResponse {
   returned: number;
   cachedAt: string;
   moroccoOnly: boolean;
-}
-
-export interface CalendarStatsResponse {
-  total: number;
-  moroccoRelevant: number;
-  upcoming: number;
-  byCountry: Record<string, number>;
-  byCategory: Record<string, number>;
-  byImpact: Record<string, number>;
-  cacheStatus: { allFresh: boolean; moroccoFresh: boolean };
 }
 
 export interface FetchEventsParams {
@@ -38,19 +32,21 @@ export interface FetchEventsParams {
   limit?: number;
 }
 
-// ── API helpers ────────────────────────────────────────────────────────────────
+// ── API helper ────────────────────────────────────────────────────────────────
 
-async function apiFetch<T>(path: string, params?: Record<string, string | number | boolean>): Promise<T> {
-  const url = new URL(`${BASE_URL}${path}`);
-  if (params) {
-    for (const [k, v] of Object.entries(params)) {
-      if (v !== undefined && v !== null && v !== '') {
-        url.searchParams.set(k, String(v));
-      }
-    }
-  }
-  const res = await fetch(url.toString(), { next: { revalidate: 60 } });
-  if (!res.ok) throw new Error(`Calendar API ${path} → ${res.status}`);
+async function apiFetch<T>(
+  segment: string,
+  params?: Record<string, string | number | boolean>,
+): Promise<T> {
+  const qs = params
+    ? '?' +
+      Object.entries(params)
+        .filter(([, v]) => v !== undefined && v !== null && v !== '')
+        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
+        .join('&')
+    : '';
+  const res = await fetch(`${CALENDAR_BASE}${segment}${qs}`, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Calendar API ${segment} → ${res.status}`);
   return res.json();
 }
 
@@ -59,7 +55,9 @@ async function apiFetch<T>(path: string, params?: Record<string, string | number
 export async function fetchCalendarEvents(
   params: FetchEventsParams = {},
 ): Promise<CalendarEventsResponse> {
-  return apiFetch<CalendarEventsResponse>('/calendar/events', {
+  // Python service: /calendar/events  →  CALENDAR_BASE + /events
+  // Next.js route:  /api/calendar/events → CALENDAR_BASE + /events
+  return apiFetch<CalendarEventsResponse>('/events', {
     ...(params.moroccoOnly !== undefined && { morocco_only: params.moroccoOnly }),
     ...(params.impactMin !== undefined && { impact_min: params.impactMin }),
     ...(params.category && { category: params.category }),
@@ -75,17 +73,16 @@ export async function fetchMoroccoEvents(
   upcomingOnly = false,
   limit = 50,
 ): Promise<CalendarEventsResponse> {
-  return apiFetch<CalendarEventsResponse>('/calendar/events/morocco', {
+  return apiFetch<CalendarEventsResponse>('/events', {
+    morocco_only: true,
     impact_min: impactMin,
     upcoming_only: upcomingOnly,
     limit,
   });
 }
 
-export async function fetchCalendarStats(): Promise<CalendarStatsResponse> {
-  return apiFetch<CalendarStatsResponse>('/calendar/stats');
-}
-
 export async function forceCalendarRefresh(): Promise<void> {
-  await fetch(`${BASE_URL}/calendar/refresh`, { method: 'POST' });
+  if (PRICE_SERVICE) {
+    await fetch(`${PRICE_SERVICE}/calendar/refresh`, { method: 'POST' });
+  }
 }
