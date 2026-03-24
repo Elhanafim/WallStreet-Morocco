@@ -59,6 +59,32 @@ export interface CalendarEvent {
   time?: string;
 }
 
+/** Live event from the Python calendar microservice */
+export interface LiveCalendarEvent {
+  id: string;
+  title: string;
+  titleFr: string;
+  date: string;           // YYYY-MM-DD
+  time: string | null;
+  country: string;        // ISO-2
+  countryFlag: string;
+  currency: string;
+  category: string;
+  impactScore: number;    // 1–5
+  impactLabel: string;
+  impactColor: string;
+  actual: string | null;
+  forecast: string | null;
+  previous: string | null;
+  unit: string | null;
+  summary: string | null;
+  sourceUrl: string;
+  sourceName: string;
+  isUpcoming: boolean;
+  isPast: boolean;
+  isMoroccoRelevant: boolean;
+}
+
 export interface PricingTier {
   id: string;
   name: string;

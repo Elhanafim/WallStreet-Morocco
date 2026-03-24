@@ -21,6 +21,7 @@ load_dotenv()
 
 import casabourse as cb  # noqa: E402  (after dotenv so env is ready)
 from price_cache import PriceCache  # noqa: E402
+from calendar_router import calendar_router, start_background_refresh  # noqa: E402
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -154,13 +155,15 @@ async def _background_refresh():
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    task = asyncio.create_task(_background_refresh())
+    price_task = asyncio.create_task(_background_refresh())
+    cal_task = start_background_refresh()
     yield
-    task.cancel()
-    try:
-        await task
-    except asyncio.CancelledError:
-        pass
+    for task in (price_task, cal_task):
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
@@ -170,9 +173,11 @@ app = FastAPI(title="BVC Price Service", version="1.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+app.include_router(calendar_router)
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
