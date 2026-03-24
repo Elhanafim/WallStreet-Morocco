@@ -53,7 +53,7 @@ const TIMELINE = [
     year: '2026',
     icon: TrendingUp,
     title: '+51% — Les résultats parlent',
-    desc: 'Mars 2026 : $1 700 investis → $2 567. +51% de rendement sur 17 mois grâce à une sélection rigoureuse et un positionnement parfait sur le run-up BVC. La méthode est prouvée.',
+    desc: 'Mars 2026 : $1 700 investis → $2 628. +54,6% de rendement sur 17 mois grâce à une sélection rigoureuse et un positionnement parfait sur le run-up BVC. La méthode est prouvée.',
     color: 'bg-emerald-500/15 text-emerald-700 border-emerald-300',
     dot: 'bg-emerald-500',
   },
@@ -331,7 +331,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 mb-6">
             <CheckCircle className="w-3.5 h-3.5 text-success" />
-            <span className="text-success text-xs font-semibold">Accessible à tous · Dès 100 MAD/mois</span>
+            <span className="text-success text-xs font-semibold">Accessible à tous · Dès 100$/mois</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-primary mb-4">
             Commencez votre propre parcours

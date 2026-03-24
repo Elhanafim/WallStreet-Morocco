@@ -50,11 +50,11 @@ function ChartTooltip({ active, payload, label }: any) {
       <div className="space-y-1">
         <div className="flex justify-between gap-4">
           <span className="text-emerald-400">Portefeuille</span>
-          <span className="text-white font-semibold">{fmt(port.value)} MAD</span>
+          <span className="text-white font-semibold">${fmt(port.value)}</span>
         </div>
         <div className="flex justify-between gap-4">
           <span className="text-white/40">Capital investi</span>
-          <span className="text-white font-semibold">{fmt(cap.value)} MAD</span>
+          <span className="text-white font-semibold">${fmt(cap.value)}</span>
         </div>
         <div className="flex justify-between gap-4 pt-1 border-t border-white/10">
           <span className="text-emerald-400/70">Performance</span>
@@ -90,7 +90,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
               Évolution du portefeuille
             </h3>
             <p className="text-white/40 text-xs mt-0.5">
-              Nov 2024 — Mar 2026 · DCA 100 MAD/mois
+              Nov 2024 — Mar 2026 · DCA 100$/mois
             </p>
           </div>
           <div className="flex flex-row sm:flex-col gap-3 sm:gap-1.5 text-xs sm:text-right flex-wrap">
@@ -142,7 +142,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
                 tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => `${v.toLocaleString('fr-FR')}`}
+                tickFormatter={(v) => `$${v.toLocaleString('fr-FR')}`}
                 width={52}
                 domain={[0, 3000]}
                 ticks={[0, 500, 1000, 1500, 2000, 2500, 3000]}

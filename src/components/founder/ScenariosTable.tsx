@@ -48,7 +48,7 @@ export default function ScenariosTable({ scenarios }: ScenariosTableProps) {
           Pourquoi la concentration bat la diversification
         </h3>
         <p className="text-white/40 text-sm">
-          Simulation DCA 100 MAD/mois · 17 mois · 1 700 MAD investis
+          Simulation DCA 100$/mois · 17 mois · $1 700 investis
         </p>
       </div>
 
@@ -105,9 +105,9 @@ export default function ScenariosTable({ scenarios }: ScenariosTableProps) {
                     )}
                   </td>
                   <td className="py-3.5 px-4 text-center text-white/60">{s.stocks}</td>
-                  <td className="py-3.5 px-4 text-right text-white/60">{fmt(s.capital)} MAD</td>
+                  <td className="py-3.5 px-4 text-right text-white/60">${fmt(s.capital)}</td>
                   <td className={`py-3.5 px-4 text-right font-bold ${s.highlight ? 'text-emerald-400' : 'text-white/70'}`}>
-                    {fmt(s.value)} MAD
+                    ${fmt(s.value)}
                   </td>
                   <td className="py-3.5 px-4 text-right">
                     <span

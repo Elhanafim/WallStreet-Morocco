@@ -141,24 +141,24 @@ export default function KPIStrip() {
     >
       <KPICard
         target={PORTFOLIO_META.totalInvested}
-        format={(v) => `${fmt(v)} MAD`}
+        format={(v) => `$${fmt(v)}`}
         label="Total investi"
-        sub={`${PORTFOLIO_META.durationMonths} × 100 MAD`}
+        sub={`${PORTFOLIO_META.durationMonths} × 100$`}
         variant="default"
         inView={inView}
         delay={0}
-        ariaLabel={`Total investi : 1 700 MAD`}
+        ariaLabel={`Total investi : $1 700`}
       />
       <KPICard
         target={PORTFOLIO_META.finalValue}
-        format={(v) => `${fmt(v)} MAD`}
+        format={(v) => `$${fmt(v)}`}
         label="Valeur actuelle"
         sub="au 24 mars 2026"
         variant="gold"
         live
         inView={inView}
         delay={80}
-        ariaLabel={`Valeur actuelle : 2 628 MAD au 24 mars 2026`}
+        ariaLabel={`Valeur actuelle : $2 628 au 24 mars 2026`}
       />
       <KPICard
         target={PORTFOLIO_META.performancePercent * 10}
@@ -182,13 +182,13 @@ export default function KPIStrip() {
       />
       <KPICard
         target={PORTFOLIO_META.absoluteGain}
-        format={(v) => `+${fmt(v)} MAD`}
+        format={(v) => `+$${fmt(v)}`}
         label="Plus-value absolue"
         sub="gain net estimé"
         variant="success"
         inView={inView}
         delay={80}
-        ariaLabel={`Plus-value absolue : +928 MAD gain net estimé`}
+        ariaLabel={`Plus-value absolue : +$928 gain net estimé`}
       />
       <KPICard
         target={PORTFOLIO_META.durationMonths}

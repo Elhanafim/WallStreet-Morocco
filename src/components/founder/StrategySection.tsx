@@ -60,7 +60,7 @@ export default function StrategySection() {
               </h2>
               {/* Pull quote */}
               <p className="text-white/50 text-sm sm:text-base italic max-w-2xl leading-relaxed">
-                &ldquo;100 MAD par mois. 4 convictions. 17 mois. Une démonstration que la
+                &ldquo;100$ par mois. 4 convictions. 17 mois. Une démonstration que la
                 concentration sur les mégatendances surperforme le marché de 52 points.&rdquo;
               </p>
             </div>
@@ -87,7 +87,7 @@ export default function StrategySection() {
               Les 4 convictions
             </h3>
             <p className="text-white/40 text-sm">
-              Pondération égale · 25% chacune · DCA mensuel 25 MAD/valeur
+              Pondération égale · 25% chacune · DCA mensuel 25$/valeur
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
