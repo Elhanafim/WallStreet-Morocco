@@ -14,7 +14,7 @@ export default function CalendarKPIStrip({ events }: CalendarKPIStripProps) {
 
   const stats = [
     { label: 'Événements', value: total, color: 'text-white' },
-    { label: 'À venir', value: upcoming, color: 'text-blue-400' },
+    { label: 'À venir', value: upcoming, color: 'text-amber-400' },
     { label: 'Impact fort', value: highImpact, color: 'text-orange-400' },
     { label: 'Maroc', value: moroccoRelevant, color: 'text-emerald-400' },
   ];

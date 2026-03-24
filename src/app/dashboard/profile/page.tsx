@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import {
-  User, Mail, Shield, Calendar, Lock, Zap, AlertTriangle, Check, Eye, EyeOff,
+  User, Mail, Shield, Calendar, Lock, AlertTriangle, Check, Eye, EyeOff,
 } from 'lucide-react';
 
 function roleBadge(role: string) {
@@ -212,24 +212,7 @@ export default function ProfilePage() {
             </div>
             <p className="text-sm text-gray-500">{badge.description}</p>
           </div>
-          {role === 'FREE' && (
-            <a
-              href="/premium"
-              className="flex-shrink-0 flex items-center gap-2 px-4 py-2.5 bg-gradient-gold text-[#0A2540] text-sm font-bold rounded-xl hover:shadow-glow-gold transition-all"
-            >
-              <Zap className="w-4 h-4" />
-              Passer Premium
-            </a>
-          )}
         </div>
-        {role === 'FREE' && (
-          <div className="mt-4 p-4 bg-amber-50 rounded-xl border border-amber-100">
-            <p className="text-sm text-amber-800 font-medium">
-              Passez Premium pour accéder aux analyses exclusives, aux données en temps réel et aux alertes personnalisées.
-              <strong className="block mt-1">7 jours d&apos;essai gratuit, sans engagement.</strong>
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Danger Zone */}

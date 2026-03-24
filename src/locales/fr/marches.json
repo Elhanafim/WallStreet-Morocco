@@ -1,0 +1,28 @@
+{
+  "title": "Marchés",
+  "subtitle": "Cours en temps réel · Actions · Indices · Forex",
+  "sectors": {
+    "all": "Tous",
+    "banking": "Banques",
+    "telecom": "Télécoms",
+    "energy": "Énergie",
+    "agro": "Agroalimentaire",
+    "insurance": "Assurance",
+    "real_estate": "Immobilier",
+    "industry": "Industrie",
+    "materials": "Matériaux",
+    "services": "Services"
+  },
+  "table": {
+    "symbol": "Symbole",
+    "name": "Société",
+    "price": "Cours",
+    "change": "Variation",
+    "volume": "Volume",
+    "marketCap": "Capitalisation",
+    "sector": "Secteur"
+  },
+  "loading": "Chargement des cours...",
+  "error": "Impossible de charger les données de marché.",
+  "noData": "Aucune donnée disponible"
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Markets",
+  "subtitle": "Real-time prices · Stocks · Indices · Forex",
+  "sectors": {
+    "all": "All",
+    "banking": "Banking",
+    "telecom": "Telecom",
+    "energy": "Energy",
+    "agro": "Agri-food",
+    "insurance": "Insurance",
+    "real_estate": "Real Estate",
+    "industry": "Industry",
+    "materials": "Materials",
+    "services": "Services"
+  },
+  "table": {
+    "symbol": "Symbol",
+    "name": "Company",
+    "price": "Price",
+    "change": "Change",
+    "volume": "Volume",
+    "marketCap": "Market Cap",
+    "sector": "Sector"
+  },
+  "loading": "Loading prices...",
+  "error": "Unable to load market data.",
+  "noData": "No data available"
+}

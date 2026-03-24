@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "badge": "Bourse de Casablanca · Live",
+    "headline1": "Investissez",
+    "headline2": "intelligemment",
+    "headline3": "au Maroc",
+    "subtitle": "Données en temps réel. Outils intelligents. Meilleures décisions. La plateforme tout-en-un pour maîtriser la Bourse de Casablanca.",
+    "cta1": "Commencer gratuitement",
+    "cta2": "Explorer les marchés",
+    "trust1": "Aucune carte requise",
+    "trust2": "Accès gratuit immédiat",
+    "trust3": "Annulable à tout moment",
+    "chartLabel": "Indice de référence · Temps réel",
+    "chartTitle": "MASI — Bourse de Casablanca",
+    "chartLive": "Live",
+    "chartUnavailable": "Données live temporairement indisponibles"
+  },
+  "markets": {
+    "badge": "Données en direct",
+    "title": "Marchés Marocains & Mondiaux",
+    "subtitle": "Cours en temps réel · Bourse de Casablanca · Indices globaux",
+    "cta": "Voir tous les marchés",
+    "source": "Données fournies par TradingView · Actualisation automatique"
+  },
+  "forex": {
+    "title": "Taux de Change — Dirham Marocain (MAD)",
+    "subtitle": "Cours interbancaires indicatifs · Actualisation automatique",
+    "disclaimer": "Le dirham marocain (MAD) est une devise non convertible. Les taux affichés sont indicatifs (marché interbancaire international). Pour les taux officiels, consultez",
+    "bamLink": "Bank Al-Maghrib"
+  },
+  "articles": {
+    "title": "Dernières analyses",
+    "subtitle": "Guides, stratégies et analyses par nos experts",
+    "cta": "Tous les articles"
+  },
+  "opcvm": {
+    "title": "OPCVM en vedette",
+    "subtitle": "Les meilleurs fonds de placement marocains",
+    "cta": "Tous les OPCVM",
+    "headers": {
+      "fund": "Fonds",
+      "bank": "Banque",
+      "type": "Type",
+      "perf1y": "Perf. 1 an",
+      "risk": "Risque"
+    }
+  },
+  "premium": {
+    "badge": "Premium — À partir de 9€/mois",
+    "title1": "Passez à la vitesse",
+    "title2": "supérieure",
+    "subtitle": "Accédez aux analyses approfondies, aux alertes marchés, aux recommandations d'achat/vente et au simulateur avancé.",
+    "cta1": "Voir les offres Premium",
+    "cta2": "Créer un compte gratuit",
+    "features": {
+      "analyses": "Analyses exclusives",
+      "analysesDesc": "50+ analyses par mois",
+      "data": "Données avancées",
+      "dataDesc": "Historique complet 10 ans",
+      "alerts": "Alertes marchés",
+      "alertsDesc": "Notifications en temps réel",
+      "courses": "Cours complets",
+      "coursesDesc": "Formation vidéo incluse"
+    }
+  }
+}

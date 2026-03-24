@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, TrendingUp, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 function LoginForm() {
   const router = useRouter();
@@ -14,6 +15,7 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { t } = useTranslation('common');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,18 +31,17 @@ function LoginForm() {
 
       if (result?.error) {
         if (result.error === 'CredentialsSignin') {
-          setError('Email ou mot de passe incorrect.');
+          setError(t('errors.invalidCredentials'));
         } else {
-          setError('Une erreur est survenue. Veuillez réessayer.');
+          setError(t('errors.generic'));
         }
       } else {
-        // Redirect to the originally requested page if present, else dashboard
         const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
         router.push(callbackUrl);
         router.refresh();
       }
-    } catch (err) {
-      setError('Une erreur est survenue. Veuillez réessayer.');
+    } catch {
+      setError(t('errors.generic'));
     } finally {
       setIsLoading(false);
     }
@@ -78,10 +79,10 @@ function LoginForm() {
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="mb-8">
             <h1 className="text-2xl font-black text-primary mb-2">
-              Bon retour !
+              {t('auth.loginTitle')}
             </h1>
             <p className="text-primary/60 text-sm">
-              Connectez-vous pour accéder à votre espace investisseur
+              {t('auth.loginSubtitle')}
             </p>
           </div>
 
@@ -96,7 +97,7 @@ function LoginForm() {
             {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-primary mb-1.5">
-                Adresse email
+                {t('auth.email')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
@@ -105,7 +106,7 @@ function LoginForm() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="votre@email.com"
+                  placeholder={t('footer.emailPlaceholder')}
                   required
                   className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 bg-white text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all text-sm"
                 />
@@ -116,13 +117,13 @@ function LoginForm() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="password" className="block text-sm font-semibold text-primary">
-                  Mot de passe
+                  {t('auth.password')}
                 </label>
                 <Link
                   href="/auth/forgot-password"
                   className="text-xs text-secondary hover:text-secondary-600 font-medium transition-colors"
                 >
-                  Mot de passe oublié ?
+                  {t('auth.forgotPassword')}
                 </Link>
               </div>
               <div className="relative">
@@ -154,7 +155,7 @@ function LoginForm() {
                 className="w-4 h-4 rounded border-surface-300 text-secondary focus:ring-secondary"
               />
               <label htmlFor="remember" className="text-sm text-primary/60">
-                Se souvenir de moi pendant 30 jours
+                {t('auth.rememberMe')}
               </label>
             </div>
 
@@ -170,11 +171,11 @@ function LoginForm() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Connexion...
+                  {t('auth.loggingIn')}
                 </>
               ) : (
                 <>
-                  Se connecter
+                  {t('nav.login')}
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -187,7 +188,7 @@ function LoginForm() {
               <div className="w-full border-t border-surface-200" />
             </div>
             <div className="relative flex justify-center text-xs text-primary/40">
-              <span className="bg-white px-3">ou continuer avec</span>
+              <span className="bg-white px-3">{t('auth.orContinueWith')}</span>
             </div>
           </div>
 
@@ -218,16 +219,16 @@ function LoginForm() {
 
           {/* Signup Link */}
           <p className="text-center text-sm text-primary/60 mt-6">
-            Pas encore de compte ?{' '}
+            {t('auth.noAccount')}{' '}
             <Link href="/auth/signup" className="text-secondary font-semibold hover:text-secondary-600 transition-colors">
-              S&apos;inscrire gratuitement
+              {t('nav.registerFree')}
             </Link>
           </p>
         </div>
 
         {/* Security note */}
         <p className="text-center text-white/40 text-xs mt-6">
-          Connexion securisee SSL 256-bit
+          {t('auth.secureConnection')}
         </p>
       </div>
     </div>

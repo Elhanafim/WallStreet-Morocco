@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "badge": "Founder · Investor · BVC",
+    "subtitle": "Finance student, active investor on the Casablanca Stock Exchange since November 2024. I launched WallStreet Morocco to democratize investing in Morocco and prove that real wealth can be built from just $100/month.",
+    "achievementBadge": "BVC portfolio · 17 months · DCA $100/month",
+    "activeSince": "🇲🇦 Active since Nov 2024",
+    "returns": "+51% in 17 months",
+    "founderTitle": "Founder · WallStreet Morocco"
+  },
+  "quote": {
+    "text": "Investing is not a privilege reserved for the wealthy. With $100 a month and a rigorous stock selection, any Moroccan can build lasting wealth.",
+    "author": "— El Hanafi Mohammed, Founder of WallStreet Morocco"
+  },
+  "timeline": {
+    "badge": "Journey",
+    "title": "From curiosity to expertise",
+    "subtitle": "Academic · Professional · Entrepreneurial",
+    "items": {
+      "2022": {
+        "title": "Discovering financial markets",
+        "desc": "First encounter with the Casablanca Stock Exchange and international markets. Beginning of intensive learning: fundamental analysis, portfolio management, Moroccan economy."
+      },
+      "2023": {
+        "title": "Academic finance training",
+        "desc": "Specialized studies in capital markets focusing on Moroccan securities — banking, telecom, agri-food. Building a rigorous analytical framework."
+      },
+      "2024": {
+        "title": "Action — Real DCA",
+        "desc": "November 2024: first $100 investment at the BVC. Start of rigorous and transparent monthly tracking. Targeted selection of the most promising listed stocks."
+      },
+      "2025": {
+        "title": "Launching WallStreet Morocco",
+        "desc": "Launching the platform with a clear mission: democratize investing in Morocco. Simulation tools, financial education, official OPCVM data, full transparency."
+      },
+      "2026": {
+        "title": "+51% — Results speak for themselves",
+        "desc": "March 2026: $1,700 invested → $2,628. +54.6% return over 17 months through rigorous selection and perfect positioning on the BVC run-up. The method is proven."
+      }
+    }
+  },
+  "vision": {
+    "badge": "Vision",
+    "title": "Why WallStreet Morocco?",
+    "subtitle": "The Casablanca Stock Exchange remains underutilized by individual Moroccan investors. This platform exists to change that.",
+    "pillars": {
+      "simplify": {
+        "title": "Simplify investing in Morocco",
+        "body": "The BVC remains underinvested by individuals. Our platform removes entry barriers: clear data, accessible tools, structured educational path."
+      },
+      "method": {
+        "title": "Invest with method, not luck",
+        "body": "Rigorous stock selection, DCA discipline, understanding market cycles. These are the elements that produced +51% — not luck."
+      },
+      "proof": {
+        "title": "Prove by example",
+        "body": "Every month, data is updated. The portfolio is documented in real time. Transparency is our differentiator."
+      }
+    }
+  },
+  "values": {
+    "education": {
+      "title": "Financial Education",
+      "desc": "Making financial knowledge accessible to all Moroccans, regardless of their starting level."
+    },
+    "longTerm": {
+      "title": "Long-Term Investing",
+      "desc": "Promoting a culture of patient and disciplined investing, aligned with the realities of the Moroccan market."
+    },
+    "transparency": {
+      "title": "Full Transparency",
+      "desc": "Sharing my own investor journey — gains and challenges — without filters or staging."
+    },
+    "community": {
+      "title": "Active Community",
+      "desc": "Building a community of Moroccan investors who learn and grow together."
+    }
+  },
+  "cta": {
+    "badge": "Accessible to all · From $100/month",
+    "title": "Start your own journey",
+    "subtitle": "Simulate what $100/month can earn you on the Casablanca Stock Exchange. The tools are free. The method is proven.",
+    "button1": "Create my account",
+    "button2": "Simulate my portfolio"
+  }
+}

@@ -17,6 +17,8 @@ import {
   getMarketStatus,
   formatChange,
   formatPriceTime,
+  formatSourceLabel,
+  sourceColorClass,
   type BVCPrice,
   type MarketStatus,
 } from '@/lib/bvcPriceService';
@@ -135,6 +137,7 @@ function PriceField({
 
       {priceStatus.status === 'success' && (
         <div className="space-y-2">
+          {/* Main price row */}
           <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50">
             <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
             <span
@@ -150,6 +153,7 @@ function PriceField({
                   : 'bg-red-100 text-red-600'
               }`}
             >
+              {priceStatus.data.changePercent >= 0 ? '▲' : '▼'}{' '}
               {formatChange(priceStatus.data)}
             </span>
             {priceStatus.data.timestamp && (
@@ -159,15 +163,47 @@ function PriceField({
             )}
             <button
               type="button"
-              onClick={() => priceStatus.status === 'success' && (priceStatus as { status: 'success'; data: BVCPrice; editable: boolean }).editable
-                ? undefined
-                : onRetry()}
+              onClick={handleEditPrice}
               title="Modifier le prix"
               className="text-primary/30 hover:text-secondary transition-colors ml-1"
             >
               <Pencil className="w-3.5 h-3.5" />
             </button>
           </div>
+
+          {/* OHLC + volume row */}
+          {(priceStatus.data.open > 0 || priceStatus.data.volume > 0) && (
+            <div className="grid grid-cols-4 gap-1.5 text-center">
+              {[
+                { label: 'Ouv.', value: priceStatus.data.open },
+                { label: 'Haut', value: priceStatus.data.high },
+                { label: 'Bas', value: priceStatus.data.low },
+                { label: 'Réf.', value: priceStatus.data.referencePrice },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-surface-50 rounded-lg px-2 py-1.5 border border-surface-100">
+                  <p className="text-[10px] text-primary/40 font-medium">{label}</p>
+                  <p className="text-xs font-semibold text-primary">
+                    {value > 0 ? value.toLocaleString('fr-MA') : '—'}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+          {priceStatus.data.volume > 0 && (
+            <p className="text-xs text-primary/40 px-1">
+              Vol. : {priceStatus.data.volume.toLocaleString('fr-MA')} titres
+            </p>
+          )}
+
+          {/* Source label */}
+          <div className="flex items-center gap-1.5">
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${sourceColorClass(priceStatus.data.source)}`} />
+            <p className="text-xs text-primary/40">
+              {formatSourceLabel(priceStatus.data.source)}
+              {marketStatus?.delayMinutes ? ` · Différé ${marketStatus.delayMinutes} min` : ''}
+            </p>
+          </div>
+
           {priceStatus.editable && (
             <input
               type="number"
@@ -180,9 +216,6 @@ function PriceField({
               className="w-full px-4 py-2.5 rounded-xl border border-surface-200 text-primary focus:outline-none focus:ring-2 focus:ring-secondary text-sm"
             />
           )}
-          <p className="text-xs text-primary/40">
-            Source : Bourse de Casablanca · Différé {marketStatus?.delayMinutes ?? 15} min
-          </p>
         </div>
       )}
 

@@ -1,0 +1,17 @@
+{
+  "generic": "An error occurred. Please try again.",
+  "network": "Connection unavailable. Check your network.",
+  "notFound": "Page not found.",
+  "unauthorized": "Sign in required to access this page.",
+  "forbidden": "Access denied.",
+  "serverError": "Server error. Please try again later.",
+  "calendar": "Unable to load calendar data.",
+  "portfolio": "Unable to load portfolio.",
+  "prices": "Unable to fetch prices.",
+  "empty": {
+    "events": "No events match the selected filters",
+    "portfolio": "No positions in this portfolio",
+    "articles": "No articles available",
+    "data": "No data available"
+  }
+}

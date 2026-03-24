@@ -42,7 +42,6 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
     );
   }
 
-  // Group by date
   const grouped: Record<string, LiveCalendarEvent[]> = {};
   for (const ev of events) {
     const key = ev.date.slice(0, 10);
@@ -50,7 +49,13 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
     grouped[key].push(ev);
   }
 
-  const sortedDates = Object.keys(grouped).sort();
+  // Preserve insertion order (caller pre-sorts: today → upcoming asc → past desc)
+  const sortedDates: string[] = [];
+  const seenDates = new Set<string>();
+  for (const ev of events) {
+    const k = ev.date.slice(0, 10);
+    if (!seenDates.has(k)) { seenDates.add(k); sortedDates.push(k); }
+  }
 
   return (
     <div className="space-y-8">
@@ -64,12 +69,12 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
             {/* Date header */}
             <div className="flex items-center gap-3 mb-4">
               <div className={`rounded-xl px-3 py-1.5 ${
-                isToday ? 'bg-blue-500/20 border border-blue-500/40' :
+                isToday ? 'bg-gray-900 border border-gray-700' :
                 isTomorrow ? 'bg-white/10 border border-white/15' :
                 'bg-white/5 border border-white/8'
               }`}>
                 <p className={`text-xs font-black uppercase tracking-wide ${
-                  isToday ? 'text-blue-400' : isTomorrow ? 'text-white/70' : 'text-white/50'
+                  isToday ? 'text-white' : isTomorrow ? 'text-white/70' : 'text-white/50'
                 }`}>
                   {day}
                 </p>

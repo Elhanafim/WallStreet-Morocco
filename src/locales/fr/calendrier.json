@@ -1,0 +1,41 @@
+{
+  "page": {
+    "badge": "Calendrier économique live",
+    "title1": "Événements & Données",
+    "title2": "clés",
+    "subtitle": "Données en temps réel depuis 6 sources — Finnhub, ForexFactory, Bank Al-Maghrib, HCP Maroc, Médias24, BourseNews."
+  },
+  "sidebar": {
+    "upcomingTitle": "Prochains événements clés",
+    "upcomingImpact": "Impact 4+ uniquement",
+    "sourcesTitle": "Sources de données",
+    "sources": {
+      "finnhub": "Macro monde",
+      "forexfactory": "Forex impact",
+      "bam": "Politique BAM",
+      "hcp": "Stats nationales",
+      "medias24": "Actualité éco",
+      "boursenews": "Marché boursier"
+    },
+    "howToReadTitle": "Comment lire ce calendrier",
+    "tips": {
+      "critical": "Impact critique (rouge) = forte volatilité possible",
+      "bam": "La décision BAM influence les taux marocains",
+      "nfp": "La NFP américaine impacte les marchés mondiaux",
+      "oil": "Pétrole & or — impact via OCP et imports énergie"
+    }
+  },
+  "kpi": {
+    "total": "Événements",
+    "upcoming": "À venir",
+    "highImpact": "Impact fort",
+    "morocco": "Maroc"
+  },
+  "error": "Impossible de charger les données du calendrier.",
+  "pertinent": "Pertinent",
+  "dataGrid": {
+    "previous": "Précédent",
+    "forecast": "Prévision",
+    "actual": "Réel"
+  }
+}

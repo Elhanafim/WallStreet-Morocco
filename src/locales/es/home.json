@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "badge": "Bolsa de Casablanca · En directo",
+    "headline1": "Invierte",
+    "headline2": "inteligentemente",
+    "headline3": "en Marruecos",
+    "subtitle": "Datos en tiempo real. Herramientas inteligentes. Mejores decisiones. La plataforma todo-en-uno para dominar la Bolsa de Casablanca.",
+    "cta1": "Empezar gratis",
+    "cta2": "Explorar mercados",
+    "trust1": "Sin tarjeta requerida",
+    "trust2": "Acceso gratuito inmediato",
+    "trust3": "Cancela cuando quieras",
+    "chartLabel": "Índice de referencia · Tiempo real",
+    "chartTitle": "MASI — Bolsa de Casablanca",
+    "chartLive": "En directo",
+    "chartUnavailable": "Datos en directo temporalmente no disponibles"
+  },
+  "markets": {
+    "badge": "Datos en directo",
+    "title": "Mercados Marroquíes y Globales",
+    "subtitle": "Precios en tiempo real · Bolsa de Casablanca · Índices globales",
+    "cta": "Ver todos los mercados",
+    "source": "Datos proporcionados por TradingView · Actualización automática"
+  },
+  "forex": {
+    "title": "Tipos de Cambio — Dírham Marroquí (MAD)",
+    "subtitle": "Tipos interbancarios indicativos · Actualización automática",
+    "disclaimer": "El dírham marroquí (MAD) es una divisa no convertible. Los tipos mostrados son indicativos (mercado interbancario internacional). Para tipos oficiales, consulta",
+    "bamLink": "Bank Al-Maghrib"
+  },
+  "articles": {
+    "title": "Últimos análisis",
+    "subtitle": "Guías, estrategias y análisis de nuestros expertos",
+    "cta": "Todos los artículos"
+  },
+  "opcvm": {
+    "title": "OPCVM Destacados",
+    "subtitle": "Los mejores fondos de inversión marroquíes",
+    "cta": "Todos los OPCVM",
+    "headers": {
+      "fund": "Fondo",
+      "bank": "Banco",
+      "type": "Tipo",
+      "perf1y": "Rent. 1 año",
+      "risk": "Riesgo"
+    }
+  },
+  "premium": {
+    "badge": "Premium — Desde 9€/mes",
+    "title1": "Pasa al siguiente",
+    "title2": "nivel",
+    "subtitle": "Accede a análisis en profundidad, alertas de mercado, recomendaciones de compra/venta y el simulador avanzado.",
+    "cta1": "Ver planes Premium",
+    "cta2": "Crear una cuenta gratuita",
+    "features": {
+      "analyses": "Análisis exclusivos",
+      "analysesDesc": "Más de 50 análisis al mes",
+      "data": "Datos avanzados",
+      "dataDesc": "Historial completo de 10 años",
+      "alerts": "Alertas de mercado",
+      "alertsDesc": "Notificaciones en tiempo real",
+      "courses": "Cursos completos",
+      "coursesDesc": "Formación en vídeo incluida"
+    }
+  }
+}

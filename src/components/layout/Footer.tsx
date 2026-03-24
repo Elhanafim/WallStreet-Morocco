@@ -1,28 +1,33 @@
+'use client';
+
 import Link from 'next/link';
 import { Twitter, Linkedin, Mail, Phone } from 'lucide-react';
-
-const platformLinks = [
-  { href: '/simulator', label: 'Simulateur' },
-  { href: '/calendar', label: 'Calendrier Économique' },
-  { href: '/opcvm', label: 'OPCVM & Fonds' },
-  { href: '/premium', label: 'Abonnement Premium' },
-];
-
-const learnLinks = [
-  { href: '/learn?category=Bases', label: 'Les Bases' },
-  { href: '/learn?category=Actions', label: 'Actions' },
-  { href: '/learn?category=OPCVM', label: 'OPCVM' },
-  { href: '/learn?category=Stratégie', label: 'Stratégies' },
-];
-
-const companyLinks = [
-  { href: '/about', label: 'À propos' },
-  { href: '/about#contact', label: 'Contact' },
-  { href: '/premium', label: 'Tarifs' },
-  { href: '#', label: 'Mentions légales' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation('common');
+
+  const platformLinks = [
+    { href: '/simulator', label: t('footer.links.simulator') },
+    { href: '/calendar', label: t('footer.links.calendar') },
+    { href: '/opcvm', label: t('footer.links.opcvm') },
+    { href: '/donate', label: t('footer.links.donate') },
+  ];
+
+  const learnLinks = [
+    { href: '/learn?category=Bases', label: t('footer.links.basics') },
+    { href: '/learn?category=Actions', label: t('footer.links.stocks') },
+    { href: '/learn?category=OPCVM', label: 'OPCVM' },
+    { href: '/learn?category=Stratégie', label: t('footer.links.strategies') },
+  ];
+
+  const companyLinks = [
+    { href: '/about', label: t('footer.links.about') },
+    { href: '/about#contact', label: t('footer.links.contact') },
+    { href: '/donate', label: t('footer.links.donate') },
+    { href: '#', label: t('footer.links.legal') },
+  ];
+
   return (
     <footer className="bg-primary text-white">
       {/* Main Footer */}
@@ -44,8 +49,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
-              La plateforme de référence pour les investisseurs marocains.
-              Apprenez, analysez et investissez intelligemment au Maroc.
+              {t('footer.tagline')}
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3">
@@ -80,7 +84,7 @@ export default function Footer() {
           {/* Platform Links */}
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider text-accent mb-5">
-              Plateforme
+              {t('footer.platform')}
             </h3>
             <ul className="space-y-3">
               {platformLinks.map((link) => (
@@ -99,7 +103,7 @@ export default function Footer() {
           {/* Learn Links */}
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider text-accent mb-5">
-              Apprendre
+              {t('footer.learn')}
             </h3>
             <ul className="space-y-3">
               {learnLinks.map((link) => (
@@ -118,7 +122,7 @@ export default function Footer() {
           {/* Company Links */}
           <div>
             <h3 className="font-bold text-sm uppercase tracking-wider text-accent mb-5">
-              Entreprise
+              {t('footer.company')}
             </h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
@@ -158,20 +162,20 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             <div>
               <h4 className="font-bold text-white mb-1">
-                Restez informé des marchés marocains
+                {t('footer.newsletter')}
               </h4>
               <p className="text-white/50 text-sm">
-                Newsletter hebdomadaire • Analyses • Alertes marchés
+                {t('footer.newsletterDesc')}
               </p>
             </div>
             <div className="flex gap-2 w-full sm:w-auto">
               <input
                 type="email"
-                placeholder="votre@email.com"
+                placeholder={t('footer.emailPlaceholder')}
                 className="flex-1 sm:w-64 px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm focus:outline-none focus:border-secondary transition-colors"
               />
               <button className="px-5 py-2.5 bg-secondary text-white rounded-xl text-sm font-semibold hover:bg-secondary-600 transition-colors whitespace-nowrap">
-                S&apos;abonner
+                {t('buttons.subscribe')}
               </button>
             </div>
           </div>
@@ -182,18 +186,17 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/40 text-xs">
-            © {new Date().getFullYear()} WallStreet Morocco. Tous droits réservés.
+            © {new Date().getFullYear()} WallStreet Morocco. {t('disclaimer.allRightsReserved')}
           </p>
           <p className="text-white/30 text-xs text-center">
-            ⚠️ Les informations fournies ne constituent pas des conseils en investissement.
-            Investir comporte des risques.
+            ⚠️ {t('disclaimer.legalNotice')}
           </p>
           <div className="flex items-center gap-4">
             <Link href="#" className="text-white/40 hover:text-white/70 text-xs transition-colors">
-              Politique de confidentialité
+              {t('footer.links.privacy')}
             </Link>
             <Link href="#" className="text-white/40 hover:text-white/70 text-xs transition-colors">
-              CGU
+              {t('footer.links.terms')}
             </Link>
           </div>
         </div>

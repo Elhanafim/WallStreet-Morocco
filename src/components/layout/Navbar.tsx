@@ -7,17 +7,7 @@ import { Menu, X, Briefcase, LayoutDashboard, LogOut, ChevronDown, User } from '
 import { useSession, signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-
-
-const navLinks = [
-  { href: '/learn', label: 'Apprendre' },
-  { href: '/simulator', label: 'Simulateur' },
-  { href: '/calendar', label: 'Calendrier' },
-  { href: '/opcvm', label: 'OPCVM' },
-  { href: '/market', label: 'Marchés' },
-  { href: '/about', label: 'Fondateur' },
-  { href: '/premium', label: 'Premium', highlight: true },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +16,17 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation('common');
+
+  const navLinks: { href: string; label: string; donate?: boolean }[] = [
+    { href: '/learn', label: t('nav.learn') },
+    { href: '/simulator', label: t('nav.simulator') },
+    { href: '/calendar', label: t('nav.calendrier') },
+    { href: '/opcvm', label: t('nav.opcvm') },
+    { href: '/market', label: t('nav.marches') },
+    { href: '/about', label: t('nav.fondateur') },
+    { href: '/donate', label: t('nav.donate'), donate: true },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,14 +87,14 @@ export default function Navbar() {
                 href={link.href}
                 className={cn(
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                  link.highlight
-                    ? 'bg-accent text-primary hover:bg-accent-600 font-semibold shadow-sm'
+                  link.donate
+                    ? 'text-amber-700 hover:text-amber-900 hover:bg-amber-50 font-semibold border-b-2 border-amber-400'
                     : pathname === link.href
                     ? 'bg-primary/10 text-primary font-semibold'
                     : 'text-primary/70 hover:text-primary hover:bg-surface-100'
                 )}
               >
-                {link.label}
+                {link.donate ? '♥ ' : ''}{link.label}
               </Link>
             ))}
           </div>
@@ -113,7 +114,7 @@ export default function Navbar() {
                   )}
                 >
                   <LayoutDashboard className="w-3.5 h-3.5" />
-                  Tableau de bord
+                  {t('nav.dashboard')}
                 </Link>
 
                 {/* Portfolio link */}
@@ -127,7 +128,7 @@ export default function Navbar() {
                   )}
                 >
                   <Briefcase className="w-3.5 h-3.5" />
-                  Mon Portefeuille
+                  {t('nav.portfolio')}
                 </Link>
 
                 {/* User dropdown */}
@@ -145,7 +146,7 @@ export default function Navbar() {
                   {userMenuOpen && (
                     <div className="absolute right-0 top-full mt-1 w-52 bg-white rounded-xl shadow-lg border border-surface-200 py-1 z-50">
                       <div className="px-4 py-2.5 border-b border-surface-100">
-                        <p className="text-xs font-semibold text-primary truncate">{session.user?.name ?? 'Investisseur'}</p>
+                        <p className="text-xs font-semibold text-primary truncate">{session.user?.name ?? t('nav.investor')}</p>
                         <p className="text-xs text-primary/40 truncate">{session.user?.email}</p>
                       </div>
                       <Link
@@ -153,14 +154,14 @@ export default function Navbar() {
                         className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-primary/70 hover:text-primary hover:bg-surface-50 transition-colors"
                       >
                         <User className="w-4 h-4" />
-                        Mon profil
+                        {t('nav.profile')}
                       </Link>
                       <button
                         onClick={() => signOut({ callbackUrl: '/' })}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
                       >
                         <LogOut className="w-4 h-4" />
-                        Se déconnecter
+                        {t('nav.logout')}
                       </button>
                     </div>
                   )}
@@ -172,11 +173,11 @@ export default function Navbar() {
                   href="/auth/login"
                   className="text-sm font-medium text-primary/70 hover:text-primary transition-colors"
                 >
-                  Se connecter
+                  {t('nav.login')}
                 </Link>
                 <Link href="/auth/signup">
                   <Button size="sm" variant="primary">
-                    S&apos;inscrire
+                    {t('nav.register')}
                   </Button>
                 </Link>
               </>
@@ -208,19 +209,14 @@ export default function Navbar() {
               href={link.href}
               className={cn(
                 'flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                link.highlight
-                  ? 'bg-accent/10 text-accent font-semibold border border-accent/20'
+                link.donate
+                  ? 'text-amber-700 font-semibold border border-amber-200 bg-amber-50/50'
                   : pathname === link.href
                   ? 'bg-primary/10 text-primary font-semibold'
                   : 'text-primary/70 hover:text-primary hover:bg-surface-50'
               )}
             >
-              {link.label}
-              {link.highlight && (
-                <span className="ml-auto text-xs bg-accent text-primary px-1.5 py-0.5 rounded-full font-bold">
-                  ✦
-                </span>
-              )}
+              {link.donate ? '♥ ' : ''}{link.label}
             </Link>
           ))}
           <div className="pt-3 border-t border-surface-100 flex flex-col gap-2">
@@ -235,7 +231,7 @@ export default function Navbar() {
                       : 'bg-primary/10 text-primary border border-primary/20'
                   )}
                 >
-                  <LayoutDashboard className="w-4 h-4" /> Tableau de bord
+                  <LayoutDashboard className="w-4 h-4" /> {t('nav.dashboard')}
                 </Link>
                 <Link
                   href="/portfolio"
@@ -246,13 +242,13 @@ export default function Navbar() {
                       : 'bg-secondary/10 text-secondary border border-secondary/20'
                   )}
                 >
-                  <Briefcase className="w-4 h-4" /> Mon Portefeuille
+                  <Briefcase className="w-4 h-4" /> {t('nav.portfolio')}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-red-500 border border-red-100 hover:bg-red-50 transition-colors"
                 >
-                  <LogOut className="w-4 h-4" /> Se déconnecter
+                  <LogOut className="w-4 h-4" /> {t('nav.logout')}
                 </button>
               </>
             ) : (
@@ -261,13 +257,13 @@ export default function Navbar() {
                   href="/auth/login"
                   className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-primary border border-surface-200 hover:bg-surface-50 transition-colors"
                 >
-                  Se connecter
+                  {t('nav.login')}
                 </Link>
                 <Link
                   href="/auth/signup"
                   className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-secondary text-white hover:bg-secondary-600 transition-colors"
                 >
-                  S&apos;inscrire gratuitement
+                  {t('nav.registerFree')}
                 </Link>
               </>
             )}

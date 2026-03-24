@@ -1,0 +1,17 @@
+{
+  "generic": "Une erreur est survenue. Veuillez réessayer.",
+  "network": "Connexion indisponible. Vérifiez votre réseau.",
+  "notFound": "Page introuvable.",
+  "unauthorized": "Connexion requise pour accéder à cette page.",
+  "forbidden": "Accès refusé.",
+  "serverError": "Erreur serveur. Veuillez réessayer plus tard.",
+  "calendar": "Impossible de charger les données du calendrier.",
+  "portfolio": "Impossible de charger le portefeuille.",
+  "prices": "Impossible de récupérer les cours.",
+  "empty": {
+    "events": "Aucun événement pour les filtres sélectionnés",
+    "portfolio": "Aucune position dans ce portefeuille",
+    "articles": "Aucun article disponible",
+    "data": "Aucune donnée disponible"
+  }
+}

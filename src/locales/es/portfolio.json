@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "greeting": "Hola, {{name}} 👋",
+    "title": "Panel de Control",
+    "totalInvested": "Total Invertido",
+    "portfolios": "Carteras",
+    "positions": "Posiciones",
+    "monthContrib": "Contrib. este mes",
+    "performance": "Rendimiento",
+    "recentActivity": "Actividad reciente",
+    "noActivity": "Sin actividad reciente"
+  },
+  "portfolio": {
+    "new": "Nueva cartera",
+    "name": "Nombre de la cartera",
+    "namePlaceholder": "ej. Cartera Largo Plazo",
+    "strategy": "Estrategia",
+    "strategies": {
+      "court_terme": "Corto plazo",
+      "long_terme": "Largo plazo",
+      "retraite": "Jubilación",
+      "epargne": "Ahorro",
+      "autre": "Otro"
+    },
+    "create": "Crear",
+    "creating": "Creando...",
+    "errorCreate": "Error al crear la cartera.",
+    "errorGeneric": "Se produjo un error.",
+    "noPortfolios": "Aún no tienes carteras",
+    "noPortfoliosDesc": "Crea tu primera cartera para comenzar a hacer seguimiento de tus inversiones.",
+    "createFirst": "Crear mi primera cartera"
+  },
+  "holdings": {
+    "asset": "Activo",
+    "quantity": "Cant.",
+    "avgPrice": "Px. medio",
+    "currentPrice": "Px. actual",
+    "value": "Valor",
+    "gainLoss": "G/P",
+    "performance": "Rend.",
+    "noHoldings": "Sin posiciones",
+    "addFirst": "Añade tu primer activo"
+  },
+  "addModal": {
+    "title": "Añadir un activo",
+    "ticker": "Símbolo / Ticker",
+    "tickerPlaceholder": "ej. ATW",
+    "quantity": "Cantidad",
+    "purchasePrice": "Precio de compra (MAD)",
+    "currentPrice": "Precio actual (MAD)",
+    "purchaseDate": "Fecha de compra",
+    "portfolio": "Cartera",
+    "add": "Añadir",
+    "adding": "Añadiendo...",
+    "cancel": "Cancelar",
+    "priceLoading": "Obteniendo precio…",
+    "priceUnavailable": "Precio no disponible — introducir manualmente",
+    "manualPrice": "Precio introducido manualmente",
+    "estimatedValue": "Valor total estimado",
+    "success": "Activo añadido con éxito"
+  }
+}

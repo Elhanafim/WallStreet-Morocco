@@ -1,0 +1,28 @@
+{
+  "title": "Mercados",
+  "subtitle": "Precios en tiempo real · Valores · Índices · Forex",
+  "sectors": {
+    "all": "Todos",
+    "banking": "Banca",
+    "telecom": "Telecom",
+    "energy": "Energía",
+    "agro": "Agroalimentario",
+    "insurance": "Seguros",
+    "real_estate": "Inmobiliario",
+    "industry": "Industria",
+    "materials": "Materiales",
+    "services": "Servicios"
+  },
+  "table": {
+    "symbol": "Símbolo",
+    "name": "Empresa",
+    "price": "Precio",
+    "change": "Variación",
+    "volume": "Volumen",
+    "marketCap": "Cap. bursátil",
+    "sector": "Sector"
+  },
+  "loading": "Cargando precios...",
+  "error": "No se pueden cargar los datos del mercado.",
+  "noData": "Datos no disponibles"
+}

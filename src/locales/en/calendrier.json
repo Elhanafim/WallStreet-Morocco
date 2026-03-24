@@ -1,0 +1,41 @@
+{
+  "page": {
+    "badge": "Live economic calendar",
+    "title1": "Events & Key",
+    "title2": "Data",
+    "subtitle": "Real-time data from 6 sources — Finnhub, ForexFactory, Bank Al-Maghrib, HCP Morocco, Médias24, BourseNews."
+  },
+  "sidebar": {
+    "upcomingTitle": "Upcoming key events",
+    "upcomingImpact": "Impact 4+ only",
+    "sourcesTitle": "Data sources",
+    "sources": {
+      "finnhub": "Global macro",
+      "forexfactory": "Forex impact",
+      "bam": "BAM policy",
+      "hcp": "National statistics",
+      "medias24": "Economic news",
+      "boursenews": "Stock market"
+    },
+    "howToReadTitle": "How to read this calendar",
+    "tips": {
+      "critical": "Critical impact (red) = possible high volatility",
+      "bam": "BAM's decision influences Moroccan interest rates",
+      "nfp": "US NFP impacts global markets",
+      "oil": "Oil & gold — impact via OCP and energy imports"
+    }
+  },
+  "kpi": {
+    "total": "Events",
+    "upcoming": "Upcoming",
+    "highImpact": "High impact",
+    "morocco": "Morocco"
+  },
+  "error": "Unable to load calendar data.",
+  "pertinent": "Relevant",
+  "dataGrid": {
+    "previous": "Previous",
+    "forecast": "Forecast",
+    "actual": "Actual"
+  }
+}

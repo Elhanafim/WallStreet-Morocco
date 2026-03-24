@@ -33,3 +33,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# price service generated files
+price_service/bvc_prices.xlsx

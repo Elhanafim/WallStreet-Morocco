@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "greeting": "Bonjour, {{name}} 👋",
+    "title": "Tableau de bord",
+    "totalInvested": "Total Investi",
+    "portfolios": "Portefeuilles",
+    "positions": "Positions",
+    "monthContrib": "Contrib. ce mois",
+    "performance": "Performance",
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité récente"
+  },
+  "portfolio": {
+    "new": "Nouveau portefeuille",
+    "name": "Nom du portefeuille",
+    "namePlaceholder": "ex. Portefeuille Long Terme",
+    "strategy": "Stratégie",
+    "strategies": {
+      "court_terme": "Court terme",
+      "long_terme": "Long terme",
+      "retraite": "Retraite",
+      "epargne": "Épargne",
+      "autre": "Autre"
+    },
+    "create": "Créer",
+    "creating": "Création...",
+    "errorCreate": "Erreur lors de la création.",
+    "errorGeneric": "Une erreur est survenue.",
+    "noPortfolios": "Vous n'avez pas encore de portefeuille",
+    "noPortfoliosDesc": "Créez votre premier portefeuille pour commencer à suivre vos investissements.",
+    "createFirst": "Créer mon premier portefeuille"
+  },
+  "holdings": {
+    "asset": "Actif",
+    "quantity": "Qté",
+    "avgPrice": "Px moy.",
+    "currentPrice": "Px actuel",
+    "value": "Valeur",
+    "gainLoss": "G/P",
+    "performance": "Perf.",
+    "noHoldings": "Aucune position",
+    "addFirst": "Ajoutez votre premier actif"
+  },
+  "addModal": {
+    "title": "Ajouter un actif",
+    "ticker": "Symbole / Ticker",
+    "tickerPlaceholder": "ex. ATW",
+    "quantity": "Quantité",
+    "purchasePrice": "Prix d'achat (MAD)",
+    "currentPrice": "Prix actuel (MAD)",
+    "purchaseDate": "Date d'achat",
+    "portfolio": "Portefeuille",
+    "add": "Ajouter",
+    "adding": "Ajout...",
+    "cancel": "Annuler",
+    "priceLoading": "Récupération du prix…",
+    "priceUnavailable": "Prix indisponible — entrer manuellement",
+    "manualPrice": "Prix entré manuellement",
+    "estimatedValue": "Valeur totale estimée",
+    "success": "Actif ajouté avec succès"
+  }
+}

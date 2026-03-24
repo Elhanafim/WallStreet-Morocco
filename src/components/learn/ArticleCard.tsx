@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { Clock, ArrowRight, Lock } from 'lucide-react';
+import { Clock, ArrowRight } from 'lucide-react';
 import { Article } from '@/types';
-import { Badge, getCategoryBadgeVariant, PremiumBadge } from '@/components/ui/Badge';
+import { Badge, getCategoryBadgeVariant } from '@/components/ui/Badge';
 import { formatDate } from '@/lib/utils';
 
 interface ArticleCardProps {
@@ -25,7 +25,6 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
               <Badge variant={getCategoryBadgeVariant(article.category)} size="sm">
                 {article.category}
               </Badge>
-              {article.premium && <PremiumBadge />}
             </div>
             <h2 className="text-2xl font-black text-white mb-3 group-hover:text-accent transition-colors leading-tight">
               {article.title}
@@ -57,18 +56,13 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
       <Link href={`/learn/${article.slug}`} className="block group">
         <div className="flex items-start gap-4 py-3 border-b border-surface-100 last:border-0 hover:bg-surface-50 -mx-2 px-2 rounded-lg transition-colors">
           <div className="flex-shrink-0 w-12 h-12 bg-primary/5 rounded-xl flex items-center justify-center">
-            {article.premium ? (
-              <Lock className="w-4 h-4 text-accent" />
-            ) : (
-              <span className="text-xs font-black text-primary/30">{article.readTime}m</span>
-            )}
+            <span className="text-xs font-black text-primary/30">{article.readTime}m</span>
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <Badge variant={getCategoryBadgeVariant(article.category)} size="xs">
                 {article.category}
               </Badge>
-              {article.premium && <PremiumBadge size="xs" />}
             </div>
             <h4 className="text-sm font-semibold text-primary group-hover:text-secondary transition-colors line-clamp-2 leading-snug">
               {article.title}
@@ -97,12 +91,6 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
             <Badge variant={getCategoryBadgeVariant(article.category)} dot>
               {article.category}
             </Badge>
-            {article.premium && (
-              <div className="flex items-center gap-1 text-accent text-xs font-semibold">
-                <Lock className="w-3 h-3" />
-                Premium
-              </div>
-            )}
           </div>
 
           {/* Title */}

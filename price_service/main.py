@@ -22,6 +22,20 @@ load_dotenv()
 import casabourse as cb  # noqa: E402  (after dotenv so env is ready)
 from price_cache import PriceCache  # noqa: E402
 from calendar_router import calendar_router, start_background_refresh  # noqa: E402
+from stocksma_fetcher import (  # noqa: E402
+    get_live_price as sm_get_live_price,
+    get_all_prices as sm_get_all_prices,
+    get_stock_fundamentals as sm_get_fundamentals,
+    get_quote_table as sm_get_quote_table,
+    STOCKSMA_AVAILABLE,
+)
+from excel_fallback import (  # noqa: E402
+    refresh_excel_prices,
+    read_excel_price,
+    read_excel_all_prices,
+    get_excel_status,
+    get_excel_path,
+)
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -110,23 +124,74 @@ def _normalize_row(row: dict) -> dict:
 
 
 def _fetch_and_cache_snapshot() -> list[dict]:
-    """Fetch all market data via casabourse and populate the cache."""
-    df = cb.get_market_data()
-    records = df.to_dict(orient="records")
+    """
+    Fetch all market data and populate the cache.
 
+    Fallback chain:
+      Level 0: StocksMA direct (Leboursier.ma) — fastest if reachable
+      Level 1: StocksMA Excel cache — persistent fallback
+      Level 2: casabourse library — reliable primary
+    """
     normalized: dict[str, dict] = {}
-    for row in records:
-        item = _normalize_row(row)
-        ticker = item["ticker"]
-        if ticker:
-            normalized[ticker] = item
+    source_used = "casabourse"
 
-    # Store each ticker individually and the full snapshot
+    # ── Level 0: StocksMA direct ──────────────────────────────────
+    if STOCKSMA_AVAILABLE:
+        try:
+            sm_prices = sm_get_all_prices()
+            if len(sm_prices) >= 10:
+                normalized = sm_prices
+                source_used = "StocksMA"
+                log.info("L0 StocksMA: %d tickers", len(normalized))
+        except Exception as e:
+            log.debug("L0 StocksMA failed: %s", e)
+
+    # ── Level 1: Excel cache (if L0 failed) ───────────────────────
+    if not normalized:
+        try:
+            excel_prices = read_excel_all_prices()
+            if len(excel_prices) >= 10:
+                normalized = excel_prices
+                source_used = "StocksMA-Excel"
+                log.info("L1 Excel cache: %d tickers", len(normalized))
+        except Exception as e:
+            log.debug("L1 Excel fallback failed: %s", e)
+
+    # ── Level 2: casabourse (reliable primary) ────────────────────
+    if not normalized or source_used == "StocksMA-Excel":
+        try:
+            df = cb.get_market_data()
+            records = df.to_dict(orient="records")
+            cb_data: dict[str, dict] = {}
+            for row in records:
+                item = _normalize_row(row)
+                ticker = item["ticker"]
+                if ticker:
+                    item["source"] = "casabourse"
+                    cb_data[ticker] = item
+            if cb_data:
+                # Merge: casabourse wins on price fields, but don't replace L0
+                if not normalized or source_used == "StocksMA-Excel":
+                    normalized = cb_data
+                    source_used = "casabourse"
+                log.info("L2 casabourse: %d tickers", len(cb_data))
+        except Exception as e:
+            log.error("L2 casabourse failed: %s", e)
+            if not normalized:
+                raise  # all levels failed — propagate
+
+    # ── Store in cache ────────────────────────────────────────────
     cache.set_bulk({f"PRICE:{t}": d for t, d in normalized.items()})
     snapshot_list = list(normalized.values())
-    cache.set("SNAPSHOT", {"data": snapshot_list})
+    cache.set("SNAPSHOT", {"data": snapshot_list, "source": source_used})
 
-    log.info("Snapshot refreshed: %d tickers", len(normalized))
+    # ── Write Excel (async-safe background write) ─────────────────
+    try:
+        refresh_excel_prices(normalized)
+    except Exception as e:
+        log.warning("Excel write failed (non-fatal): %s", e)
+
+    log.info("Snapshot refreshed: %d tickers via %s", len(normalized), source_used)
     return snapshot_list
 
 
@@ -308,3 +373,90 @@ def instruments():
         return result
     except Exception as exc:
         raise HTTPException(status_code=503, detail=str(exc))
+
+
+@app.get("/prices/fundamentals/{ticker}")
+def prices_fundamentals(ticker: str):
+    t = ticker.strip().upper()
+
+    cache_key = f"FUNDAMENTALS:{t}"
+    hit = cache.get(cache_key)
+    if hit:
+        return {**hit, "cached": True}
+
+    result: dict = {"ticker": t}
+
+    # Quote table via StocksMA/MarketWatch (works everywhere)
+    qt = sm_get_quote_table(t)
+    if qt:
+        result["quoteTable"] = qt
+
+    # Fundamentals from StocksMA (includes historical if leboursier.ma reachable)
+    fund = sm_get_fundamentals(t)
+    if fund:
+        result.update({k: v for k, v in fund.items() if k not in result})
+
+    # Live price from cache (or fetch if missing)
+    price_hit = cache.get(f"PRICE:{t}")
+    if not price_hit:
+        try:
+            _fetch_and_cache_snapshot()
+            price_hit = cache.get(f"PRICE:{t}")
+        except Exception:
+            pass
+    if price_hit:
+        result["price"] = price_hit
+
+    if len(result) <= 1:
+        raise HTTPException(status_code=404, detail=f"No data found for '{t}'")
+
+    result["timestamp"] = _now_casablanca().isoformat()
+    result["cached"] = False
+    cache.set(cache_key, result)
+    return result
+
+
+@app.get("/prices/movers")
+def prices_movers():
+    """Return top gainers and losers from the current snapshot."""
+    cached = cache.get("SNAPSHOT")
+    data: list[dict] = []
+
+    if cached:
+        data = cached.get("data", [])
+    else:
+        try:
+            data = _fetch_and_cache_snapshot()
+        except Exception as exc:
+            raise HTTPException(status_code=503, detail=str(exc))
+
+    # Sort by changePercent
+    with_pct = [d for d in data if d.get("changePercent") is not None]
+    sorted_asc = sorted(with_pct, key=lambda x: x.get("changePercent", 0))
+    sorted_desc = sorted(with_pct, key=lambda x: x.get("changePercent", 0), reverse=True)
+
+    return {
+        "gainers": sorted_desc[:10],
+        "losers": sorted_asc[:10],
+        "timestamp": _now_casablanca().isoformat(),
+        "total": len(data),
+    }
+
+
+@app.get("/prices/excel/status")
+def excel_status():
+    return get_excel_status()
+
+
+@app.get("/prices/excel/download")
+def excel_download():
+    from fastapi.responses import FileResponse
+
+    path = get_excel_path()
+    if path is None:
+        raise HTTPException(status_code=404, detail="Excel file not yet generated")
+    return FileResponse(
+        path=str(path),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        filename="bvc_prices.xlsx",
+    )

@@ -26,6 +26,34 @@ export interface BVCPrice {
   available: boolean;
 }
 
+export interface BVCFundamentals {
+  ticker: string;
+  name?: string;
+  price?: BVCPrice;
+  quoteTable?: {
+    peRatio?: string;
+    eps?: string;
+    yield?: string;
+    dividend?: string;
+    marketCap?: string;
+    beta?: string;
+    week52Range?: string;
+    avgVolume?: string;
+    sharesOutstanding?: string;
+    [key: string]: string | undefined;
+  };
+  historical?: Array<Record<string, unknown>>;
+  timestamp?: string;
+  cached?: boolean;
+}
+
+export interface BVCMovers {
+  gainers: BVCPrice[];
+  losers: BVCPrice[];
+  timestamp: string;
+  total: number;
+}
+
 export interface MarketStatus {
   open: boolean;
   nextOpen: string;
@@ -144,6 +172,47 @@ export async function fetchSnapshot(): Promise<BVCPrice[]> {
  */
 export async function getMarketStatus(): Promise<MarketStatus | null> {
   return safeFetch<MarketStatus>('/market/status');
+}
+
+/**
+ * Fetch top gainers and losers from the current session.
+ */
+export async function fetchMovers(): Promise<BVCMovers | null> {
+  return safeFetch<BVCMovers>('/prices/movers', 10_000);
+}
+
+/**
+ * Fetch fundamentals (P/E, EPS, market cap, etc.) for a single ticker.
+ */
+export async function fetchFundamentals(ticker: string): Promise<BVCFundamentals | null> {
+  const upper = ticker.toUpperCase();
+  const data = await safeFetch<BVCFundamentals>(`/prices/fundamentals/${upper}`, 10_000);
+  return data;
+}
+
+// ── Source label helpers ──────────────────────────────────────────────────────
+
+const SOURCE_LABELS: Record<string, string> = {
+  'StocksMA': 'Leboursier (StocksMA)',
+  'StocksMA-Excel': 'Leboursier (cache Excel)',
+  'casabourse': 'Bourse de Casablanca',
+};
+
+/**
+ * Returns a human-readable source label for display in the UI.
+ */
+export function formatSourceLabel(source: string): string {
+  return SOURCE_LABELS[source] ?? source;
+}
+
+/**
+ * Returns a dot color class for the source indicator.
+ * Green = live StocksMA, Amber = Excel cache, Blue = casabourse.
+ */
+export function sourceColorClass(source: string): string {
+  if (source === 'StocksMA') return 'bg-emerald-500';
+  if (source === 'StocksMA-Excel') return 'bg-amber-400';
+  return 'bg-blue-400';
 }
 
 /**

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, TrendingUp, Mail, Lock, User, Check, ArrowRight, Zap, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const passwordStrength = (password: string) => {
   let score = 0;
@@ -15,11 +16,11 @@ const passwordStrength = (password: string) => {
   return score;
 };
 
-const strengthLabels = ['', 'Faible', 'Passable', 'Bien', 'Excellent'];
 const strengthColors = ['', 'bg-danger', 'bg-warning', 'bg-secondary', 'bg-success'];
 
 export default function SignupPage() {
   const router = useRouter();
+  const { t } = useTranslation('common');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,14 +38,16 @@ export default function SignupPage() {
 
   const strength = passwordStrength(formData.password);
 
+  const strengthLabels = ['', t('auth.strength.weak'), t('auth.strength.fair'), t('auth.strength.good'), t('auth.strength.strong')];
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
-    if (!formData.firstName.trim()) newErrors.firstName = 'Prénom requis';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Nom requis';
-    if (!formData.email.includes('@')) newErrors.email = 'Email invalide';
-    if (formData.password.length < 8) newErrors.password = 'Minimum 8 caractères';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Les mots de passe ne correspondent pas';
-    if (!formData.acceptTerms) newErrors.acceptTerms = 'Vous devez accepter les conditions';
+    if (!formData.firstName.trim()) newErrors.firstName = t('errors.firstNameRequired');
+    if (!formData.lastName.trim()) newErrors.lastName = t('errors.lastNameRequired');
+    if (!formData.email.includes('@')) newErrors.email = t('errors.emailInvalid');
+    if (formData.password.length < 8) newErrors.password = t('errors.passwordMin');
+    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = t('errors.passwordMismatch');
+    if (!formData.acceptTerms) newErrors.acceptTerms = t('errors.termsRequired');
     return newErrors;
   };
 
@@ -73,12 +76,11 @@ export default function SignupPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setApiError(data.error || 'Une erreur est survenue');
+        setApiError(data.error || t('errors.generic'));
         setIsLoading(false);
         return;
       }
 
-      // Auto sign-in after registration
       const signInResult = await signIn('credentials', {
         email: formData.email,
         password: formData.password,
@@ -91,8 +93,8 @@ export default function SignupPage() {
         router.push('/dashboard');
         router.refresh();
       }
-    } catch (err) {
-      setApiError('Une erreur réseau est survenue. Veuillez réessayer.');
+    } catch {
+      setApiError(t('errors.network'));
       setIsLoading(false);
     }
   };
@@ -136,10 +138,10 @@ export default function SignupPage() {
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="mb-6">
             <h1 className="text-2xl font-black text-primary mb-2">
-              Créer un compte gratuit
+              {t('auth.registerTitle')}
             </h1>
             <p className="text-primary/60 text-sm">
-              Rejoignez 12 400+ investisseurs marocains. Accès immédiat, sans carte bancaire.
+              {t('auth.registerSubtitle')}
             </p>
           </div>
 
@@ -147,10 +149,10 @@ export default function SignupPage() {
           <div className="bg-secondary/5 rounded-xl p-4 mb-6">
             <div className="grid grid-cols-2 gap-2">
               {[
-                'Accès aux articles de base',
-                'Simulateur de portefeuille',
-                'Calendrier économique',
-                'Newsletter hebdomadaire',
+                t('auth.benefits.articles'),
+                t('auth.benefits.simulator'),
+                t('auth.benefits.calendar'),
+                t('auth.benefits.newsletter'),
               ].map((benefit) => (
                 <div key={benefit} className="flex items-start gap-1.5">
                   <Check className="w-3.5 h-3.5 text-success mt-0.5 flex-shrink-0" />
@@ -171,7 +173,7 @@ export default function SignupPage() {
             {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-primary mb-1.5">Prénom</label>
+                <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.firstName')}</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                   <input
@@ -187,7 +189,7 @@ export default function SignupPage() {
                 {errors.firstName && <p className="text-danger text-xs mt-1">{errors.firstName}</p>}
               </div>
               <div>
-                <label className="block text-xs font-semibold text-primary mb-1.5">Nom</label>
+                <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.lastName')}</label>
                 <input
                   type="text"
                   value={formData.lastName}
@@ -203,14 +205,14 @@ export default function SignupPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">Adresse email</label>
+              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.email')}</label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => update('email', e.target.value)}
-                  placeholder="votre@email.com"
+                  placeholder={t('footer.emailPlaceholder')}
                   className={`w-full pl-10 pr-4 py-3 rounded-xl border text-primary text-sm placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary transition-all ${
                     errors.email ? 'border-danger bg-danger/5' : 'border-surface-200'
                   }`}
@@ -221,7 +223,7 @@ export default function SignupPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">Mot de passe</label>
+              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.password')}</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
@@ -254,7 +256,7 @@ export default function SignupPage() {
                     ))}
                   </div>
                   <p className={`text-xs ${strengthColors[strength].replace('bg-', 'text-')}`}>
-                    Force : {strengthLabels[strength]}
+                    {t('auth.passwordStrength')} : {strengthLabels[strength]}
                   </p>
                 </div>
               )}
@@ -263,7 +265,7 @@ export default function SignupPage() {
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">Confirmer le mot de passe</label>
+              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.confirmPassword')}</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
@@ -300,10 +302,10 @@ export default function SignupPage() {
                   className="w-4 h-4 mt-0.5 rounded border-surface-300 text-secondary focus:ring-secondary"
                 />
                 <label htmlFor="terms" className="text-xs text-primary/70 leading-relaxed">
-                  J&apos;accepte les{' '}
-                  <Link href="#" className="text-secondary hover:underline">Conditions d&apos;utilisation</Link>
-                  {' '}et la{' '}
-                  <Link href="#" className="text-secondary hover:underline">Politique de confidentialité</Link>
+                  {t('auth.acceptTerms')}{' '}
+                  <Link href="#" className="text-secondary hover:underline">{t('auth.termsOfUse')}</Link>
+                  {' '}{t('auth.and')}{' '}
+                  <Link href="#" className="text-secondary hover:underline">{t('auth.privacyPolicy')}</Link>
                 </label>
               </div>
               {errors.acceptTerms && <p className="text-danger text-xs">{errors.acceptTerms}</p>}
@@ -317,7 +319,7 @@ export default function SignupPage() {
                   className="w-4 h-4 mt-0.5 rounded border-surface-300 text-secondary focus:ring-secondary"
                 />
                 <label htmlFor="newsletter" className="text-xs text-primary/70">
-                  Recevoir la newsletter hebdomadaire (analyses marchés, conseils)
+                  {t('auth.newsletterConsent')}
                 </label>
               </div>
             </div>
@@ -334,11 +336,11 @@ export default function SignupPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Création du compte...
+                  {t('auth.creatingAccount')}
                 </>
               ) : (
                 <>
-                  Créer mon compte gratuit
+                  {t('nav.registerFree')}
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -347,9 +349,9 @@ export default function SignupPage() {
 
           {/* Login Link */}
           <p className="text-center text-sm text-primary/60 mt-5">
-            Déjà un compte ?{' '}
+            {t('auth.hasAccount')}{' '}
             <Link href="/auth/login" className="text-secondary font-semibold hover:text-secondary-600 transition-colors">
-              Se connecter
+              {t('nav.login')}
             </Link>
           </p>
 
@@ -357,14 +359,13 @@ export default function SignupPage() {
           <div className="mt-5 bg-accent/5 border border-accent/20 rounded-xl p-3 flex items-center gap-2">
             <Zap className="w-4 h-4 text-accent flex-shrink-0" />
             <p className="text-xs text-primary/70">
-              <strong>Passez Premium</strong> après l&apos;inscription pour accéder aux analyses exclusives.
-              7 jours gratuits.
+              {t('auth.premiumHint')}
             </p>
           </div>
         </div>
 
         <p className="text-center text-white/40 text-xs mt-6">
-          Vos données sont protégées et ne sont jamais revendues
+          {t('auth.dataProtected')}
         </p>
       </div>
     </div>

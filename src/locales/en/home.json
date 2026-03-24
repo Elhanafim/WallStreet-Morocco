@@ -1,0 +1,66 @@
+{
+  "hero": {
+    "badge": "Casablanca Stock Exchange · Live",
+    "headline1": "Invest",
+    "headline2": "intelligently",
+    "headline3": "in Morocco",
+    "subtitle": "Real-time data. Smart tools. Better decisions. The all-in-one platform to master the Casablanca Stock Exchange.",
+    "cta1": "Start for free",
+    "cta2": "Explore markets",
+    "trust1": "No card required",
+    "trust2": "Instant free access",
+    "trust3": "Cancel anytime",
+    "chartLabel": "Reference index · Real time",
+    "chartTitle": "MASI — Casablanca Stock Exchange",
+    "chartLive": "Live",
+    "chartUnavailable": "Live data temporarily unavailable"
+  },
+  "markets": {
+    "badge": "Live data",
+    "title": "Moroccan & Global Markets",
+    "subtitle": "Real-time prices · Casablanca Stock Exchange · Global indices",
+    "cta": "View all markets",
+    "source": "Data provided by TradingView · Auto-refresh"
+  },
+  "forex": {
+    "title": "Exchange Rates — Moroccan Dirham (MAD)",
+    "subtitle": "Indicative interbank rates · Auto-refresh",
+    "disclaimer": "The Moroccan dirham (MAD) is a non-convertible currency. Rates shown are indicative (international interbank market). For official rates, consult",
+    "bamLink": "Bank Al-Maghrib"
+  },
+  "articles": {
+    "title": "Latest analyses",
+    "subtitle": "Guides, strategies and analyses by our experts",
+    "cta": "All articles"
+  },
+  "opcvm": {
+    "title": "Featured OPCVM",
+    "subtitle": "The best Moroccan investment funds",
+    "cta": "All OPCVM",
+    "headers": {
+      "fund": "Fund",
+      "bank": "Bank",
+      "type": "Type",
+      "perf1y": "1-yr Perf.",
+      "risk": "Risk"
+    }
+  },
+  "premium": {
+    "badge": "Premium — From €9/month",
+    "title1": "Take it to the next",
+    "title2": "level",
+    "subtitle": "Access in-depth analyses, market alerts, buy/sell recommendations and the advanced simulator.",
+    "cta1": "View Premium plans",
+    "cta2": "Create a free account",
+    "features": {
+      "analyses": "Exclusive analyses",
+      "analysesDesc": "50+ analyses per month",
+      "data": "Advanced data",
+      "dataDesc": "Full 10-year history",
+      "alerts": "Market alerts",
+      "alertsDesc": "Real-time notifications",
+      "courses": "Full courses",
+      "coursesDesc": "Video training included"
+    }
+  }
+}

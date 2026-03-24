@@ -29,7 +29,7 @@ export default function LearnPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const featuredArticle = articles.find((a) => !a.premium);
+  const featuredArticle = articles[0];
 
   return (
     <div className="pt-16 min-h-screen bg-white">
@@ -122,30 +122,6 @@ export default function LearnPage() {
           </div>
         )}
 
-        {/* Premium Teaser */}
-        <div className="mt-16 bg-gradient-hero rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
-          <div className="absolute inset-0">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl" />
-          </div>
-          <div className="relative">
-            <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-accent text-sm font-semibold">✦ Contenu Premium</span>
-            </div>
-            <h3 className="text-3xl font-black text-white mb-3">
-              50+ analyses exclusives disponibles
-            </h3>
-            <p className="text-white/70 mb-6 max-w-xl mx-auto">
-              Analyses fondamentales approfondies, stratégies avancées, alertes marchés
-              et bien plus encore avec WallStreet Morocco Premium.
-            </p>
-            <a
-              href="/premium"
-              className="inline-flex items-center gap-2 bg-accent text-primary font-bold px-8 py-4 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-lg"
-            >
-              Découvrir Premium
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

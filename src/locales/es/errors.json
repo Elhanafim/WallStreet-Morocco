@@ -1,0 +1,17 @@
+{
+  "generic": "Se produjo un error. Por favor, inténtalo de nuevo.",
+  "network": "Conexión no disponible. Comprueba tu red.",
+  "notFound": "Página no encontrada.",
+  "unauthorized": "Inicio de sesión requerido para acceder a esta página.",
+  "forbidden": "Acceso denegado.",
+  "serverError": "Error del servidor. Por favor, inténtalo más tarde.",
+  "calendar": "No se pueden cargar los datos del calendario.",
+  "portfolio": "No se puede cargar la cartera.",
+  "prices": "No se pueden obtener los precios.",
+  "empty": {
+    "events": "Ningún evento coincide con los filtros seleccionados",
+    "portfolio": "Sin posiciones en esta cartera",
+    "articles": "No hay artículos disponibles",
+    "data": "Datos no disponibles"
+  }
+}

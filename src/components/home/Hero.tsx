@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Shield, BarChart2, BookOpen, TrendingUp } from 'lucide-react';
+import { ArrowRight, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import dynamic from 'next/dynamic';
+import MoroccoNewsFeed from './MoroccoNewsFeed';
+import { useTranslation } from 'react-i18next';
 
 // Load TradingView chart client-side only — no SSR
 const TradingViewChart = dynamic(() => import('@/components/market/TradingViewChart'), {
@@ -11,19 +13,14 @@ const TradingViewChart = dynamic(() => import('@/components/market/TradingViewCh
   loading: () => (
     <div className="w-full h-full flex flex-col items-center justify-center gap-3">
       <div className="w-8 h-8 border-2 border-accent/40 border-t-accent rounded-full animate-spin" />
-      <p className="text-white/40 text-xs">Chargement du graphique live...</p>
+      <p className="text-white/40 text-xs">{/* loading */}</p>
     </div>
   ),
 });
 
-const stats = [
-  { label: 'Investisseurs actifs', value: '12 400+', icon: TrendingUp },
-  { label: 'Articles publiés',     value: '250+',    icon: BookOpen    },
-  { label: 'OPCVM suivis',         value: '180+',    icon: BarChart2   },
-  { label: 'Données sécurisées',   value: '100%',    icon: Shield      },
-];
-
 export default function Hero() {
+  const { t } = useTranslation('home');
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-hero pt-16">
       {/* Background */}
@@ -49,32 +46,31 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/30 rounded-full px-4 py-1.5 mb-6">
               <span className="w-2 h-2 bg-success rounded-full animate-pulse" />
               <span className="text-secondary text-sm font-medium">
-                Bourse de Casablanca · Live
+                {t('hero.badge')}
               </span>
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-tight mb-4">
-              Investissez{' '}
-              <span className="gradient-text-gold">intelligemment</span>
+              {t('hero.headline1')}{' '}
+              <span className="gradient-text-gold">{t('hero.headline2')}</span>
               <br />
-              au Maroc
+              {t('hero.headline3')}
             </h1>
 
             <p className="text-white/70 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
-              Données en temps réel. Outils intelligents. Meilleures décisions.
-              La plateforme tout-en-un pour maîtriser la Bourse de Casablanca.
+              {t('hero.subtitle')}
             </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <Link href="/auth/signup">
                 <Button size="lg" variant="primary" iconPosition="right" icon={<ArrowRight className="w-5 h-5" />}>
-                  Commencer gratuitement
+                  {t('hero.cta1')}
                 </Button>
               </Link>
               <Link href="/market">
                 <Button size="lg" variant="gold">
-                  Explorer les marchés
+                  {t('hero.cta2')}
                 </Button>
               </Link>
             </div>
@@ -83,12 +79,12 @@ export default function Hero() {
             <div className="mt-8 flex flex-wrap items-center gap-4 justify-center lg:justify-start text-white/50 text-sm">
               <span className="flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-success" />
-                Aucune carte requise
+                {t('hero.trust1')}
               </span>
               <span className="w-1 h-1 bg-white/30 rounded-full hidden sm:block" />
-              <span>Accès gratuit immédiat</span>
+              <span>{t('hero.trust2')}</span>
               <span className="w-1 h-1 bg-white/30 rounded-full hidden sm:block" />
-              <span>Annulable à tout moment</span>
+              <span>{t('hero.trust3')}</span>
             </div>
           </div>
 
@@ -97,12 +93,12 @@ export default function Hero() {
             {/* Chart header */}
             <div className="flex items-center justify-between px-1">
               <div>
-                <p className="text-white/50 text-xs uppercase tracking-widest">Indice de référence · Temps réel</p>
-                <p className="text-white font-bold text-lg">MASI — Bourse de Casablanca</p>
+                <p className="text-white/50 text-xs uppercase tracking-widest">{t('hero.chartLabel')}</p>
+                <p className="text-white font-bold text-lg">{t('hero.chartTitle')}</p>
               </div>
               <div className="flex items-center gap-2 bg-success/20 border border-success/30 rounded-full px-3 py-1">
                 <span className="w-1.5 h-1.5 bg-success rounded-full animate-pulse" />
-                <span className="text-success text-xs font-semibold">Live</span>
+                <span className="text-success text-xs font-semibold">{t('hero.chartLive')}</span>
               </div>
             </div>
 
@@ -119,7 +115,7 @@ export default function Hero() {
 
               {/* Fallback overlay if widget area is empty */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-empty:opacity-100">
-                <p className="text-white/30 text-sm">Données live temporairement indisponibles</p>
+                <p className="text-white/30 text-sm">{t('hero.chartUnavailable')}</p>
               </div>
             </div>
 
@@ -140,19 +136,8 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── Stats Row ───────────────────────────────────────────────── */}
-        <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center hover:bg-white/10 transition-colors duration-200"
-            >
-              <stat.icon className="w-6 h-6 text-accent mx-auto mb-2" />
-              <p className="text-white font-black text-2xl lg:text-3xl mb-1">{stat.value}</p>
-              <p className="text-white/50 text-xs">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+        {/* ── Morocco Economic News Feed ───────────────────────────────── */}
+        <MoroccoNewsFeed />
       </div>
 
       {/* Scroll indicator */}
@@ -160,7 +145,6 @@ export default function Hero() {
         <div className="w-5 h-8 rounded-full border-2 border-white/30 flex items-start justify-center pt-1.5">
           <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
         </div>
-        <span className="text-white/30 text-xs">Défiler</span>
       </div>
     </section>
   );

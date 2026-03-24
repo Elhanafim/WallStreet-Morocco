@@ -1,0 +1,62 @@
+{
+  "dashboard": {
+    "greeting": "Hello, {{name}} 👋",
+    "title": "Dashboard",
+    "totalInvested": "Total Invested",
+    "portfolios": "Portfolios",
+    "positions": "Positions",
+    "monthContrib": "This month",
+    "performance": "Performance",
+    "recentActivity": "Recent activity",
+    "noActivity": "No recent activity"
+  },
+  "portfolio": {
+    "new": "New portfolio",
+    "name": "Portfolio name",
+    "namePlaceholder": "e.g. Long-Term Portfolio",
+    "strategy": "Strategy",
+    "strategies": {
+      "court_terme": "Short term",
+      "long_terme": "Long term",
+      "retraite": "Retirement",
+      "epargne": "Savings",
+      "autre": "Other"
+    },
+    "create": "Create",
+    "creating": "Creating...",
+    "errorCreate": "Error creating portfolio.",
+    "errorGeneric": "An error occurred.",
+    "noPortfolios": "You have no portfolios yet",
+    "noPortfoliosDesc": "Create your first portfolio to start tracking your investments.",
+    "createFirst": "Create my first portfolio"
+  },
+  "holdings": {
+    "asset": "Asset",
+    "quantity": "Qty",
+    "avgPrice": "Avg. price",
+    "currentPrice": "Current price",
+    "value": "Value",
+    "gainLoss": "G/L",
+    "performance": "Perf.",
+    "noHoldings": "No positions",
+    "addFirst": "Add your first asset"
+  },
+  "addModal": {
+    "title": "Add an asset",
+    "ticker": "Symbol / Ticker",
+    "tickerPlaceholder": "e.g. ATW",
+    "quantity": "Quantity",
+    "purchasePrice": "Purchase price (MAD)",
+    "currentPrice": "Current price (MAD)",
+    "purchaseDate": "Purchase date",
+    "portfolio": "Portfolio",
+    "add": "Add",
+    "adding": "Adding...",
+    "cancel": "Cancel",
+    "priceLoading": "Fetching price…",
+    "priceUnavailable": "Price unavailable — enter manually",
+    "manualPrice": "Manually entered price",
+    "estimatedValue": "Estimated total value",
+    "success": "Asset added successfully"
+  }
+}

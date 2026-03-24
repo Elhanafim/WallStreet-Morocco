@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Clock, Calendar, Share2, Twitter, Linkedin, Lock, BookOpen } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Share2, Twitter, Linkedin, BookOpen } from 'lucide-react';
 import { getArticleBySlug, getRelatedArticles, articles } from '@/lib/data/articles';
-import { Badge, getCategoryBadgeVariant, PremiumBadge } from '@/components/ui/Badge';
+import { Badge, getCategoryBadgeVariant } from '@/components/ui/Badge';
 import ArticleCard from '@/components/learn/ArticleCard';
-import LockedContent from '@/components/premium/LockedContent';
 import { formatDate } from '@/lib/utils';
 
 interface PageProps {
@@ -112,12 +111,6 @@ export default function ArticlePage({ params }: PageProps) {
   }
 
   const relatedArticles = getRelatedArticles(params.slug, 3);
-  const isLocked = article.premium;
-
-  // Split content for locked articles
-  const contentLines = article.content.trim().split('\n');
-  const previewLines = contentLines.slice(0, Math.floor(contentLines.length * 0.4));
-  const previewContent = previewLines.join('\n');
 
   return (
     <div className="pt-16 min-h-screen bg-white">
@@ -136,7 +129,6 @@ export default function ArticlePage({ params }: PageProps) {
             <Badge variant={getCategoryBadgeVariant(article.category)}>
               {article.category}
             </Badge>
-            {isLocked && <PremiumBadge />}
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
@@ -171,23 +163,7 @@ export default function ArticlePage({ params }: PageProps) {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {isLocked ? (
-              <div>
-                <ArticleContent content={previewContent} />
-                <LockedContent
-                  variant="article"
-                  title="La suite est réservée aux membres Premium"
-                  description="Abonnez-vous à WallStreet Morocco Premium pour accéder à l'analyse complète, aux recommandations et aux niveaux d'achat/vente."
-                  previewContent={
-                    <div className="mt-6">
-                      <p className="text-primary/60 text-sm">Suite de l&apos;analyse...</p>
-                    </div>
-                  }
-                />
-              </div>
-            ) : (
-              <ArticleContent content={article.content} />
-            )}
+            <ArticleContent content={article.content} />
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
@@ -279,8 +255,8 @@ export default function ArticlePage({ params }: PageProps) {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-primary/50">Accès</span>
-                  <span className={`font-semibold text-xs px-2 py-0.5 rounded-full ${article.premium ? 'bg-accent/10 text-accent' : 'bg-success/10 text-success'}`}>
-                    {article.premium ? 'Premium' : 'Gratuit'}
+                  <span className="font-semibold text-xs px-2 py-0.5 rounded-full bg-success/10 text-success">
+                    Gratuit
                   </span>
                 </div>
               </div>
@@ -301,22 +277,6 @@ export default function ArticlePage({ params }: PageProps) {
               </div>
             )}
 
-            {/* Premium CTA in sidebar */}
-            {!isLocked && (
-              <div className="bg-gradient-card rounded-2xl p-6 text-white">
-                <Lock className="w-6 h-6 text-accent mb-3" />
-                <h3 className="font-bold text-white mb-2">Analyses Premium</h3>
-                <p className="text-white/60 text-xs mb-4 leading-relaxed">
-                  Accédez à 50+ analyses exclusives, recommandations et alertes
-                </p>
-                <Link
-                  href="/premium"
-                  className="block text-center bg-accent text-primary font-bold text-sm py-2.5 rounded-xl hover:bg-accent-600 transition-colors"
-                >
-                  Passer Premium
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </div>

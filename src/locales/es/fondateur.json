@@ -1,0 +1,85 @@
+{
+  "hero": {
+    "badge": "Fundador · Inversor · BVC",
+    "subtitle": "Estudiante de finanzas, inversor activo en la Bolsa de Casablanca desde noviembre de 2024. Lancé WallStreet Morocco para democratizar la inversión en Marruecos y demostrar que se puede construir un patrimonio real desde 100$/mes.",
+    "achievementBadge": "cartera BVC · 17 meses · DCA 100$/mes",
+    "activeSince": "🇲🇦 Activo desde Nov 2024",
+    "returns": "+51% en 17 meses",
+    "founderTitle": "Fundador · WallStreet Morocco"
+  },
+  "quote": {
+    "text": "Invertir no es un privilegio reservado a los ricos. Con 100$ al mes y una selección rigurosa de valores, cualquier marroquí puede construir un patrimonio duradero.",
+    "author": "— El Hanafi Mohammed, Fundador de WallStreet Morocco"
+  },
+  "timeline": {
+    "badge": "Trayectoria",
+    "title": "De la curiosidad a la experiencia",
+    "subtitle": "Académico · Profesional · Emprendedor",
+    "items": {
+      "2022": {
+        "title": "Descubrimiento de los mercados financieros",
+        "desc": "Primer contacto con la Bolsa de Casablanca y los mercados internacionales. Inicio de un aprendizaje intensivo: análisis fundamental, gestión de carteras, economía marroquí."
+      },
+      "2023": {
+        "title": "Formación académica en finanzas",
+        "desc": "Estudios especializados en mercados de capitales con enfoque en valores marroquíes — banca, telecomunicaciones, agroalimentario. Construcción de un marco de análisis riguroso."
+      },
+      "2024": {
+        "title": "Paso a la acción — DCA real",
+        "desc": "Noviembre 2024: primera inversión de $100 en la BVC. Inicio de un seguimiento mensual riguroso y transparente. Selección dirigida a los valores más prometedores de la cotización."
+      },
+      "2025": {
+        "title": "Creación de WallStreet Morocco",
+        "desc": "Lanzamiento de la plataforma con una misión clara: democratizar la inversión en Marruecos. Herramientas de simulación, educación financiera, datos OPCVM oficiales, transparencia total."
+      },
+      "2026": {
+        "title": "+51% — Los resultados hablan",
+        "desc": "Marzo 2026: $1.700 invertidos → $2.628. +54,6% de rendimiento en 17 meses gracias a una selección rigurosa y un posicionamiento perfecto en el rally de la BVC. El método está probado."
+      }
+    }
+  },
+  "vision": {
+    "badge": "Visión",
+    "title": "¿Por qué WallStreet Morocco?",
+    "subtitle": "La Bolsa de Casablanca sigue siendo infrautilizada por los inversores particulares marroquíes. Esta plataforma existe para cambiar eso.",
+    "pillars": {
+      "simplify": {
+        "title": "Simplificar la inversión en Marruecos",
+        "body": "La BVC sigue siendo poco utilizada por los particulares. Nuestra plataforma elimina las barreras de entrada: datos claros, herramientas accesibles, recorrido pedagógico estructurado."
+      },
+      "method": {
+        "title": "Invertir con método, no con suerte",
+        "body": "Una selección rigurosa de valores, disciplina DCA, comprensión del ciclo de mercado. Estos son los elementos que produjeron +51% — no la suerte."
+      },
+      "proof": {
+        "title": "Demostrar con el ejemplo",
+        "body": "Cada mes, los datos se actualizan. La cartera se documenta en tiempo real. La transparencia es nuestro diferenciador."
+      }
+    }
+  },
+  "values": {
+    "education": {
+      "title": "Educación Financiera",
+      "desc": "Hacer el conocimiento financiero accesible a todos los marroquíes, independientemente de su nivel de partida."
+    },
+    "longTerm": {
+      "title": "Inversión a Largo Plazo",
+      "desc": "Promover una cultura de inversión paciente y disciplinada, acorde con las realidades del mercado marroquí."
+    },
+    "transparency": {
+      "title": "Transparencia Total",
+      "desc": "Compartir mi propio camino como inversor — ganancias y desafíos — sin filtros ni escenificación."
+    },
+    "community": {
+      "title": "Comunidad Activa",
+      "desc": "Construir una comunidad de inversores marroquíes que aprendan y crezcan juntos."
+    }
+  },
+  "cta": {
+    "badge": "Accesible a todos · Desde 100$/mes",
+    "title": "Empieza tu propio camino",
+    "subtitle": "Simula lo que 100$/mes puede rendirte en la Bolsa de Casablanca. Las herramientas son gratuitas. El método está probado.",
+    "button1": "Crear mi cuenta",
+    "button2": "Simular mi cartera"
+  }
+}
