@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Info, Search, ArrowUpDown, ArrowUp, ArrowDown, ChevronDown, ChevronUp } from 'lucide-react';
+import { useState, useMemo, useCallback } from 'react';
+import { Info, Search, ArrowUpDown, ArrowUp, ArrowDown, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { opcvmFunds, banks, getFundsByBank } from '@/lib/data/opcvm';
 import { OPCVMFund } from '@/types';
 import { formatCurrency, formatPercent, getRiskColor } from '@/lib/utils';
+import AddToPortfolioModal, { type ModalAsset } from '@/components/AddToPortfolioModal';
 
 type FundType  = 'Tous' | OPCVMFund['type'];
 type SortKey   = 'name' | 'performanceYTD' | 'performance1Y' | 'performance3Y' | 'risk' | 'nav';
@@ -126,7 +128,7 @@ function SortTh({
 
 // ── Fund table ───────────────────────────────────────────────────────────────
 
-function FundTable({ funds }: { funds: OPCVMFund[] }) {
+function FundTable({ funds, onAddClick }: { funds: OPCVMFund[]; onAddClick: (f: OPCVMFund) => void }) {
   const [sortKey, setSortKey] = useState<SortKey>('performance1Y');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
 
@@ -149,7 +151,7 @@ function FundTable({ funds }: { funds: OPCVMFund[] }) {
 
   return (
     <div className="overflow-x-auto rounded-2xl border border-surface-200 shadow-card bg-white">
-      <table className="w-full min-w-[750px]">
+      <table className="w-full min-w-[800px]">
         <thead className="bg-surface-50 border-b border-surface-200">
           <tr>
             <SortTh label="Fonds" sortKey="name" {...shProps} align="left" />
@@ -161,6 +163,7 @@ function FundTable({ funds }: { funds: OPCVMFund[] }) {
             <SortTh label="Risque" sortKey="risk"            {...shProps} />
             <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-primary/50">VL (MAD)</th>
             <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-primary/50">Min.</th>
+            <th className="px-4 py-3" />
           </tr>
         </thead>
         <tbody className="divide-y divide-surface-100">
@@ -186,6 +189,15 @@ function FundTable({ funds }: { funds: OPCVMFund[] }) {
               <td className="px-4 py-3.5 text-right text-xs text-primary/50">
                 {formatCurrency(fund.minInvestment)}
               </td>
+              <td className="px-4 py-3.5 text-right">
+                <button
+                  onClick={() => onAddClick(fund)}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all opacity-0 group-hover:opacity-100 whitespace-nowrap"
+                >
+                  <Plus className="w-3 h-3" />
+                  Ajouter
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -196,9 +208,9 @@ function FundTable({ funds }: { funds: OPCVMFund[] }) {
 
 // ── Fund card ────────────────────────────────────────────────────────────────
 
-function FundCard({ fund }: { fund: OPCVMFund }) {
+function FundCard({ fund, onAddClick }: { fund: OPCVMFund; onAddClick: (f: OPCVMFund) => void }) {
   return (
-    <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200">
+    <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
       {/* Name + 1Y perf */}
       <div className="flex items-start justify-between mb-3 gap-2">
         <div className="min-w-0">
@@ -232,7 +244,7 @@ function FundCard({ fund }: { fund: OPCVMFund }) {
       </div>
 
       {/* Risk + VL */}
-      <div className="flex items-center justify-between pt-3 border-t border-surface-100">
+      <div className="flex items-center justify-between pt-3 border-t border-surface-100 mb-3">
         <RiskDots risk={fund.risk} />
         {fund.nav && (
           <div className="text-right">
@@ -241,6 +253,15 @@ function FundCard({ fund }: { fund: OPCVMFund }) {
           </div>
         )}
       </div>
+
+      {/* Add button */}
+      <button
+        onClick={() => onAddClick(fund)}
+        className="mt-auto w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-200"
+      >
+        <Plus className="w-3.5 h-3.5" />
+        Ajouter au portefeuille
+      </button>
     </div>
   );
 }
@@ -254,7 +275,7 @@ const BANK_ACCENT: Record<string, string> = {
   CIH:  'border-l-[#E63946]',
 };
 
-function BankSection({ bankCode }: { bankCode: string }) {
+function BankSection({ bankCode, onAddClick }: { bankCode: string; onAddClick: (f: OPCVMFund) => void }) {
   const [open, setOpen] = useState(true);
   const bank  = banks.find((b) => b.code === bankCode)!;
   const funds = getFundsByBank(bankCode);
@@ -288,7 +309,7 @@ function BankSection({ bankCode }: { bankCode: string }) {
       {open && (
         <div className="px-6 pb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {funds.map((fund) => <FundCard key={fund.id} fund={fund} />)}
+            {funds.map((fund) => <FundCard key={fund.id} fund={fund} onAddClick={onAddClick} />)}
           </div>
         </div>
       )}
@@ -299,9 +320,27 @@ function BankSection({ bankCode }: { bankCode: string }) {
 // ── Main export ──────────────────────────────────────────────────────────────
 
 export default function OpcvmFundList() {
+  const { status: authStatus } = useSession();
   const [activeType,   setActiveType]   = useState<FundType>('Tous');
   const [searchQuery,  setSearchQuery]  = useState('');
   const [view,         setView]         = useState<'banks' | 'table'>('banks');
+
+  // ── Modal state ──
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalAsset, setModalAsset] = useState<ModalAsset | null>(null);
+
+  const handleAddClick = useCallback((fund: OPCVMFund) => {
+    if (authStatus !== 'authenticated') {
+      // Open modal anyway — it will show the login prompt
+    }
+    setModalAsset({
+      ticker: fund.id,
+      name: fund.name,
+      type: 'opcvm',
+      nav: fund.nav,
+    });
+    setModalOpen(true);
+  }, [authStatus]);
 
   const filtered = useMemo(() => opcvmFunds.filter((f) => {
     const matchesType   = activeType === 'Tous' || f.type === activeType;
@@ -382,7 +421,7 @@ export default function OpcvmFundList() {
             {activeType !== 'Tous' && <span className="text-secondary"> · {activeType}</span>}
             {searchQuery && <span> · «{searchQuery}»</span>}
           </p>
-          <FundTable funds={filtered} />
+          <FundTable funds={filtered} onAddClick={handleAddClick} />
         </>
       )}
 
@@ -390,9 +429,18 @@ export default function OpcvmFundList() {
       {!showTable && (
         <div className="space-y-4">
           {banks.map((bank) => (
-            <BankSection key={bank.code} bankCode={bank.code} />
+            <BankSection key={bank.code} bankCode={bank.code} onAddClick={handleAddClick} />
           ))}
         </div>
+      )}
+
+      {/* ── Add to portfolio modal ── */}
+      {modalAsset && (
+        <AddToPortfolioModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          asset={modalAsset}
+        />
       )}
     </>
   );

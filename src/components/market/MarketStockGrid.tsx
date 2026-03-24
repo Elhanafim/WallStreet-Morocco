@@ -1,8 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState, memo } from 'react';
+import { useCallback, useEffect, useRef, useState, memo } from 'react';
 import dynamic from 'next/dynamic';
+import { useSession } from 'next-auth/react';
+import { Plus } from 'lucide-react';
 import { SECTORS } from '@/lib/data/marketSectors';
+import { fetchSnapshot } from '@/lib/bvcPriceService';
+import AddToPortfolioModal, { type ModalAsset } from '@/components/AddToPortfolioModal';
 
 const AssetWidget = dynamic(() => import('./AssetWidget'), { ssr: false });
 
@@ -16,12 +20,10 @@ interface Asset {
 
 // ─── Market open/closed ───────────────────────────────────────────────────────
 
-/** Bourse de Casablanca: Mon–Fri 09:30–15:30 GMT+1 (Europe/Paris in winter, Africa/Casablanca year-round) */
 function isMarketOpen(): boolean {
   const now = new Date();
-  const day = now.getUTCDay(); // 0=Sun, 6=Sat
+  const day = now.getUTCDay();
   if (day === 0 || day === 6) return false;
-  // GMT+1 offset
   const h = now.getUTCHours() + 1;
   const m = now.getUTCMinutes();
   const totalMin = h * 60 + m;
@@ -57,16 +59,66 @@ function JumpNav({ activeSector }: { activeSector: string }) {
   );
 }
 
+// ─── Stock Card (AssetWidget + Add button) ────────────────────────────────────
+
+function StockCard({
+  asset,
+  sectorName,
+  isAuthenticated,
+  onAddClick,
+}: {
+  asset: Asset;
+  sectorName: string;
+  isAuthenticated: boolean;
+  onAddClick: (a: ModalAsset) => void;
+}) {
+  const ticker = asset.symbol.split(':')[1] ?? asset.symbol;
+
+  function handleAdd() {
+    onAddClick({ ticker, name: asset.name, type: 'stock', symbol: asset.symbol });
+  }
+
+  return (
+    <div className="flex flex-col">
+      <AssetWidget symbol={asset.symbol} name={asset.name} sector={sectorName} />
+      <div className="px-2 pt-2">
+        {isAuthenticated ? (
+          <button
+            onClick={handleAdd}
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-200"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Ajouter au portefeuille
+          </button>
+        ) : (
+          <button
+            disabled
+            title="Connectez-vous pour investir"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-surface-200 text-primary/25 text-xs font-semibold cursor-not-allowed"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Ajouter au portefeuille
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Sector Section ───────────────────────────────────────────────────────────
 
 const SectorSection = memo(function SectorSection({
   sector,
   assets,
   onVisible,
+  isAuthenticated,
+  onAddClick,
 }: {
   sector: (typeof SECTORS)[number];
   assets: Asset[];
   onVisible: (id: string) => void;
+  isAuthenticated: boolean;
+  onAddClick: (a: ModalAsset) => void;
 }) {
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -101,7 +153,13 @@ const SectorSection = memo(function SectorSection({
       {/* Widget grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-10">
         {assets.map((asset) => (
-          <AssetWidget key={asset.symbol} symbol={asset.symbol} name={asset.name} sector={sector.name} />
+          <StockCard
+            key={asset.symbol}
+            asset={asset}
+            sectorName={sector.name}
+            isAuthenticated={isAuthenticated}
+            onAddClick={onAddClick}
+          />
         ))}
       </div>
     </section>
@@ -111,10 +169,23 @@ const SectorSection = memo(function SectorSection({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MarketStockGrid({ assets }: { assets: Asset[] }) {
+  const { status: authStatus } = useSession();
+  const isAuthenticated = authStatus === 'authenticated';
+
   const [activeSector, setActiveSector] = useState(SECTORS[0].id);
   const [open, setOpen] = useState(false);
   const [now, setNow] = useState('');
 
+  // ── Modal state ──
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalAsset, setModalAsset] = useState<ModalAsset | null>(null);
+
+  const handleAddClick = useCallback((a: ModalAsset) => {
+    setModalAsset(a);
+    setModalOpen(true);
+  }, []);
+
+  // ── Market open/closed clock ──
   useEffect(() => {
     setOpen(isMarketOpen());
     setNow(new Date().toLocaleTimeString('fr-MA', { hour: '2-digit', minute: '2-digit' }));
@@ -123,6 +194,25 @@ export default function MarketStockGrid({ assets }: { assets: Asset[] }) {
       setNow(new Date().toLocaleTimeString('fr-MA', { hour: '2-digit', minute: '2-digit' }));
     }, 30_000);
     return () => clearInterval(interval);
+  }, []);
+
+  // ── Pre-fetch full price snapshot on mount; refresh every 60s while visible ──
+  useEffect(() => {
+    fetchSnapshot().catch(() => {});
+
+    const handleVisibility = () => {
+      if (!document.hidden) fetchSnapshot().catch(() => {});
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    const interval = setInterval(() => {
+      if (!document.hidden) fetchSnapshot().catch(() => {});
+    }, 60_000);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, []);
 
   // Map assets by ticker (strip CSEMA: prefix)
@@ -168,8 +258,19 @@ export default function MarketStockGrid({ assets }: { assets: Asset[] }) {
           sector={sector}
           assets={sectorList}
           onVisible={setActiveSector}
+          isAuthenticated={isAuthenticated}
+          onAddClick={handleAddClick}
         />
       ))}
+
+      {/* ── Add to portfolio modal ── */}
+      {modalAsset && (
+        <AddToPortfolioModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          asset={modalAsset}
+        />
+      )}
     </div>
   );
 }

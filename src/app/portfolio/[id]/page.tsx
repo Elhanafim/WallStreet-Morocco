@@ -862,9 +862,23 @@ export default function PortfolioDetailPage({
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
+  // ── Refresh when another page adds a holding to this portfolio ──
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.portfolioId === params.id) {
+        fetchData();
+      }
+    };
+    window.addEventListener('portfolioUpdated', handler);
+    return () => window.removeEventListener('portfolioUpdated', handler);
+  }, [params.id, fetchData]);
+
   const handleHoldingAdded = (h: Holding) => {
     setHoldings((prev) => [h, ...prev]);
     setShowPanel(false);
+    // Notify Dashboard and other pages
+    window.dispatchEvent(new CustomEvent('portfolioUpdated', { detail: { portfolioId: params.id } }));
   };
 
   const handleHoldingDeleted = (id: string) => {

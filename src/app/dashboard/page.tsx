@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import {
@@ -64,11 +64,8 @@ function Skeleton({ className }: { className: string }) {
 function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
   const invested = portfolio.holdings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
   return (
-    <Link
-      href={`/portfolio/${portfolio.id}`}
-      className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col gap-3"
-    >
-      <div className="flex items-start justify-between">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 p-5 flex flex-col gap-3">
+      <Link href={`/portfolio/${portfolio.id}`} className="flex items-start justify-between">
         <div>
           <p className="text-sm font-black text-[#0A2540] leading-tight">{portfolio.name}</p>
           <p className="text-xs text-gray-400 mt-0.5">
@@ -78,7 +75,7 @@ function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
         <div className="w-8 h-8 bg-[#3A86FF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
           <Briefcase className="w-4 h-4 text-[#3A86FF]" />
         </div>
-      </div>
+      </Link>
       <div className="flex items-center justify-between">
         <span className="text-lg font-black text-[#0A2540]">{fmtMAD(invested)}</span>
         <div className="flex gap-1.5">
@@ -97,7 +94,14 @@ function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
           })}
         </div>
       </div>
-    </Link>
+      <Link
+        href={`/portfolio/${portfolio.id}`}
+        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#3A86FF]/30 text-[#3A86FF] text-xs font-semibold hover:bg-[#3A86FF] hover:text-white hover:border-[#3A86FF] transition-all duration-200"
+      >
+        <Plus className="w-3.5 h-3.5" />
+        Ajouter un actif
+      </Link>
+    </div>
   );
 }
 
@@ -108,13 +112,25 @@ export default function DashboardPage() {
   const [portfolios, setPortfolios] = useState<NamedPortfolio[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+
+  const fetchPortfolios = useCallback(() => {
     fetch('/api/portfolios')
       .then((r) => (r.ok ? r.json() : []))
       .then(setPortfolios)
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    fetchPortfolios();
+  }, [fetchPortfolios]);
+
+  // ── Listen for portfolioUpdated to refresh without reload ──
+  useEffect(() => {
+    const handler = () => fetchPortfolios();
+    window.addEventListener('portfolioUpdated', handler);
+    return () => window.removeEventListener('portfolioUpdated', handler);
+  }, [fetchPortfolios]);
 
   // ── Aggregated stats across all portfolios ──
   const allHoldings = portfolios.flatMap((p) => p.holdings);
@@ -362,6 +378,7 @@ export default function DashboardPage() {
           )}
         </>
       )}
+
     </div>
   );
 }
