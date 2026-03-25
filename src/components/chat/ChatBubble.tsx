@@ -71,6 +71,7 @@ export default function ChatBubble() {
   const handleToggle = () => {
     if (chat.isOpen) {
       chat.close();
+      chat.hideDonateNudge();
     } else {
       handleOpen();
     }
@@ -113,9 +114,12 @@ export default function ChatBubble() {
         hasGreeted={chat.hasGreeted}
         prefillInput={prefillInput}
         onPrefillConsumed={() => setPrefillInput("")}
+        showDonateNudge={chat.showDonateNudge}
+        onHideDonateNudge={chat.hideDonateNudge}
       />
 
-      <div className="fixed bottom-6 right-5 z-[1000] flex flex-col items-end gap-2">
+      {/* bottom-[116px] puts the button above LanguageSwitcher+Donate stack (which occupies bottom 0–96px) */}
+      <div className="fixed bottom-[116px] right-5 z-[1000] flex flex-col items-end gap-2">
         {/* ── Intro hint strip ─────────────────────────────────────── */}
         <div
           className={`
@@ -199,11 +203,14 @@ export default function ChatBubble() {
       <style jsx>{`
         /* ── Bubble shape ── */
         .chat-bubble-btn {
-          background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
-          border: 2px solid rgba(255, 255, 255, 0.15);
+          background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+          border: 2px solid rgba(255, 255, 255, 0.2);
           border-radius: 9999px;
           padding: 12px 18px 12px 14px;
-          box-shadow: 0 8px 24px rgba(6, 78, 59, 0.45), 0 2px 8px rgba(0,0,0,0.2);
+          box-shadow: 0 8px 24px rgba(29, 78, 216, 0.45), 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .chat-bubble-btn:hover {
+          background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
         }
         @media (max-width: 767px) {
           .chat-bubble-btn {
@@ -217,9 +224,9 @@ export default function ChatBubble() {
 
         /* ── Pulse animation ── */
         @keyframes chat-pulse-ring {
-          0%   { box-shadow: 0 8px 24px rgba(6,78,59,0.45), 0 0 0 0   rgba(16,185,129,0.5); }
-          70%  { box-shadow: 0 8px 24px rgba(6,78,59,0.45), 0 0 0 12px rgba(16,185,129,0); }
-          100% { box-shadow: 0 8px 24px rgba(6,78,59,0.45), 0 0 0 0   rgba(16,185,129,0); }
+          0%   { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 0   rgba(37,99,235,0.5); }
+          70%  { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 12px rgba(37,99,235,0); }
+          100% { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 0   rgba(37,99,235,0); }
         }
         .chat-pulse {
           animation: chat-pulse-ring 2s ease-out infinite;
@@ -255,11 +262,20 @@ export default function ChatBubble() {
           animation: fade-in 0.2s ease-out forwards;
         }
 
+        /* ── Fade in up (donate nudge) ── */
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        :global(.animate-fade-in-up) {
+          animation: fade-in-up 0.25s ease-out forwards;
+        }
+
         /* ── Hint strip ── */
         .chat-hint-strip {
           background: white;
           border: 1px solid #e5e7eb;
-          border-left: 3px solid #064e3b;
+          border-left: 3px solid #1d4ed8;
           border-radius: 8px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
           padding: 10px 14px;
@@ -270,7 +286,7 @@ export default function ChatBubble() {
         :global(.dark) .chat-hint-strip {
           background: #1f2937;
           border-color: #374151;
-          border-left-color: #10b981;
+          border-left-color: #3b82f6;
         }
         .hint-arrow {
           position: absolute;

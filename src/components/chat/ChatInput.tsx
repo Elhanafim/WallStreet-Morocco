@@ -10,6 +10,7 @@ interface ChatInputProps {
   isStreaming?: boolean;
   prefillValue?: string;
   onPrefillConsumed?: () => void;
+  onTypingStart?: () => void;
 }
 
 const MAX_CHARS = 1000;
@@ -21,6 +22,7 @@ export default function ChatInput({
   isStreaming,
   prefillValue,
   onPrefillConsumed,
+  onTypingStart,
 }: ChatInputProps) {
   const { t } = useTranslation("chat");
   const [value, setValue] = useState("");
@@ -70,7 +72,10 @@ export default function ChatInput({
             ref={textareaRef}
             value={value}
             onChange={(e) => {
-              if (e.target.value.length <= MAX_CHARS) setValue(e.target.value);
+              if (e.target.value.length <= MAX_CHARS) {
+                if (e.target.value && !value) onTypingStart?.(); // first keystroke
+                setValue(e.target.value);
+              }
             }}
             onKeyDown={handleKeyDown}
             placeholder={t("inputPlaceholder", "Posez votre question…")}

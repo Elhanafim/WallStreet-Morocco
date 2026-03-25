@@ -15,6 +15,9 @@ export interface UseChatStateReturn {
   isStreaming: boolean;
   unreadCount: number;
   hasGreeted: boolean;
+  responseCount: number;    // total completed AI responses this session
+  showDonateNudge: boolean; // true every 3rd response (or after 5 messages)
+  hideDonateNudge: () => void;
   open: () => void;
   close: () => void;
   sendMessage: (text: string, context: ChatContext) => void;
@@ -31,6 +34,8 @@ export function useChatState(): UseChatStateReturn {
   const [unreadCount, setUnreadCount] = useState(0);
   const [hasGreeted, setHasGreeted] = useState(false);
   const [streamingContent, setStreamingContent] = useState("");
+  const [responseCount, setResponseCount] = useState(0);
+  const [showDonateNudge, setShowDonateNudge] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
   const streamBufferRef = useRef("");
@@ -46,6 +51,10 @@ export function useChatState(): UseChatStateReturn {
 
   const clearUnread = useCallback(() => {
     setUnreadCount(0);
+  }, []);
+
+  const hideDonateNudge = useCallback(() => {
+    setShowDonateNudge(false);
   }, []);
 
   const cancelStream = useCallback(() => {
@@ -91,6 +100,15 @@ export function useChatState(): UseChatStateReturn {
           abortRef.current = null;
           // Badge only if panel is closed
           setUnreadCount((c) => (isOpen ? c : c + 1));
+          // Donation nudge: show every 3rd response or after 5+ messages
+          setResponseCount((prev) => {
+            const next = prev + 1;
+            const totalMsgs = messages.length + 2; // +1 user +1 assistant just added
+            if (next % 3 === 0 || totalMsgs >= 10) {
+              setShowDonateNudge(true);
+            }
+            return next;
+          });
         },
         onError: (msg) => {
           setMessages((prev) => [
@@ -113,6 +131,9 @@ export function useChatState(): UseChatStateReturn {
     isStreaming,
     unreadCount,
     hasGreeted,
+    responseCount,
+    showDonateNudge,
+    hideDonateNudge,
     open,
     close,
     sendMessage,

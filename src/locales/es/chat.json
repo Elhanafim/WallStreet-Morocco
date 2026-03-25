@@ -14,5 +14,8 @@
   "proactiveTooltip": "¿Una pregunta sobre la Bolsa de Casablanca? 💬",
   "rateLimitError": "Demasiados mensajes enviados. Por favor espera un momento.",
   "connectionError": "Servicio temporalmente no disponible. Inténtalo de nuevo en unos segundos.",
-  "disclaimer": "El asistente IA puede cometer errores. No tome decisiones financieras basándose únicamente en sus respuestas."
+  "disclaimer": "El asistente IA puede cometer errores. No tome decisiones financieras basándose únicamente en sus respuestas.",
+  "donateNudge": "♥ Este servicio es gratuito e independiente. Si esta respuesta le ayudó, apóyenos. Incluso 1$ marca la diferencia.",
+  "donateCta": "Apoyar →",
+  "bounceTooltip": "¡Hola! Puedo ayudarte."
 }

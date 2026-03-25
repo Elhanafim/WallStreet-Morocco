@@ -19,6 +19,8 @@ interface ChatPanelProps {
   hasGreeted: boolean;
   prefillInput?: string;
   onPrefillConsumed?: () => void;
+  showDonateNudge?: boolean;
+  onHideDonateNudge?: () => void;
 }
 
 // Minimal markdown renderer: bold, inline code, links, bullet lines
@@ -74,7 +76,7 @@ function TypingIndicator() {
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="w-2 h-2 rounded-full bg-emerald-500 animate-bounce"
+          className="w-2 h-2 rounded-full bg-blue-500 animate-bounce"
           style={{ animationDelay: `${i * 0.15}s` }}
         />
       ))}
@@ -94,6 +96,8 @@ export default function ChatPanel({
   hasGreeted,
   prefillInput,
   onPrefillConsumed,
+  showDonateNudge,
+  onHideDonateNudge,
 }: ChatPanelProps) {
   const { t } = useTranslation("chat");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -116,8 +120,8 @@ export default function ChatPanel({
       aria-label={t("panelTitle", "Assistant WallStreet Morocco")}
     >
       {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-emerald-700 text-white shrink-0">
-        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+      <div className="flex items-center gap-2 px-4 py-3 bg-blue-700 text-white shrink-0">
+        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
           W
         </div>
         <div className="flex-1 min-w-0">
@@ -132,7 +136,7 @@ export default function ChatPanel({
         </div>
         <button
           onClick={onClose}
-          className="ml-1 p-1 rounded-full hover:bg-emerald-600 transition"
+          className="ml-1 p-1 rounded-full hover:bg-blue-600 transition"
           aria-label={t("close", "Fermer")}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,7 +150,7 @@ export default function ChatPanel({
         {/* Welcome message */}
         {messages.length === 0 && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
               W
             </div>
             <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 dark:text-gray-200 leading-relaxed">
@@ -167,14 +171,14 @@ export default function ChatPanel({
             className={`flex gap-2 items-start ${msg.role === "user" ? "flex-row-reverse" : ""}`}
           >
             {msg.role === "assistant" && (
-              <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
                 W
               </div>
             )}
             <div
               className={`rounded-2xl px-3 py-2 max-w-[85%] leading-relaxed ${
                 msg.role === "user"
-                  ? "bg-emerald-600 text-white rounded-tr-sm"
+                  ? "bg-blue-600 text-white rounded-tr-sm"
                   : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm"
               }`}
             >
@@ -188,14 +192,14 @@ export default function ChatPanel({
         {/* Streaming bubble */}
         {isStreaming && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
               W
             </div>
             <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 dark:text-gray-200 leading-relaxed">
               {streamingContent ? (
                 <>
                   {renderMarkdown(streamingContent)}
-                  <span className="inline-block w-0.5 h-3.5 bg-emerald-500 animate-pulse ml-0.5 align-middle" />
+                  <span className="inline-block w-0.5 h-3.5 bg-blue-500 animate-pulse ml-0.5 align-middle" />
                 </>
               ) : (
                 <TypingIndicator />
@@ -214,14 +218,42 @@ export default function ChatPanel({
         hidden={!showQuickPrompts || isStreaming}
       />
 
+      {/* Donation nudge — shown every 3rd response, never on /donate */}
+      {showDonateNudge && !isStreaming && context.currentPage !== '/donate' && (
+        <div className="mx-3 mb-2 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-3.5 py-2.5 text-xs animate-fade-in-up">
+          <div className="flex items-start justify-between gap-2">
+            <p className="text-amber-900 dark:text-amber-200 leading-snug">
+              {t("donateNudge", "♥ Ce service est gratuit et independant. Si cette reponse vous a aide, soutenez-nous.")}
+            </p>
+            <button
+              onClick={onHideDonateNudge}
+              className="text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 shrink-0 mt-0.5"
+              aria-label="Fermer"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <a
+            href="/donate"
+            onClick={onHideDonateNudge}
+            className="mt-1.5 inline-block font-semibold text-red-600 dark:text-red-400 hover:underline"
+          >
+            {t("donateCta", "Faire un don →")}
+          </a>
+        </div>
+      )}
+
       {/* Input */}
       <ChatInput
-        onSend={onSend}
+        onSend={(text) => { onHideDonateNudge?.(); onSend(text); }}
         disabled={false}
         isStreaming={isStreaming}
         onCancel={onCancel}
         prefillValue={prefillInput}
         onPrefillConsumed={onPrefillConsumed}
+        onTypingStart={onHideDonateNudge}
       />
     </div>
   );

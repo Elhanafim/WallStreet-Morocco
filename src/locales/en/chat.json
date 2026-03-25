@@ -14,5 +14,8 @@
   "proactiveTooltip": "A question about the Casablanca Stock Exchange? 💬",
   "rateLimitError": "Too many messages sent. Please wait a moment.",
   "connectionError": "Service temporarily unavailable. Please try again in a few seconds.",
-  "disclaimer": "The AI assistant may make mistakes. Do not make financial decisions based solely on its responses."
+  "disclaimer": "The AI assistant may make mistakes. Do not make financial decisions based solely on its responses.",
+  "donateNudge": "♥ This service is free and independent. If this answer helped you, please support us. Even $1 makes a difference.",
+  "donateCta": "Support us →",
+  "bounceTooltip": "Hello! I can help you."
 }
