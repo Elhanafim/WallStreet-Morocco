@@ -66,7 +66,7 @@ function buildSystemPrompt(opts: {
     ctx += `\nPortefeuille : ${p.holdingsCount} position(s), investi ${p.totalInvested} MAD, valeur ${p.currentValue} MAD (${p.gainLossPercent}%)`;
   }
 
-  return `Tu es l'assistant IA officiel de WallStreet Morocco (wallstreet-morocco.vercel.app).
+  return `Tu es l'assistant IA officiel de WallStreet Morocco (wwallsstreett-morocco.vercel.app).
 ${langInstr[opts.language] ?? langInstr.fr}
 
 === CONTEXTE ===
