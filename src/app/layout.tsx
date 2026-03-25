@@ -3,6 +3,7 @@ import './globals.css';
 import Providers from '@/components/Providers';
 import ConditionalLayout from '@/components/layout/ConditionalLayout';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: {
@@ -65,6 +66,7 @@ export default function RootLayout({
           </ConditionalLayout>
         </Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
