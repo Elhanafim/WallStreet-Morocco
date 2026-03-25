@@ -35,7 +35,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'WallStreet Morocco',
     description: 'Investissez intelligemment au Maroc',
-    creator: '@wallstreetma',
   },
   robots: {
     index: true,
