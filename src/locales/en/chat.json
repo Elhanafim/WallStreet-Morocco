@@ -1,0 +1,18 @@
+{
+  "assistantName": "WallStreet Morocco Assistant",
+  "panelTitle": "WallStreet Morocco Assistant",
+  "online": "Online · Powered by Groq",
+  "typing": "Typing…",
+  "welcome": "Hello! 👋 I'm the AI assistant for **WallStreet Morocco**.\n\nI can help you navigate the site, understand stock market data, or learn the basics of investing on the BVC.\n\nHow can I help you?",
+  "inputPlaceholder": "Ask your question…",
+  "send": "Send",
+  "cancel": "Cancel response",
+  "close": "Close",
+  "openChat": "Open assistant",
+  "closeChat": "Close chat",
+  "quickPromptsLabel": "Suggestions:",
+  "proactiveTooltip": "A question about the Casablanca Stock Exchange? 💬",
+  "rateLimitError": "Too many messages sent. Please wait a moment.",
+  "connectionError": "Service temporarily unavailable. Please try again in a few seconds.",
+  "disclaimer": "The AI assistant may make mistakes. Do not make financial decisions based solely on its responses."
+}

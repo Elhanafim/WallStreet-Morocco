@@ -1,0 +1,18 @@
+{
+  "assistantName": "Assistant WallStreet Morocco",
+  "panelTitle": "Assistant WallStreet Morocco",
+  "online": "En ligne · Powered by Groq",
+  "typing": "En train d'écrire…",
+  "welcome": "Bonjour ! 👋 Je suis l'assistant IA de **WallStreet Morocco**.\n\nJe peux vous aider à naviguer sur le site, comprendre les données boursières, ou apprendre les bases de l'investissement à la BVC.\n\nComment puis-je vous aider ?",
+  "inputPlaceholder": "Posez votre question…",
+  "send": "Envoyer",
+  "cancel": "Annuler la réponse",
+  "close": "Fermer",
+  "openChat": "Ouvrir l'assistant",
+  "closeChat": "Fermer le chat",
+  "quickPromptsLabel": "Suggestions :",
+  "proactiveTooltip": "Une question sur la Bourse de Casablanca ? 💬",
+  "rateLimitError": "Trop de messages envoyés. Veuillez patienter quelques instants.",
+  "connectionError": "Service temporairement indisponible. Réessayez dans quelques secondes.",
+  "disclaimer": "L'assistant IA peut faire des erreurs. Ne prenez pas de décisions financières basées uniquement sur ses réponses."
+}

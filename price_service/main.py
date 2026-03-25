@@ -27,6 +27,7 @@ load_dotenv()
 import casabourse as cb  # noqa: E402  (after dotenv so env is ready)
 from price_cache import PriceCache  # noqa: E402
 from calendar_router import calendar_router, start_background_refresh  # noqa: E402
+from chatbot.router import router as chat_router  # noqa: E402
 from stocksma_fetcher import (  # noqa: E402
     get_live_price as sm_get_live_price,
     get_all_prices as sm_get_all_prices,
@@ -248,13 +249,14 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=False,
-    allow_methods=["GET", "OPTIONS"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "X-Request-ID"],
     expose_headers=["X-RateLimit-Remaining"],
     max_age=600,
 )
 
 app.include_router(calendar_router)
+app.include_router(chat_router)
 
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────

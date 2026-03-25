@@ -10,6 +10,9 @@ import DonateToast from '@/components/donate/DonateToast';
 // Cookie banner is only rendered client-side (reads localStorage)
 const CookieBanner = dynamic(() => import('@/components/legal/CookieBanner'), { ssr: false });
 
+// Chatbot bubble — client-side only, never on legal/admin pages
+const ChatBubble = dynamic(() => import('@/components/chat/ChatBubble'), { ssr: false });
+
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDashboard = pathname?.startsWith('/dashboard');
@@ -27,6 +30,8 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
       {pathname !== '/donate' && <DonateToast />}
       {/* Cookie consent banner — shown on first visit until consent given */}
       <CookieBanner />
+      {/* AI chatbot bubble — hidden on legal pages */}
+      {pathname !== '/confidentialite' && pathname !== '/terms' && <ChatBubble />}
     </>
   );
 }
