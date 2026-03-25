@@ -12,3 +12,6 @@ StocksMA>=0.1.0
 openpyxl>=3.1.2
 xlsxwriter>=3.1.9
 pandas>=2.0.0
+
+# ── Security additions ────────────────────────────────────────────────────────
+slowapi>=0.1.9           # rate limiting per IP

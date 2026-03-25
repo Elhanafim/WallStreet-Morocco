@@ -1,0 +1,163 @@
+{
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 25 mars 2026",
+    "backToHome": "Retour à l'accueil",
+    "sections": {
+      "controller": {
+        "title": "1. Responsable du traitement",
+        "content": "Mohammed El Hanafi — WallStreet Morocco (projet personnel indépendant). Contact : mohamed345el@gmail.com — Téléphone : +33 7 43 52 76 04"
+      },
+      "data": {
+        "title": "2. Données collectées",
+        "account": "Données de compte (si inscription) : adresse email, mot de passe stocké sous forme hashée (jamais en clair), date d'inscription.",
+        "portfolio": "Données de portefeuille : actions et OPCVM ajoutés par l'utilisateur, prix d'achat, quantités, dates d'achat, notes personnelles.",
+        "technical": "Données techniques : adresse IP (journaux de serveur, conservée 30 jours), navigateur, système d'exploitation, pages visitées.",
+        "notCollected": "Données NON collectées : aucune donnée bancaire ou financière réelle, aucun document d'identité, aucune donnée de localisation précise, aucune donnée vendue à des tiers."
+      },
+      "purposes": {
+        "title": "3. Finalités du traitement",
+        "content": "Fonctionnement du compte et du portefeuille · Amélioration du service · Sécurité et prévention des abus · Communication si vous nous contactez"
+      },
+      "legalBasis": {
+        "title": "4. Base légale (RGPD)",
+        "content": "Exécution du contrat (compte utilisateur) · Consentement (cookies analytiques) · Intérêt légitime (sécurité du service)"
+      },
+      "retention": {
+        "title": "5. Durée de conservation",
+        "account": "Données de compte : jusqu'à suppression du compte",
+        "logs": "Journaux de sécurité : 30 jours",
+        "portfolio": "Données de portefeuille : jusqu'à suppression explicite"
+      },
+      "rights": {
+        "title": "6. Vos droits (Loi 09-08 Maroc + RGPD pour utilisateurs UE)",
+        "intro": "Vous disposez des droits suivants :",
+        "access": "Droit d'accès à vos données",
+        "rectification": "Droit de rectification",
+        "erasure": "Droit à l'effacement (« droit à l'oubli »)",
+        "portability": "Droit à la portabilité",
+        "opposition": "Droit d'opposition",
+        "withdraw": "Droit de retirer votre consentement",
+        "contact": "Pour exercer ces droits : mohamed345el@gmail.com — Délai de réponse : 30 jours maximum"
+      },
+      "cookies": {
+        "title": "7. Cookies",
+        "essential": "Essentiels : session, langue, préférences UI — toujours actifs",
+        "functional": "Fonctionnels : historique de portefeuille, préférences — requièrent consentement",
+        "analytics": "Analytiques : pages vues — désactivés si refus"
+      },
+      "security": {
+        "title": "8. Sécurité des données",
+        "content": "Mots de passe hashés avec bcrypt (12 rounds) · Communications chiffrées (HTTPS/TLS) · Accès aux données restreint · En-têtes de sécurité HTTP configurés"
+      },
+      "transfers": {
+        "title": "9. Transferts internationaux",
+        "content": "Ce site est hébergé sur des serveurs situés en Europe (région EU-West). Aucun transfert vers des pays tiers sans protection adéquate."
+      },
+      "changes": {
+        "title": "10. Modifications",
+        "content": "Cette politique peut être mise à jour. Les utilisateurs seront informés par notification dans l'application. La date de dernière mise à jour sera modifiée en conséquence."
+      },
+      "contact": {
+        "title": "11. Contact et réclamations",
+        "email": "Email : mohamed345el@gmail.com",
+        "eu": "Autorité de contrôle (UE) : CNIL (France) — cnil.fr",
+        "ma": "Autorité de contrôle (Maroc) : CNDP — cndp.ma"
+      }
+    }
+  },
+  "terms": {
+    "title": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : 25 mars 2026",
+    "backToHome": "Retour à l'accueil",
+    "sections": {
+      "presentation": {
+        "title": "1. Présentation du service",
+        "content": "WallStreet Morocco est un projet personnel indépendant développé par Mohammed El Hanafi, fournissant des informations financières sur la Bourse de Casablanca (BVC) à titre éducatif et informatif uniquement."
+      },
+      "acceptance": {
+        "title": "2. Acceptation des conditions",
+        "content": "En accédant à ce site, vous acceptez les présentes conditions. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser ce service."
+      },
+      "disclaimer": {
+        "title": "3. Nature du service — Avertissement important",
+        "warning": "WallStreet Morocco est un site d'INFORMATION et d'ÉDUCATION financière uniquement.",
+        "notProvided": "CE SITE NE FOURNIT PAS : de conseil en investissement · de recommandations d'achat ou de vente de titres · de gestion de portefeuille professionnelle · de service réglementé par l'AMMC ou tout régulateur",
+        "dataDelay": "LES DONNÉES AFFICHÉES : sont fournies avec un délai de 15 minutes minimum · peuvent contenir des erreurs ou inexactitudes · ne doivent pas servir de base unique à des décisions financières",
+        "risk": "INVESTIR COMPORTE DES RISQUES : vous pouvez perdre tout ou partie du capital investi. Consultez un conseiller financier agréé avant d'investir."
+      },
+      "account": {
+        "title": "4. Compte utilisateur",
+        "password": "Vous êtes responsable de la confidentialité de votre mot de passe.",
+        "age": "Vous devez avoir au moins 18 ans pour créer un compte.",
+        "oneAccount": "Un seul compte par personne est autorisé.",
+        "suspension": "Nous nous réservons le droit de suspendre tout compte en cas d'abus."
+      },
+      "ip": {
+        "title": "5. Propriété intellectuelle",
+        "content": "Le contenu de ce site (textes, analyses, code, design) est la propriété de Mohammed El Hanafi. Toute reproduction sans autorisation est interdite. Les données de marché proviennent de sources tierces (BVC, Leboursier.ma, Finnhub, ForexFactory) et restent la propriété de leurs fournisseurs respectifs."
+      },
+      "liability": {
+        "title": "6. Limitation de responsabilité",
+        "intro": "WallStreet Morocco ne peut être tenu responsable :",
+        "losses": "Des pertes financières résultant de l'utilisation des informations publiées sur ce site",
+        "interruptions": "Des interruptions de service ou erreurs techniques",
+        "dataAccuracy": "De l'inexactitude des données de marché",
+        "decisions": "Des décisions prises sur la base des informations publiées sur ce site"
+      },
+      "availability": {
+        "title": "7. Disponibilité du service",
+        "content": "Ce service est fourni « tel quel », sans garantie de disponibilité permanente. Des interruptions peuvent survenir pour maintenance ou raisons techniques."
+      },
+      "prohibited": {
+        "title": "8. Conduite interdite",
+        "intro": "Il est interdit d'utiliser ce site pour :",
+        "hacking": "Tenter de pirater ou compromettre la sécurité du site",
+        "scraping": "Automatiser des requêtes en masse (scraping abusif)",
+        "impersonation": "Usurper l'identité d'autres utilisateurs",
+        "illegal": "Publier du contenu illégal, diffamatoire ou trompeur",
+        "bypass": "Contourner les mesures de sécurité"
+      },
+      "changes": {
+        "title": "9. Modifications des conditions",
+        "content": "Ces conditions peuvent être modifiées. La date de dernière mise à jour sera mise à jour en conséquence. L'utilisation continue du site vaut acceptation des nouvelles conditions."
+      },
+      "law": {
+        "title": "10. Droit applicable",
+        "content": "Ces conditions sont régies par le droit marocain. Tout litige sera soumis à la compétence des tribunaux de Casablanca, Maroc."
+      },
+      "contact": {
+        "title": "11. Contact",
+        "content": "Pour toute question : mohamed345el@gmail.com"
+      }
+    }
+  },
+  "cookies": {
+    "bannerTitle": "WallStreet Morocco utilise des cookies",
+    "bannerText": "Nous utilisons des cookies essentiels pour le fonctionnement du site et des cookies fonctionnels pour améliorer votre expérience (sauvegarde du portefeuille, préférences).",
+    "learnMore": "En continuant, vous acceptez notre",
+    "privacyLink": "Politique de confidentialité",
+    "and": "et nos",
+    "termsLink": "Conditions d'utilisation",
+    "acceptAll": "Tout accepter",
+    "essentialOnly": "Essentiels uniquement",
+    "decline": "Refuser",
+    "manage": "Gestion des cookies",
+    "categories": {
+      "essential": "Essentiels",
+      "essentialDesc": "Authentification, langue, session — toujours actifs",
+      "functional": "Fonctionnels",
+      "functionalDesc": "Sauvegarde du portefeuille, historique, préférences",
+      "analytics": "Analytiques",
+      "analyticsDesc": "Pages vues, durée de visite (anonymisé)"
+    },
+    "savePreferences": "Enregistrer mes préférences",
+    "currentSettings": "Paramètres actuels"
+  },
+  "footer": {
+    "disclaimer": "Les informations publiées sur ce site sont fournies à titre indicatif uniquement. Elles ne constituent pas un conseil en investissement. Investir comporte un risque de perte en capital.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "manageCookies": "Gestion des cookies"
+  }
+}

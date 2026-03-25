@@ -1,10 +1,14 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import DonateToast from '@/components/donate/DonateToast';
+
+// Cookie banner is only rendered client-side (reads localStorage)
+const CookieBanner = dynamic(() => import('@/components/legal/CookieBanner'), { ssr: false });
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -21,6 +25,8 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
       <Footer />
       <LanguageSwitcher floating />
       {pathname !== '/donate' && <DonateToast />}
+      {/* Cookie consent banner — shown on first visit until consent given */}
+      <CookieBanner />
     </>
   );
 }

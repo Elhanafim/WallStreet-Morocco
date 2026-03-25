@@ -1,0 +1,163 @@
+{
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: March 25, 2026",
+    "backToHome": "Back to home",
+    "sections": {
+      "controller": {
+        "title": "1. Data Controller",
+        "content": "Mohammed El Hanafi — WallStreet Morocco (independent personal project). Contact: mohamed345el@gmail.com — Phone: +33 7 43 52 76 04"
+      },
+      "data": {
+        "title": "2. Data Collected",
+        "account": "Account data (if registered): email address, password stored in hashed form (never in plain text), registration date.",
+        "portfolio": "Portfolio data: stocks and funds added by the user, purchase prices, quantities, purchase dates, personal notes.",
+        "technical": "Technical data: IP address (server logs, kept 30 days), browser, operating system, pages visited.",
+        "notCollected": "Data NOT collected: no real banking or financial data, no identity documents, no precise location data, no data sold to third parties."
+      },
+      "purposes": {
+        "title": "3. Purposes of Processing",
+        "content": "Account and portfolio operation · Service improvement · Security and abuse prevention · Communication if you contact us"
+      },
+      "legalBasis": {
+        "title": "4. Legal Basis (GDPR)",
+        "content": "Contract performance (user account) · Consent (analytics cookies) · Legitimate interest (service security)"
+      },
+      "retention": {
+        "title": "5. Retention Period",
+        "account": "Account data: until account deletion",
+        "logs": "Security logs: 30 days",
+        "portfolio": "Portfolio data: until explicit deletion"
+      },
+      "rights": {
+        "title": "6. Your Rights (Moroccan Law 09-08 + GDPR for EU users)",
+        "intro": "You have the following rights:",
+        "access": "Right of access to your data",
+        "rectification": "Right of rectification",
+        "erasure": "Right to erasure ('right to be forgotten')",
+        "portability": "Right to data portability",
+        "opposition": "Right to object",
+        "withdraw": "Right to withdraw consent",
+        "contact": "To exercise these rights: mohamed345el@gmail.com — Response time: maximum 30 days"
+      },
+      "cookies": {
+        "title": "7. Cookies",
+        "essential": "Essential: session, language, UI preferences — always active",
+        "functional": "Functional: portfolio history, preferences — require consent",
+        "analytics": "Analytics: page views — disabled if refused"
+      },
+      "security": {
+        "title": "8. Data Security",
+        "content": "Passwords hashed with bcrypt (12 rounds) · Encrypted communications (HTTPS/TLS) · Restricted data access · HTTP security headers configured"
+      },
+      "transfers": {
+        "title": "9. International Transfers",
+        "content": "This site is hosted on servers located in Europe (EU-West region). No transfers to third countries without adequate protection."
+      },
+      "changes": {
+        "title": "10. Changes",
+        "content": "This policy may be updated. Users will be notified by in-app notification. The last updated date will be modified accordingly."
+      },
+      "contact": {
+        "title": "11. Contact & Complaints",
+        "email": "Email: mohamed345el@gmail.com",
+        "eu": "Supervisory authority (EU): CNIL (France) — cnil.fr",
+        "ma": "Supervisory authority (Morocco): CNDP — cndp.ma"
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: March 25, 2026",
+    "backToHome": "Back to home",
+    "sections": {
+      "presentation": {
+        "title": "1. Service Overview",
+        "content": "WallStreet Morocco is an independent personal project developed by Mohammed El Hanafi, providing financial information on the Casablanca Stock Exchange (BVC) for educational and informational purposes only."
+      },
+      "acceptance": {
+        "title": "2. Acceptance of Terms",
+        "content": "By accessing this site, you accept these terms. If you do not accept these terms, please do not use this service."
+      },
+      "disclaimer": {
+        "title": "3. Nature of Service — Important Disclaimer",
+        "warning": "WallStreet Morocco is an INFORMATION and FINANCIAL EDUCATION site only.",
+        "notProvided": "THIS SITE DOES NOT PROVIDE: investment advice · buy or sell recommendations · professional portfolio management · services regulated by AMMC or any regulator",
+        "dataDelay": "DISPLAYED DATA: is provided with a minimum delay of 15 minutes · may contain errors or inaccuracies · should not be the sole basis for financial decisions",
+        "risk": "INVESTING INVOLVES RISKS: you may lose all or part of the capital invested. Consult a licensed financial advisor before investing."
+      },
+      "account": {
+        "title": "4. User Account",
+        "password": "You are responsible for the confidentiality of your password.",
+        "age": "You must be at least 18 years old to create an account.",
+        "oneAccount": "Only one account per person is allowed.",
+        "suspension": "We reserve the right to suspend any account in case of abuse."
+      },
+      "ip": {
+        "title": "5. Intellectual Property",
+        "content": "The content of this site (texts, analyses, code, design) is the property of Mohammed El Hanafi. Any reproduction without authorization is prohibited. Market data comes from third-party sources (BVC, Leboursier.ma, Finnhub, ForexFactory) and remains the property of their respective providers."
+      },
+      "liability": {
+        "title": "6. Limitation of Liability",
+        "intro": "WallStreet Morocco cannot be held responsible for:",
+        "losses": "Financial losses resulting from the use of information published on this site",
+        "interruptions": "Service interruptions or technical errors",
+        "dataAccuracy": "Inaccuracy of market data",
+        "decisions": "Decisions made based on information published on this site"
+      },
+      "availability": {
+        "title": "7. Service Availability",
+        "content": "This service is provided 'as is', without guarantee of permanent availability. Interruptions may occur for maintenance or technical reasons."
+      },
+      "prohibited": {
+        "title": "8. Prohibited Conduct",
+        "intro": "It is prohibited to use this site to:",
+        "hacking": "Attempt to hack or compromise the security of the site",
+        "scraping": "Automate mass requests (abusive scraping)",
+        "impersonation": "Impersonate other users",
+        "illegal": "Publish illegal, defamatory or misleading content",
+        "bypass": "Bypass security measures"
+      },
+      "changes": {
+        "title": "9. Changes to Terms",
+        "content": "These terms may be modified. The last updated date will be updated accordingly. Continued use of the site constitutes acceptance of the new terms."
+      },
+      "law": {
+        "title": "10. Applicable Law",
+        "content": "These terms are governed by Moroccan law. Any dispute will be submitted to the jurisdiction of the courts of Casablanca, Morocco."
+      },
+      "contact": {
+        "title": "11. Contact",
+        "content": "For any questions: mohamed345el@gmail.com"
+      }
+    }
+  },
+  "cookies": {
+    "bannerTitle": "WallStreet Morocco uses cookies",
+    "bannerText": "We use essential cookies for site operation and functional cookies to enhance your experience (portfolio saving, preferences).",
+    "learnMore": "By continuing, you accept our",
+    "privacyLink": "Privacy Policy",
+    "and": "and our",
+    "termsLink": "Terms of Service",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only",
+    "decline": "Decline",
+    "manage": "Manage cookies",
+    "categories": {
+      "essential": "Essential",
+      "essentialDesc": "Authentication, language, session — always active",
+      "functional": "Functional",
+      "functionalDesc": "Portfolio saving, history, preferences",
+      "analytics": "Analytics",
+      "analyticsDesc": "Page views, visit duration (anonymized)"
+    },
+    "savePreferences": "Save my preferences",
+    "currentSettings": "Current settings"
+  },
+  "footer": {
+    "disclaimer": "Information published on this site is provided for informational purposes only. It does not constitute investment advice. Investing involves risk of capital loss.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "manageCookies": "Cookie Settings"
+  }
+}

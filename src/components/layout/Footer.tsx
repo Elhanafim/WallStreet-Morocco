@@ -5,9 +5,15 @@ import { Mail, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import DonateFooterStrip from '@/components/donate/DonateFooterStrip';
 import { CONTACT } from '@/data/contact';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const CookieBanner = dynamic(() => import('@/components/legal/CookieBanner'), { ssr: false });
 
 export default function Footer() {
   const { t } = useTranslation('common');
+  const { t: tl } = useTranslation('legal');
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
 
   const platformLinks = [
     { href: '/simulator', label: t('footer.links.simulator') },
@@ -27,10 +33,12 @@ export default function Footer() {
     { href: '/about', label: t('footer.links.about') },
     { href: '/about#contact', label: t('footer.links.contact') },
     { href: '/donate', label: t('footer.links.donate') },
-    { href: '#', label: t('footer.links.legal') },
+    { href: '/terms', label: tl('footer.terms') },
   ];
 
   return (
+    <>
+    {showCookieBanner && <CookieBanner onClose={() => setShowCookieBanner(false)} />}
     <footer className="bg-primary text-white">
       <DonateFooterStrip />
       {/* Main Footer */}
@@ -194,25 +202,38 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Financial Disclaimer */}
+      <div className="border-t border-white/10 bg-primary/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-white/30 text-xs text-center leading-relaxed">
+            ⚠️ {tl('footer.disclaimer')}
+          </p>
+        </div>
+      </div>
+
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-white/40 text-xs">
             © {new Date().getFullYear()} WallStreet Morocco. {t('disclaimer.allRightsReserved')}
           </p>
-          <p className="text-white/30 text-xs text-center">
-            ⚠️ {t('disclaimer.legalNotice')}
-          </p>
           <div className="flex items-center gap-4">
-            <Link href="#" className="text-white/40 hover:text-white/70 text-xs transition-colors">
-              {t('footer.links.privacy')}
+            <Link href="/confidentialite" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.privacy')}
             </Link>
-            <Link href="#" className="text-white/40 hover:text-white/70 text-xs transition-colors">
-              {t('footer.links.terms')}
+            <Link href="/terms" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.terms')}
             </Link>
+            <button
+              onClick={() => setShowCookieBanner(true)}
+              className="text-white/40 hover:text-white/70 text-xs transition-colors cursor-pointer"
+            >
+              {tl('footer.manageCookies')}
+            </button>
           </div>
         </div>
       </div>
     </footer>
+    </>
   );
 }

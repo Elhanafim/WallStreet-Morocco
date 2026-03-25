@@ -14,8 +14,13 @@ from typing import Optional
 
 import pytz
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from security.sanitizer import sanitize_ticker, sanitize_tickers, looks_like_sqli
+from security.audit_logger import log_security_event, SecurityEvent
 
 load_dotenv()
 
@@ -233,13 +238,20 @@ async def lifespan(app: FastAPI):
 
 # ── App ───────────────────────────────────────────────────────────────────────
 
+limiter = Limiter(key_func=get_remote_address, default_limits=["200/minute"])
+
 app = FastAPI(title="BVC Price Service", version="1.0.0", lifespan=lifespan)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "OPTIONS"],
+    allow_headers=["Content-Type", "X-Request-ID"],
+    expose_headers=["X-RateLimit-Remaining"],
+    max_age=600,
 )
 
 app.include_router(calendar_router)
@@ -248,7 +260,8 @@ app.include_router(calendar_router)
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
 @app.get("/health")
-def health():
+@limiter.limit("30/minute")
+def health(request: Request):
     now = _now_casablanca()
     return {
         "status": "ok",
@@ -258,7 +271,8 @@ def health():
 
 
 @app.get("/market/status")
-def market_status():
+@limiter.limit("60/minute")
+def market_status(request: Request):
     now = _now_casablanca()
     is_open = _is_market_open(now)
     return {
@@ -271,7 +285,8 @@ def market_status():
 
 
 @app.get("/prices/snapshot")
-def prices_snapshot():
+@limiter.limit("60/minute")
+def prices_snapshot(request: Request):
     now_ts = _now_casablanca().isoformat()
 
     cached = cache.get("SNAPSHOT")
@@ -302,8 +317,14 @@ def prices_snapshot():
 
 
 @app.get("/prices/batch")
-def prices_batch(tickers: str = Query(..., description="Comma-separated tickers, max 50")):
-    raw = [t.strip().upper() for t in tickers.split(",") if t.strip()]
+@limiter.limit("60/minute")
+def prices_batch(request: Request, tickers: str = Query(..., description="Comma-separated tickers, max 50")):
+    # Sanitize and validate input
+    if looks_like_sqli(tickers):
+        ip = get_remote_address(request)
+        log_security_event(SecurityEvent.SUSPICIOUS_INPUT, ip, details={"endpoint": "/prices/batch"}, severity="WARNING")
+        raise HTTPException(status_code=400, detail="Invalid input")
+    raw = sanitize_tickers(tickers)
     if not raw:
         raise HTTPException(status_code=400, detail="No tickers provided")
     if len(raw) > 50:
@@ -312,7 +333,7 @@ def prices_batch(tickers: str = Query(..., description="Comma-separated tickers,
     # Try to serve from individual cache entries first
     result: dict[str, dict] = {}
     missing: list[str] = []
-    for t in raw:
+    for t in raw:  # raw is already sanitized
         hit = cache.get(f"PRICE:{t}")
         if hit:
             result[t] = hit
@@ -335,8 +356,15 @@ def prices_batch(tickers: str = Query(..., description="Comma-separated tickers,
 
 
 @app.get("/prices/{ticker}")
-def prices_ticker(ticker: str):
-    t = ticker.strip().upper()
+@limiter.limit("120/minute")
+def prices_ticker(request: Request, ticker: str):
+    t = sanitize_ticker(ticker)
+    if not t:
+        raise HTTPException(status_code=400, detail="Invalid ticker symbol")
+    if looks_like_sqli(ticker):
+        ip = get_remote_address(request)
+        log_security_event(SecurityEvent.SUSPICIOUS_INPUT, ip, details={"endpoint": f"/prices/{ticker}"}, severity="WARNING")
+        raise HTTPException(status_code=400, detail="Invalid input")
     now_ts = _now_casablanca().isoformat()
 
     hit = cache.get(f"PRICE:{t}")

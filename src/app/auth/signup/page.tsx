@@ -7,13 +7,33 @@ import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, TrendingUp, Mail, Lock, User, Check, ArrowRight, Zap, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-const passwordStrength = (password: string) => {
+const COMMON_PASSWORDS = new Set([
+  'password','123456','azerty','qwerty','morocco',
+  'wallstreet','motdepasse','admin','12345678','111111',
+  'password1','iloveyou','sunshine','princess','welcome',
+]);
+
+const passwordStrength = (password: string): number => {
+  if (!password) return 0;
   let score = 0;
   if (password.length >= 8) score++;
   if (/[A-Z]/.test(password)) score++;
   if (/[0-9]/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
+  // Penalise common passwords
+  if (COMMON_PASSWORDS.has(password.toLowerCase())) return Math.min(score, 1);
   return score;
+};
+
+/** Returns a human-readable error if password is too weak, or null if acceptable. */
+const validatePasswordStrength = (password: string): string | null => {
+  if (password.length < 8) return 'Le mot de passe doit contenir au moins 8 caractères';
+  if (password.length > 128) return 'Le mot de passe est trop long';
+  if (!/[A-Z]/.test(password)) return 'Le mot de passe doit contenir au moins une majuscule';
+  if (!/[a-z]/.test(password)) return 'Le mot de passe doit contenir au moins une minuscule';
+  if (!/[0-9]/.test(password)) return 'Le mot de passe doit contenir au moins un chiffre';
+  if (COMMON_PASSWORDS.has(password.toLowerCase())) return 'Ce mot de passe est trop commun';
+  return null;
 };
 
 const strengthColors = ['', 'bg-danger', 'bg-warning', 'bg-secondary', 'bg-success'];
@@ -45,7 +65,8 @@ export default function SignupPage() {
     if (!formData.firstName.trim()) newErrors.firstName = t('errors.firstNameRequired');
     if (!formData.lastName.trim()) newErrors.lastName = t('errors.lastNameRequired');
     if (!formData.email.includes('@')) newErrors.email = t('errors.emailInvalid');
-    if (formData.password.length < 8) newErrors.password = t('errors.passwordMin');
+    const pwdError = validatePasswordStrength(formData.password);
+    if (pwdError) newErrors.password = pwdError;
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = t('errors.passwordMismatch');
     if (!formData.acceptTerms) newErrors.acceptTerms = t('errors.termsRequired');
     return newErrors;
@@ -303,9 +324,9 @@ export default function SignupPage() {
                 />
                 <label htmlFor="terms" className="text-xs text-primary/70 leading-relaxed">
                   {t('auth.acceptTerms')}{' '}
-                  <Link href="#" className="text-secondary hover:underline">{t('auth.termsOfUse')}</Link>
+                  <Link href="/terms" className="text-secondary hover:underline">{t('auth.termsOfUse')}</Link>
                   {' '}{t('auth.and')}{' '}
-                  <Link href="#" className="text-secondary hover:underline">{t('auth.privacyPolicy')}</Link>
+                  <Link href="/confidentialite" className="text-secondary hover:underline">{t('auth.privacyPolicy')}</Link>
                 </label>
               </div>
               {errors.acceptTerms && <p className="text-danger text-xs">{errors.acceptTerms}</p>}
@@ -324,10 +345,10 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* Submit */}
+            {/* Submit — disabled until T&C accepted */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !formData.acceptTerms}
               className="w-full bg-secondary text-white font-bold py-3.5 rounded-xl hover:bg-secondary-600 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
             >
               {isLoading ? (

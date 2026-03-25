@@ -1,0 +1,163 @@
+{
+  "privacy": {
+    "title": "Política de privacidad",
+    "lastUpdated": "Última actualización: 25 de marzo de 2026",
+    "backToHome": "Volver al inicio",
+    "sections": {
+      "controller": {
+        "title": "1. Responsable del tratamiento",
+        "content": "Mohammed El Hanafi — WallStreet Morocco (proyecto personal independiente). Contacto: mohamed345el@gmail.com — Teléfono: +33 7 43 52 76 04"
+      },
+      "data": {
+        "title": "2. Datos recopilados",
+        "account": "Datos de cuenta (si está registrado): dirección de correo electrónico, contraseña almacenada en forma hash (nunca en texto plano), fecha de registro.",
+        "portfolio": "Datos de cartera: acciones y fondos añadidos por el usuario, precios de compra, cantidades, fechas de compra, notas personales.",
+        "technical": "Datos técnicos: dirección IP (registros del servidor, conservados 30 días), navegador, sistema operativo, páginas visitadas.",
+        "notCollected": "Datos NO recopilados: ningún dato bancario o financiero real, ningún documento de identidad, ningún dato de ubicación precisa, ningún dato vendido a terceros."
+      },
+      "purposes": {
+        "title": "3. Finalidades del tratamiento",
+        "content": "Funcionamiento de la cuenta y la cartera · Mejora del servicio · Seguridad y prevención de abusos · Comunicación si nos contacta"
+      },
+      "legalBasis": {
+        "title": "4. Base legal (RGPD)",
+        "content": "Ejecución del contrato (cuenta de usuario) · Consentimiento (cookies analíticas) · Interés legítimo (seguridad del servicio)"
+      },
+      "retention": {
+        "title": "5. Período de conservación",
+        "account": "Datos de cuenta: hasta la eliminación de la cuenta",
+        "logs": "Registros de seguridad: 30 días",
+        "portfolio": "Datos de cartera: hasta eliminación explícita"
+      },
+      "rights": {
+        "title": "6. Sus derechos (Ley 09-08 Marruecos + RGPD para usuarios de la UE)",
+        "intro": "Tiene los siguientes derechos:",
+        "access": "Derecho de acceso a sus datos",
+        "rectification": "Derecho de rectificación",
+        "erasure": "Derecho de supresión ('derecho al olvido')",
+        "portability": "Derecho a la portabilidad de datos",
+        "opposition": "Derecho de oposición",
+        "withdraw": "Derecho a retirar el consentimiento",
+        "contact": "Para ejercer estos derechos: mohamed345el@gmail.com — Plazo de respuesta: máximo 30 días"
+      },
+      "cookies": {
+        "title": "7. Cookies",
+        "essential": "Esenciales: sesión, idioma, preferencias de interfaz — siempre activas",
+        "functional": "Funcionales: historial de cartera, preferencias — requieren consentimiento",
+        "analytics": "Analíticas: páginas vistas — desactivadas si se rechazan"
+      },
+      "security": {
+        "title": "8. Seguridad de los datos",
+        "content": "Contraseñas cifradas con bcrypt (12 rondas) · Comunicaciones cifradas (HTTPS/TLS) · Acceso restringido a los datos · Encabezados de seguridad HTTP configurados"
+      },
+      "transfers": {
+        "title": "9. Transferencias internacionales",
+        "content": "Este sitio está alojado en servidores ubicados en Europa (región EU-West). No se realizan transferencias a países terceros sin protección adecuada."
+      },
+      "changes": {
+        "title": "10. Cambios",
+        "content": "Esta política puede ser actualizada. Los usuarios serán notificados mediante notificación en la aplicación. La fecha de última actualización será modificada en consecuencia."
+      },
+      "contact": {
+        "title": "11. Contacto y reclamaciones",
+        "email": "Correo electrónico: mohamed345el@gmail.com",
+        "eu": "Autoridad de control (UE): CNIL (Francia) — cnil.fr",
+        "ma": "Autoridad de control (Marruecos): CNDP — cndp.ma"
+      }
+    }
+  },
+  "terms": {
+    "title": "Términos de servicio",
+    "lastUpdated": "Última actualización: 25 de marzo de 2026",
+    "backToHome": "Volver al inicio",
+    "sections": {
+      "presentation": {
+        "title": "1. Descripción del servicio",
+        "content": "WallStreet Morocco es un proyecto personal independiente desarrollado por Mohammed El Hanafi, que proporciona información financiera sobre la Bolsa de Casablanca (BVC) con fines exclusivamente educativos e informativos."
+      },
+      "acceptance": {
+        "title": "2. Aceptación de los términos",
+        "content": "Al acceder a este sitio, acepta estos términos. Si no acepta estos términos, por favor no utilice este servicio."
+      },
+      "disclaimer": {
+        "title": "3. Naturaleza del servicio — Aviso importante",
+        "warning": "WallStreet Morocco es un sitio de INFORMACIÓN y EDUCACIÓN FINANCIERA únicamente.",
+        "notProvided": "ESTE SITIO NO PROPORCIONA: asesoramiento de inversión · recomendaciones de compra o venta · gestión profesional de carteras · servicios regulados por la AMMC o cualquier regulador",
+        "dataDelay": "LOS DATOS MOSTRADOS: se proporcionan con un retraso mínimo de 15 minutos · pueden contener errores o inexactitudes · no deben ser la única base para decisiones financieras",
+        "risk": "INVERTIR CONLLEVA RIESGOS: puede perder todo o parte del capital invertido. Consulte a un asesor financiero autorizado antes de invertir."
+      },
+      "account": {
+        "title": "4. Cuenta de usuario",
+        "password": "Usted es responsable de la confidencialidad de su contraseña.",
+        "age": "Debe tener al menos 18 años para crear una cuenta.",
+        "oneAccount": "Solo se permite una cuenta por persona.",
+        "suspension": "Nos reservamos el derecho de suspender cualquier cuenta en caso de abuso."
+      },
+      "ip": {
+        "title": "5. Propiedad intelectual",
+        "content": "El contenido de este sitio (textos, análisis, código, diseño) es propiedad de Mohammed El Hanafi. Cualquier reproducción sin autorización está prohibida. Los datos de mercado provienen de fuentes de terceros (BVC, Leboursier.ma, Finnhub, ForexFactory) y siguen siendo propiedad de sus respectivos proveedores."
+      },
+      "liability": {
+        "title": "6. Limitación de responsabilidad",
+        "intro": "WallStreet Morocco no puede ser considerado responsable de:",
+        "losses": "Pérdidas financieras resultantes del uso de la información publicada en este sitio",
+        "interruptions": "Interrupciones del servicio o errores técnicos",
+        "dataAccuracy": "Inexactitud de los datos de mercado",
+        "decisions": "Decisiones tomadas basándose en la información publicada en este sitio"
+      },
+      "availability": {
+        "title": "7. Disponibilidad del servicio",
+        "content": "Este servicio se proporciona 'tal cual', sin garantía de disponibilidad permanente. Pueden producirse interrupciones por razones de mantenimiento o técnicas."
+      },
+      "prohibited": {
+        "title": "8. Conducta prohibida",
+        "intro": "Está prohibido utilizar este sitio para:",
+        "hacking": "Intentar piratear o comprometer la seguridad del sitio",
+        "scraping": "Automatizar solicitudes masivas (scraping abusivo)",
+        "impersonation": "Suplantar la identidad de otros usuarios",
+        "illegal": "Publicar contenido ilegal, difamatorio o engañoso",
+        "bypass": "Eludir las medidas de seguridad"
+      },
+      "changes": {
+        "title": "9. Cambios en los términos",
+        "content": "Estos términos pueden ser modificados. La fecha de última actualización se actualizará en consecuencia. El uso continuado del sitio constituye aceptación de los nuevos términos."
+      },
+      "law": {
+        "title": "10. Ley aplicable",
+        "content": "Estos términos se rigen por la ley marroquí. Cualquier disputa será sometida a la jurisdicción de los tribunales de Casablanca, Marruecos."
+      },
+      "contact": {
+        "title": "11. Contacto",
+        "content": "Para cualquier consulta: mohamed345el@gmail.com"
+      }
+    }
+  },
+  "cookies": {
+    "bannerTitle": "WallStreet Morocco utiliza cookies",
+    "bannerText": "Utilizamos cookies esenciales para el funcionamiento del sitio y cookies funcionales para mejorar su experiencia (guardado de cartera, preferencias).",
+    "learnMore": "Al continuar, acepta nuestra",
+    "privacyLink": "Política de privacidad",
+    "and": "y nuestros",
+    "termsLink": "Términos de servicio",
+    "acceptAll": "Aceptar todo",
+    "essentialOnly": "Solo esenciales",
+    "decline": "Rechazar",
+    "manage": "Gestionar cookies",
+    "categories": {
+      "essential": "Esenciales",
+      "essentialDesc": "Autenticación, idioma, sesión — siempre activas",
+      "functional": "Funcionales",
+      "functionalDesc": "Guardado de cartera, historial, preferencias",
+      "analytics": "Analíticas",
+      "analyticsDesc": "Páginas vistas, duración de visita (anonimizado)"
+    },
+    "savePreferences": "Guardar mis preferencias",
+    "currentSettings": "Configuración actual"
+  },
+  "footer": {
+    "disclaimer": "La información publicada en este sitio se proporciona únicamente con fines informativos. No constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital.",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "manageCookies": "Configuración de cookies"
+  }
+}

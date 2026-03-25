@@ -1,11 +1,59 @@
 'use client';
 
-import { Suspense, useState } from 'react';
+import { Suspense, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { Eye, EyeOff, TrendingUp, Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
+// ── Login lockout constants ────────────────────────────────────────────────────
+const MAX_ATTEMPTS   = 5;
+const LOCKOUT_MS     = 15 * 60 * 1000; // 15 minutes
+const ATTEMPT_PREFIX = 'wsm_login_attempts_';
+
+interface AttemptRecord { count: number; resetAt: number }
+
+function getAttemptKey(email: string): string {
+  // Hash the email lightly so it's not stored in plain text
+  let h = 0;
+  for (let i = 0; i < email.length; i++) { h = (Math.imul(31, h) + email.charCodeAt(i)) | 0; }
+  return ATTEMPT_PREFIX + Math.abs(h).toString(36);
+}
+
+function getAttempts(email: string): AttemptRecord {
+  try {
+    const raw = localStorage.getItem(getAttemptKey(email));
+    if (!raw) return { count: 0, resetAt: 0 };
+    const rec = JSON.parse(raw) as AttemptRecord;
+    if (Date.now() > rec.resetAt) return { count: 0, resetAt: 0 };
+    return rec;
+  } catch { return { count: 0, resetAt: 0 }; }
+}
+
+function recordFailedAttempt(email: string): AttemptRecord {
+  const rec = getAttempts(email);
+  const updated: AttemptRecord = {
+    count:   rec.count + 1,
+    resetAt: rec.resetAt || Date.now() + LOCKOUT_MS,
+  };
+  localStorage.setItem(getAttemptKey(email), JSON.stringify(updated));
+  return updated;
+}
+
+function clearAttempts(email: string): void {
+  localStorage.removeItem(getAttemptKey(email));
+}
+
+function isLockedOut(email: string): { locked: boolean; minutesLeft: number } {
+  const rec = getAttempts(email);
+  if (rec.count < MAX_ATTEMPTS) return { locked: false, minutesLeft: 0 };
+  const msLeft = rec.resetAt - Date.now();
+  if (msLeft <= 0) { clearAttempts(email); return { locked: false, minutesLeft: 0 }; }
+  return { locked: true, minutesLeft: Math.ceil(msLeft / 60_000) };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 function LoginForm() {
   const router = useRouter();
@@ -17,25 +65,40 @@ function LoginForm() {
   const [error, setError] = useState('');
   const { t } = useTranslation('common');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Check lockout before attempting
+    const lockout = isLockedOut(email.trim().toLowerCase());
+    if (lockout.locked) {
+      setError(
+        `Trop de tentatives. Réessayez dans ${lockout.minutesLeft} minute${lockout.minutesLeft > 1 ? 's' : ''}.`
+      );
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       const result = await signIn('credentials', {
-        email,
+        email: email.trim().toLowerCase(),
         password,
         redirect: false,
       });
 
       if (result?.error) {
-        if (result.error === 'CredentialsSignin') {
-          setError(t('errors.invalidCredentials'));
+        // Generic error — never reveal whether the email exists
+        const rec = recordFailedAttempt(email.trim().toLowerCase());
+        if (rec.count >= MAX_ATTEMPTS) {
+          setError(
+            `Trop de tentatives. Réessayez dans ${LOCKOUT_MS / 60_000} minutes.`
+          );
         } else {
-          setError(t('errors.generic'));
+          setError(t('errors.invalidCredentials'));
         }
       } else {
+        clearAttempts(email.trim().toLowerCase());
         const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard';
         router.push(callbackUrl);
         router.refresh();
@@ -45,7 +108,7 @@ function LoginForm() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [email, password, router, searchParams, t]);
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-4 py-20 relative overflow-hidden">
@@ -135,6 +198,7 @@ function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
+                  autoComplete="current-password"
                   className="w-full pl-10 pr-11 py-3 rounded-xl border border-surface-200 bg-white text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all text-sm"
                 />
                 <button
