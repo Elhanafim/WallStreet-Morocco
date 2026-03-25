@@ -5,6 +5,7 @@ import { Search, BookOpen, TrendingUp, BarChart2, Lightbulb } from 'lucide-react
 import ArticleCard from '@/components/learn/ArticleCard';
 import { articles } from '@/lib/data/articles';
 import { Article } from '@/types';
+import ChatHint from '@/components/chat/ChatHint';
 
 type Category = 'Tous' | Article['category'];
 
@@ -55,6 +56,15 @@ export default function LearnPage() {
             />
           </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0">
+        <ChatHint
+          storageKey="wsma_hint_learn"
+          icon="💡"
+          message="Des questions pendant votre lecture ? L'assistant IA est là pour vous aider."
+          ctaLabel="Poser une question"
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

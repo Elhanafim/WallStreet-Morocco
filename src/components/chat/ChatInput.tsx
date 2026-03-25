@@ -8,6 +8,8 @@ interface ChatInputProps {
   disabled?: boolean;
   onCancel?: () => void;
   isStreaming?: boolean;
+  prefillValue?: string;
+  onPrefillConsumed?: () => void;
 }
 
 const MAX_CHARS = 1000;
@@ -17,10 +19,21 @@ export default function ChatInput({
   disabled,
   onCancel,
   isStreaming,
+  prefillValue,
+  onPrefillConsumed,
 }: ChatInputProps) {
   const { t } = useTranslation("chat");
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Apply prefill from external source (ChatHint)
+  useEffect(() => {
+    if (prefillValue) {
+      setValue(prefillValue.slice(0, MAX_CHARS));
+      textareaRef.current?.focus();
+      onPrefillConsumed?.();
+    }
+  }, [prefillValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-resize textarea
   useEffect(() => {

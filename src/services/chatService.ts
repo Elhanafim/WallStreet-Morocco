@@ -1,6 +1,11 @@
 /**
  * SSE streaming client for the WallStreet Morocco chatbot.
- * Calls the FastAPI /chat/stream endpoint and yields tokens incrementally.
+ *
+ * Routing:
+ *  - With NEXT_PUBLIC_PRICE_SERVICE_URL set (local dev with Python running):
+ *      → calls ${PRICE_SERVICE_URL}/chat/stream  (FastAPI)
+ *  - Without it (Vercel production):
+ *      → calls /api/chat/stream  (Next.js route → Groq directly)
  */
 
 export interface ChatMessage {
@@ -28,8 +33,11 @@ export interface StreamCallbacks {
   onError: (message: string) => void;
 }
 
-const PRICE_SERVICE_URL =
-  process.env.NEXT_PUBLIC_PRICE_SERVICE_URL || "http://localhost:8001";
+// Same pattern as calendarService: use external URL in dev, /api route in production
+const PRICE_SERVICE =
+  (typeof process !== "undefined" && process.env.NEXT_PUBLIC_PRICE_SERVICE_URL) || "";
+
+const CHAT_URL = PRICE_SERVICE ? `${PRICE_SERVICE}/chat/stream` : "/api/chat/stream";
 
 /**
  * Send a chat request and stream the response token-by-token.
@@ -44,7 +52,7 @@ export function streamChat(
 
   (async () => {
     try {
-      const response = await fetch(`${PRICE_SERVICE_URL}/chat/stream`, {
+      const response = await fetch(CHAT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -60,7 +68,9 @@ export function streamChat(
 
       if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        callbacks.onError(err.detail || "Erreur de connexion au service.");
+        callbacks.onError(
+          err.detail || "Erreur de connexion au service. Réessayez dans un instant."
+        );
         return;
       }
 
@@ -79,7 +89,7 @@ export function streamChat(
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
-        buffer = lines.pop() ?? ""; // keep incomplete line
+        buffer = lines.pop() ?? "";
 
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
@@ -98,14 +108,20 @@ export function streamChat(
               return;
             }
           } catch {
-            // malformed JSON line — ignore
+            // malformed chunk — skip
           }
         }
       }
 
       callbacks.onDone();
     } catch (err: unknown) {
-      if (err instanceof Error && err.name === "AbortError") return; // user cancelled
+      if (err instanceof Error && err.name === "AbortError") return;
+      if (err instanceof TypeError && err.message.toLowerCase().includes("fetch")) {
+        callbacks.onError(
+          "Impossible de contacter le service de chat. Vérifiez votre connexion."
+        );
+        return;
+      }
       callbacks.onError("Service temporairement indisponible. Réessayez dans quelques secondes.");
     }
   })();

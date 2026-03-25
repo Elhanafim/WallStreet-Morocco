@@ -7,6 +7,7 @@ const TradingViewChart   = dynamic(() => import('@/components/market/TradingView
 const WatchlistPanel     = dynamic(() => import('@/components/market/WatchlistPanel'),     { ssr: false });
 const MarketSummary      = dynamic(() => import('@/components/market/MarketSummary'),      { ssr: false });
 const MarketStockGrid    = dynamic(() => import('@/components/market/MarketStockGrid'),    { ssr: false });
+const ChatHint           = dynamic(() => import('@/components/chat/ChatHint'),             { ssr: false });
 
 // ── All 77 CSEMA stocks ────────────────────────────────────────────────────────
 // Organised by primary sector — MarketStockGrid re-groups them by SECTORS config.
@@ -131,6 +132,15 @@ export default function MarketPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-0">
+        <ChatHint
+          storageKey="wsma_hint_market"
+          icon="💬"
+          message="Des questions sur une valeur ? Demandez à l'assistant IA."
+          ctaLabel="Ouvrir l'assistant"
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

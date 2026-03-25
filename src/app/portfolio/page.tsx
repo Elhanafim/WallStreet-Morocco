@@ -6,6 +6,7 @@ import {
   Briefcase, Plus, Trash2, ArrowRight, TrendingUp,
   DollarSign, BarChart2, X, AlertCircle, Loader2,
 } from 'lucide-react';
+import ChatHint from '@/components/chat/ChatHint';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -346,6 +347,14 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
       >
         <Plus className="w-4 h-4" /> Créer mon premier portefeuille
       </button>
+      <ChatHint
+        storageKey="wsma_hint_portfolio"
+        icon="🤖"
+        message="Nouveau ici ? Notre assistant peut vous guider pour construire votre premier portefeuille."
+        ctaLabel="Démarrer"
+        prefillMessage="Comment ajouter ma première action à mon portefeuille ?"
+        variant="card"
+      />
     </div>
   );
 }

@@ -17,6 +17,8 @@ interface ChatPanelProps {
   onCancel: () => void;
   context: ChatContext;
   hasGreeted: boolean;
+  prefillInput?: string;
+  onPrefillConsumed?: () => void;
 }
 
 // Minimal markdown renderer: bold, inline code, links, bullet lines
@@ -90,6 +92,8 @@ export default function ChatPanel({
   onCancel,
   context,
   hasGreeted,
+  prefillInput,
+  onPrefillConsumed,
 }: ChatPanelProps) {
   const { t } = useTranslation("chat");
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -216,6 +220,8 @@ export default function ChatPanel({
         disabled={false}
         isStreaming={isStreaming}
         onCancel={onCancel}
+        prefillValue={prefillInput}
+        onPrefillConsumed={onPrefillConsumed}
       />
     </div>
   );
