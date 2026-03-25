@@ -5,6 +5,7 @@ import { getArticleBySlug, getRelatedArticles, articles } from '@/lib/data/artic
 import { Badge, getCategoryBadgeVariant } from '@/components/ui/Badge';
 import ArticleCard from '@/components/learn/ArticleCard';
 import { formatDate } from '@/lib/utils';
+import DonateLearnBanner from '@/components/donate/DonateLearnBanner';
 
 interface PageProps {
   params: { slug: string };
@@ -164,6 +165,9 @@ export default function ArticlePage({ params }: PageProps) {
           {/* Main Content */}
           <div className="lg:col-span-2">
             <ArticleContent content={article.content} />
+
+            {/* Donate banner — Placement 4 */}
+            <DonateLearnBanner />
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (

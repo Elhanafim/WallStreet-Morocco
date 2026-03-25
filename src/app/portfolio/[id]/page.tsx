@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { canShowPrompt, canShowAnotherPrompt, DONATE_KEYS } from '@/services/donatePromptService';
 import {
   ArrowLeft, Plus, Trash2, X, Search, TrendingUp, TrendingDown,
   Minus, DollarSign, BarChart2, Briefcase, Loader2, AlertCircle,
@@ -21,6 +22,7 @@ import { generateSuggestions } from '@/services/suggestionEngine';
 
 const PerformanceChart = dynamic(() => import('@/components/portfolio/PerformanceChart'), { ssr: false });
 const SuggestionPanel = dynamic(() => import('@/components/portfolio/SuggestionPanel'), { ssr: false });
+const AfterHoldingDonateModal = dynamic(() => import('@/components/donate/AfterHoldingDonateModal'), { ssr: false });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -871,6 +873,7 @@ export default function PortfolioDetailPage({
   const [loading, setLoading]         = useState(true);
   const [notFound, setNotFound]       = useState(false);
   const [showPanel, setShowPanel]     = useState(false);
+  const [donateTicker, setDonateTicker] = useState<string | null>(null);
   const [livePrices, setLivePrices]   = useState<Record<string, number>>({});
   const [perf, setPerf]               = useState<PortfolioPerformance | null>(null);
   const [pricesLoading, setPricesLoading] = useState(false);
@@ -971,6 +974,11 @@ export default function PortfolioDetailPage({
     setHoldings((prev) => [h, ...prev]);
     setShowPanel(false);
     window.dispatchEvent(new CustomEvent('portfolioUpdated', { detail: { portfolioId: params.id } }));
+    // Placement 3: show donate nudge at peak moment (after adding a holding)
+    if (canShowPrompt(DONATE_KEYS.promptLastShown) && canShowAnotherPrompt()) {
+      const ticker = h.assetSymbol.split(':')[1] ?? h.assetSymbol;
+      setTimeout(() => setDonateTicker(ticker), 400);
+    }
   };
 
   const handleHoldingDeleted = (id: string) => {
@@ -1154,6 +1162,14 @@ export default function PortfolioDetailPage({
           portfolioId={params.id}
           onClose={() => setShowPanel(false)}
           onAdded={handleHoldingAdded}
+        />
+      )}
+
+      {/* ── Placement 3: post-holding donate nudge ── */}
+      {donateTicker && (
+        <AfterHoldingDonateModal
+          ticker={donateTicker}
+          onClose={() => setDonateTicker(null)}
         />
       )}
     </div>

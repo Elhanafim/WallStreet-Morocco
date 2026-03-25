@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import { BarChart2, Globe2 } from 'lucide-react';
+import MarchesSupport from '@/components/donate/MarchesSupport';
 
 const TradingViewTicker  = dynamic(() => import('@/components/market/TradingViewTicker'),  { ssr: false });
 const TradingViewChart   = dynamic(() => import('@/components/market/TradingViewChart'),   { ssr: false });
@@ -153,6 +154,9 @@ export default function MarketPage() {
 
             {/* Market Summary — unchanged */}
             <MarketSummary />
+
+            {/* Placement 8: permanent support strip */}
+            <MarchesSupport />
 
             {/* Stocks by sector */}
             <MarketStockGrid assets={ASSETS} />

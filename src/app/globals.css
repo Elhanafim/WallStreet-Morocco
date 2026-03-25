@@ -4,6 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+.animate-heartbeat {
+  animation: heartbeat 4s ease-in-out infinite;
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-110%); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+.animate-slide-in-left {
+  animation: slide-in-left 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 @layer base {
   :root {
     --color-primary: #0A2540;

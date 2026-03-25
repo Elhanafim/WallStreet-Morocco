@@ -18,6 +18,8 @@ export default function Navbar() {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('common');
 
+  const { t: td } = useTranslation('donate');
+
   const navLinks: { href: string; label: string }[] = [
     { href: '/learn', label: t('nav.learn') },
     { href: '/simulator', label: t('nav.simulator') },
@@ -94,6 +96,26 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {/* Donate pill */}
+            <Link
+              href="/donate"
+              className="ml-1 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 border-[1.5px] hover:text-white"
+              style={{
+                borderColor: '#c1272d',
+                color: '#c1272d',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = '#c1272d';
+                (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
+                (e.currentTarget as HTMLAnchorElement).style.color = '#c1272d';
+              }}
+            >
+              <span className="animate-heartbeat">♥</span>
+              <span>{td('navLabel')}</span>
+            </Link>
           </div>
 
           {/* Auth Area */}
@@ -214,6 +236,21 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+          {/* Mobile donate row */}
+          <Link
+            href="/donate"
+            className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold mt-1"
+            style={{ background: '#fff5f5', borderTop: '1px solid #fee2e2' }}
+          >
+            <div>
+              <p style={{ color: '#c1272d' }}>
+                <span className="animate-heartbeat mr-1">♥</span>
+                {td('navLabelMobile')}
+              </p>
+              <p className="text-xs text-red-400/70 mt-0.5">{td('navSubMobile')}</p>
+            </div>
+            <span style={{ color: '#c1272d' }} className="text-lg">→</span>
+          </Link>
           <div className="pt-3 border-t border-surface-100 flex flex-col gap-2">
             {session ? (
               <>

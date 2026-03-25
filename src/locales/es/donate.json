@@ -55,5 +55,40 @@
   "madeForMoroccansBody": "Un proyecto nacido de la convicción de que cada marroquí merece acceso a herramientas financieras de calidad.",
   "thankYou": "شكراً · Merci · Thank you · Gracias 🙏",
   "thankYouBody": "Su apoyo, en cualquier forma, permite que WallStreet Morocco siga existiendo y creciendo. Cada dírham, cada euro, cada dólar cuenta.",
-  "legalNotice": "WallStreet Morocco es un proyecto personal independiente. Las donaciones son contribuciones voluntarias y no dan derecho a ninguna contraprestación comercial."
+  "legalNotice": "WallStreet Morocco es un proyecto personal independiente. Las donaciones son contribuciones voluntarias y no dan derecho a ninguna contraprestación comercial.",
+
+  "navLabel": "Apoyar · 1$",
+  "navLabelMobile": "Apoyar WallStreet Morocco",
+  "navSubMobile": "Incluso 1$ marca la diferencia",
+
+  "footerMessage": "WallStreet Morocco es un proyecto independiente — sin publicidad ni inversores.",
+  "footerSub": "Cada aportación, incluso 1$, ayuda a mantenerlo gratuito para todos los marroquíes.",
+  "footerCta": "♥ Hacer una donación",
+
+  "afterHoldingTitle": "¡Activo añadido con éxito!",
+  "afterHoldingBody": "Acabas de usar una herramienta 100% gratuita, construida y mantenida por una sola persona.",
+  "afterHoldingAsk": "Si encuentras valor aquí — incluso 1$ nos ayuda a continuar.",
+  "afterHoldingBtn": "♥ Apoyar — incluso 1$",
+  "afterHoldingSkip": "Ahora no",
+  "afterHoldingCountdown": "Esta ventana se cierra en {{n}}s",
+
+  "learningTitle": "¿Acabas de aprender algo útil?",
+  "learningBody": "Este contenido es 100% gratuito. Lleva tiempo investigarlo, escribirlo y mantenerlo.",
+  "learningAsk": "Si te ha ayudado — incluso 1$ nos anima a seguir produciendo más.",
+  "learningBtn": "♥ Apoyar el proyecto",
+
+  "toastTitle": "Llevas un tiempo usando WallStreet Morocco...",
+  "toastBody": "Este proyecto sobrevive gracias a personas como tú. Incluso 1$ cuenta.",
+  "toastBtn": "Apoyar",
+
+  "calendarBanner": "Estos datos son recopilados y procesados gratuitamente para ti. Ayúdanos a mantener este servicio.",
+  "calendarBtn": "Apoyar · 1$",
+
+  "dashboardTitle": "Este dashboard fue construido gratuitamente.",
+  "dashboardBody": "Los servidores cuestan ~80$/mes. Sin apoyo, este servicio podría volverse de pago o desaparecer.",
+  "dashboardBtn": "♥ Contribuir ahora",
+  "dashboardSnooze": "Recuérdamelo más tarde",
+
+  "marchesStrip": "Estos datos en tiempo real son gratuitos gracias a ti.",
+  "marchesCta": "♥ 1$ es suficiente"
 }

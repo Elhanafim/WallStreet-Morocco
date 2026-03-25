@@ -10,6 +10,7 @@ import EventGroupByDate from '@/components/calendar/EventGroupByDate';
 import LiveEventCard from '@/components/calendar/LiveEventCard';
 import { REGIONS, getRegionId } from '@/data/calendarRegions';
 import { useTranslation } from 'react-i18next';
+import CalendarDonateBanner from '@/components/donate/CalendarDonateBanner';
 
 // ── Sort: today → upcoming asc → past desc ─────────────────────────────────────
 
@@ -340,6 +341,9 @@ export default function CalendarPage() {
               upcomingOnly={upcomingOnly}
               onUpcomingOnlyChange={setUpcomingOnly}
             />
+
+            {/* Placement 7: donate nudge after 3 min on page */}
+            <CalendarDonateBanner />
 
             {loading ? (
               <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">

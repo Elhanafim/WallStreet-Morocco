@@ -11,6 +11,7 @@ import {
   Calendar, DollarSign,
 } from 'lucide-react';
 import MetricCard from '@/components/dashboard/MetricCard';
+import DashboardDonateWidget from '@/components/donate/DashboardDonateWidget';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,6 +167,8 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
+      {/* Placement 6: donate widget */}
+      <DashboardDonateWidget />
       {/* Welcome */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
