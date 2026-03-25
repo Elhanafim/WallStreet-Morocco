@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -9,7 +10,7 @@ type Lang = (typeof LANGS)[number];
 const LABELS: Record<Lang, string> = { fr: 'FR', en: 'EN', es: 'ES' };
 
 export default function LanguageSwitcher({ className, floating }: { className?: string; floating?: boolean }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation('common');
   const current = (i18n.language?.slice(0, 2) ?? 'fr') as Lang;
 
   function switchLang(lang: Lang) {
@@ -21,21 +22,33 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
 
   if (floating) {
     return (
-      <div className="fixed bottom-5 right-5 z-50 flex items-center gap-0.5 bg-white/90 backdrop-blur-md border border-surface-200 rounded-xl shadow-lg p-1">
-        {LANGS.map((lang) => (
-          <button
-            key={lang}
-            onClick={() => switchLang(lang)}
-            className={cn(
-              'px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150',
-              current === lang
-                ? 'bg-primary text-white shadow-sm'
-                : 'text-primary/50 hover:text-primary hover:bg-surface-100'
-            )}
-          >
-            {LABELS[lang]}
-          </button>
-        ))}
+      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
+        {/* Donate CTA */}
+        <Link
+          href="/donate"
+          className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+        >
+          <span>♥</span>
+          {t('nav.donate')}
+        </Link>
+
+        {/* Language switcher */}
+        <div className="flex items-center gap-0.5 bg-white/90 backdrop-blur-md border border-surface-200 rounded-xl shadow-lg p-1">
+          {LANGS.map((lang) => (
+            <button
+              key={lang}
+              onClick={() => switchLang(lang)}
+              className={cn(
+                'px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150',
+                current === lang
+                  ? 'bg-primary text-white shadow-sm'
+                  : 'text-primary/50 hover:text-primary hover:bg-surface-100'
+              )}
+            >
+              {LABELS[lang]}
+            </button>
+          ))}
+        </div>
       </div>
     );
   }

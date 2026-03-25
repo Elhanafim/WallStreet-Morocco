@@ -18,14 +18,13 @@ export default function Navbar() {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('common');
 
-  const navLinks: { href: string; label: string; donate?: boolean }[] = [
+  const navLinks: { href: string; label: string }[] = [
     { href: '/learn', label: t('nav.learn') },
     { href: '/simulator', label: t('nav.simulator') },
     { href: '/calendar', label: t('nav.calendrier') },
     { href: '/opcvm', label: t('nav.opcvm') },
     { href: '/market', label: t('nav.marches') },
     { href: '/about', label: t('nav.fondateur') },
-    { href: '/donate', label: t('nav.donate'), donate: true },
   ];
 
   useEffect(() => {
@@ -87,14 +86,12 @@ export default function Navbar() {
                 href={link.href}
                 className={cn(
                   'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                  link.donate
-                    ? 'text-amber-700 hover:text-amber-900 hover:bg-amber-50 font-semibold border-b-2 border-amber-400'
-                    : pathname === link.href
+                  pathname === link.href
                     ? 'bg-primary/10 text-primary font-semibold'
                     : 'text-primary/70 hover:text-primary hover:bg-surface-100'
                 )}
               >
-                {link.donate ? '♥ ' : ''}{link.label}
+                {link.label}
               </Link>
             ))}
           </div>
@@ -209,14 +206,12 @@ export default function Navbar() {
               href={link.href}
               className={cn(
                 'flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                link.donate
-                  ? 'text-amber-700 font-semibold border border-amber-200 bg-amber-50/50'
-                  : pathname === link.href
+                pathname === link.href
                   ? 'bg-primary/10 text-primary font-semibold'
                   : 'text-primary/70 hover:text-primary hover:bg-surface-50'
               )}
             >
-              {link.donate ? '♥ ' : ''}{link.label}
+              {link.label}
             </Link>
           ))}
           <div className="pt-3 border-t border-surface-100 flex flex-col gap-2">
