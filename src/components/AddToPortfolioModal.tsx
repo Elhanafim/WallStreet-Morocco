@@ -345,7 +345,7 @@ export default function AddToPortfolioModal({
       .finally(() => setPortfoliosLoading(false));
 
     // Fetch market status
-    getMarketStatus().then(setMarketStatus).catch(() => {});
+    try { setMarketStatus(getMarketStatus()); } catch { /* ignore */ }
 
     // Fetch price
     if (asset.type === 'opcvm') {

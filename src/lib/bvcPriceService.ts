@@ -1,11 +1,10 @@
 /**
- * Frontend client for the BVC Price Microservice (FastAPI/casabourse).
- * All components must use this service — never call the microservice directly.
+ * BVC Price Service — calls /api/bvc/prices (Next.js route).
+ * That route proxies the official Casablanca Bourse REST API directly.
+ * No external Python microservice required.
+ *
+ * All components must use this service — never call APIs directly.
  */
-
-const BASE_URL =
-  (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_PRICE_SERVICE_URL) ||
-  'http://localhost:8001';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -21,7 +20,7 @@ export interface BVCPrice {
   volume: number;
   referencePrice: number;
   timestamp: string;
-  cached: boolean;
+  cached?: boolean;
   source: string;
   available: boolean;
 }
@@ -62,10 +61,10 @@ export interface MarketStatus {
   delayMinutes: number;
 }
 
-// ── In-memory frontend cache (secondary layer, 30 s TTL) ──────────────────────
+// ── In-memory frontend cache (30 s TTL) ───────────────────────────────────────
 
 const frontendCache = new Map<string, { data: BVCPrice; ts: number }>();
-const FRONTEND_CACHE_TTL = 30_000; // 30 seconds
+const FRONTEND_CACHE_TTL = 30_000;
 
 function cacheGet(ticker: string): BVCPrice | null {
   const entry = frontendCache.get(ticker.toUpperCase());
@@ -77,13 +76,17 @@ function cacheSet(ticker: string, data: BVCPrice) {
   frontendCache.set(ticker.toUpperCase(), { data, ts: Date.now() });
 }
 
+function cleanTicker(raw: string): string {
+  return raw.toUpperCase().replace('CSEMA:', '').trim();
+}
+
 // ── Fetch helpers ─────────────────────────────────────────────────────────────
 
-async function safeFetch<T>(path: string, timeoutMs = 5_000): Promise<T | null> {
+async function safeFetch<T>(url: string, timeoutMs = 10_000): Promise<T | null> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(`${BASE_URL}${path}`, { signal: controller.signal });
+    const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timer);
     if (!res.ok) return null;
     return (await res.json()) as T;
@@ -93,29 +96,42 @@ async function safeFetch<T>(path: string, timeoutMs = 5_000): Promise<T | null> 
   }
 }
 
+// Snapshot populated by fetchSnapshot(); used by fetchPrice as a secondary cache
+let _snapshot: Map<string, BVCPrice> | null = null;
+let _snapshotTs = 0;
+const SNAPSHOT_TTL = 60_000;
+
 // ── Public API ────────────────────────────────────────────────────────────────
 
 /**
- * Fetch live price for a single BVC ticker (e.g. "ATW", "BCP").
- * Checks frontend cache first, then the microservice.
- * Returns null on any error — caller should fall back to manual entry.
+ * Fetch live price for a single BVC ticker (e.g. "ATW", "CSEMA:BCP").
+ * Returns null on failure — caller shows manual entry UI.
  */
 export async function fetchPrice(ticker: string): Promise<BVCPrice | null> {
-  const upper = ticker.toUpperCase();
+  const t = cleanTicker(ticker);
 
-  const cached = cacheGet(upper);
+  // 1. Frontend cache
+  const cached = cacheGet(t);
   if (cached) return cached;
 
-  const data = await safeFetch<BVCPrice>(`/prices/${upper}`);
-  if (data && data.available) {
-    cacheSet(upper, data);
+  // 2. In-memory snapshot (populated by fetchSnapshot)
+  if (_snapshot && Date.now() - _snapshotTs < SNAPSHOT_TTL) {
+    const hit = _snapshot.get(t);
+    if (hit) return hit;
+  }
+
+  // 3. Single-ticker API call (triggers snapshot fetch on server side)
+  const data = await safeFetch<BVCPrice>(`/api/bvc/prices?ticker=${t}`, 12_000);
+  if (data && data.available && data.lastPrice > 0) {
+    cacheSet(t, data);
     return data;
   }
+
   return null;
 }
 
 /**
- * Fetch prices for multiple tickers in one round-trip.
+ * Fetch prices for multiple tickers in one call.
  * Returns a map of ticker → BVCPrice (missing tickers are omitted).
  */
 export async function fetchBatchPrices(
@@ -123,114 +139,129 @@ export async function fetchBatchPrices(
 ): Promise<Record<string, BVCPrice>> {
   if (tickers.length === 0) return {};
 
-  const upper = tickers.map((t) => t.toUpperCase());
+  // Seed from snapshot first
+  await fetchSnapshot();
 
-  // Serve from cache where possible
   const result: Record<string, BVCPrice> = {};
-  const missing: string[] = [];
-  for (const t of upper) {
-    const c = cacheGet(t);
-    if (c) result[t] = c;
-    else missing.push(t);
+  for (const raw of tickers) {
+    const t = cleanTicker(raw);
+    const hit = cacheGet(t) ?? _snapshot?.get(t);
+    if (hit) result[t] = hit;
   }
-
-  if (missing.length > 0) {
-    const resp = await safeFetch<{ data: Record<string, BVCPrice> }>(
-      `/prices/batch?tickers=${missing.join(',')}`
-    );
-    if (resp?.data) {
-      for (const [t, price] of Object.entries(resp.data)) {
-        if (price.available) {
-          cacheSet(t, price);
-          result[t] = price;
-        }
-      }
-    }
-  }
-
   return result;
 }
 
 /**
- * Fetch prices for ALL BVC stocks in one call.
- * Use this on the Marchés page to pre-populate the frontend cache.
+ * Fetch all BVC stocks in one call (≈ 113 instruments).
+ * Pre-populates the frontend cache; use on Marchés / dashboard pages.
  */
 export async function fetchSnapshot(): Promise<BVCPrice[]> {
-  const resp = await safeFetch<{ data: BVCPrice[] }>('/prices/snapshot', 10_000);
-  if (!resp?.data) return [];
+  // Use in-memory snapshot if fresh
+  if (_snapshot && Date.now() - _snapshotTs < SNAPSHOT_TTL) {
+    return Array.from(_snapshot.values());
+  }
+
+  const resp = await safeFetch<{ data: BVCPrice[] }>('/api/bvc/prices', 12_000);
+  if (!resp?.data?.length) return [];
+
+  _snapshot = new Map();
+  _snapshotTs = Date.now();
 
   for (const price of resp.data) {
-    if (price.ticker && price.available) {
+    if (price.ticker && price.available && price.lastPrice > 0) {
+      _snapshot.set(price.ticker, price);
       cacheSet(price.ticker, price);
     }
   }
+
   return resp.data;
 }
 
 /**
- * Returns market open/closed status and next session times.
- */
-export async function getMarketStatus(): Promise<MarketStatus | null> {
-  return safeFetch<MarketStatus>('/market/status');
-}
-
-/**
- * Fetch top gainers and losers from the current session.
+ * Top gainers and losers derived from the snapshot.
  */
 export async function fetchMovers(): Promise<BVCMovers | null> {
-  return safeFetch<BVCMovers>('/prices/movers', 10_000);
+  const all = await fetchSnapshot();
+  if (!all.length) return null;
+
+  const sorted = [...all].sort((a, b) => (b.changePercent ?? 0) - (a.changePercent ?? 0));
+  return {
+    gainers: sorted.slice(0, 10),
+    losers:  sorted.slice(-10).reverse(),
+    timestamp: new Date().toISOString(),
+    total: all.length,
+  };
 }
 
 /**
- * Fetch fundamentals (P/E, EPS, market cap, etc.) for a single ticker.
+ * Returns market open/closed status (Casablanca timezone, Mon–Fri 09:30–15:30).
+ */
+export function getMarketStatus(): MarketStatus {
+  const now = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Africa/Casablanca' })
+  );
+  const day = now.getDay(); // 0=Sun, 6=Sat
+  const min = now.getHours() * 60 + now.getMinutes();
+  const open = day >= 1 && day <= 5 && min >= 9 * 60 + 30 && min < 15 * 60 + 30;
+
+  // Next open: next weekday at 09:30
+  const next = new Date(now);
+  if (!open) {
+    next.setHours(9, 30, 0, 0);
+    if (min >= 15 * 60 + 30 || day === 0 || day === 6) next.setDate(next.getDate() + 1);
+    while (next.getDay() === 0 || next.getDay() === 6) next.setDate(next.getDate() + 1);
+  }
+
+  return {
+    open,
+    nextOpen:  open ? '' : next.toISOString(),
+    nextClose: open
+      ? new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 30).toISOString()
+      : '',
+    timezone: 'Africa/Casablanca',
+    delayMinutes: 0, // official BVC data, no delay
+  };
+}
+
+/**
+ * Fundamentals stub — returns price data only (no P/E from this source).
  */
 export async function fetchFundamentals(ticker: string): Promise<BVCFundamentals | null> {
-  const upper = ticker.toUpperCase();
-  const data = await safeFetch<BVCFundamentals>(`/prices/fundamentals/${upper}`, 10_000);
-  return data;
+  const price = await fetchPrice(ticker);
+  if (!price) return null;
+  return { ticker: price.ticker, name: price.name, price, timestamp: price.timestamp };
 }
 
-// ── Source label helpers ──────────────────────────────────────────────────────
+// ── Display helpers ───────────────────────────────────────────────────────────
 
 const SOURCE_LABELS: Record<string, string> = {
-  'StocksMA': 'Leboursier (StocksMA)',
-  'StocksMA-Excel': 'Leboursier (cache Excel)',
-  'casabourse': 'Bourse de Casablanca',
+  'casablanca-bourse': 'Bourse de Casablanca',
+  'StocksMA':          'Leboursier (StocksMA)',
+  'StocksMA-Excel':    'Leboursier (cache Excel)',
+  'casabourse':        'Bourse de Casablanca',
 };
 
-/**
- * Returns a human-readable source label for display in the UI.
- */
 export function formatSourceLabel(source: string): string {
   return SOURCE_LABELS[source] ?? source;
 }
 
-/**
- * Returns a dot color class for the source indicator.
- * Green = live StocksMA, Amber = Excel cache, Blue = casabourse.
- */
 export function sourceColorClass(source: string): string {
-  if (source === 'StocksMA') return 'bg-emerald-500';
+  if (source === 'casablanca-bourse' || source === 'casabourse') return 'bg-emerald-500';
+  if (source === 'StocksMA') return 'bg-blue-400';
   if (source === 'StocksMA-Excel') return 'bg-amber-400';
   return 'bg-blue-400';
 }
 
-/**
- * Format a BVCPrice change for display: "+1.23%" or "-0.45%"
- */
 export function formatChange(price: BVCPrice): string {
   const sign = price.changePercent >= 0 ? '+' : '';
   return `${sign}${price.changePercent.toFixed(2)}%`;
 }
 
-/**
- * Format a BVCPrice timestamp for display (HH:MM or date).
- */
 export function formatPriceTime(timestamp: string): string {
   if (!timestamp) return '';
   try {
     const d = new Date(timestamp);
-    if (isNaN(d.getTime())) return timestamp;
+    if (isNaN(d.getTime())) return '';
     const now = new Date();
     if (
       d.getDate() === now.getDate() &&
