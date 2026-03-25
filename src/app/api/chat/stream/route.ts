@@ -55,8 +55,8 @@ function buildSystemPrompt(opts: {
   const langInstruction = langInstructions[opts.language] ?? langInstructions.fr;
 
   let contextBlock = `Page actuelle de l'utilisateur : ${opts.currentPage}`;
-  if (opts.isAuthenticated) contextBlock += '\nL'utilisateur est connecté.';
-  else contextBlock += '\nL'utilisateur n'est pas connecté (compte gratuit disponible).';
+  if (opts.isAuthenticated) contextBlock += "\nL'utilisateur est connect\u00e9.";
+  else contextBlock += "\nL'utilisateur n'est pas connect\u00e9 (compte gratuit disponible).";
   contextBlock += `\nMarchés BVC : ${opts.marketStatus === 'open' ? 'Ouverts (09h30–15h30)' : 'Fermés'}`;
   if (opts.portfolioSummary) {
     const p = opts.portfolioSummary as Record<string, unknown>;
