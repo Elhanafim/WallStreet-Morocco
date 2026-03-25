@@ -2,13 +2,25 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import {
   ArrowLeft, Plus, Trash2, X, Search, TrendingUp, TrendingDown,
   Minus, DollarSign, BarChart2, Briefcase, Loader2, AlertCircle,
-  ChevronRight, BadgeInfo, Download, FileText, CheckCircle, Wifi, WifiOff, Pencil,
+  ChevronRight, BadgeInfo, Download, FileText, CheckCircle, WifiOff, Pencil, RefreshCw,
 } from 'lucide-react';
 import { STOCK_ASSETS, OPCVM_ASSETS, type CatalogueAsset, type OpcvmAsset } from '@/lib/data/assets';
-import { fetchPrice, formatSourceLabel, formatPriceTime, type BVCPrice } from '@/lib/bvcPriceService';
+import { fetchPrice, fetchBatchPrices, formatSourceLabel, formatPriceTime, type BVCPrice } from '@/lib/bvcPriceService';
+import {
+  calculatePortfolioPerformance,
+  saveSnapshot,
+  loadSnapshots,
+  type PortfolioPerformance,
+  type DailySnapshot,
+} from '@/services/performanceService';
+import { generateSuggestions } from '@/services/suggestionEngine';
+
+const PerformanceChart = dynamic(() => import('@/components/portfolio/PerformanceChart'), { ssr: false });
+const SuggestionPanel = dynamic(() => import('@/components/portfolio/SuggestionPanel'), { ssr: false });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -55,17 +67,20 @@ const STRATEGY_LABELS: Record<string, string> = {
   AUTRE:       'Autre',
 };
 
-/** For a holding, we use purchasePrice as both cost and current price (no live feed). */
-function calcPerf(h: Holding) {
-  const cost         = h.quantity * h.purchasePrice;
-  const currentValue = cost;
-  const gainLoss     = 0;
-  const gainLossPct  = 0;
-  return { cost, currentValue, gainLoss, gainLossPct };
+function calcPerf(h: Holding, livePrice?: number) {
+  const cost = h.quantity * h.purchasePrice;
+  if (livePrice && livePrice > 0) {
+    const currentValue = h.quantity * livePrice;
+    const gainLoss = currentValue - cost;
+    const gainLossPct = cost > 0 ? (gainLoss / cost) * 100 : 0;
+    return { cost, currentValue, gainLoss, gainLossPct };
+  }
+  return { cost, currentValue: cost, gainLoss: 0, gainLossPct: 0 };
 }
 
-function totalStats(holdings: Holding[]) {
-  const totalCost  = holdings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
+function totalStats(holdings: Holding[], perf?: PortfolioPerformance) {
+  const totalCost = holdings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
+  if (perf) return { totalCost, totalValue: perf.totalValue, totalGain: perf.totalGain, totalGainPct: perf.totalGainPct };
   return { totalCost, totalValue: totalCost, totalGain: 0, totalGainPct: 0 };
 }
 
@@ -604,7 +619,7 @@ function AddHoldingPanel({
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder={selected.type === 'opcvm' ? '0.001' : '1'}
                   min="0.001"
-                  step={selected.type === 'opcvm' ? '0.001' : '1'}
+                  step="any"
                   required
                   autoFocus
                   className="w-full px-4 py-3 rounded-xl border border-surface-200 text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
@@ -693,26 +708,32 @@ function AddHoldingPanel({
 function HoldingsTable({
   holdings,
   portfolioId,
+  livePrices,
+  pricesLoading,
   onDeleted,
 }: {
   holdings: Holding[];
   portfolioId: string;
+  livePrices: Record<string, number>;
+  pricesLoading: boolean;
   onDeleted: (id: string) => void;
 }) {
   const [toDelete, setToDelete] = useState<Holding | null>(null);
+
+  const columns = ['Actif', 'Type', 'Symbole', 'Qté', "Prix d'achat", 'Prix actuel', "Date d'achat", 'Valeur investie', 'G/P', 'Note', ''];
 
   return (
     <>
       <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[780px]">
+          <table className="w-full min-w-[900px]">
             <thead className="bg-surface-50 border-b border-surface-100">
               <tr>
-                {['Actif', 'Type', 'Symbole', 'Qté', "Prix d'achat", "Date d'achat", 'Valeur investie', 'G/P', 'Note', ''].map((h, i) => (
+                {columns.map((h, i) => (
                   <th
                     key={h + i}
                     className={`px-4 py-3.5 text-xs font-semibold text-primary/50 uppercase tracking-wider ${
-                      i === 0 ? 'text-left' : i >= 8 ? 'text-center' : 'text-right'
+                      i === 0 ? 'text-left' : i >= columns.length - 2 ? 'text-center' : 'text-right'
                     }`}
                   >
                     {h}
@@ -722,7 +743,11 @@ function HoldingsTable({
             </thead>
             <tbody className="divide-y divide-surface-50">
               {holdings.map((h) => {
-                const { cost, gainLoss, gainLossPct } = calcPerf(h);
+                const ticker = h.assetType === 'STOCK'
+                  ? (h.assetSymbol.split(':')[1] ?? h.assetSymbol)
+                  : h.assetSymbol;
+                const livePrice = h.assetType === 'STOCK' ? (livePrices[ticker] ?? undefined) : undefined;
+                const { cost, currentValue, gainLoss, gainLossPct } = calcPerf(h, livePrice);
                 return (
                   <tr key={h.id} className="hover:bg-surface-50 transition-colors">
                     {/* Actif */}
@@ -768,13 +793,25 @@ function HoldingsTable({
                     <td className="px-4 py-3.5 text-right text-sm text-primary/70">
                       {fmtMAD(h.purchasePrice)}
                     </td>
+                    {/* Prix actuel */}
+                    <td className="px-4 py-3.5 text-right text-sm">
+                      {h.assetType === 'OPCVM' ? (
+                        <span className="text-primary/30 text-xs">—</span>
+                      ) : pricesLoading && !livePrice ? (
+                        <span className="inline-block w-14 h-4 bg-surface-200 rounded animate-pulse" />
+                      ) : livePrice ? (
+                        <span className="font-semibold text-primary">{fmtMAD(livePrice)}</span>
+                      ) : (
+                        <span className="text-primary/30 text-xs">n/a</span>
+                      )}
+                    </td>
                     {/* Date */}
                     <td className="px-4 py-3.5 text-right text-sm text-primary/50">
                       {fmtDate(h.purchaseDate)}
                     </td>
-                    {/* Valeur investie */}
+                    {/* Valeur investie / actuelle */}
                     <td className="px-4 py-3.5 text-right text-sm font-bold text-primary">
-                      {fmtMAD(cost)}
+                      {fmtMAD(livePrice ? currentValue : cost)}
                     </td>
                     {/* G/P */}
                     <td className="px-4 py-3.5 text-right">
@@ -801,12 +838,11 @@ function HoldingsTable({
           </table>
         </div>
 
-        {/* No live data notice */}
         <div className="px-5 py-3 border-t border-surface-50 flex items-center gap-2 bg-surface-50/50">
           <BadgeInfo className="w-3.5 h-3.5 text-primary/30 flex-shrink-0" />
           <p className="text-xs text-primary/40">
-            Prix en temps réel non disponibles — G/P calculé dès qu&apos;un prix mis à jour est disponible.
-            La colonne &ldquo;Valeur investie&rdquo; reflète votre prix d&apos;achat × quantité.
+            Prix BVC en temps réel (Bourse de Casablanca). G/P calculé sur la base du prix actuel vs prix d&apos;achat.
+            OPCVM : prix non disponibles en temps réel.
           </p>
         </div>
       </div>
@@ -830,11 +866,15 @@ export default function PortfolioDetailPage({
 }: {
   params: { id: string };
 }) {
-  const [portfolio, setPortfolio]   = useState<NamedPortfolio | null>(null);
-  const [holdings, setHoldings]     = useState<Holding[]>([]);
-  const [loading, setLoading]       = useState(true);
-  const [notFound, setNotFound]     = useState(false);
-  const [showPanel, setShowPanel]   = useState(false);
+  const [portfolio, setPortfolio]     = useState<NamedPortfolio | null>(null);
+  const [holdings, setHoldings]       = useState<Holding[]>([]);
+  const [loading, setLoading]         = useState(true);
+  const [notFound, setNotFound]       = useState(false);
+  const [showPanel, setShowPanel]     = useState(false);
+  const [livePrices, setLivePrices]   = useState<Record<string, number>>({});
+  const [perf, setPerf]               = useState<PortfolioPerformance | null>(null);
+  const [pricesLoading, setPricesLoading] = useState(false);
+  const [snapshots, setSnapshots]     = useState<DailySnapshot[]>([]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -863,7 +903,57 @@ export default function PortfolioDetailPage({
     }
   }, [params.id]);
 
+  const refreshPrices = useCallback(async (currentHoldings: Holding[]) => {
+    const stockTickers = currentHoldings
+      .filter((h) => h.assetType === 'STOCK')
+      .map((h) => h.assetSymbol.split(':')[1] ?? h.assetSymbol);
+    if (stockTickers.length === 0) return;
+
+    setPricesLoading(true);
+    try {
+      const priceMap = await fetchBatchPrices(stockTickers);
+      const prices: Record<string, number> = {};
+      for (const [ticker, bvcPrice] of Object.entries(priceMap)) {
+        if (bvcPrice.available && bvcPrice.lastPrice > 0) {
+          prices[ticker] = bvcPrice.lastPrice;
+        }
+      }
+      setLivePrices(prices);
+
+      // Calculate portfolio performance
+      const newPerf = calculatePortfolioPerformance(
+        currentHoldings.map((h) => ({
+          id: h.id,
+          quantity: h.quantity,
+          purchasePrice: h.purchasePrice,
+          assetSymbol: h.assetSymbol,
+          assetType: h.assetType,
+        })),
+        prices
+      );
+      setPerf(newPerf);
+
+      // Save daily snapshot
+      saveSnapshot(params.id, newPerf.totalValue, newPerf.totalCost);
+      setSnapshots(loadSnapshots(params.id));
+    } finally {
+      setPricesLoading(false);
+    }
+  }, [params.id]);
+
   useEffect(() => { fetchData(); }, [fetchData]);
+
+  // Load snapshots from localStorage on mount
+  useEffect(() => {
+    setSnapshots(loadSnapshots(params.id));
+  }, [params.id]);
+
+  // Fetch live prices when holdings are loaded
+  useEffect(() => {
+    if (holdings.length > 0) {
+      refreshPrices(holdings);
+    }
+  }, [holdings, refreshPrices]);
 
   // ── Refresh when another page adds a holding to this portfolio ──
   useEffect(() => {
@@ -880,7 +970,6 @@ export default function PortfolioDetailPage({
   const handleHoldingAdded = (h: Holding) => {
     setHoldings((prev) => [h, ...prev]);
     setShowPanel(false);
-    // Notify Dashboard and other pages
     window.dispatchEvent(new CustomEvent('portfolioUpdated', { detail: { portfolioId: params.id } }));
   };
 
@@ -888,7 +977,15 @@ export default function PortfolioDetailPage({
     setHoldings((prev) => prev.filter((h) => h.id !== id));
   };
 
-  const { totalCost } = useMemo(() => totalStats(holdings), [holdings]);
+  const { totalCost, totalValue, totalGain, totalGainPct } = useMemo(
+    () => totalStats(holdings, perf ?? undefined),
+    [holdings, perf]
+  );
+
+  const suggestions = useMemo(
+    () => perf ? generateSuggestions(holdings, perf) : [],
+    [holdings, perf]
+  );
 
   if (loading) {
     return (
@@ -948,14 +1045,24 @@ export default function PortfolioDetailPage({
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
               {holdings.length > 0 && (
-                <button
-                  onClick={() => exportCSV(holdings, portfolio.name)}
-                  className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
-                  title="Exporter CSV"
-                >
-                  <Download className="w-4 h-4" />
-                  CSV
-                </button>
+                <>
+                  <button
+                    onClick={() => refreshPrices(holdings)}
+                    disabled={pricesLoading}
+                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm disabled:opacity-50"
+                    title="Actualiser les prix"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${pricesLoading ? 'animate-spin' : ''}`} />
+                  </button>
+                  <button
+                    onClick={() => exportCSV(holdings, portfolio.name)}
+                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
+                    title="Exporter CSV"
+                  >
+                    <Download className="w-4 h-4" />
+                    CSV
+                  </button>
+                </>
               )}
               <button
                 onClick={() => setShowPanel(true)}
@@ -968,18 +1075,42 @@ export default function PortfolioDetailPage({
 
           {/* KPI strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-            {[
-              { icon: DollarSign, label: 'Capital investi', value: fmtMAD(totalCost, true) },
-              { icon: BarChart2,  label: 'Positions',        value: String(holdings.length) },
-              { icon: TrendingUp, label: 'Actions BVC',      value: String(holdings.filter((h) => h.assetType === 'STOCK').length) },
-              { icon: Minus,      label: 'OPCVM',            value: String(holdings.filter((h) => h.assetType === 'OPCVM').length) },
-            ].map((k) => (
-              <div key={k.label} className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
-                <k.icon className="w-4 h-4 text-white/40 mx-auto mb-2" />
-                <p className="text-white font-black text-xl leading-none">{k.value}</p>
-                <p className="text-white/50 text-xs mt-1">{k.label}</p>
-              </div>
-            ))}
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
+              <DollarSign className="w-4 h-4 text-white/40 mx-auto mb-2" />
+              <p className="text-white font-black text-xl leading-none">{fmtMAD(totalCost, true)}</p>
+              <p className="text-white/50 text-xs mt-1">Capital investi</p>
+            </div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
+              <BarChart2 className="w-4 h-4 text-white/40 mx-auto mb-2" />
+              {pricesLoading && !perf ? (
+                <div className="h-7 w-20 bg-white/20 rounded animate-pulse mx-auto mb-1" />
+              ) : (
+                <p className={`font-black text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                  {fmtMAD(totalValue, true)}
+                </p>
+              )}
+              <p className="text-white/50 text-xs mt-1">Valeur actuelle</p>
+            </div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
+              {totalGain >= 0 ? (
+                <TrendingUp className="w-4 h-4 text-emerald-300 mx-auto mb-2" />
+              ) : (
+                <TrendingDown className="w-4 h-4 text-red-300 mx-auto mb-2" />
+              )}
+              {pricesLoading && !perf ? (
+                <div className="h-7 w-16 bg-white/20 rounded animate-pulse mx-auto mb-1" />
+              ) : (
+                <p className={`font-black text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                  {totalGain >= 0 ? '+' : ''}{totalGainPct.toFixed(2)}%
+                </p>
+              )}
+              <p className="text-white/50 text-xs mt-1">G/P total</p>
+            </div>
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
+              <Minus className="w-4 h-4 text-white/40 mx-auto mb-2" />
+              <p className="text-white font-black text-xl leading-none">{holdings.length}</p>
+              <p className="text-white/50 text-xs mt-1">Positions</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1003,11 +1134,17 @@ export default function PortfolioDetailPage({
             </button>
           </div>
         ) : (
-          <HoldingsTable
-            holdings={holdings}
-            portfolioId={params.id}
-            onDeleted={handleHoldingDeleted}
-          />
+          <div className="space-y-6">
+            <PerformanceChart snapshots={snapshots} totalCost={totalCost} />
+            {suggestions.length > 0 && <SuggestionPanel suggestions={suggestions} />}
+            <HoldingsTable
+              holdings={holdings}
+              portfolioId={params.id}
+              livePrices={livePrices}
+              pricesLoading={pricesLoading}
+              onDeleted={handleHoldingDeleted}
+            />
+          </div>
         )}
       </div>
 
