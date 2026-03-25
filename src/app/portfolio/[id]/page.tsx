@@ -8,7 +8,7 @@ import {
   ChevronRight, BadgeInfo, Download, FileText, CheckCircle, Wifi, WifiOff, Pencil,
 } from 'lucide-react';
 import { STOCK_ASSETS, OPCVM_ASSETS, type CatalogueAsset, type OpcvmAsset } from '@/lib/data/assets';
-import { fetchLivePrice, sourceLabel, type PriceResult } from '@/lib/priceService';
+import { fetchPrice, formatSourceLabel, formatPriceTime, type BVCPrice } from '@/lib/bvcPriceService';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -212,7 +212,7 @@ type PriceState =
   | { status: 'idle' }
   | { status: 'loading' }
   | { status: 'trying_next'; attempt: number }
-  | { status: 'success'; result: PriceResult }
+  | { status: 'success'; result: BVCPrice }
   | { status: 'manual' };
 
 // ─── Add Holding Panel ────────────────────────────────────────────────────────
@@ -268,9 +268,9 @@ function AddHoldingPanel({
       // Stock: kick off the live price fallback chain
       setPrice('');
       setPriceState({ status: 'loading' });
-      fetchLivePrice(asset.symbol).then((result) => {
-        if (result.success) {
-          setPrice(String(result.price));
+      fetchPrice(asset.symbol).then((result) => {
+        if (result && result.available && result.lastPrice > 0) {
+          setPrice(String(result.lastPrice));
           setPriceState({ status: 'success', result });
         } else {
           setPriceState({ status: 'manual' });
@@ -295,7 +295,7 @@ function AddHoldingPanel({
     const q = parseFloat(quantity);
     // Use the fetched price if available, else what user typed
     const resolvedPrice = priceState.status === 'success' && !price
-      ? priceState.result.price
+      ? priceState.result.lastPrice
       : parseFloat(price);
     const p = resolvedPrice;
     if (!q || q <= 0 || !p || p <= 0) {
@@ -521,10 +521,13 @@ function AddHoldingPanel({
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-emerald-200 bg-emerald-50 text-sm">
                       <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                      <span className="font-bold text-emerald-700">{fmtMAD(priceState.result.price)}</span>
+                      <span className="font-bold text-emerald-700">
+                        {fmtMAD(priceState.result.lastPrice)}
+                      </span>
                       <span className="text-emerald-600/70 text-xs">
-                        · {sourceLabel(priceState.result.source)}
-                        · {new Date(priceState.result.timestamp).toLocaleTimeString('fr-MA', { hour: '2-digit', minute: '2-digit' })}
+                        · {priceState.result.ticker}
+                        · {formatSourceLabel(priceState.result.source)}
+                        · {formatPriceTime(priceState.result.timestamp)}
                       </span>
                       <button
                         type="button"
