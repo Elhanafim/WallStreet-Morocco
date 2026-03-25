@@ -1,32 +1,33 @@
 /**
  * BVC Market Data API Route
  *
- * Proxies the official Casablanca Bourse API:
- *   https://www.casablanca-bourse.com/api/proxy/fr/api/bourse/dashboard/ticker
+ * Proxies the official Casablanca Bourse REST API.
+ * Uses Node.js https module with rejectUnauthorized:false because
+ * casablanca-bourse.com has SSL cert issues that block Node fetch.
  *
- * GET /api/bvc/prices           → full snapshot (all 113 instruments)
+ * GET /api/bvc/prices           → full snapshot
  * GET /api/bvc/prices?ticker=BOA → single ticker
- *
- * No Python microservice needed — runs on Vercel as a Node.js serverless function.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import https from 'https';
 
-const BVC_API =
-  'https://www.casablanca-bourse.com/api/proxy/fr/api/bourse/dashboard/ticker';
+const BVC_HOST = 'www.casablanca-bourse.com';
+const BVC_PATH = '/api/proxy/fr/api/bourse/dashboard/ticker?marche=59&class%5B%5D=50';
 
-const HEADERS = {
+const REQUEST_HEADERS = {
   'User-Agent':
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
     '(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   Accept: 'application/json, */*',
   'Accept-Language': 'fr-MA,fr;q=0.9',
   Referer: 'https://www.casablanca-bourse.com/fr/live-market/marche-actions-listing',
+  Host: BVC_HOST,
 };
 
-// In-memory cache: survives warm Lambda invocations (typically ~60 s)
+// In-memory cache — survives warm Lambda invocations
 let _cache: { data: NormalizedPrice[]; ts: number } | null = null;
-const CACHE_TTL = 60_000; // 60 seconds
+const CACHE_TTL = 60_000;
 
 export interface NormalizedPrice {
   ticker: string;
@@ -44,55 +45,76 @@ export interface NormalizedPrice {
   available: boolean;
 }
 
-function normalize(raw: Record<string, unknown>): NormalizedPrice {
-  const current = parseFloat(String(raw.field_cours_courant ?? 0));
-  const close   = parseFloat(String(raw.field_closing_price ?? 0));
-  const lastPrice = current > 0 ? current : close;
+function parseFloat0(v: unknown): number {
+  const n = parseFloat(String(v ?? 0));
+  return isNaN(n) ? 0 : n;
+}
 
+function normalize(raw: Record<string, unknown>): NormalizedPrice {
+  const current = parseFloat0(raw.field_cours_courant);
+  const close   = parseFloat0(raw.field_closing_price);
+  const lastPrice = current > 0 ? current : close;
   return {
     ticker:         String(raw.ticker ?? '').toUpperCase(),
     name:           String(raw.label ?? raw.ticker ?? ''),
     lastPrice,
-    change:         parseFloat(String(raw.field_difference ?? 0)),
-    changePercent:  parseFloat(String(raw.field_var_veille ?? 0)),
-    open:           parseFloat(String(raw.field_opening_price ?? 0)),
-    high:           parseFloat(String(raw.field_high_price ?? 0)),
-    low:            parseFloat(String(raw.field_low_price ?? 0)),
-    volume:         parseFloat(String(raw.field_cumul_volume_echange ?? 0)),
-    referencePrice: parseFloat(String(raw.field_static_reference_price ?? 0)),
+    change:         parseFloat0(raw.field_difference),
+    changePercent:  parseFloat0(raw.field_var_veille),
+    open:           parseFloat0(raw.field_opening_price),
+    high:           parseFloat0(raw.field_high_price),
+    low:            parseFloat0(raw.field_low_price),
+    volume:         parseFloat0(raw.field_cumul_volume_echange),
+    referencePrice: parseFloat0(raw.field_static_reference_price),
     timestamp:      new Date().toISOString(),
     source:         'casablanca-bourse',
     available:      lastPrice > 0,
   };
 }
 
+/** HTTPS request with TLS verification disabled (BVC cert issues). */
+function httpsGet(host: string, path: string, headers: Record<string, string>): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const req = https.request(
+      {
+        hostname: host,
+        path,
+        method: 'GET',
+        headers,
+        rejectUnauthorized: false, // BVC uses a self-signed/expired cert
+        timeout: 12_000,
+      },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on('data', (c) => chunks.push(c));
+        res.on('end', () => {
+          const body = Buffer.concat(chunks).toString('utf8');
+          if ((res.statusCode ?? 0) >= 400) {
+            reject(new Error(`HTTP ${res.statusCode}`));
+          } else {
+            resolve(body);
+          }
+        });
+      }
+    );
+    req.on('timeout', () => { req.destroy(); reject(new Error('Request timeout')); });
+    req.on('error', reject);
+    req.end();
+  });
+}
+
 async function fetchAll(): Promise<NormalizedPrice[]> {
-  const res = await fetch(
-    `${BVC_API}?marche=59&class%5B%5D=50`,
-    { headers: HEADERS, next: { revalidate: 0 } }
-  );
-
-  if (!res.ok) {
-    throw new Error(`BVC API returned ${res.status}`);
-  }
-
-  const json = await res.json();
+  const body = await httpsGet(BVC_HOST, BVC_PATH, REQUEST_HEADERS);
+  const json = JSON.parse(body);
   const values: Record<string, unknown>[] = json?.data?.values ?? [];
-
-  if (values.length === 0) {
-    throw new Error('BVC API returned empty data');
-  }
-
-  return values
-    .map(normalize)
-    .filter((p) => p.ticker && p.available);
+  if (values.length === 0) throw new Error('BVC API returned empty values');
+  return values.map(normalize).filter((p) => p.ticker && p.available);
 }
 
 export async function GET(req: NextRequest) {
-  const ticker = req.nextUrl.searchParams.get('ticker')?.toUpperCase().replace('CSEMA:', '').trim();
+  const ticker = req.nextUrl.searchParams
+    .get('ticker')?.toUpperCase().replace('CSEMA:', '').trim();
 
   try {
-    // Serve from cache if fresh
     const now = Date.now();
     if (!_cache || now - _cache.ts > CACHE_TTL) {
       const data = await fetchAll();
@@ -114,9 +136,8 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // Full snapshot
     return NextResponse.json(
-      { data: all, count: all.length, timestamp: new Date().toISOString(), cached: now - _cache.ts < 1000 },
+      { data: all, count: all.length, timestamp: new Date().toISOString() },
       { headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' } }
     );
   } catch (err: unknown) {
