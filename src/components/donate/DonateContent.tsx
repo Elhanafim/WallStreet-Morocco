@@ -5,6 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { Copy, ChevronDown, ChevronUp, Heart, Monitor, BarChart2, Wrench } from 'lucide-react';
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
+const REVOLUT = {
+  iban:            process.env.NEXT_PUBLIC_DONATE_REVOLUT_IBAN              ?? 'FR76 2823 3000 0145 7448 0043 017',
+  bic:             process.env.NEXT_PUBLIC_DONATE_REVOLUT_BIC               ?? 'REVOFRP2',
+  bank:            process.env.NEXT_PUBLIC_DONATE_REVOLUT_BANK              ?? 'Revolut Bank UAB',
+  correspondentBic:process.env.NEXT_PUBLIC_DONATE_REVOLUT_CORRESPONDENT_BIC ?? 'CHASDEFX',
+  username:        process.env.NEXT_PUBLIC_DONATE_REVOLUT_USERNAME          ?? '@elhanafi01',
+  link:            process.env.NEXT_PUBLIC_DONATE_REVOLUT_LINK              ?? 'https://revolut.me/elhanafi01',
+};
+
 const ATTIJARI = {
   beneficiary: process.env.NEXT_PUBLIC_DONATE_ATTIJARI_BENEFICIARY ?? 'WallStreet Morocco',
   rib:         process.env.NEXT_PUBLIC_DONATE_ATTIJARI_RIB         ?? '007 480 0000827330040243161',
@@ -64,6 +73,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 export default function DonateContent() {
   const { t } = useTranslation('donate');
+  const [revolutOpen, setRevolutOpen] = useState(false);
   const [attijariOpen, setAttijariOpen] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState('');
@@ -111,6 +121,56 @@ export default function DonateContent() {
       <section className="py-14 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {/* ── Revolut Card ────────────────────────────────────── */}
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+              <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-gray-900 text-white">
+                    🌍 {t('international')}
+                  </span>
+                </div>
+                <h2 className="text-xl font-black text-gray-900 mt-2">Revolut</h2>
+                <p className="text-xs text-gray-500 mt-1">
+                  {displayAmount
+                    ? `${t('transferVia', { amount: displayAmount })} Revolut`
+                    : t('revolutSubtitle')}
+                </p>
+              </div>
+
+              {/* Pay via app link */}
+              <div className="p-6 flex flex-col items-center border-b border-gray-100">
+                <a
+                  href={REVOLUT.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-xl hover:bg-gray-700 transition-colors"
+                >
+                  {t('payViaApp')}
+                </a>
+                <p className="mt-3 text-xs text-gray-400 text-center">{REVOLUT.username}</p>
+              </div>
+
+              {/* Expandable bank details */}
+              <div className="p-4">
+                <button
+                  onClick={() => setRevolutOpen(!revolutOpen)}
+                  className="w-full text-left text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1"
+                >
+                  {revolutOpen
+                    ? <><ChevronUp className="w-3.5 h-3.5" />{t('hideBankDetails')}</>
+                    : <><ChevronDown className="w-3.5 h-3.5" />{t('showBankDetails')}</>}
+                </button>
+                {revolutOpen && (
+                  <div className="mt-3">
+                    <DetailRow label={t('iban')}         value={REVOLUT.iban} />
+                    <DetailRow label={t('bic')}          value={REVOLUT.bic} />
+                    <DetailRow label={t('bank')}         value={REVOLUT.bank} />
+                    <DetailRow label={t('correspondent')} value={REVOLUT.correspondentBic} />
+                  </div>
+                )}
+              </div>
+            </div>
 
             {/* ── Attijari Card ───────────────────────────────────── */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
