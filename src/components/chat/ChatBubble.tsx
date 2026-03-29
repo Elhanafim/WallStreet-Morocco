@@ -118,8 +118,8 @@ export default function ChatBubble() {
         onHideDonateNudge={chat.hideDonateNudge}
       />
 
-      {/* bottom-[116px] puts the button above LanguageSwitcher+Donate stack (which occupies bottom 0–96px) */}
-      <div className="fixed bottom-[116px] right-5 z-[1000] flex flex-col items-end gap-2">
+      {/* bottom-[100px] puts the button above the LanguageSwitcher (which sits at bottom-[28px]) */}
+      <div className="fixed bottom-[100px] right-5 z-[1000] flex flex-col items-end gap-2">
         {/* ── Intro hint strip ─────────────────────────────────────── */}
         <div
           className={`

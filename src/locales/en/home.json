@@ -47,6 +47,10 @@
       "risk": "Risk"
     }
   },
+  "movers_gainers": "Today's Gainers",
+  "movers_losers": "Today's Losers",
+  "movers_unavailable": "Data unavailable — market closed or service loading",
+  "movers_last_update": "Updated at {{time}}",
   "premium": {
     "badge": "Premium — From €9/month",
     "title1": "Take it to the next",

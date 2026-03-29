@@ -188,8 +188,8 @@ export default function PolitiqueCookiesPage() {
           <Section title="8. Contact">
             <p>
               Pour toute question relative à l&apos;utilisation des cookies sur ce site :{' '}
-              <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">
-                mohamed345el@gmail.com
+              <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">
+                moroccowallstreet@gmail.com
               </a>
             </p>
           </Section>

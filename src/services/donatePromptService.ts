@@ -3,6 +3,9 @@
  * All frequency logic lives here so no two prompts fire simultaneously.
  */
 
+/** Set to false to disable all automatic donation prompts site-wide. */
+export const DONATION_ENABLED = false;
+
 export const DONATE_KEYS = {
   toastLastShown:     'donate_toast_last_shown',
   pageLastVisited:    'donate_page_last_visited',
@@ -42,6 +45,7 @@ function visitedDonateRecently(): boolean {
 
 /** Returns true if it's OK to show the given prompt type right now. */
 export function canShowPrompt(storageKey: string): boolean {
+  if (!DONATION_ENABLED) return false;
   if (typeof window === 'undefined') return false;
   if (visitedDonateRecently()) return false;
   const last = getItem(storageKey);

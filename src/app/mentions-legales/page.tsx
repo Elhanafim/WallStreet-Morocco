@@ -43,22 +43,19 @@ export default function MentionsLegalesPage() {
           <Section title="1. Éditeur du site">
             <table className="w-full text-sm border-collapse">
               <tbody>
-                <Row label="Nom" value="Mohammed El Hanafi" />
-                <Row label="Qualité" value="Particulier — Responsable éditorial" />
-                <Row label="Email" value={<a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a>} />
-                <Row label="Téléphone" value="+33 7 43 52 76 04" />
-                <Row label="WhatsApp" value={<a href="https://wa.me/33743527604" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">wa.me/33743527604</a>} />
+                <Row label="Éditeur" value="WallStreet Morocco" />
+                <Row label="Qualité" value="Projet indépendant — Responsable éditorial" />
+                <Row label="Email" value={<a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a>} />
                 <Row label="Instagram" value={<a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">@wallstreet.morocco</a>} />
-                <Row label="Pays de résidence" value="France" />
-                <Row label="Nationalité" value="Marocaine" />
+                <Row label="LinkedIn" value={<a href="https://www.linkedin.com/company/wallstreet-morocco/about/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">linkedin.com/company/wallstreet-morocco</a>} />
               </tbody>
             </table>
           </Section>
 
           <Section title="2. Responsable de la publication">
             <p>
-              Mohammed El Hanafi est le seul responsable du contenu publié sur WallStreet Morocco.
-              Ce site est un projet personnel indépendant, sans actionnaire ni structure juridique commerciale.
+              WallStreet Morocco est responsable du contenu publié sur ce site.
+              Ce site est un projet indépendant, sans actionnaire ni structure juridique commerciale.
             </p>
           </Section>
 
@@ -108,7 +105,7 @@ export default function MentionsLegalesPage() {
           <Section title="6. Propriété intellectuelle">
             <p>
               L&apos;ensemble du contenu de ce site (textes, analyses, graphiques, code source, mise en
-              page) est la propriété exclusive de Mohammed El Hanafi, sauf mention contraire. Toute
+              page) est la propriété exclusive de WallStreet Morocco, sauf mention contraire. Toute
               reproduction, même partielle, est interdite sans autorisation écrite préalable.
             </p>
             <p className="mt-3">
@@ -121,7 +118,7 @@ export default function MentionsLegalesPage() {
 
           <Section title="7. Limitation de responsabilité">
             <p className="mb-3">
-              Mohammed El Hanafi ne peut être tenu responsable :
+              WallStreet Morocco ne peut être tenu responsable :
             </p>
             <ul className="space-y-2">
               <li className="flex items-start gap-2"><Bullet /><span>Des décisions financières prises sur la base des informations publiées sur ce site</span></li>
@@ -163,8 +160,9 @@ export default function MentionsLegalesPage() {
 
           <Section title="11. Contact">
             <ul className="space-y-1 text-sm">
-              <li><span className="text-primary/50">Email :</span>{' '}<a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a></li>
+              <li><span className="text-primary/50">Email :</span>{' '}<a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
               <li><span className="text-primary/50">Instagram :</span>{' '}<a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">@wallstreet.morocco</a></li>
+              <li><span className="text-primary/50">LinkedIn :</span>{' '}<a href="https://www.linkedin.com/company/wallstreet-morocco/about/" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">linkedin.com/company/wallstreet-morocco</a></li>
             </ul>
           </Section>
 

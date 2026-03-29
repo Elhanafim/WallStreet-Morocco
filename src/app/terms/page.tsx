@@ -48,8 +48,7 @@ export default function TermsPage() {
 
           <Section title="1. Présentation du service">
             <p>
-              WallStreet Morocco est un projet personnel indépendant développé par{' '}
-              <strong>Mohammed El Hanafi</strong>, fournissant des informations financières sur la
+              WallStreet Morocco est un projet indépendant fournissant des informations financières sur la
               Bourse de Casablanca (BVC) à titre éducatif et informatif. Ce site n&apos;est pas une
               entité commerciale enregistrée et n&apos;est soumis à aucun agrément financier.
             </p>
@@ -102,7 +101,7 @@ export default function TermsPage() {
               <li className="flex items-start gap-2"><Bullet /><span>Vous devez avoir <strong>au moins 18 ans</strong> pour créer un compte.</span></li>
               <li className="flex items-start gap-2"><Bullet /><span>Un seul compte par personne physique est autorisé.</span></li>
               <li className="flex items-start gap-2"><Bullet /><span>Nous nous réservons le droit de suspendre ou supprimer tout compte en cas d&apos;abus, de fraude ou de violation de ces conditions.</span></li>
-              <li className="flex items-start gap-2"><Bullet /><span>Signalez immédiatement toute utilisation non autorisée de votre compte à <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a>.</span></li>
+              <li className="flex items-start gap-2"><Bullet /><span>Signalez immédiatement toute utilisation non autorisée de votre compte à <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a>.</span></li>
             </ul>
           </Section>
 
@@ -110,7 +109,7 @@ export default function TermsPage() {
             <p>
               Le contenu original de ce site — textes, analyses, articles éducatifs, code source,
               design et interface graphique — est la propriété exclusive de{' '}
-              <strong>Mohammed El Hanafi</strong>. Toute reproduction, distribution ou
+              <strong>WallStreet Morocco</strong>. Toute reproduction, distribution ou
               utilisation commerciale sans autorisation écrite préalable est strictement interdite.
             </p>
             <p className="mt-3">
@@ -181,7 +180,7 @@ export default function TermsPage() {
               autre demande :
             </p>
             <ul className="mt-2 space-y-1">
-              <li><span className="text-primary/50">Email :</span> <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a></li>
+              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
               <li><span className="text-primary/50">Instagram :</span> <a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">@wallstreet.morocco</a></li>
             </ul>
           </Section>

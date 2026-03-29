@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'éducation financière maroc',
     'BVC données',
   ],
-  authors: [{ name: 'El Hanafi Mohammed' }],
+  authors: [{ name: 'WallStreet Morocco' }],
   creator: 'WallStreet Morocco',
   metadataBase: new URL('https://wallstreetmorocco.com'),
   openGraph: {

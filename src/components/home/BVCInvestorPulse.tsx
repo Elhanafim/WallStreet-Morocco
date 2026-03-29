@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { fetchCalendarEvents } from '@/services/calendarService';
+import { fetchMovers, BVCMovers, BVCPrice } from '@/lib/bvcPriceService';
 import { useTranslation } from 'react-i18next';
 
 // ── Market hours: Mon–Fri 09:30–15:30 Morocco time (UTC+1, no DST) ─────────────
@@ -17,9 +18,15 @@ function isBvcOpen(): boolean {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function BVCInvestorPulse() {
-  const [open, setOpen]       = useState(false);
-  const [nextBam, setNextBam] = useState<string | null>(null);
+  const [open, setOpen]               = useState(false);
+  const [nextBam, setNextBam]         = useState<string | null>(null);
+  const [movers, setMovers]           = useState<BVCMovers | null>(null);
+  const [moversLoading, setMoversLoading] = useState(true);
+  const [moversError, setMoversError] = useState(false);
+  const [lastUpdate, setLastUpdate]   = useState<string>('');
+  const intervalRef                   = useRef<ReturnType<typeof setInterval> | null>(null);
   const { t, i18n } = useTranslation('common');
+  const { t: th } = useTranslation('home');
   const lang = i18n.language?.slice(0, 2) ?? 'fr';
 
   // Live market status, refreshed every minute
@@ -28,6 +35,31 @@ export default function BVCInvestorPulse() {
     const id = setInterval(() => setOpen(isBvcOpen()), 60_000);
     return () => clearInterval(id);
   }, []);
+
+  // Fetch movers with 5-minute auto-refresh
+  useEffect(() => {
+    async function loadMovers() {
+      setMoversLoading(true);
+      setMoversError(false);
+      try {
+        const data = await fetchMovers();
+        if (data) {
+          setMovers(data);
+          const now = new Date();
+          setLastUpdate(now.toLocaleTimeString(lang === 'fr' ? 'fr-MA' : lang === 'es' ? 'es-ES' : 'en-US', { hour: '2-digit', minute: '2-digit' }));
+        } else {
+          setMoversError(true);
+        }
+      } catch {
+        setMoversError(true);
+      } finally {
+        setMoversLoading(false);
+      }
+    }
+    loadMovers();
+    intervalRef.current = setInterval(loadMovers, 5 * 60 * 1000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [lang]);
 
   // Next BAM monetary policy decision from calendar service
   useEffect(() => {
@@ -91,25 +123,59 @@ export default function BVCInvestorPulse() {
           <div className="lg:col-span-3">
             <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card h-full flex flex-col">
               <h3 className="font-black text-primary text-base mb-5">{t('bvc.topMovers')}</h3>
-              <div className="grid grid-cols-2 gap-6 flex-1">
-                {([t('bvc.topGains'), t('bvc.topLosses')] as const).map((title, col) => (
-                  <div key={title}>
-                    <p className={`text-xs font-bold mb-3 ${col === 0 ? 'text-success' : 'text-danger'}`}>{title}</p>
-                    <div className="space-y-3">
-                      {Array.from({ length: 4 }, (_, i) => (
-                        <div key={i} className="flex items-center gap-2 animate-pulse">
-                          <div className="w-10 h-3 bg-surface-100 rounded" />
-                          <div className="flex-1 h-3 bg-surface-100 rounded" />
-                          <div className="w-12 h-3 bg-surface-100 rounded" />
-                        </div>
-                      ))}
+
+              {moversLoading ? (
+                <div className="grid grid-cols-2 gap-6 flex-1">
+                  {[0, 1].map((col) => (
+                    <div key={col}>
+                      <div className="w-24 h-3 bg-surface-100 rounded animate-pulse mb-3" />
+                      <div className="space-y-3">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <div key={i} className="flex items-center gap-2 animate-pulse">
+                            <div className="w-10 h-3 bg-surface-100 rounded" />
+                            <div className="flex-1 h-3 bg-surface-100 rounded" />
+                            <div className="w-12 h-3 bg-surface-100 rounded" />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : moversError || !movers ? (
+                <div className="flex-1 flex items-center justify-center">
+                  <p className="text-xs text-primary/40 text-center leading-relaxed max-w-xs">
+                    ⚠️ {th('movers_unavailable')}
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-6 flex-1">
+                  {([
+                    { title: th('movers_gainers'), items: movers.gainers.slice(0, 5), positive: true },
+                    { title: th('movers_losers'),  items: movers.losers.slice(0, 5),  positive: false },
+                  ] as { title: string; items: BVCPrice[]; positive: boolean }[]).map(({ title, items, positive }) => (
+                    <div key={title}>
+                      <p className={`text-xs font-bold mb-3 ${positive ? 'text-success' : 'text-danger'}`}>
+                        {positive ? '📈' : '📉'} {title}
+                      </p>
+                      <div className="space-y-2">
+                        {items.map((stock) => (
+                          <div key={stock.ticker} className="flex items-center gap-2 text-xs">
+                            <span className="w-10 font-bold text-primary shrink-0 truncate">{stock.ticker}</span>
+                            <span className="flex-1 text-primary/50 truncate">{stock.name}</span>
+                            <span className={`font-bold shrink-0 ${positive ? 'text-success' : 'text-danger'}`}>
+                              {positive ? '+' : ''}{stock.changePercent.toFixed(2)}%
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="mt-5 pt-4 border-t border-surface-100 flex items-center justify-between gap-3 flex-wrap">
                 <p className="text-[10px] text-primary/30">
-                  {t('bvc.liveUnavailable')}
+                  {lastUpdate ? th('movers_last_update', { time: lastUpdate }) : t('bvc.liveUnavailable')}
                 </p>
                 <Link
                   href="/market"

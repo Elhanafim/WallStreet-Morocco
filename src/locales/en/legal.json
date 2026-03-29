@@ -6,7 +6,7 @@
     "sections": {
       "controller": {
         "title": "1. Data Controller",
-        "content": "Mohammed El Hanafi — WallStreet Morocco (independent personal project). Contact: mohamed345el@gmail.com — Phone: +33 7 43 52 76 04"
+        "content": "WallStreet Morocco — independent project. Contact: moroccowallstreet@gmail.com"
       },
       "data": {
         "title": "2. Data Collected",
@@ -38,7 +38,7 @@
         "portability": "Right to data portability",
         "opposition": "Right to object",
         "withdraw": "Right to withdraw consent",
-        "contact": "To exercise these rights: mohamed345el@gmail.com — Response time: maximum 30 days"
+        "contact": "To exercise these rights: moroccowallstreet@gmail.com — Response time: maximum 30 days"
       },
       "cookies": {
         "title": "7. Cookies",
@@ -60,7 +60,7 @@
       },
       "contact": {
         "title": "11. Contact & Complaints",
-        "email": "Email: mohamed345el@gmail.com",
+        "email": "Email: moroccowallstreet@gmail.com",
         "eu": "Supervisory authority (EU): CNIL (France) — cnil.fr",
         "ma": "Supervisory authority (Morocco): CNDP — cndp.ma"
       }
@@ -73,7 +73,7 @@
     "sections": {
       "presentation": {
         "title": "1. Service Overview",
-        "content": "WallStreet Morocco is an independent personal project developed by Mohammed El Hanafi, providing financial information on the Casablanca Stock Exchange (BVC) for educational and informational purposes only."
+        "content": "WallStreet Morocco is an independent project providing financial information on the Casablanca Stock Exchange (BVC) for educational and informational purposes only."
       },
       "acceptance": {
         "title": "2. Acceptance of Terms",
@@ -95,7 +95,7 @@
       },
       "ip": {
         "title": "5. Intellectual Property",
-        "content": "The content of this site (texts, analyses, code, design) is the property of Mohammed El Hanafi. Any reproduction without authorization is prohibited. Market data comes from third-party sources (BVC, Leboursier.ma, Finnhub, ForexFactory) and remains the property of their respective providers."
+        "content": "The content of this site (texts, analyses, code, design) is the property of WallStreet Morocco. Any reproduction without authorization is prohibited. Market data comes from third-party sources (BVC, Leboursier.ma, Finnhub, ForexFactory) and remains the property of their respective providers."
       },
       "liability": {
         "title": "6. Limitation of Liability",
@@ -128,7 +128,7 @@
       },
       "contact": {
         "title": "11. Contact",
-        "content": "For any questions: mohamed345el@gmail.com"
+        "content": "For any questions: moroccowallstreet@gmail.com"
       }
     }
   },
@@ -155,7 +155,7 @@
     "currentSettings": "Current settings"
   },
   "footer": {
-    "disclaimer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 Mohammed El Hanafi.",
+    "disclaimer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 WallStreet Morocco.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "mentions": "Legal Notice",
@@ -168,7 +168,7 @@
     "short": "ℹ️ Educational information only · Not investment advice · Risk of capital loss",
     "inline": "Past performance is calculated on historical data and does not guarantee future results.",
     "chatbot": "I am an educational assistant only — not a licensed financial advisor.",
-    "footer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 Mohammed El Hanafi."
+    "footer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 WallStreet Morocco."
   },
   "pages": {
     "mentions": "Legal Notice",

@@ -12,10 +12,10 @@ WEBSITE_KNOWLEDGE = """
 
 ### QUI SOMMES-NOUS
 WallStreet Morocco est un site web financier indépendant, 100% gratuit,
-sans publicité intrusive, créé par Mohammed El Hanafi.
+sans publicité intrusive.
 Disponible en français, anglais et espagnol.
-Contact : mohamed345el@gmail.com | WhatsApp : +33 7 43 52 76 04
-Instagram : @wallstreet.morocco
+Contact : moroccowallstreet@gmail.com
+Instagram : @wallstreet.morocco | LinkedIn : linkedin.com/company/wallstreet-morocco
 
 ### PAGES DU SITE
 
@@ -45,10 +45,9 @@ sectorielle.
 **Apprendre (/learn)** : Contenu éducatif gratuit sur l'investissement BVC,
 analyse fondamentale, OPCVM, indices, stratégies long-terme.
 
-**Le Fondateur (/about)** : Mohammed El Hanafi. Stratégie DCA sur 4 valeurs :
+**Le Fondateur (/about)** : Stratégie DCA sur 4 valeurs BVC :
 SMI (Imiter), MNG (Managem), S2M (Monétique), RDS (Résidences Dar Saada).
 Résultat : +54.6% en 17 mois (novembre 2024 – mars 2026).
-Parcours : L3 Finance IAE Grenoble, Erasmus EDEM Valencia, ENCG Meknès.
 
 **OPCVM (/opcvm)** : Fonds communs de placement marocains. VL publiée
 hebdomadairement. Gestionnaires : Wafa Gestion, BMCE Capital, CDG Capital,

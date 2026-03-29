@@ -6,7 +6,7 @@
     "sections": {
       "controller": {
         "title": "1. Responsable del tratamiento",
-        "content": "Mohammed El Hanafi — WallStreet Morocco (proyecto personal independiente). Contacto: mohamed345el@gmail.com — Teléfono: +33 7 43 52 76 04"
+        "content": "WallStreet Morocco — proyecto independiente. Contacto: moroccowallstreet@gmail.com"
       },
       "data": {
         "title": "2. Datos recopilados",
@@ -38,7 +38,7 @@
         "portability": "Derecho a la portabilidad de datos",
         "opposition": "Derecho de oposición",
         "withdraw": "Derecho a retirar el consentimiento",
-        "contact": "Para ejercer estos derechos: mohamed345el@gmail.com — Plazo de respuesta: máximo 30 días"
+        "contact": "Para ejercer estos derechos: moroccowallstreet@gmail.com — Plazo de respuesta: máximo 30 días"
       },
       "cookies": {
         "title": "7. Cookies",
@@ -60,7 +60,7 @@
       },
       "contact": {
         "title": "11. Contacto y reclamaciones",
-        "email": "Correo electrónico: mohamed345el@gmail.com",
+        "email": "Correo electrónico: moroccowallstreet@gmail.com",
         "eu": "Autoridad de control (UE): CNIL (Francia) — cnil.fr",
         "ma": "Autoridad de control (Marruecos): CNDP — cndp.ma"
       }
@@ -73,7 +73,7 @@
     "sections": {
       "presentation": {
         "title": "1. Descripción del servicio",
-        "content": "WallStreet Morocco es un proyecto personal independiente desarrollado por Mohammed El Hanafi, que proporciona información financiera sobre la Bolsa de Casablanca (BVC) con fines exclusivamente educativos e informativos."
+        "content": "WallStreet Morocco es un proyecto independiente que proporciona información financiera sobre la Bolsa de Casablanca (BVC) con fines exclusivamente educativos e informativos."
       },
       "acceptance": {
         "title": "2. Aceptación de los términos",
@@ -95,7 +95,7 @@
       },
       "ip": {
         "title": "5. Propiedad intelectual",
-        "content": "El contenido de este sitio (textos, análisis, código, diseño) es propiedad de Mohammed El Hanafi. Cualquier reproducción sin autorización está prohibida. Los datos de mercado provienen de fuentes de terceros (BVC, Leboursier.ma, Finnhub, ForexFactory) y siguen siendo propiedad de sus respectivos proveedores."
+        "content": "El contenido de este sitio (textos, análisis, código, diseño) es propiedad de WallStreet Morocco. Cualquier reproducción sin autorización está prohibida. Los datos de mercado provienen de fuentes de terceros (BVC, Leboursier.ma, Finnhub, ForexFactory) y siguen siendo propiedad de sus respectivos proveedores."
       },
       "liability": {
         "title": "6. Limitación de responsabilidad",
@@ -128,7 +128,7 @@
       },
       "contact": {
         "title": "11. Contacto",
-        "content": "Para cualquier consulta: mohamed345el@gmail.com"
+        "content": "Para cualquier consulta: moroccowallstreet@gmail.com"
       }
     }
   },
@@ -155,7 +155,7 @@
     "currentSettings": "Configuración actual"
   },
   "footer": {
-    "disclaimer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 Mohammed El Hanafi.",
+    "disclaimer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 WallStreet Morocco.",
     "privacy": "Política de privacidad",
     "terms": "Términos de servicio",
     "mentions": "Aviso legal",
@@ -168,7 +168,7 @@
     "short": "ℹ️ Solo información educativa · No es asesoramiento de inversión · Riesgo de pérdida de capital",
     "inline": "Los resultados mostrados se calculan sobre datos históricos y no garantizan resultados futuros.",
     "chatbot": "Soy un asistente educativo únicamente — no un asesor financiero autorizado.",
-    "footer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 Mohammed El Hanafi."
+    "footer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 WallStreet Morocco."
   },
   "pages": {
     "mentions": "Aviso legal",

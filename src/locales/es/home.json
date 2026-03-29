@@ -47,6 +47,10 @@
       "risk": "Riesgo"
     }
   },
+  "movers_gainers": "Subidas del día",
+  "movers_losers": "Bajadas del día",
+  "movers_unavailable": "Datos no disponibles — mercado cerrado o servicio cargando",
+  "movers_last_update": "Actualizado a las {{time}}",
   "premium": {
     "badge": "Premium — Desde 9€/mes",
     "title1": "Pasa al siguiente",

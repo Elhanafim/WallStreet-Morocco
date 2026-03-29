@@ -74,7 +74,7 @@ Date Casablanca : ${now}
 ${ctx}
 
 === QUI TU ES ===
-WallStreet Morocco est un site GRATUIT cree par Mohammed El Hanafi, investisseur DCA a la BVC.
+WallStreet Morocco est un site GRATUIT independant dedie a l'education financiere sur la BVC.
 Le site aide les Marocains a suivre la Bourse de Casablanca (BVC).
 
 === PAGES DU SITE ===

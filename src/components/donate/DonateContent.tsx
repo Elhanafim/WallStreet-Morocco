@@ -5,19 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Copy, ChevronDown, ChevronUp, Heart, Monitor, BarChart2, Wrench } from 'lucide-react';
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
-const REVOLUT = {
-  beneficiary: process.env.NEXT_PUBLIC_DONATE_REVOLUT_BENEFICIARY ?? 'MOHAMMED EL HANAFI',
-  iban:        process.env.NEXT_PUBLIC_DONATE_REVOLUT_IBAN        ?? 'FR76 2823 3000 0145 7448 0043 017',
-  bic:         process.env.NEXT_PUBLIC_DONATE_REVOLUT_BIC         ?? 'REVOFRP2',
-  bank:        process.env.NEXT_PUBLIC_DONATE_REVOLUT_BANK        ?? 'Revolut Bank UAB',
-  address:     process.env.NEXT_PUBLIC_DONATE_REVOLUT_ADDRESS     ?? '10 avenue Kléber, 75116, Paris, France',
-  correspondent: process.env.NEXT_PUBLIC_DONATE_REVOLUT_CORRESPONDENT_BIC ?? 'CHASDEFX',
-  username:    process.env.NEXT_PUBLIC_DONATE_REVOLUT_USERNAME    ?? '@elhanafi01',
-  link:        process.env.NEXT_PUBLIC_DONATE_REVOLUT_LINK        ?? 'https://revolut.me/elhanafi01',
-};
-
 const ATTIJARI = {
-  beneficiary: process.env.NEXT_PUBLIC_DONATE_ATTIJARI_BENEFICIARY ?? 'Mohammed El Hanafi',
+  beneficiary: process.env.NEXT_PUBLIC_DONATE_ATTIJARI_BENEFICIARY ?? 'WallStreet Morocco',
   rib:         process.env.NEXT_PUBLIC_DONATE_ATTIJARI_RIB         ?? '007 480 0000827330040243161',
   bankCode:    process.env.NEXT_PUBLIC_DONATE_ATTIJARI_BANK_CODE   ?? '007',
   cityCode:    process.env.NEXT_PUBLIC_DONATE_ATTIJARI_CITY_CODE   ?? '480',
@@ -75,7 +64,6 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 export default function DonateContent() {
   const { t } = useTranslation('donate');
-  const [revolutOpen, setRevolutOpen] = useState(false);
   const [attijariOpen, setAttijariOpen] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState('');
@@ -119,67 +107,10 @@ export default function DonateContent() {
         </div>
       </section>
 
-      {/* ── TWO PAYMENT CARDS ────────────────────────────────────── */}
+      {/* ── PAYMENT CARD ─────────────────────────────────────────── */}
       <section className="py-14 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            {/* ── Revolut Card ───────────────────────────────────── */}
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
-              <div className="p-6 border-b border-gray-100">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800">
-                    🌍 {t('international')}
-                  </span>
-                </div>
-                <h2 className="text-xl font-black text-gray-900 mt-2">Revolut</h2>
-                <p className="text-xs text-gray-500 mt-1">
-                  {displayAmount
-                    ? `${t('transferVia', { amount: displayAmount })} Revolut`
-                    : t('revolutSubtitle')}
-                </p>
-              </div>
-
-              {/* QR */}
-              <div className="p-6 flex flex-col items-center border-b border-gray-100">
-                <img
-                  src="/images/donate/qr-revolut.png"
-                  alt="Revolut QR code @elhanafi01"
-                  className="w-48 h-48 rounded-xl object-cover"
-                />
-                <p className="mt-3 font-bold text-gray-900 text-sm">{REVOLUT.username}</p>
-                <a
-                  href={REVOLUT.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 border border-gray-900 text-gray-900 text-xs font-semibold rounded-lg hover:bg-gray-900 hover:text-white transition-colors"
-                >
-                  {t('payViaApp')}
-                </a>
-              </div>
-
-              {/* Expandable bank details */}
-              <div className="p-4">
-                <button
-                  onClick={() => setRevolutOpen(!revolutOpen)}
-                  className="w-full text-left text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1"
-                >
-                  {revolutOpen
-                    ? <><ChevronUp className="w-3.5 h-3.5" />{t('hideBankDetails')}</>
-                    : <><ChevronDown className="w-3.5 h-3.5" />{t('showBankDetails')}</>}
-                </button>
-                {revolutOpen && (
-                  <div className="mt-3">
-                    <DetailRow label={t('beneficiary')} value={REVOLUT.beneficiary} />
-                    <DetailRow label={t('iban')}        value={REVOLUT.iban} />
-                    <DetailRow label={t('bic')}         value={REVOLUT.bic} />
-                    <DetailRow label={t('bank')}        value={REVOLUT.bank} />
-                    <DetailRow label={t('address')}     value={REVOLUT.address} />
-                    <DetailRow label={t('correspondent')} value={REVOLUT.correspondent} />
-                  </div>
-                )}
-              </div>
-            </div>
 
             {/* ── Attijari Card ───────────────────────────────────── */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
@@ -201,7 +132,7 @@ export default function DonateContent() {
               <div className="p-6 flex flex-col items-center border-b border-gray-100">
                 <img
                   src="/images/donate/qr-attijari.png"
-                  alt="Attijari QR code Mohammed El Hanafi"
+                  alt="Attijari QR code WallStreet Morocco"
                   className="w-48 h-48 rounded-xl object-cover"
                 />
                 <p className="mt-3 font-bold text-gray-900 text-sm">{ATTIJARI.beneficiary}</p>

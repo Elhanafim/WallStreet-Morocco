@@ -63,7 +63,7 @@ La Bourse de Casablanca offre de réelles opportunités d'investissement pour le
     readTime: 8,
     date: '2024-01-15',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['débutant', 'bourse', 'Casablanca', 'investissement'],
   },
   {
@@ -94,7 +94,7 @@ Sur les 10 dernières années, le MASI a progressé de manière significative, r
     readTime: 6,
     date: '2024-01-22',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['MASI', 'MADEX', 'indices', 'analyse'],
   },
   {
@@ -158,7 +158,7 @@ Attijariwafa Bank reste une valeur fondamentale de tout portefeuille marocain. S
     readTime: 12,
     date: '2024-02-05',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['ATW', 'banque', 'analyse fondamentale', 'dividende'],
   },
   {
@@ -204,7 +204,7 @@ Les plus-values sur OPCVM bénéficient d'une fiscalité avantageuse au Maroc, n
     readTime: 10,
     date: '2024-02-18',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['OPCVM', 'fonds', 'épargne', 'placement'],
   },
   {
@@ -248,7 +248,7 @@ Le DCA est probablement la stratégie la plus efficace pour l'investisseur indiv
     readTime: 7,
     date: '2024-03-01',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['DCA', 'stratégie', 'long terme', 'investissement régulier'],
   },
   {
@@ -283,7 +283,7 @@ Le DCA est probablement la stratégie la plus efficace pour l'investisseur indiv
     readTime: 15,
     date: '2024-03-10',
     premium: true,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['IAM', 'télécoms', 'dividende', 'Afrique'],
   },
   {
@@ -329,7 +329,7 @@ Définissez à l'avance un niveau de perte maximale acceptable (généralement 1
     readTime: 11,
     date: '2024-03-20',
     premium: true,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['gestion risque', 'diversification', 'stop-loss', 'portefeuille'],
   },
   {
@@ -366,7 +366,7 @@ Les entreprises cotées peuvent aussi émettre des obligations. Ces titres offre
     readTime: 9,
     date: '2024-04-02',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['obligations', 'bons du Trésor', 'taux fixe', 'sécurité'],
   },
   {
@@ -407,7 +407,7 @@ Un croisement MM20 au-dessus de MM50 est un signal haussier (Golden Cross).
     readTime: 13,
     date: '2024-04-15',
     premium: true,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['analyse technique', 'graphiques', 'chartisme', 'trading'],
   },
   {
@@ -443,7 +443,7 @@ Leader du logement économique et social, ADDOHA bénéficie des programmes gouv
     readTime: 10,
     date: '2024-04-28',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['immobilier', 'ADDOHA', 'Alliances', 'secteur'],
   },
   {
@@ -488,7 +488,7 @@ Pour un capital cible de **2 000 000 MAD** à 65 ans en partant de zéro à 30 a
     readTime: 14,
     date: '2024-05-10',
     premium: true,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['retraite', 'long terme', 'plan épargne', 'capitalisation'],
   },
   {
@@ -532,7 +532,7 @@ La BCP offre une combinaison attractive de :
     readTime: 11,
     date: '2024-05-20',
     premium: false,
-    author: 'El Hanafi Mohammed',
+    author: 'WallStreet Morocco',
     tags: ['BCP', 'banque', 'coopératif', 'MRE'],
   },
 ];

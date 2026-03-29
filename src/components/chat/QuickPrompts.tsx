@@ -40,7 +40,7 @@ const PROMPTS: Record<string, string[]> = {
     "Quelle est la différence entre MASI et MSI20 ?",
   ],
   "/about": [
-    "Quelle est la stratégie DCA de Mohammed ?",
+    "Quelle est la stratégie DCA présentée sur ce site ?",
     "Comment contacter l'équipe ?",
     "Qu'est-ce que WallStreet Morocco ?",
   ],

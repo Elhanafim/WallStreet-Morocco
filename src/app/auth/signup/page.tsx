@@ -215,7 +215,7 @@ export default function SignupPage() {
                   type="text"
                   value={formData.lastName}
                   onChange={(e) => update('lastName', e.target.value)}
-                  placeholder="El Hanafi"
+                  placeholder="Dupont"
                   className={`w-full px-3 py-3 rounded-xl border text-primary text-sm placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary transition-all ${
                     errors.lastName ? 'border-danger bg-danger/5' : 'border-surface-200'
                   }`}

@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 
@@ -22,16 +21,7 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
 
   if (floating) {
     return (
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2 pb-[env(safe-area-inset-bottom)]">
-        {/* Donate CTA */}
-        <Link
-          href="/donate"
-          className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap min-h-[44px]"
-        >
-          <span>♥</span>
-          {t('nav.donate')}
-        </Link>
-
+      <div className="fixed bottom-[28px] right-5 z-50 flex flex-col items-end gap-2 pb-[env(safe-area-inset-bottom)]">
         {/* Language switcher */}
         <div className="flex items-center gap-0.5 bg-white/90 backdrop-blur-md border border-surface-200 rounded-xl shadow-lg p-1">
           {LANGS.map((lang) => (

@@ -47,12 +47,10 @@ export default function PrivacyPolicyPage() {
           {/* Section 1 */}
           <Section title="1. Responsable du traitement">
             <p>
-              <strong>Mohammed El Hanafi</strong> — WallStreet Morocco (projet personnel
-              indépendant, non enregistré comme société)
+              <strong>WallStreet Morocco</strong> — projet indépendant, non enregistré comme société
             </p>
             <ul className="mt-2 space-y-1">
-              <li><span className="text-primary/50">Email :</span> <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a></li>
-              <li><span className="text-primary/50">Téléphone :</span> +33 7 43 52 76 04</li>
+              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
               <li><span className="text-primary/50">Instagram :</span> <a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">@wallstreet.morocco</a></li>
             </ul>
           </Section>
@@ -145,7 +143,7 @@ export default function PrivacyPolicyPage() {
             </ul>
             <div className="mt-4 bg-secondary/5 border border-secondary/20 rounded-xl p-4">
               <p className="text-sm font-semibold text-primary mb-1">Pour exercer ces droits :</p>
-              <p className="text-sm text-primary/70">Email : <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a></p>
+              <p className="text-sm text-primary/70">Email : <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></p>
               <p className="text-sm text-primary/70">Délai de réponse : <strong>30 jours maximum</strong></p>
             </div>
           </Section>
@@ -217,7 +215,7 @@ export default function PrivacyPolicyPage() {
           <Section title="11. Contact et réclamations">
             <p className="mb-3">Pour toute question relative à cette politique ou à vos données :</p>
             <ul className="space-y-1">
-              <li><span className="text-primary/50">Email :</span> <a href="mailto:mohamed345el@gmail.com" className="text-secondary hover:underline">mohamed345el@gmail.com</a></li>
+              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
             </ul>
             <p className="mt-4 text-sm text-primary/60">
               Si vous estimez que le traitement de vos données porte atteinte à vos droits, vous
@@ -233,7 +231,7 @@ export default function PrivacyPolicyPage() {
 
         {/* Footer disclaimer */}
         <p className="text-center text-primary/40 text-xs mt-8 mb-4">
-          WallStreet Morocco — Projet personnel indépendant · Mohamed345el@gmail.com
+          WallStreet Morocco — Projet indépendant · moroccowallstreet@gmail.com
         </p>
       </div>
     </div>

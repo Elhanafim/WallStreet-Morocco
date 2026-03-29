@@ -47,6 +47,10 @@
       "risk": "Risque"
     }
   },
+  "movers_gainers": "Hausses du jour",
+  "movers_losers": "Baisses du jour",
+  "movers_unavailable": "Données indisponibles — marché fermé ou service en cours de chargement",
+  "movers_last_update": "Mis à jour à {{time}}",
   "premium": {
     "badge": "Premium — À partir de 9€/mois",
     "title1": "Passez à la vitesse",
