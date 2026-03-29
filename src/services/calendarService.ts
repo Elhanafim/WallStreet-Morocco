@@ -45,8 +45,33 @@ async function apiFetch<T>(
         .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`)
         .join('&')
     : '';
-  const res = await fetch(`${CALENDAR_BASE}${segment}${qs}`, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Calendar API ${segment} → ${res.status}`);
+
+  // Try the configured base (external Python service if NEXT_PUBLIC_PRICE_SERVICE_URL is set,
+  // else the internal Next.js route). If the external service is unreachable, fall back to the
+  // internal /api/calendar route so the page never breaks in production.
+  const primaryUrl = `${CALENDAR_BASE}${segment}${qs}`;
+  let res: Response;
+  try {
+    res = await fetch(primaryUrl, { cache: 'no-store' });
+  } catch {
+    // Network error (e.g. external service not running) — fall back to internal route
+    if (PRICE_SERVICE) {
+      res = await fetch(`/api/calendar${segment}${qs}`, { cache: 'no-store' });
+    } else {
+      throw new Error(`Calendar API ${segment} → network error`);
+    }
+  }
+
+  if (!res.ok) {
+    // If external service returned an error, retry against the internal route
+    if (PRICE_SERVICE) {
+      const fallback = await fetch(`/api/calendar${segment}${qs}`, { cache: 'no-store' });
+      if (!fallback.ok) throw new Error(`Calendar API ${segment} → ${fallback.status}`);
+      return fallback.json();
+    }
+    throw new Error(`Calendar API ${segment} → ${res.status}`);
+  }
+
   return res.json();
 }
 

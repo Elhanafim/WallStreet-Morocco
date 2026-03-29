@@ -196,6 +196,7 @@ async function safeGet(url: string): Promise<string | null> {
     const r = await fetch(url, {
       next: { revalidate: 900 },
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WallStreetMorocco/1.0)' },
+      signal: AbortSignal.timeout(6000),
     });
     if (!r.ok) return null;
     return r.text();
