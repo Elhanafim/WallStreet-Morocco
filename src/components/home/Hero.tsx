@@ -151,8 +151,10 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── Morocco Economic News Feed ───────────────────────────────── */}
-        <MoroccoNewsFeed />
+        {/* ── Morocco Economic News Feed — hidden on mobile ───────────── */}
+        <div className="hidden sm:block">
+          <MoroccoNewsFeed />
+        </div>
       </div>
 
       {/* Scroll indicator */}
