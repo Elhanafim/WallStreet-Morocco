@@ -111,11 +111,7 @@ export default function ChatPanel({
 
   return (
     <div
-      className="fixed bottom-20 right-4 z-[999] flex flex-col overflow-hidden rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
-      style={{
-        width: "clamp(320px, 90vw, 380px)",
-        height: "clamp(400px, 70vh, 580px)",
-      }}
+      className="fixed inset-x-0 bottom-0 top-16 sm:inset-auto sm:bottom-20 sm:right-4 sm:w-[380px] sm:h-[580px] z-[999] flex flex-col overflow-hidden rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
       role="dialog"
       aria-label={t("panelTitle", "Assistant WallStreet Morocco")}
     >
