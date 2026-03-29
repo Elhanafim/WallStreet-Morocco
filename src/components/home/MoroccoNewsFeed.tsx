@@ -81,7 +81,7 @@ export default function MoroccoNewsFeed() {
   })();
 
   return (
-    <div className="mt-10 bg-white/5 border border-white/10 rounded-3xl p-6">
+    <div className="mt-6 sm:mt-10 bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-5">
         <div>
@@ -141,7 +141,7 @@ export default function MoroccoNewsFeed() {
                     <div className="flex-1 h-px bg-white/10" />
                   </div>
                 )}
-                <div className="flex items-start gap-3 py-3">
+                <div className="flex items-start gap-3 py-2 sm:py-3">
                   <ImpactPill score={ev.impactScore} />
                   <span className={`text-[10px] font-semibold flex-shrink-0 w-[4.5rem] ${isPast ? 'text-white/30' : 'text-white/60'}`}>
                     {dateLabel}

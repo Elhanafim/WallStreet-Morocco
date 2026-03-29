@@ -36,32 +36,32 @@ export default function Hero() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-16">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
           {/* ── LEFT: Copy & CTAs ───────────────────────────────────── */}
           <div className="text-center lg:text-left animate-fade-in">
             {/* Educational badge */}
-            <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/30 rounded-full px-4 py-1.5 mb-6">
-              <BookOpen className="w-3.5 h-3.5 text-secondary" />
-              <span className="text-secondary text-sm font-medium">
+            <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/30 rounded-full px-3 py-1.5 mb-4 sm:mb-6 max-w-full">
+              <BookOpen className="w-3.5 h-3.5 text-secondary flex-shrink-0" />
+              <span className="text-secondary text-xs sm:text-sm font-medium truncate">
                 {t('hero.badge')}
               </span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-4">
+            <h1 className="text-[2rem] sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-3 sm:mb-4">
               {t('hero.headline1')}{' '}
               <span className="gradient-text-gold">{t('hero.headline2')}</span>
               <br />
               {t('hero.headline3')}
             </h1>
 
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className="text-white/70 text-sm sm:text-lg leading-relaxed mb-5 sm:mb-8 max-w-xl mx-auto lg:mx-0">
               {t('hero.subtitle')}
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-3 sm:mb-4">
               <Link href="/market" className="w-full sm:w-auto">
                 <Button size="lg" variant="primary" iconPosition="right" icon={<ArrowRight className="w-5 h-5" />}
                   className="w-full sm:w-auto">
@@ -76,14 +76,14 @@ export default function Hero() {
             </div>
 
             {/* Permanent disclaimer strip */}
-            <div className="mb-6 mx-auto lg:mx-0 max-w-xl">
-              <p className="text-[11px] text-white/40 leading-relaxed text-center lg:text-left">
+            <div className="mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-xl">
+              <p className="text-[10px] sm:text-[11px] text-white/40 leading-relaxed text-center lg:text-left">
                 {t('hero.eduNote')}
               </p>
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-xl mx-auto lg:mx-0">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 max-w-xl mx-auto lg:mx-0">
               {[
                 { value: t('hero.trust1'), icon: '🏢' },
                 { value: t('hero.trust2'), icon: '📚' },
@@ -92,10 +92,10 @@ export default function Hero() {
               ].map((stat) => (
                 <div
                   key={stat.value}
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-center"
+                  className="bg-white/5 border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-center"
                 >
-                  <span className="text-base">{stat.icon}</span>
-                  <p className="text-white/60 text-[11px] font-medium mt-1 leading-tight">{stat.value}</p>
+                  <span className="text-sm sm:text-base">{stat.icon}</span>
+                  <p className="text-white/60 text-[10px] sm:text-[11px] font-medium mt-0.5 sm:mt-1 leading-tight">{stat.value}</p>
                 </div>
               ))}
             </div>
