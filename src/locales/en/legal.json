@@ -185,5 +185,6 @@
   "edubanner": {
     "text": "Educational site only — Not investment advice · Not AMMC-licensed · Data delayed.",
     "link": "Learn more about risks"
-  }
+  },
+  "edu_banner_inline": "Educational site only — this information does not constitute investment advice."
 }

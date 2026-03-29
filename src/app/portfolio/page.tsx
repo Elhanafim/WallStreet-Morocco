@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import ChatHint from '@/components/chat/ChatHint';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
+import EduBannerInline from '@/components/legal/EduBannerInline';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -253,7 +254,7 @@ function PortfolioCard({
   const invested = calcInvested(portfolio.holdings);
 
   return (
-    <div className="bg-white rounded-2xl border border-surface-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 p-6">
+    <div className="bg-white rounded-2xl border border-black/5 shadow-md hover:scale-[1.01] hover:shadow-lg transition-all duration-200 p-6">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -431,7 +432,7 @@ export default function PortfolioPage() {
             </div>
             <button
               onClick={() => setShowCreate(true)}
-              className="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm flex-shrink-0"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-md text-sm flex-shrink-0"
             >
               <Plus className="w-4 h-4" /> Créer un portefeuille
             </button>
@@ -443,6 +444,8 @@ export default function PortfolioPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <FinancialDisclaimer variant="full" />
       </div>
+
+      <EduBannerInline />
 
       {/* ── Content ── */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

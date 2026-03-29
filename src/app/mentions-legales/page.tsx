@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Scale } from 'lucide-react';
 import type { Metadata } from 'next';
+import EduBannerInline from '@/components/legal/EduBannerInline';
 
 export const metadata: Metadata = {
   title: 'Mentions légales | WallStreet Morocco',
@@ -168,6 +169,8 @@ export default function MentionsLegalesPage() {
           </Section>
 
         </div>
+
+        <EduBannerInline />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 mb-4 text-sm flex-wrap">
           <Link href="/confidentialite" className="text-secondary hover:underline font-medium">Politique de confidentialité</Link>

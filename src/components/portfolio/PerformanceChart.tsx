@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo } from 'react';
 import {
   ResponsiveContainer,
   AreaChart,
@@ -70,7 +70,7 @@ interface Props {
   totalCost: number;
 }
 
-export default function PerformanceChart({ snapshots, totalCost }: Props) {
+const PerformanceChart = memo(function PerformanceChart({ snapshots, totalCost }: Props) {
   const [range, setRange] = useState<Range>('3M');
 
   const filtered = useMemo(() => {
@@ -186,4 +186,6 @@ export default function PerformanceChart({ snapshots, totalCost }: Props) {
       </ResponsiveContainer>
     </div>
   );
-}
+});
+
+export default PerformanceChart;

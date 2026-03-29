@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { BarChart2, Globe2 } from 'lucide-react';
 import MarchesSupport from '@/components/donate/MarchesSupport';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
+import EduBannerInline from '@/components/legal/EduBannerInline';
 
 const TradingViewTicker  = dynamic(() => import('@/components/market/TradingViewTicker'),  { ssr: false });
 const TradingViewChart   = dynamic(() => import('@/components/market/TradingViewChart'),   { ssr: false });
@@ -135,6 +136,8 @@ export default function MarketPage() {
         </div>
       </div>
 
+      <EduBannerInline />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-0 space-y-3">
         <FinancialDisclaimer variant="short" />
         <ChatHint
@@ -169,6 +172,7 @@ export default function MarketPage() {
 
             {/* Placement 8: permanent support strip */}
             <MarchesSupport />
+            <EduBannerInline />
 
             {/* Stocks by sector */}
             <MarketStockGrid assets={ASSETS} />

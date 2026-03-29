@@ -6,7 +6,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import DonateToast from '@/components/donate/DonateToast';
-import EduBanner from '@/components/legal/EduBanner';
 
 // Cookie banner is only rendered client-side (reads localStorage)
 const CookieBanner = dynamic(() => import('@/components/legal/CookieBanner'), { ssr: false });
@@ -24,10 +23,8 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   return (
     <>
-      {/* Educational disclaimer — non-dismissible, top of every page */}
-      <EduBanner />
       <Navbar />
-      <main className="min-h-screen">{children}</main>
+      <main className="min-h-screen animate-fadeIn">{children}</main>
       <Footer />
       <LanguageSwitcher floating />
       {pathname !== '/donate' && <DonateToast />}

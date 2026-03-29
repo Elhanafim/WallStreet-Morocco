@@ -7,6 +7,8 @@ import { articles } from '@/lib/data/articles';
 import { Article } from '@/types';
 import ChatHint from '@/components/chat/ChatHint';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
+import EduBannerInline from '@/components/legal/EduBannerInline';
+import { useDebounce } from '@/hooks/useDebounce';
 
 type Category = 'Tous' | Article['category'];
 
@@ -21,13 +23,14 @@ const categories: { id: Category; label: string; icon: React.ComponentType<{clas
 export default function LearnPage() {
   const [activeCategory, setActiveCategory] = useState<Category>('Tous');
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearch = useDebounce(searchQuery, 300);
 
   const filteredArticles = articles.filter((article) => {
     const matchesCategory = activeCategory === 'Tous' || article.category === activeCategory;
     const matchesSearch =
-      !searchQuery ||
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+      !debouncedSearch ||
+      article.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      article.excerpt.toLowerCase().includes(debouncedSearch.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -63,6 +66,8 @@ export default function LearnPage() {
           </div>
         </div>
       </div>
+
+      <EduBannerInline />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0">
         <ChatHint
@@ -113,13 +118,15 @@ export default function LearnPage() {
         )}
 
         {/* Results count */}
-        {searchQuery && (
+        {debouncedSearch && (
           <div className="mb-6">
             <p className="text-primary/60 text-sm">
-              {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''} pour &ldquo;{searchQuery}&rdquo;
+              {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''} pour &ldquo;{debouncedSearch}&rdquo;
             </p>
           </div>
         )}
+
+        <EduBannerInline />
 
         {/* Articles Grid */}
         {filteredArticles.length > 0 ? (

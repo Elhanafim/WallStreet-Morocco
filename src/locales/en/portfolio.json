@@ -41,6 +41,10 @@
     "noHoldings": "No positions",
     "addFirst": "Add your first asset"
   },
+  "learn_cta_title": "Manage your portfolio intelligently",
+  "learn_cta_body": "Learn to analyze your investments, diversify your positions, and understand the risks.",
+  "learn_cta_button": "View courses →",
+  "learn_cta_disclaimer": "📚 These tools are educational, not financial advice",
   "addModal": {
     "title": "Add an asset",
     "ticker": "Symbol / Ticker",

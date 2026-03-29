@@ -68,7 +68,7 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-hero': 'linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #0A2540 100%)',
+        'gradient-hero': 'linear-gradient(to bottom right, #0f172a, #172554, #0f172a)',
         'gradient-card': 'linear-gradient(135deg, #0A2540 0%, #1e3f6e 100%)',
         'gradient-gold': 'linear-gradient(135deg, #D4AF37 0%, #F5D166 50%, #D4AF37 100%)',
       },

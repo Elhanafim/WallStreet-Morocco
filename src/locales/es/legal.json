@@ -185,5 +185,6 @@
   "edubanner": {
     "text": "Solo sitio educativo — No es asesoramiento de inversión · No autorizado AMMC · Datos con retraso.",
     "link": "Más información sobre riesgos"
-  }
+  },
+  "edu_banner_inline": "Solo sitio educativo — esta información no constituye asesoramiento de inversión."
 }

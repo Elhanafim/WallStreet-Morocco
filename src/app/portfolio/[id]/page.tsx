@@ -18,10 +18,9 @@ import {
   type PortfolioPerformance,
   type DailySnapshot,
 } from '@/services/performanceService';
-import { generateSuggestions } from '@/services/suggestionEngine';
 
 const PerformanceChart = dynamic(() => import('@/components/portfolio/PerformanceChart'), { ssr: false });
-const SuggestionPanel = dynamic(() => import('@/components/portfolio/SuggestionPanel'), { ssr: false });
+const LearnCTA = dynamic(() => import('@/components/portfolio/LearnCTA'), { ssr: false });
 const AfterHoldingDonateModal = dynamic(() => import('@/components/donate/AfterHoldingDonateModal'), { ssr: false });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -727,7 +726,7 @@ function HoldingsTable({
   return (
     <>
       <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto -mx-4 px-4">
           <table className="w-full min-w-[900px]">
             <thead className="bg-surface-50 border-b border-surface-100">
               <tr>
@@ -990,10 +989,6 @@ export default function PortfolioDetailPage({
     [holdings, perf]
   );
 
-  const suggestions = useMemo(
-    () => perf ? generateSuggestions(holdings, perf) : [],
-    [holdings, perf]
-  );
 
   if (loading) {
     return (
@@ -1144,7 +1139,7 @@ export default function PortfolioDetailPage({
         ) : (
           <div className="space-y-6">
             <PerformanceChart snapshots={snapshots} totalCost={totalCost} />
-            {suggestions.length > 0 && <SuggestionPanel suggestions={suggestions} />}
+            <LearnCTA />
             <HoldingsTable
               holdings={holdings}
               portfolioId={params.id}

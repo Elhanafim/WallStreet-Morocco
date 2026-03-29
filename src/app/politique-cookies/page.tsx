@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Cookie } from 'lucide-react';
 import type { Metadata } from 'next';
+import EduBannerInline from '@/components/legal/EduBannerInline';
 
 export const metadata: Metadata = {
   title: 'Politique de cookies | WallStreet Morocco',
@@ -194,6 +195,8 @@ export default function PolitiqueCookiesPage() {
           </Section>
 
         </div>
+
+        <EduBannerInline />
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 mb-4 text-sm flex-wrap">
           <Link href="/mentions-legales" className="text-secondary hover:underline font-medium">Mentions légales</Link>

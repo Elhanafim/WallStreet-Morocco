@@ -41,6 +41,10 @@
     "noHoldings": "Sin posiciones",
     "addFirst": "Añade tu primer activo"
   },
+  "learn_cta_title": "Gestiona tu cartera de forma inteligente",
+  "learn_cta_body": "Aprende a analizar tus inversiones, diversificar tus posiciones y comprender los riesgos.",
+  "learn_cta_button": "Ver los cursos →",
+  "learn_cta_disclaimer": "📚 Estas herramientas son educativas, no consejos financieros",
   "addModal": {
     "title": "Añadir un activo",
     "ticker": "Símbolo / Ticker",

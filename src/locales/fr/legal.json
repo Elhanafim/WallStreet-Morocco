@@ -185,5 +185,6 @@
   "edubanner": {
     "text": "Site éducatif uniquement — Pas un conseil en investissement · Non agréé AMMC · Données en différé.",
     "link": "En savoir plus sur les risques"
-  }
+  },
+  "edu_banner_inline": "Site éducatif uniquement — ces informations ne constituent pas un conseil en investissement."
 }

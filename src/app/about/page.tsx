@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import AboutContent from './AboutContent';
 
 export const metadata: Metadata = {
@@ -8,5 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  if (process.env.NEXT_PUBLIC_SHOW_FOUNDER_PAGE !== 'true') {
+    notFound();
+  }
   return <AboutContent />;
 }

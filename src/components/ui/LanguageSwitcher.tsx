@@ -22,11 +22,11 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
 
   if (floating) {
     return (
-      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2">
+      <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2 pb-[env(safe-area-inset-bottom)]">
         {/* Donate CTA */}
         <Link
           href="/donate"
-          className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap"
+          className="flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs px-3.5 py-2 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 whitespace-nowrap min-h-[44px]"
         >
           <span>♥</span>
           {t('nav.donate')}
@@ -39,7 +39,7 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
               key={lang}
               onClick={() => switchLang(lang)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150',
+                'px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 min-h-[44px] min-w-[44px]',
                 current === lang
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-primary/50 hover:text-primary hover:bg-surface-100'

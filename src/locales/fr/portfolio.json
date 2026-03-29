@@ -41,6 +41,10 @@
     "noHoldings": "Aucune position",
     "addFirst": "Ajoutez votre premier actif"
   },
+  "learn_cta_title": "Gérez votre portefeuille intelligemment",
+  "learn_cta_body": "Apprenez à analyser vos investissements, diversifier vos positions et comprendre les risques.",
+  "learn_cta_button": "Voir les cours →",
+  "learn_cta_disclaimer": "📚 Ces outils sont éducatifs, pas des conseils financiers",
   "addModal": {
     "title": "Ajouter un actif",
     "ticker": "Symbole / Ticker",

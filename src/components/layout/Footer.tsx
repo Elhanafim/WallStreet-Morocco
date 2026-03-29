@@ -30,8 +30,6 @@ export default function Footer() {
   ];
 
   const companyLinks = [
-    { href: '/about', label: t('footer.links.about') },
-    { href: '/about#contact', label: t('footer.links.contact') },
     { href: '/donate', label: t('footer.links.donate') },
     { href: '/terms', label: tl('footer.terms') },
   ];
@@ -53,6 +51,8 @@ export default function Footer() {
                 alt="WallStreet Morocco"
                 width={40}
                 height={40}
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 group-hover:scale-105 transition-transform duration-200"
               />
               <span className="font-extrabold text-xl text-white">

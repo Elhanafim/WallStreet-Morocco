@@ -26,7 +26,6 @@ export default function Navbar() {
     { href: '/calendar', label: t('nav.calendrier') },
     { href: '/opcvm', label: t('nav.opcvm') },
     { href: '/market', label: t('nav.marches') },
-    { href: '/about', label: t('nav.fondateur') },
   ];
 
   useEffect(() => {
@@ -72,6 +71,8 @@ export default function Navbar() {
               alt="WallStreet Morocco"
               width={36}
               height={36}
+              loading="lazy"
+              decoding="async"
               className="w-9 h-9 group-hover:scale-105 transition-transform duration-200"
             />
             <span className="font-extrabold text-primary text-lg leading-tight hidden sm:block">
