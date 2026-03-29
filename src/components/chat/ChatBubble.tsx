@@ -120,7 +120,7 @@ export default function ChatBubble() {
 
       {/* bottom-[100px] puts the button above the LanguageSwitcher (which sits at bottom-[28px]) */}
       {/* Hidden on mobile when chat is open — panel covers full screen, header × is sufficient */}
-      <div className={`fixed bottom-[100px] right-5 z-[1000] flex-col items-end gap-2 ${chat.isOpen ? 'hidden sm:flex' : 'flex'}`}>
+      <div className={`fixed bottom-[100px] right-5 z-[1000] flex-col items-end gap-2 ${chat.isOpen ? 'hidden' : 'flex'}`}>
         {/* ── Intro hint strip ─────────────────────────────────────── */}
         <div
           className={`
