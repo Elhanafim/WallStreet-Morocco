@@ -130,7 +130,7 @@ export default function BVCInvestorPulse() {
                     <div key={col}>
                       <div className="w-24 h-3 bg-surface-100 rounded animate-pulse mb-3" />
                       <div className="space-y-3">
-                        {Array.from({ length: 5 }, (_, i) => (
+                        {Array.from({ length: 10 }, (_, i) => (
                           <div key={i} className="flex items-center gap-2 animate-pulse">
                             <div className="w-10 h-3 bg-surface-100 rounded" />
                             <div className="flex-1 h-3 bg-surface-100 rounded" />
@@ -150,14 +150,14 @@ export default function BVCInvestorPulse() {
               ) : (
                 <div className="grid grid-cols-2 gap-6 flex-1">
                   {([
-                    { title: th('movers_gainers'), items: movers.gainers.slice(0, 5), positive: true },
-                    { title: th('movers_losers'),  items: movers.losers.slice(0, 5),  positive: false },
+                    { title: th('movers_gainers'), items: movers.gainers, positive: true },
+                    { title: th('movers_losers'),  items: movers.losers,  positive: false },
                   ] as { title: string; items: BVCPrice[]; positive: boolean }[]).map(({ title, items, positive }) => (
                     <div key={title}>
                       <p className={`text-xs font-bold mb-3 ${positive ? 'text-success' : 'text-danger'}`}>
                         {positive ? '📈' : '📉'} {title}
                       </p>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {items.map((stock) => (
                           <div key={stock.ticker} className="flex items-center gap-2 text-xs">
                             <span className="w-10 font-bold text-primary shrink-0 truncate">{stock.ticker}</span>

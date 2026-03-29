@@ -12,12 +12,14 @@ import {
 } from 'recharts';
 import type { DailySnapshot } from '@/services/performanceService';
 
-type Range = '1M' | '3M' | 'All';
+type Range = '1M' | '3M' | '1Y' | '5Y' | 'All';
 
 const RANGES: { label: string; value: Range }[] = [
-  { label: '1 mois', value: '1M' },
-  { label: '3 mois', value: '3M' },
-  { label: 'Tout', value: 'All' },
+  { label: '1M',   value: '1M'  },
+  { label: '3M',   value: '3M'  },
+  { label: '1 an', value: '1Y'  },
+  { label: '5 ans',value: '5Y'  },
+  { label: 'J0',   value: 'All' },
 ];
 
 function fmtMAD(n: number) {
@@ -80,7 +82,9 @@ const PerformanceChart = memo(function PerformanceChart({ snapshots, totalCost }
     const now = new Date();
     const cutoff = new Date(now);
     if (range === '1M') cutoff.setMonth(now.getMonth() - 1);
-    else cutoff.setMonth(now.getMonth() - 3);
+    else if (range === '3M') cutoff.setMonth(now.getMonth() - 3);
+    else if (range === '1Y') cutoff.setFullYear(now.getFullYear() - 1);
+    else if (range === '5Y') cutoff.setFullYear(now.getFullYear() - 5);
     const cutoffStr = cutoff.toISOString().slice(0, 10);
     const result = sorted.filter((s) => s.date >= cutoffStr);
     return result.length >= 2 ? result : sorted.slice(-2);

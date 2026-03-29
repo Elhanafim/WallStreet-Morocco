@@ -143,10 +143,10 @@ export default function ArticlePage({ params }: PageProps) {
           {/* Meta */}
           <div className="flex items-center gap-6 text-white/50 text-sm">
             <span className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center text-xs font-bold text-accent">
-                EM
+              <div className="w-8 h-8 bg-primary/80 rounded-full flex items-center justify-center overflow-hidden">
+                <img src="/logo-icon.svg" alt="WallStreet Morocco" className="w-5 h-5 object-contain" />
               </div>
-              {article.author || 'WallStreet Morocco'}
+              WallStreet Morocco
             </span>
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
@@ -210,21 +210,12 @@ export default function ArticlePage({ params }: PageProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Author Card */}
-            <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card">
-              <h3 className="text-sm font-bold text-primary/50 uppercase tracking-wider mb-4">
-                Auteur
-              </h3>
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span className="text-accent font-black text-sm">EM</span>
+            <div className="bg-white border border-surface-200 rounded-2xl p-5 shadow-card">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  <img src="/logo-icon.svg" alt="WallStreet Morocco" className="w-7 h-7 object-contain" />
                 </div>
-                <div>
-                  <p className="font-bold text-primary">WallStreet Morocco</p>
-                  <p className="text-primary/50 text-xs mt-0.5">Fondateur, WallStreet Morocco</p>
-                  <p className="text-primary/60 text-xs mt-2 leading-relaxed">
-                    Expert en marchés financiers marocains et africains avec 10+ ans d&apos;expérience.
-                  </p>
-                </div>
+                <p className="font-bold text-primary">WallStreet Morocco</p>
               </div>
             </div>
 

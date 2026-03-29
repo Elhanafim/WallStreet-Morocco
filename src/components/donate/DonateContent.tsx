@@ -138,17 +138,22 @@ export default function DonateContent() {
                 </p>
               </div>
 
-              {/* Pay via app link */}
+              {/* QR + pay via app link */}
               <div className="p-6 flex flex-col items-center border-b border-gray-100">
+                <img
+                  src="/images/donate/qr-revolut.png"
+                  alt="Revolut QR code WallStreet Morocco"
+                  className="w-48 h-48 rounded-xl object-cover"
+                />
+                <p className="mt-3 font-bold text-gray-900 text-sm">{REVOLUT.username}</p>
                 <a
                   href={REVOLUT.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-3 rounded-xl hover:bg-gray-700 transition-colors"
+                  className="mt-3 inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-700 transition-colors"
                 >
                   {t('payViaApp')}
                 </a>
-                <p className="mt-3 text-xs text-gray-400 text-center">{REVOLUT.username}</p>
               </div>
 
               {/* Expandable bank details */}
