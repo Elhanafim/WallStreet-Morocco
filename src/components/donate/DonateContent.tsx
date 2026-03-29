@@ -130,11 +130,11 @@ export default function DonateContent() {
                     🌍 {t('international')}
                   </span>
                 </div>
-                <h2 className="text-xl font-black text-gray-900 mt-2">Revolut</h2>
+                <h2 className="text-xl font-black text-gray-900 mt-2">Debit / Credit Card · Apple Pay</h2>
                 <p className="text-xs text-gray-500 mt-1">
                   {displayAmount
-                    ? `${t('transferVia', { amount: displayAmount })} Revolut`
-                    : t('revolutSubtitle')}
+                    ? `${t('transferVia', { amount: displayAmount })}`
+                    : 'Visa · Mastercard · Apple Pay · Google Pay'}
                 </p>
               </div>
 
@@ -152,7 +152,7 @@ export default function DonateContent() {
                   rel="noopener noreferrer"
                   className="mt-3 inline-flex items-center gap-2 bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-gray-700 transition-colors"
                 >
-                  {t('payViaApp')}
+                  Support here →
                 </a>
               </div>
 
