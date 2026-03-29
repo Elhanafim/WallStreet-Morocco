@@ -42,6 +42,20 @@ export default function StrategySection() {
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
+        {/* ══ BLOCK 0 — Legal disclaimer (must appear BEFORE any figures) ══════ */}
+        <div className="mb-10 bg-amber-400/15 border-l-4 border-amber-400 rounded-xl p-5">
+          <p className="text-amber-300 font-black text-sm mb-2">\u26a0\ufe0f AVERTISSEMENT IMPORTANT</p>
+          <p className="text-amber-100/80 text-xs leading-relaxed">
+            <strong className="text-amber-200">Les performances pass\u00e9es ne pr\u00e9jugent pas des performances futures.</strong>{' '}
+            Cette section pr\u00e9sente une simulation r\u00e9trospective \u00e0 titre \u00e9ducatif uniquement.
+            Elle ne constitue PAS un conseil en investissement. L\u2019investissement comporte un risque
+            de perte en capital, pouvant aller jusqu\u2019\u00e0 la totalit\u00e9 des sommes investies. Les
+            chiffres pr\u00e9sent\u00e9s sont issus d\u2019une mod\u00e9lisation sur donn\u00e9es historiques et ne constituent
+            pas une promesse ou une garantie de r\u00e9sultats futurs. WallStreet Morocco n\u2019est pas
+            agr\u00e9\u00e9 par l\u2019AMMC (Autorit\u00e9 Marocaine du March\u00e9 des Capitaux).
+          </p>
+        </div>
+
         {/* ══ BLOCK 1 — Section header ═════════════════════════════════════════ */}
         <div className="mb-12">
           {/* Badge */}
@@ -106,14 +120,16 @@ export default function StrategySection() {
         {/* ══ BLOCK 7 — Investment thesis ══════════════════════════════════════ */}
         <InvestmentThesis />
 
-        {/* ══ BLOCK 8 — Legal disclaimer ═══════════════════════════════════════ */}
-        <div className="bg-white/3 border border-white/8 rounded-2xl p-5 text-white/30 text-xs leading-relaxed">
+        {/* ══ BLOCK 8 — Legal disclaimer (repeated at bottom) ══════════════════ */}
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 text-white/50 text-xs leading-relaxed">
           <p>
-            Cette section présente une simulation rétrospective basée sur des données
-            historiques reconstituées. Elle est fournie à titre informatif et éducatif
-            uniquement. Elle ne constitue pas un conseil en investissement. Les
-            performances passées ne préjugent pas des performances futures.
-            Investir en bourse comporte un risque de perte en capital.
+            <strong className="text-white/60">Simulation r\u00e9trospective \u00e0 titre \u00e9ducatif uniquement.</strong>{' '}
+            Les performances affich\u00e9es (+51%) sont bas\u00e9es sur une mod\u00e9lisation DCA appliqu\u00e9e \u00e0 des
+            donn\u00e9es historiques reconstitu\u00e9es. La r\u00e9partition par actif est indicative. Le benchmark
+            MASI DCA est calcul\u00e9 au taux annuel de ~8%. <strong className="text-white/60">Les performances
+            pass\u00e9es ne pr\u00e9jugent pas des performances futures.</strong> Investir en bourse comporte
+            un risque de perte en capital. Contenu \u00e9ducatif uniquement \u2014 pas un conseil en
+            investissement. WallStreet Morocco n\u2019est pas agr\u00e9\u00e9 par l\u2019AMMC.
           </p>
         </div>
 

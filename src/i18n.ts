@@ -11,6 +11,7 @@ import frMarches from '@/locales/fr/marches.json';
 import frErrors from '@/locales/fr/errors.json';
 import frDonate from '@/locales/fr/donate.json';
 import frChat from '@/locales/fr/chat.json';
+import frLegal from '@/locales/fr/legal.json';
 
 // EN
 import enCommon from '@/locales/en/common.json';
@@ -22,6 +23,7 @@ import enMarches from '@/locales/en/marches.json';
 import enErrors from '@/locales/en/errors.json';
 import enDonate from '@/locales/en/donate.json';
 import enChat from '@/locales/en/chat.json';
+import enLegal from '@/locales/en/legal.json';
 
 // ES
 import esCommon from '@/locales/es/common.json';
@@ -33,6 +35,7 @@ import esMarches from '@/locales/es/marches.json';
 import esErrors from '@/locales/es/errors.json';
 import esDonate from '@/locales/es/donate.json';
 import esChat from '@/locales/es/chat.json';
+import esLegal from '@/locales/es/legal.json';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -46,6 +49,7 @@ i18n.use(initReactI18next).init({
       errors: frErrors,
       donate: frDonate,
       chat: frChat,
+      legal: frLegal,
     },
     en: {
       common: enCommon,
@@ -57,6 +61,7 @@ i18n.use(initReactI18next).init({
       errors: enErrors,
       donate: enDonate,
       chat: enChat,
+      legal: enLegal,
     },
     es: {
       common: esCommon,
@@ -68,12 +73,13 @@ i18n.use(initReactI18next).init({
       errors: esErrors,
       donate: esDonate,
       chat: esChat,
+      legal: esLegal,
     },
   },
   lng: 'fr',
   fallbackLng: 'fr',
   defaultNS: 'common',
-  ns: ['common', 'home', 'calendrier', 'portfolio', 'fondateur', 'marches', 'errors', 'donate', 'chat'],
+  ns: ['common', 'home', 'calendrier', 'portfolio', 'fondateur', 'marches', 'errors', 'donate', 'chat', 'legal'],
   interpolation: {
     escapeValue: false,
   },

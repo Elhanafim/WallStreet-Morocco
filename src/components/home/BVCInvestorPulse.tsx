@@ -69,7 +69,7 @@ export default function BVCInvestorPulse() {
         </div>
 
         {/* ── Market Status Strip ─────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 bg-white border border-surface-200 rounded-2xl px-5 py-4 mb-8 shadow-card">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 bg-white border border-surface-200 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 mb-8 shadow-card">
           <div className="flex items-center gap-2">
             <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${open ? 'bg-green-500 animate-pulse' : 'bg-red-400'}`} />
             <span className={`font-bold text-sm ${open ? 'text-green-700' : 'text-red-600'}`}>
@@ -85,7 +85,7 @@ export default function BVCInvestorPulse() {
         </div>
 
         {/* ── Two-column layout ───────────────────────────────────────────────── */}
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
           {/* Left: Top Movers (60%) */}
           <div className="lg:col-span-3">
@@ -125,7 +125,7 @@ export default function BVCInvestorPulse() {
           <div className="lg:col-span-2">
             <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card h-full flex flex-col">
               <h3 className="font-black text-primary text-base mb-5">{t('bvc.indicators')}</h3>
-              <div className="grid grid-cols-2 gap-3 flex-1">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 flex-1">
                 {metrics.map((m, i) => (
                   <div key={i} className="bg-surface-50 border border-surface-100 rounded-xl p-3">
                     <span className="text-lg">{m.icon}</span>

@@ -1,19 +1,21 @@
 {
   "hero": {
-    "badge": "Casablanca Stock Exchange · Live",
-    "headline1": "Invest",
-    "headline2": "intelligently",
-    "headline3": "in Morocco",
-    "subtitle": "Real-time data. Smart tools. Better decisions. The all-in-one platform to master the Casablanca Stock Exchange.",
-    "cta1": "Start for free",
-    "cta2": "Explore markets",
-    "trust1": "No card required",
-    "trust2": "Instant free access",
-    "trust3": "Cancel anytime",
-    "chartLabel": "Reference index · Real time",
+    "badge": "Educational tool · Casablanca Stock Exchange",
+    "headline1": "Understand",
+    "headline2": "the Casablanca",
+    "headline3": "Stock Exchange",
+    "subtitle": "BVC data, sector analyses and educational tools to understand Moroccan financial markets. Educational site only — not investment advice.",
+    "cta1": "Explore markets",
+    "cta2": "Start learning",
+    "eduNote": "Educational tool only · Not AMMC-licensed · Data delayed 15 min. · Not investment advice",
+    "trust1": "78 listed companies",
+    "trust2": "100% free",
+    "trust3": "BVC data",
+    "trust4": "Not AMMC-licensed",
+    "chartLabel": "Reference index · Delayed data",
     "chartTitle": "MASI — Casablanca Stock Exchange",
-    "chartLive": "Live",
-    "chartUnavailable": "Live data temporarily unavailable"
+    "chartLive": "Delayed",
+    "chartUnavailable": "Data temporarily unavailable"
   },
   "markets": {
     "badge": "Live data",
@@ -49,7 +51,7 @@
     "badge": "Premium — From €9/month",
     "title1": "Take it to the next",
     "title2": "level",
-    "subtitle": "Access in-depth analyses, market alerts, buy/sell recommendations and the advanced simulator.",
+    "subtitle": "Access in-depth analyses, market alerts and the advanced simulator. Educational tools only.",
     "cta1": "View Premium plans",
     "cta2": "Create a free account",
     "features": {

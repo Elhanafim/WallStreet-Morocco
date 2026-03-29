@@ -53,8 +53,8 @@ export function generateSuggestions(
     suggestions.push({
       id: 'strong_perf',
       type: 'success',
-      title: 'Excellente performance',
-      message: `Votre portefeuille affiche une performance de +${totalGainPct.toFixed(1)}%. Bravo ! Pensez à sécuriser une partie des gains.`,
+      title: 'Performance positive',
+      message: `Votre portefeuille a \u00e9volu\u00e9 de +${totalGainPct.toFixed(1)}% depuis votre entr\u00e9e. Continuez \u00e0 suivre vos positions r\u00e9guli\u00e8rement.`,
     });
   }
 
@@ -92,14 +92,14 @@ export function generateSuggestions(
       });
     }
 
-    // ── Rule 3: Take-profit (> +30%) ───────────────────────────────────────
+    // ── Rule 3: Strong gain (> +30%) ───────────────────────────────────────
     if (hp.gainLossPct > 30) {
       suggestions.push({
-        id: `take_profit_${h.id}`,
+        id: `strong_gain_${h.id}`,
         type: 'success',
-        title: 'Opportunité de prise de bénéfices',
+        title: 'Performance positive',
         ticker: h.assetSymbol.split(':')[1] ?? h.assetSymbol,
-        message: `${h.assetName} est en hausse de +${hp.gainLossPct.toFixed(1)}%. Envisagez de prendre tout ou partie de vos bénéfices.`,
+        message: `${h.assetName} affiche une variation de +${hp.gainLossPct.toFixed(1)}% depuis votre prix d\u2019entr\u00e9e. Consultez les derni\u00e8res publications financi\u00e8res sur casablanca-bourse.com.`,
       });
     }
 
@@ -110,7 +110,7 @@ export function generateSuggestions(
         type: 'info',
         title: 'Position stable',
         ticker: h.assetSymbol.split(':')[1] ?? h.assetSymbol,
-        message: `${h.assetName} évolue peu depuis votre achat (${hp.gainLossPct >= 0 ? '+' : ''}${hp.gainLossPct.toFixed(2)}%). C'est une opportunité de renforcement si votre conviction est intacte.`,
+        message: `${h.assetName} \u00e9volue peu depuis votre achat (${hp.gainLossPct >= 0 ? '+' : ''}${hp.gainLossPct.toFixed(2)}%). Consultez les derni\u00e8res publications financi\u00e8res de la soci\u00e9t\u00e9 pour mieux comprendre les fondamentaux.`,
       });
     }
 

@@ -1,19 +1,21 @@
 {
   "hero": {
-    "badge": "Bourse de Casablanca · Live",
-    "headline1": "Investissez",
-    "headline2": "intelligemment",
-    "headline3": "au Maroc",
-    "subtitle": "Données en temps réel. Outils intelligents. Meilleures décisions. La plateforme tout-en-un pour maîtriser la Bourse de Casablanca.",
-    "cta1": "Commencer gratuitement",
-    "cta2": "Explorer les marchés",
-    "trust1": "Aucune carte requise",
-    "trust2": "Accès gratuit immédiat",
-    "trust3": "Annulable à tout moment",
-    "chartLabel": "Indice de référence · Temps réel",
+    "badge": "Outil éducatif · Bourse de Casablanca",
+    "headline1": "Comprendre",
+    "headline2": "la Bourse",
+    "headline3": "de Casablanca",
+    "subtitle": "Données de la BVC, analyses sectorielles et outils pédagogiques pour comprendre les marchés financiers marocains. Site éducatif — pas un conseil en investissement.",
+    "cta1": "Explorer les marchés",
+    "cta2": "Commencer à apprendre",
+    "eduNote": "Outil éducatif · Non agréé AMMC · Données en différé 15 min. · Pas un conseil en investissement",
+    "trust1": "78 sociétés cotées",
+    "trust2": "100 % gratuit",
+    "trust3": "Données BVC",
+    "trust4": "Non agréé AMMC",
+    "chartLabel": "Indice de référence · Données différées",
     "chartTitle": "MASI — Bourse de Casablanca",
-    "chartLive": "Live",
-    "chartUnavailable": "Données live temporairement indisponibles"
+    "chartLive": "Différé",
+    "chartUnavailable": "Données temporairement indisponibles"
   },
   "markets": {
     "badge": "Données en direct",
@@ -49,7 +51,7 @@
     "badge": "Premium — À partir de 9€/mois",
     "title1": "Passez à la vitesse",
     "title2": "supérieure",
-    "subtitle": "Accédez aux analyses approfondies, aux alertes marchés, aux recommandations d'achat/vente et au simulateur avancé.",
+    "subtitle": "Accédez aux analyses approfondies, aux alertes marchés et au simulateur avancé. Outils éducatifs uniquement.",
     "cta1": "Voir les offres Premium",
     "cta2": "Créer un compte gratuit",
     "features": {

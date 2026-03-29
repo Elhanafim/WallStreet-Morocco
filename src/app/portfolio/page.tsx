@@ -7,6 +7,7 @@ import {
   DollarSign, BarChart2, X, AlertCircle, Loader2,
 } from 'lucide-react';
 import ChatHint from '@/components/chat/ChatHint';
+import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -436,6 +437,11 @@ export default function PortfolioPage() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* ── Legal disclaimer — required on all financial data pages */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <FinancialDisclaimer variant="full" />
       </div>
 
       {/* ── Content ── */}

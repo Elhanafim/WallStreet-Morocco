@@ -1,19 +1,21 @@
 {
   "hero": {
-    "badge": "Bolsa de Casablanca · En directo",
-    "headline1": "Invierte",
-    "headline2": "inteligentemente",
-    "headline3": "en Marruecos",
-    "subtitle": "Datos en tiempo real. Herramientas inteligentes. Mejores decisiones. La plataforma todo-en-uno para dominar la Bolsa de Casablanca.",
-    "cta1": "Empezar gratis",
-    "cta2": "Explorar mercados",
-    "trust1": "Sin tarjeta requerida",
-    "trust2": "Acceso gratuito inmediato",
-    "trust3": "Cancela cuando quieras",
-    "chartLabel": "Índice de referencia · Tiempo real",
+    "badge": "Herramienta educativa · Bolsa de Casablanca",
+    "headline1": "Comprender",
+    "headline2": "la Bolsa",
+    "headline3": "de Casablanca",
+    "subtitle": "Datos de la BVC, análisis sectoriales y herramientas educativas para comprender los mercados financieros marroquíes. Solo educativo — no es asesoramiento de inversión.",
+    "cta1": "Explorar mercados",
+    "cta2": "Empezar a aprender",
+    "eduNote": "Solo herramienta educativa · No autorizado AMMC · Datos con retraso 15 min. · No es asesoramiento de inversión",
+    "trust1": "78 empresas cotizadas",
+    "trust2": "100% gratuito",
+    "trust3": "Datos BVC",
+    "trust4": "No autorizado AMMC",
+    "chartLabel": "Índice de referencia · Datos con retraso",
     "chartTitle": "MASI — Bolsa de Casablanca",
-    "chartLive": "En directo",
-    "chartUnavailable": "Datos en directo temporalmente no disponibles"
+    "chartLive": "Con retraso",
+    "chartUnavailable": "Datos temporalmente no disponibles"
   },
   "markets": {
     "badge": "Datos en directo",
@@ -49,7 +51,7 @@
     "badge": "Premium — Desde 9€/mes",
     "title1": "Pasa al siguiente",
     "title2": "nivel",
-    "subtitle": "Accede a análisis en profundidad, alertas de mercado, recomendaciones de compra/venta y el simulador avanzado.",
+    "subtitle": "Accede a análisis en profundidad, alertas de mercado y el simulador avanzado. Solo herramientas educativas.",
     "cta1": "Ver planes Premium",
     "cta2": "Crear una cuenta gratuita",
     "features": {

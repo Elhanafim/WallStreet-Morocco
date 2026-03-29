@@ -6,19 +6,19 @@ import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: {
-    default: 'WallStreet Morocco — Investir au Maroc',
+    default: 'WallStreet Morocco — Comprendre la Bourse de Casablanca',
     template: '%s | WallStreet Morocco',
   },
   description:
-    'La plateforme de référence pour les investisseurs marocains. Analyses de la Bourse de Casablanca, OPCVM, simulateur de portefeuille, calendrier économique et guides en français.',
+    'Outil éducatif sur la Bourse de Casablanca. Données BVC, analyses sectorielles, OPCVM, simulateur de portefeuille et guides pédagogiques. Site éducatif uniquement — pas un conseil en investissement.',
   keywords: [
-    'bourse casablanca',
-    'investissement maroc',
+    'bourse casablanca éducatif',
+    'apprendre bourse maroc',
     'OPCVM maroc',
     'MASI MADEX',
-    'actions maroc',
     'finance maroc',
-    'investir maroc',
+    'éducation financière maroc',
+    'BVC données',
   ],
   authors: [{ name: 'El Hanafi Mohammed' }],
   creator: 'WallStreet Morocco',
@@ -27,14 +27,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fr_MA',
     url: 'https://wallstreetmorocco.com',
-    title: 'WallStreet Morocco — Investir au Maroc',
-    description: 'La plateforme de référence pour les investisseurs marocains.',
+    title: 'WallStreet Morocco — Comprendre la Bourse de Casablanca',
+    description: 'Outil éducatif sur la Bourse de Casablanca. Site éducatif uniquement — pas un conseil en investissement.',
     siteName: 'WallStreet Morocco',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'WallStreet Morocco',
-    description: 'Investissez intelligemment au Maroc',
+    description: 'Comprendre la Bourse de Casablanca — Outil éducatif',
   },
   robots: {
     index: true,

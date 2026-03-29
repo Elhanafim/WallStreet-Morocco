@@ -35,8 +35,8 @@ const TYPE_CONFIG: Record<SuggestionType, {
     border: 'border-emerald-200',
     iconColor: 'text-emerald-600',
     badge: 'bg-emerald-100 text-emerald-700',
-    badgeText: 'Opportunité',
-    label: 'Opportunité',
+    badgeText: 'Performance',
+    label: 'Performance',
   },
   info: {
     icon: Info,
@@ -58,17 +58,24 @@ export default function SuggestionPanel({ suggestions }: Props) {
 
   return (
     <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5">
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-3">
         <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
           <Lightbulb className="w-4 h-4 text-secondary" />
         </div>
         <div>
-          <h3 className="font-bold text-sm text-primary">Analyse & Suggestions</h3>
-          <p className="text-xs text-primary/40">Basé sur la composition de votre portefeuille</p>
+          <h3 className="font-bold text-sm text-primary">Analyse du portefeuille</h3>
+          <p className="text-xs text-primary/40">Bas\u00e9 sur la composition de votre portefeuille</p>
         </div>
         <span className="ml-auto text-xs font-semibold bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
           {suggestions.length}
         </span>
+      </div>
+
+      {/* Legal disclaimer — prominent, above all suggestions */}
+      <div className="mb-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl">
+        <p className="text-xs text-amber-700 font-bold">
+          \u26a0\ufe0f Information \u00e9ducative uniquement \u2014 pas un conseil en investissement
+        </p>
       </div>
 
       <div className="space-y-3">

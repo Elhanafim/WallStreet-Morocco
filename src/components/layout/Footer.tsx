@@ -211,19 +211,31 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom Bar — legal links + cookie management */}
       <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/40 text-xs">
-            © {new Date().getFullYear()} WallStreet Morocco. {t('disclaimer.allRightsReserved')}
-          </p>
-          <div className="flex items-center gap-4">
-            <Link href="/confidentialite" className="text-white/40 hover:text-white/70 text-xs transition-colors">
-              {tl('footer.privacy')}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-3">
+          {/* Legal links row */}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
+            <Link href="/mentions-legales" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.mentions')}
             </Link>
+            <span className="text-white/15 text-xs hidden sm:block">·</span>
             <Link href="/terms" className="text-white/40 hover:text-white/70 text-xs transition-colors">
               {tl('footer.terms')}
             </Link>
+            <span className="text-white/15 text-xs hidden sm:block">·</span>
+            <Link href="/confidentialite" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.privacy')}
+            </Link>
+            <span className="text-white/15 text-xs hidden sm:block">·</span>
+            <Link href="/politique-cookies" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.cookiePolicy')}
+            </Link>
+            <span className="text-white/15 text-xs hidden sm:block">·</span>
+            <Link href="/politique-risques" className="text-white/40 hover:text-white/70 text-xs transition-colors">
+              {tl('footer.riskPolicy')}
+            </Link>
+            <span className="text-white/15 text-xs hidden sm:block">·</span>
             <button
               onClick={() => setShowCookieBanner(true)}
               className="text-white/40 hover:text-white/70 text-xs transition-colors cursor-pointer"
@@ -231,6 +243,10 @@ export default function Footer() {
               {tl('footer.manageCookies')}
             </button>
           </div>
+          {/* Copyright */}
+          <p className="text-white/25 text-xs text-center">
+            © {new Date().getFullYear()} WallStreet Morocco · Mohammed El Hanafi · Projet personnel indépendant · Non agréé AMMC
+          </p>
         </div>
       </div>
     </footer>

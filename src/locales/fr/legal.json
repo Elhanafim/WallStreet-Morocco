@@ -155,9 +155,35 @@
     "currentSettings": "Paramètres actuels"
   },
   "footer": {
-    "disclaimer": "Les informations publiées sur ce site sont fournies à titre indicatif uniquement. Elles ne constituent pas un conseil en investissement. Investir comporte un risque de perte en capital.",
+    "disclaimer": "Les informations publiées sur WallStreet Morocco sont fournies à titre éducatif uniquement et ne constituent pas un conseil en investissement au sens des lois marocaines. L'investissement comporte un risque de perte en capital. WallStreet Morocco n'est pas agréé par l'AMMC. © 2026 Mohammed El Hanafi.",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
+    "mentions": "Mentions légales",
+    "cookiePolicy": "Politique de cookies",
+    "riskPolicy": "Politique de risques",
     "manageCookies": "Gestion des cookies"
+  },
+  "disclaimer": {
+    "full": "Les informations fournies sur ce site sont à titre éducatif uniquement et ne constituent en aucun cas un conseil en investissement, une recommandation d'achat ou de vente de valeurs mobilières. L'investissement en bourse comporte des risques importants de perte en capital. Les performances passées ne préjugent pas des performances futures. Avant toute décision d'investissement, consultez un conseiller financier agréé par l'AMMC.",
+    "short": "ℹ️ Informations éducatives uniquement · Pas un conseil en investissement · Risque de perte en capital",
+    "inline": "Les performances affichées sont calculées sur données historiques et ne garantissent pas de résultats futurs.",
+    "chatbot": "Je suis un assistant éducatif uniquement — pas un conseiller financier agréé.",
+    "footer": "Les informations publiées sur WallStreet Morocco sont fournies à titre éducatif uniquement et ne constituent pas un conseil en investissement au sens des lois marocaines. L'investissement comporte un risque de perte en capital. WallStreet Morocco n'est pas agréé par l'AMMC. © 2026 Mohammed El Hanafi."
+  },
+  "pages": {
+    "mentions": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "cookies": "Politique de cookies",
+    "risks": "Politique de risques"
+  },
+  "warning": {
+    "performance": "⚠️ Les performances passées ne préjugent pas des performances futures.",
+    "notAdvice": "⚠️ Information éducative uniquement — pas un conseil en investissement",
+    "riskCapital": "Risque de perte en capital"
+  },
+  "edubanner": {
+    "text": "Site éducatif uniquement — Pas un conseil en investissement · Non agréé AMMC · Données en différé.",
+    "link": "En savoir plus sur les risques"
   }
 }

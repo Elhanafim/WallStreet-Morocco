@@ -5,6 +5,7 @@ import { ArrowRight, BarChart2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Hero from '@/components/home/Hero';
 import BVCInvestorPulse from '@/components/home/BVCInvestorPulse';
+import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 import ArticleCard from '@/components/learn/ArticleCard';
 import { getFeaturedArticles } from '@/lib/data/articles';
 import { opcvmFunds } from '@/lib/data/opcvm';
@@ -75,7 +76,7 @@ export default function HomePage() {
           </div>
 
           {/* TradingView Market Overview — real-time, no static data */}
-          <div className="rounded-2xl overflow-hidden border border-surface-200 shadow-card">
+          <div className="rounded-2xl overflow-hidden border border-surface-200 shadow-card w-full" style={{ maxWidth: '100%' }}>
             <TradingViewMarketOverview />
           </div>
 
@@ -121,6 +122,11 @@ export default function HomePage() {
 
       {/* ── BVC Investor Dashboard ───────────────────────────────── */}
       <BVCInvestorPulse />
+
+      {/* ── Financial disclaimer ─────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <FinancialDisclaimer variant="short" />
+      </div>
 
       {/* ── Featured Articles ────────────────────────────────────── */}
       <section className="py-20 bg-white">

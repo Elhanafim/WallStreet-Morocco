@@ -155,9 +155,35 @@
     "currentSettings": "Configuración actual"
   },
   "footer": {
-    "disclaimer": "La información publicada en este sitio se proporciona únicamente con fines informativos. No constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital.",
+    "disclaimer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 Mohammed El Hanafi.",
     "privacy": "Política de privacidad",
     "terms": "Términos de servicio",
+    "mentions": "Aviso legal",
+    "cookiePolicy": "Política de cookies",
+    "riskPolicy": "Política de riesgos",
     "manageCookies": "Configuración de cookies"
+  },
+  "disclaimer": {
+    "full": "La información proporcionada en este sitio es solo educativa y no constituye en ningún caso asesoramiento de inversión, recomendación de compra o venta de valores, ni ninguna solicitud. Invertir en bolsa conlleva riesgos importantes de pérdida de capital. Los resultados pasados no predicen los futuros. Antes de cualquier decisión de inversión, consulte a un asesor financiero autorizado por la AMMC.",
+    "short": "ℹ️ Solo información educativa · No es asesoramiento de inversión · Riesgo de pérdida de capital",
+    "inline": "Los resultados mostrados se calculan sobre datos históricos y no garantizan resultados futuros.",
+    "chatbot": "Soy un asistente educativo únicamente — no un asesor financiero autorizado.",
+    "footer": "La información publicada en WallStreet Morocco es solo educativa y no constituye asesoramiento de inversión. Invertir implica riesgo de pérdida de capital. WallStreet Morocco no está autorizado por la AMMC. © 2026 Mohammed El Hanafi."
+  },
+  "pages": {
+    "mentions": "Aviso legal",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "cookies": "Política de cookies",
+    "risks": "Política de riesgos"
+  },
+  "warning": {
+    "performance": "⚠️ Los resultados pasados no predicen los resultados futuros.",
+    "notAdvice": "⚠️ Solo información educativa — no es asesoramiento de inversión",
+    "riskCapital": "Riesgo de pérdida de capital"
+  },
+  "edubanner": {
+    "text": "Solo sitio educativo — No es asesoramiento de inversión · No autorizado AMMC · Datos con retraso.",
+    "link": "Más información sobre riesgos"
   }
 }

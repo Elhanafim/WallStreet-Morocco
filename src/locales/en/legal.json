@@ -155,9 +155,35 @@
     "currentSettings": "Current settings"
   },
   "footer": {
-    "disclaimer": "Information published on this site is provided for informational purposes only. It does not constitute investment advice. Investing involves risk of capital loss.",
+    "disclaimer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 Mohammed El Hanafi.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
+    "mentions": "Legal Notice",
+    "cookiePolicy": "Cookie Policy",
+    "riskPolicy": "Risk Policy",
     "manageCookies": "Cookie Settings"
+  },
+  "disclaimer": {
+    "full": "Information provided on this site is for educational purposes only and does not in any way constitute investment advice, a recommendation to buy or sell securities, or any solicitation. Investing in the stock market involves significant risks of capital loss. Past performance does not predict future results. Before any investment decision, consult a financial advisor licensed by the AMMC.",
+    "short": "ℹ️ Educational information only · Not investment advice · Risk of capital loss",
+    "inline": "Past performance is calculated on historical data and does not guarantee future results.",
+    "chatbot": "I am an educational assistant only — not a licensed financial advisor.",
+    "footer": "Information published on WallStreet Morocco is for educational purposes only and does not constitute investment advice. Investing involves risk of capital loss. WallStreet Morocco is not licensed by the AMMC. © 2026 Mohammed El Hanafi."
+  },
+  "pages": {
+    "mentions": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "risks": "Risk Policy"
+  },
+  "warning": {
+    "performance": "⚠️ Past performance does not predict future results.",
+    "notAdvice": "⚠️ Educational information only — not investment advice",
+    "riskCapital": "Risk of capital loss"
+  },
+  "edubanner": {
+    "text": "Educational site only — Not investment advice · Not AMMC-licensed · Data delayed.",
+    "link": "Learn more about risks"
   }
 }

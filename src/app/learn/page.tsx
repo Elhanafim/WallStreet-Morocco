@@ -6,6 +6,7 @@ import ArticleCard from '@/components/learn/ArticleCard';
 import { articles } from '@/lib/data/articles';
 import { Article } from '@/types';
 import ChatHint from '@/components/chat/ChatHint';
+import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 
 type Category = 'Tous' | Article['category'];
 
@@ -34,6 +35,11 @@ export default function LearnPage() {
 
   return (
     <div className="pt-16 min-h-screen bg-white">
+      {/* Legal disclaimer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <FinancialDisclaimer variant="short" />
+      </div>
+
       {/* Hero */}
       <div className="bg-gradient-hero py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
