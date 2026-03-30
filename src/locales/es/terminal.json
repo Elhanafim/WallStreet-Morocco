@@ -67,7 +67,7 @@
   "loading": "CARGANDO...",
   "error": "ERROR DE CARGA",
   "no_data": "DATOS NO DISPONIBLES",
-  "disclaimer": "DATOS EDUCATIVOS ÚNICAMENTE — NINGUNA INFORMACIÓN CONSTITUYE ASESORAMIENTO DE INVERSIÓN — NO AUTORIZADO POR AMMC",
+  "disclaimer": "ADVERTENCIA: NINGÚN CONTENIDO EN ESTA PÁGINA CONSTITUYE ASESORAMIENTO FINANCIERO. USO EDUCATIVO ÚNICAMENTE.",
   "help_title": "ATAJOS DE TECLADO",
   "help_h": "Mostrar / ocultar esta ayuda",
   "help_t": "Enfocar barra CMD",
@@ -85,5 +85,6 @@
   "mobile_tab_a": "VALORES",
   "mobile_tab_b": "DETALLE",
   "mobile_tab_c": "MERCADO",
-  "mobile_tab_d": "MACRO"
+  "mobile_tab_d": "MACRO",
+  "valeurs_totales": "VALORES TOTALES"
 }

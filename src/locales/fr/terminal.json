@@ -67,7 +67,7 @@
   "loading": "CHARGEMENT...",
   "error": "ERREUR DE CHARGEMENT",
   "no_data": "DONNÉES INDISPONIBLES",
-  "disclaimer": "DONNÉES ÉDUCATIVES UNIQUEMENT — AUCUNE INFORMATION NE CONSTITUE UN CONSEIL EN INVESTISSEMENT — NON AGRÉÉ AMMC",
+  "disclaimer": "AVERTISSEMENT : AUCUN CONTENU SUR CETTE PAGE NE CONSTITUE UN CONSEIL FINANCIER. USAGE ÉDUCATIF UNIQUEMENT.",
   "help_title": "RACCOURCIS CLAVIER",
   "help_h": "Afficher / masquer cette aide",
   "help_t": "Focaliser la barre CMD",
@@ -85,5 +85,6 @@
   "mobile_tab_a": "VALEURS",
   "mobile_tab_b": "DÉTAIL",
   "mobile_tab_c": "MARCHÉ",
-  "mobile_tab_d": "MACRO"
+  "mobile_tab_d": "MACRO",
+  "valeurs_totales": "VALEURS TOTALES"
 }

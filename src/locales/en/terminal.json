@@ -67,7 +67,7 @@
   "loading": "LOADING...",
   "error": "LOAD ERROR",
   "no_data": "DATA UNAVAILABLE",
-  "disclaimer": "EDUCATIONAL DATA ONLY — NO INFORMATION CONSTITUTES INVESTMENT ADVICE — NOT AMMC APPROVED",
+  "disclaimer": "WARNING: NO CONTENT ON THIS PAGE CONSTITUTES FINANCIAL ADVICE. EDUCATIONAL USE ONLY.",
   "help_title": "KEYBOARD SHORTCUTS",
   "help_h": "Show / hide this help",
   "help_t": "Focus CMD bar",
@@ -85,5 +85,6 @@
   "mobile_tab_a": "STOCKS",
   "mobile_tab_b": "DETAIL",
   "mobile_tab_c": "MARKET",
-  "mobile_tab_d": "MACRO"
+  "mobile_tab_d": "MACRO",
+  "valeurs_totales": "TOTAL STOCKS"
 }

@@ -97,8 +97,11 @@ const StockRow = memo(function StockRow({
   isFlashing: boolean;
   onClick: () => void;
 }) {
+  const { t } = useTranslation('terminal');
   const signal = getSignal(stock.changePercent);
   const sigColor = signal === 'HAUSSIER' ? BB_GREEN : signal === 'BAISSIER' ? BB_RED : BB_YELLOW;
+  const sigBg    = signal === 'HAUSSIER' ? '#00ff4110' : signal === 'BAISSIER' ? '#ff224410' : '#ffd70010';
+  const sigKey   = signal === 'HAUSSIER' ? 'signal_bullish' : signal === 'BAISSIER' ? 'signal_bearish' : 'signal_neutral';
 
   const bg = isSelected
     ? '#1a1a00'
@@ -133,12 +136,19 @@ const StockRow = memo(function StockRow({
       {/* VOLUME */}
       <span className="w-14 px-1 py-0.5 text-right" style={{ color: BB_MUTED }}>{fmtVolume(stock.volume)}</span>
       {/* SIGNAL */}
-      <span
-        className="w-16 px-1 py-0.5 text-center text-[9px] font-bold"
-        style={{ color: sigColor }}
-        title="Indicateur basé sur la variation du jour. Pas un conseil financier."
-      >
-        {signal}
+      <span className="w-16 px-1 py-0.5 flex items-center justify-center">
+        <span
+          className="text-[9px] font-bold px-1.5 py-0.5"
+          style={{
+            color: sigColor,
+            border: `1px solid ${sigColor}55`,
+            background: sigBg,
+            fontFamily: "'Courier New', monospace",
+          }}
+          title={t('signal_tooltip')}
+        >
+          {t(sigKey)}
+        </span>
       </span>
     </div>
   );
@@ -575,15 +585,13 @@ export default function TerminalPage() {
           <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('masi_label')} / MARCHÉ</p>
           <div className="space-y-1">
             {[
-              { label: t('masi_label'), value: fmtPrice(movers?.gainers[0]?.referencePrice ?? null), chgPct: avgChange },
-              { label: t('madex_label'), value: '—', chgPct: null },
+              { label: t('masi_label'),       value: stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—', chgPct: avgChange,  isIndex: true },
+              { label: t('valeurs_totales'),   value: `${stocks.length}`,                                                                  chgPct: null,       isIndex: false },
+              { label: t('total_volume'),      value: fmtVolume(totalVolume) + ' MAD',                                                     chgPct: null,       isIndex: false },
             ].map(row => (
               <div key={row.label} className="flex items-center justify-between text-[11px]" style={{ borderBottom: `1px solid ${BB_BORDER}`, paddingBottom: '4px' }}>
-                <span className="font-bold" style={{ color: BB_CYAN }}>{row.label}</span>
-                <span className="font-bold" style={{ color: BB_WHITE }}>{row.value}</span>
-                <span className="font-bold" style={{ color: pctColor(row.chgPct) }}>
-                  {row.chgPct != null ? fmtPct(row.chgPct) : '—'}
-                </span>
+                <span className="font-bold" style={{ color: row.isIndex ? BB_CYAN : BB_MUTED }}>{row.label}</span>
+                <span className="font-bold" style={{ color: row.isIndex ? pctColor(row.chgPct) : BB_WHITE }}>{row.value}</span>
               </div>
             ))}
           </div>
@@ -707,13 +715,21 @@ export default function TerminalPage() {
               { date: 'Avr 03', evt: 'BAM — Décision de taux directeur',  ticker: 'BAM' },
               { date: 'Avr 10', evt: 'Maroc Telecom — Publication résultats T1', ticker: 'IAM' },
               { date: 'Avr 17', evt: 'HCP — Publication indice des prix', ticker: 'HCP' },
-            ].map(({ date, evt, ticker }) => (
-              <div key={date} className="flex gap-2 py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
-                <span className="w-10 flex-shrink-0 font-bold" style={{ color: BB_YELLOW }}>{date}</span>
-                <span className="flex-1" style={{ color: BB_WHITE }}>{evt}</span>
-                <span style={{ color: BB_CYAN }}>{ticker}</span>
-              </div>
-            ))}
+            ].map(({ date, evt, ticker }) => {
+              const badgeColor = ticker === 'BAM' ? BB_CYAN : ticker === 'IAM' ? BB_YELLOW : ticker === 'ATW' ? BB_GREEN : BB_MUTED;
+              return (
+                <div key={date} className="flex gap-2 py-1 items-center" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
+                  <span className="w-10 flex-shrink-0 font-bold" style={{ color: BB_YELLOW }}>{date}</span>
+                  <span className="flex-1" style={{ color: BB_WHITE }}>{evt}</span>
+                  <span
+                    className="text-[8px] font-bold px-1 py-0.5 flex-shrink-0"
+                    style={{ color: badgeColor, border: `1px solid ${badgeColor}44`, background: `${badgeColor}11` }}
+                  >
+                    {ticker}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <Link href="/calendar" className="block mt-2 text-[9px] hover:underline" style={{ color: BB_CYAN }}>
             {t('see_full_calendar')}
@@ -904,10 +920,10 @@ export default function TerminalPage() {
 
       {/* ── DISCLAIMER BAR ────────────────────────────────────────────────────── */}
       <div
-        className="flex-shrink-0 flex items-center justify-center px-4 text-[9px] font-bold text-center"
-        style={{ background: '#1a0a00', color: BB_ORANGE, height: '22px', borderTop: `1px solid ${BB_ORANGE}22` }}
+        className="flex-shrink-0 flex items-center justify-center px-4 text-[10px] font-bold text-center tracking-wide"
+        style={{ background: '#1a0500', color: BB_ORANGE, height: '26px', borderTop: `2px solid ${BB_ORANGE}44` }}
       >
-        ⚠ {t('disclaimer')} ⚠
+        ⚠️ {t('disclaimer')} ⚠️
       </div>
     </div>
   );
