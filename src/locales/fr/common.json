@@ -15,7 +15,8 @@
     "logout": "Se déconnecter",
     "register": "S'inscrire",
     "registerFree": "S'inscrire gratuitement",
-    "investor": "Investisseur"
+    "investor": "Investisseur",
+    "terminal": "Terminal"
   },
   "lang": {
     "fr": "Français",

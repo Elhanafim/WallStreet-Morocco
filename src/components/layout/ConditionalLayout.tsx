@@ -15,8 +15,9 @@ const ChatBubble = dynamic(() => import('@/components/chat/ChatBubble'), { ssr: 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDashboard = pathname?.startsWith('/dashboard');
+  const isTerminal  = pathname?.startsWith('/terminal');
 
-  if (isDashboard) {
+  if (isDashboard || isTerminal) {
     return <>{children}</>;
   }
 

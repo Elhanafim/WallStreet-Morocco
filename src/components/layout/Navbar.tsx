@@ -26,6 +26,7 @@ export default function Navbar() {
     { href: '/calendar', label: t('nav.calendrier') },
     { href: '/opcvm', label: t('nav.opcvm') },
     { href: '/market', label: t('nav.marches') },
+    { href: '/terminal', label: '◈ ' + t('nav.terminal') },
   ];
 
   useEffect(() => {

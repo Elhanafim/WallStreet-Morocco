@@ -15,7 +15,8 @@
     "logout": "Cerrar Sesión",
     "register": "Registrarse",
     "registerFree": "Registrarse Gratis",
-    "investor": "Inversor"
+    "investor": "Inversor",
+    "terminal": "Terminal"
   },
   "lang": {
     "fr": "Français",

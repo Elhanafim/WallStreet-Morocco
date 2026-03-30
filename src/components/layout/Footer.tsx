@@ -19,6 +19,7 @@ export default function Footer() {
     { href: '/simulator', label: t('footer.links.simulator') },
     { href: '/calendar', label: t('footer.links.calendar') },
     { href: '/opcvm', label: t('footer.links.opcvm') },
+    { href: '/terminal', label: '◈ Terminal BVC' },
     { href: '/donate', label: t('footer.links.donate') },
   ];
 
