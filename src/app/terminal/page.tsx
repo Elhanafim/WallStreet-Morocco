@@ -11,6 +11,7 @@ import {
   type BVCMovers,
   getMarketStatus,
 } from '@/lib/bvcPriceService';
+import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
 
 const TradingViewChart = dynamic(() => import('@/components/market/TradingViewChart'), {
   ssr: false,
@@ -36,6 +37,8 @@ const BB_PANEL  = '#0a0a0a';
 type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type PanelBTab   = 1 | 2 | 3;
 type MobileTab   = 'A' | 'B' | 'C' | 'D';
+type ViewMode    = 'bvc' | 'opcvm';
+type OpcvmFilter = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fmtPrice(n: number | null | undefined): string {
@@ -70,12 +73,26 @@ function pctColor(pct: number | null | undefined): string {
   return BB_MUTED;
 }
 
+function fmtPerf(v: number | null | undefined): string {
+  if (v == null) return '—';
+  return `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`;
+}
+
+function opcvmTypeColor(type: string | null | undefined): string {
+  const t = (type || '').toLowerCase();
+  if (t.includes('action'))                       return BB_GREEN;
+  if (t.includes('oblig'))                        return '#aa44ff';
+  if (t.includes('mon') || t.includes('moné'))    return BB_YELLOW;
+  if (t.includes('divers'))                       return BB_CYAN;
+  return BB_MUTED;
+}
+
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
 function PanelHeader({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <div
-      className="flex items-center justify-between px-2 py-0.5 flex-shrink-0 text-black text-[10px] font-bold uppercase tracking-widest"
+      className="flex items-center justify-between px-3 py-1 flex-shrink-0 text-black text-xs font-bold uppercase tracking-widest"
       style={{ background: BB_ORANGE }}
     >
       <span>{title}</span>
@@ -119,7 +136,7 @@ const StockRow = memo(function StockRow({
         background: bg,
         borderLeft: isSelected ? `2px solid ${BB_ORANGE}` : '2px solid transparent',
         fontFamily: "'Courier New', monospace",
-        fontSize: '11px',
+        fontSize: '13px',
         color: BB_WHITE,
       }}
     >
@@ -138,7 +155,7 @@ const StockRow = memo(function StockRow({
       {/* SIGNAL */}
       <span className="w-16 px-1 py-0.5 flex items-center justify-center">
         <span
-          className="text-[9px] font-bold px-1.5 py-0.5"
+          className="text-[11px] font-bold px-1.5 py-0.5"
           style={{
             color: sigColor,
             border: `1px solid ${sigColor}55`,
@@ -165,9 +182,9 @@ function FearGreedGauge({ score, label, color }: { score: number; label: string;
   return (
     <div>
       <div className="flex items-end justify-between mb-1">
-        <span className="text-[9px] font-bold" style={{ color: BB_MUTED }}>0</span>
-        <span className="text-sm font-bold" style={{ color }}>{score}</span>
-        <span className="text-[9px] font-bold" style={{ color: BB_MUTED }}>100</span>
+        <span className="text-xs font-bold" style={{ color: BB_MUTED }}>0</span>
+        <span className="text-base font-bold" style={{ color }}>{score}</span>
+        <span className="text-xs font-bold" style={{ color: BB_MUTED }}>100</span>
       </div>
       {/* Track */}
       <div className="h-2 w-full flex rounded-none overflow-hidden" style={{ border: `1px solid ${BB_BORDER}` }}>
@@ -182,7 +199,7 @@ function FearGreedGauge({ score, label, color }: { score: number; label: string;
           style={{ left: `${Math.min(99, score)}%`, background: color, transform: 'translateX(-50%)' }}
         />
       </div>
-      <p className="text-center mt-1 text-xs font-bold" style={{ color, fontFamily: "'Courier New', monospace" }}>
+      <p className="text-center mt-1 text-sm font-bold" style={{ color, fontFamily: "'Courier New', monospace" }}>
         {label}
       </p>
     </div>
@@ -210,6 +227,14 @@ export default function TerminalPage() {
   const [clock,           setClock]           = useState('');
   const [flashTickers,    setFlashTickers]    = useState<Set<string>>(new Set());
   const [mobileTab,       setMobileTab]       = useState<MobileTab>('A');
+
+  // ── OPCVM state ──────────────────────────────────────────────────────────────
+  const [viewMode,      setViewMode]      = useState<ViewMode>('bvc');
+  const [opcvmFunds,    setOpcvmFunds]    = useState<OpcvmFund[]>([]);
+  const [opcvmLoading,  setOpcvmLoading]  = useState(false);
+  const [selectedOpcvm, setSelectedOpcvm] = useState<OpcvmFund | null>(null);
+  const [opcvmFilter,   setOpcvmFilter]   = useState<OpcvmFilter>('ALL');
+  const [opcvmSource,   setOpcvmSource]   = useState('');
 
   const cmdRef         = useRef<HTMLInputElement>(null);
   const searchRef      = useRef<HTMLInputElement>(null);
@@ -257,6 +282,24 @@ export default function TerminalPage() {
     return () => clearInterval(id);
   }, [loadData]);
 
+  // ── OPCVM data loading ───────────────────────────────────────────────────────
+  const loadOpcvm = useCallback(async () => {
+    setOpcvmLoading(true);
+    try {
+      const data = await fetchOpcvm();
+      setOpcvmFunds(data.funds);
+      setOpcvmSource(data.source);
+    } finally {
+      setOpcvmLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (viewMode === 'opcvm' && opcvmFunds.length === 0) {
+      loadOpcvm();
+    }
+  }, [viewMode, opcvmFunds.length, loadOpcvm]);
+
   // ── Computed values ──────────────────────────────────────────────────────────
   const filtered = useMemo(() => {
     let list = [...stocks];
@@ -301,6 +344,12 @@ export default function TerminalPage() {
     return BB_GREEN;
   }
 
+  // ── OPCVM filtered list ──────────────────────────────────────────────────────
+  const filteredOpcvm = useMemo(() => {
+    if (opcvmFilter === 'ALL') return opcvmFunds;
+    return opcvmFunds.filter(f => (f.type || '').toLowerCase().includes(opcvmFilter.toLowerCase()));
+  }, [opcvmFunds, opcvmFilter]);
+
   // ── CMD handler ──────────────────────────────────────────────────────────────
   const handleCmd = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== 'Enter') return;
@@ -314,6 +363,8 @@ export default function TerminalPage() {
     if (cmd === 'MASI')  { setCmdMsg('→ PANEL C: APERÇU MARCHÉ'); setMobileTab('C'); return; }
     if (cmd === 'MACRO') { setCmdMsg('→ PANEL D: MACRO & FX'); setMobileTab('D'); return; }
     if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
+    if (cmd === 'OPCVM') { setViewMode('opcvm'); setCmdMsg('→ OPCVM: FONDS MAROC'); return; }
+    if (cmd === 'BVC')   { setViewMode('bvc');   setCmdMsg('→ BVC: VALEURS'); return; }
 
     const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
     if (found) {
@@ -415,7 +466,7 @@ export default function TerminalPage() {
 
       {/* Column headers */}
       <div
-        className="flex items-center gap-0 flex-shrink-0 text-[9px] font-bold px-0"
+        className="flex items-center gap-0 flex-shrink-0 text-xs font-bold px-0"
         style={{ background: '#111', color: BB_MUTED, fontFamily: "'Courier New', monospace", borderBottom: `1px solid ${BB_BORDER}` }}
       >
         <span className="w-14 px-1.5 py-0.5">{t('col_ticker')}</span>
@@ -429,11 +480,11 @@ export default function TerminalPage() {
       {/* Rows */}
       <div className="flex-1 overflow-y-auto">
         {loading ? (
-          <div className="flex items-center justify-center h-full text-[11px]" style={{ color: BB_ORANGE, fontFamily: "'Courier New', monospace" }}>
+          <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_ORANGE, fontFamily: "'Courier New', monospace" }}>
             {t('loading')}
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-[11px]" style={{ color: BB_MUTED, fontFamily: "'Courier New', monospace" }}>
+          <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_MUTED, fontFamily: "'Courier New', monospace" }}>
             {t('no_data')}
           </div>
         ) : (
@@ -475,7 +526,7 @@ export default function TerminalPage() {
           <div className="flex flex-col items-center justify-center h-full gap-2" style={{ fontFamily: "'Courier New', monospace" }}>
             <div className="text-2xl" style={{ color: BB_ORANGE }}>◈</div>
             <p className="text-xs font-bold" style={{ color: BB_ORANGE }}>{t('no_ticker')}</p>
-            <p className="text-[10px]" style={{ color: BB_MUTED }}>{t('no_ticker_sub')}</p>
+            <p className="text-xs" style={{ color: BB_MUTED }}>{t('no_ticker_sub')}</p>
           </div>
         ) : panelBTab === 1 ? (
           /* ── TAB 1: QUOTE ── */
@@ -484,10 +535,10 @@ export default function TerminalPage() {
             <div className="flex items-start justify-between mb-3">
               <div>
                 <p className="text-xl font-black" style={{ color: BB_CYAN }}>{selectedTicker.ticker}</p>
-                <p className="text-[11px]" style={{ color: BB_MUTED }}>{selectedTicker.name}</p>
+                <p className="text-sm" style={{ color: BB_MUTED }}>{selectedTicker.name}</p>
               </div>
               <div className="text-right">
-                <p className="text-3xl font-black" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
+                <p className="text-4xl font-black" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
                 <p className="text-xs font-bold mt-0.5" style={{ color: BB_MUTED }}>MAD</p>
               </div>
             </div>
@@ -514,8 +565,8 @@ export default function TerminalPage() {
                 { label: t('volume'), value: fmtVolume(selectedTicker.volume) },
               ].map(({ label, value }) => (
                 <div key={label} className="px-2 py-1.5" style={{ background: BB_PANEL }}>
-                  <p className="text-[9px] font-bold mb-0.5" style={{ color: BB_MUTED }}>{label}</p>
-                  <p className="text-xs font-bold" style={{ color: BB_WHITE }}>{value}</p>
+                  <p className="text-xs font-bold mb-0.5" style={{ color: BB_MUTED }}>{label}</p>
+                  <p className="text-sm font-bold" style={{ color: BB_WHITE }}>{value}</p>
                 </div>
               ))}
             </div>
@@ -525,14 +576,14 @@ export default function TerminalPage() {
               const sig = getSignal(selectedTicker.changePercent);
               const sigColor = sig === 'HAUSSIER' ? BB_GREEN : sig === 'BAISSIER' ? BB_RED : BB_YELLOW;
               return (
-                <div className="flex items-center justify-between p-2 text-[10px] font-bold" style={{ border: `1px solid ${BB_BORDER}` }}>
+                <div className="flex items-center justify-between p-2 text-sm font-bold" style={{ border: `1px solid ${BB_BORDER}` }}>
                   <span style={{ color: BB_MUTED }}>SIGNAL TECHNIQUE</span>
                   <span style={{ color: sigColor }}>{sig}</span>
                 </div>
               );
             })()}
 
-            <p className="mt-2 text-[9px]" style={{ color: BB_MUTED }}>
+            <p className="mt-2 text-xs" style={{ color: BB_MUTED }}>
               * {t('signal_tooltip')}
             </p>
           </div>
@@ -541,7 +592,7 @@ export default function TerminalPage() {
           <div className="h-full flex flex-col">
             <div className="flex gap-1 p-1 flex-shrink-0" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
               {['1D','1W','1M','3M','6M','1Y'].map(r => (
-                <button key={r} className="text-[9px] px-2 py-0.5 font-bold" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, fontFamily: "'Courier New', monospace" }}>
+                <button key={r} className="text-xs px-2 py-0.5 font-bold" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, fontFamily: "'Courier New', monospace" }}>
                   {r}
                 </button>
               ))}
@@ -566,7 +617,7 @@ export default function TerminalPage() {
               interval="D"
               showToolbar={false}
             />
-            <p className="mt-2 text-[9px] text-center" style={{ color: BB_MUTED }}>
+            <p className="mt-2 text-xs text-center" style={{ color: BB_MUTED }}>
               Données via TradingView · Graphique différé
             </p>
           </div>
@@ -582,14 +633,14 @@ export default function TerminalPage() {
       <div className="p-3 space-y-4" style={{ fontFamily: "'Courier New', monospace" }}>
         {/* MASI Dashboard */}
         <div>
-          <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('masi_label')} / MARCHÉ</p>
+          <p className="text-xs font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('masi_label')} / MARCHÉ</p>
           <div className="space-y-1">
             {[
               { label: t('masi_label'),       value: stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—', chgPct: avgChange,  isIndex: true },
               { label: t('valeurs_totales'),   value: `${stocks.length}`,                                                                  chgPct: null,       isIndex: false },
               { label: t('total_volume'),      value: fmtVolume(totalVolume) + ' MAD',                                                     chgPct: null,       isIndex: false },
             ].map(row => (
-              <div key={row.label} className="flex items-center justify-between text-[11px]" style={{ borderBottom: `1px solid ${BB_BORDER}`, paddingBottom: '4px' }}>
+              <div key={row.label} className="flex items-center justify-between text-sm py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
                 <span className="font-bold" style={{ color: row.isIndex ? BB_CYAN : BB_MUTED }}>{row.label}</span>
                 <span className="font-bold" style={{ color: row.isIndex ? pctColor(row.chgPct) : BB_WHITE }}>{row.value}</span>
               </div>
@@ -604,18 +655,18 @@ export default function TerminalPage() {
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center p-1" style={{ border: `1px solid ${BB_BORDER}` }}>
                 <p className="text-base font-black" style={{ color }}>{value}</p>
-                <p className="text-[8px]" style={{ color: BB_MUTED }}>{label}</p>
+                <p className="text-[10px]" style={{ color: BB_MUTED }}>{label}</p>
               </div>
             ))}
           </div>
-          <div className="mt-1 text-[9px]" style={{ color: BB_MUTED }}>
+          <div className="mt-1 text-xs" style={{ color: BB_MUTED }}>
             {t('total_volume')}: <span style={{ color: BB_WHITE }}>{fmtVolume(totalVolume)}</span>
           </div>
         </div>
 
         {/* Fear & Greed */}
         <div>
-          <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('fg_title')}</p>
+          <p className="text-xs font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('fg_title')}</p>
           <FearGreedGauge score={fgScore} label={fgLabel(fgScore)} color={fgColor(fgScore)} />
           <div className="mt-2 space-y-0.5">
             {[
@@ -624,7 +675,7 @@ export default function TerminalPage() {
               { label: t('fg_volatility'), value: fgVolatility, weight: '20%' },
               { label: t('fg_volume_label'), value: 50,         weight: '10%' },
             ].map(({ label, value, weight }) => (
-              <div key={label} className="flex items-center justify-between text-[9px]">
+              <div key={label} className="flex items-center justify-between text-xs">
                 <span style={{ color: BB_MUTED }}>{label} <span style={{ color: BB_BORDER }}>({weight})</span></span>
                 <div className="flex items-center gap-1">
                   <div className="w-16 h-1 rounded-none overflow-hidden" style={{ background: BB_BORDER }}>
@@ -640,18 +691,18 @@ export default function TerminalPage() {
         {/* Top Movers */}
         {movers && (
           <div>
-            <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ MOVERS</p>
+            <p className="text-xs font-bold mb-2" style={{ color: BB_ORANGE }}>■ MOVERS</p>
             <div className="grid grid-cols-2 gap-2">
               {([
                 { key: 'gainers' as const, label: t('top_gainers'), color: BB_GREEN },
                 { key: 'losers'  as const, label: t('top_losers'),  color: BB_RED   },
               ] as const).map(({ key, label, color }) => (
                 <div key={key}>
-                  <p className="text-[9px] font-bold mb-1" style={{ color }}>{label}</p>
+                  <p className="text-xs font-bold mb-1" style={{ color }}>{label}</p>
                   {movers[key].slice(0, 5).map(s => (
                     <div
                       key={s.ticker}
-                      className="flex justify-between text-[9px] cursor-pointer hover:bg-white/5 px-0.5"
+                      className="flex justify-between text-xs cursor-pointer hover:bg-white/5 px-0.5 py-0.5"
                       onClick={() => { setSelectedTicker(s); setPanelBTab(1); setMobileTab('B'); }}
                     >
                       <span style={{ color: BB_CYAN }}>{s.ticker}</span>
@@ -675,18 +726,18 @@ export default function TerminalPage() {
         {/* FX Rates */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <p className="text-[9px] font-bold" style={{ color: BB_ORANGE }}>■ {t('fx_title')}</p>
-            <span className="text-[8px] px-1 py-0.5" style={{ background: '#1a1a00', color: BB_YELLOW, border: `1px solid ${BB_YELLOW}33` }}>
+            <p className="text-xs font-bold" style={{ color: BB_ORANGE }}>■ {t('fx_title')}</p>
+            <span className="text-[10px] px-1 py-0.5" style={{ background: '#1a1a00', color: BB_YELLOW, border: `1px solid ${BB_YELLOW}33` }}>
               {t('indicative')}
             </span>
           </div>
           {fxData.map(({ pair, rate, chg }) => {
             const chgNum = parseFloat(chg);
             return (
-              <div key={pair} className="flex items-center justify-between text-[11px] py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
+              <div key={pair} className="flex items-center justify-between text-sm py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
                 <span className="font-bold" style={{ color: BB_CYAN }}>{pair}</span>
                 <span className="font-bold" style={{ color: BB_WHITE }}>{rate}</span>
-                <span className="text-[10px]" style={{ color: pctColor(chgNum) }}>{chgNum >= 0 ? '+' : ''}{chg}</span>
+                <span className="text-xs" style={{ color: pctColor(chgNum) }}>{chgNum >= 0 ? '+' : ''}{chg}</span>
               </div>
             );
           })}
@@ -694,23 +745,23 @@ export default function TerminalPage() {
 
         {/* Macro indicators */}
         <div>
-          <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('macro_title')}</p>
+          <p className="text-xs font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('macro_title')}</p>
           {macroData.map(({ label, value, source }) => (
-            <div key={label} className="flex items-center justify-between text-[10px] py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
-              <span style={{ color: BB_MUTED }}>{label}</span>
+            <div key={label} className="flex items-center justify-between text-sm py-1" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
+              <span className="text-xs" style={{ color: BB_MUTED }}>{label}</span>
               <div className="flex items-center gap-2">
                 <span className="font-bold" style={{ color: BB_WHITE }}>{value}</span>
-                <span className="text-[8px]" style={{ color: BB_BORDER }}>[{source}]</span>
+                <span className="text-[10px]" style={{ color: BB_BORDER }}>[{source}]</span>
               </div>
             </div>
           ))}
-          <p className="mt-1 text-[8px]" style={{ color: BB_MUTED }}>Mis à jour: 2026 · {t('indicative')}</p>
+          <p className="mt-1 text-[10px]" style={{ color: BB_MUTED }}>Mis à jour: 2026 · {t('indicative')}</p>
         </div>
 
         {/* Mini Calendar */}
         <div>
-          <p className="text-[9px] font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('calendar_title')}</p>
-          <div className="space-y-1 text-[9px]" style={{ color: BB_MUTED }}>
+          <p className="text-xs font-bold mb-2" style={{ color: BB_ORANGE }}>■ {t('calendar_title')}</p>
+          <div className="space-y-1 text-xs" style={{ color: BB_MUTED }}>
             {[
               { date: 'Avr 03', evt: 'BAM — Décision de taux directeur',  ticker: 'BAM' },
               { date: 'Avr 10', evt: 'Maroc Telecom — Publication résultats T1', ticker: 'IAM' },
@@ -731,7 +782,7 @@ export default function TerminalPage() {
               );
             })}
           </div>
-          <Link href="/calendar" className="block mt-2 text-[9px] hover:underline" style={{ color: BB_CYAN }}>
+          <Link href="/calendar" className="block mt-2 text-xs hover:underline" style={{ color: BB_CYAN }}>
             {t('see_full_calendar')}
           </Link>
         </div>
@@ -755,7 +806,7 @@ export default function TerminalPage() {
           <span className="text-xs font-black text-black">{t('help_title')}</span>
           <button onClick={() => setShowHelp(false)} className="text-black font-black text-sm">✕</button>
         </div>
-        <div className="p-4 space-y-1 text-[11px]">
+        <div className="p-4 space-y-1 text-xs">
           {[
             { key: 'H',       desc: t('help_h') },
             { key: 'T',       desc: t('help_t') },
@@ -789,6 +840,194 @@ export default function TerminalPage() {
     </div>
   );
 
+  // ── OPCVM PANEL ───────────────────────────────────────────────────────────────
+  const panelOpcvm = (
+    <div className="flex-1 overflow-hidden flex h-full" style={{ borderTop: `1px solid ${BB_BORDER}` }}>
+
+      {/* LEFT — fund list */}
+      <div className="flex flex-col h-full overflow-hidden" style={{ width: '55%', borderRight: `1px solid ${BB_BORDER}` }}>
+        <PanelHeader title={t('opcvm_panel_left')}>
+          <span style={{ color: BB_MUTED, fontSize: '11px' }}>{filteredOpcvm.length} fonds</span>
+        </PanelHeader>
+
+        {/* Filter bar */}
+        <div className="flex items-center gap-1 px-2 py-1 flex-shrink-0" style={{ borderBottom: `1px solid ${BB_BORDER}`, background: '#050505' }}>
+          {(['ALL', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'] as OpcvmFilter[]).map(f => (
+            <button
+              key={f}
+              onClick={() => setOpcvmFilter(f)}
+              className="text-[10px] px-1.5 py-0.5 font-bold flex-shrink-0"
+              style={{
+                background: opcvmFilter === f ? BB_ORANGE : 'transparent',
+                color: opcvmFilter === f ? '#000' : BB_MUTED,
+                border: `1px solid ${opcvmFilter === f ? BB_ORANGE : BB_BORDER}`,
+                fontFamily: "'Courier New', monospace",
+              }}
+            >
+              {f === 'ALL' ? t('filter_all') : f === 'Actions' ? 'ACT' : f === 'Obligataire' ? 'OBL' : f === 'Monétaire' ? 'MON' : 'DIV'}
+            </button>
+          ))}
+        </div>
+
+        {/* Column headers */}
+        <div
+          className="flex items-center flex-shrink-0 text-xs font-bold"
+          style={{ background: '#111', color: BB_MUTED, fontFamily: "'Courier New', monospace", borderBottom: `1px solid ${BB_BORDER}` }}
+        >
+          <span className="w-24 px-2 py-1">{t('opcvm_col_type')}</span>
+          <span className="flex-1 px-1 py-1">{t('opcvm_col_name')}</span>
+          <span className="w-20 px-1 py-1 text-right">{t('opcvm_col_vl')}</span>
+          <span className="w-16 px-1 py-1 text-right">{t('opcvm_col_1m')}</span>
+          <span className="w-16 px-1 py-1 text-right">{t('opcvm_col_ytd')}</span>
+          <span className="w-16 px-1 py-1 text-right">{t('opcvm_col_1an')}</span>
+        </div>
+
+        {/* Rows */}
+        <div className="flex-1 overflow-y-auto">
+          {opcvmLoading ? (
+            <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_ORANGE, fontFamily: "'Courier New', monospace" }}>
+              {t('loading')}
+            </div>
+          ) : filteredOpcvm.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full gap-3" style={{ fontFamily: "'Courier New', monospace" }}>
+              <div className="text-2xl" style={{ color: BB_MUTED }}>◈</div>
+              <p className="text-sm" style={{ color: BB_MUTED }}>
+                {opcvmSource === 'unavailable' ? t('error_fetch') : t('no_data')}
+              </p>
+              {opcvmSource === 'unavailable' && (
+                <button
+                  onClick={loadOpcvm}
+                  className="text-xs px-3 py-1 font-bold"
+                  style={{ border: `1px solid ${BB_ORANGE}`, color: BB_ORANGE }}
+                >
+                  {t('retry')}
+                </button>
+              )}
+            </div>
+          ) : (
+            filteredOpcvm.map((fund, i) => {
+              const typeColor = opcvmTypeColor(fund.type);
+              const isSelected = selectedOpcvm?.name === fund.name;
+              return (
+                <div
+                  key={`${fund.name}-${i}`}
+                  onClick={() => setSelectedOpcvm(fund)}
+                  className="flex items-center cursor-pointer select-none transition-colors duration-100"
+                  style={{
+                    background: isSelected ? '#1a0a00' : 'transparent',
+                    borderLeft: isSelected ? `2px solid ${BB_ORANGE}` : '2px solid transparent',
+                    fontFamily: "'Courier New', monospace",
+                    fontSize: '13px',
+                    color: BB_WHITE,
+                  }}
+                >
+                  <span className="w-24 px-2 py-1.5 text-[10px] font-bold truncate" style={{ color: typeColor }}>
+                    {(fund.type || '—').slice(0, 8).toUpperCase()}
+                  </span>
+                  <span className="flex-1 px-1 py-1.5 truncate text-xs" title={fund.name} style={{ color: BB_WHITE }}>
+                    {fund.name.slice(0, 28)}
+                  </span>
+                  <span className="w-20 px-1 py-1.5 text-right font-bold text-xs" style={{ color: BB_WHITE }}>
+                    {fund.vl != null ? fund.vl.toFixed(2) : '—'}
+                  </span>
+                  <span className="w-16 px-1 py-1.5 text-right text-xs font-bold" style={{ color: pctColor(fund.perf_1m) }}>
+                    {fmtPerf(fund.perf_1m)}
+                  </span>
+                  <span className="w-16 px-1 py-1.5 text-right text-xs font-bold" style={{ color: pctColor(fund.perf_ytd) }}>
+                    {fmtPerf(fund.perf_ytd)}
+                  </span>
+                  <span className="w-16 px-1 py-1.5 text-right text-xs font-bold" style={{ color: pctColor(fund.perf_1an) }}>
+                    {fmtPerf(fund.perf_1an)}
+                  </span>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {/* RIGHT — fund detail */}
+      <div className="flex flex-col h-full overflow-hidden" style={{ flex: 1 }}>
+        <PanelHeader title={t('opcvm_panel_right')} />
+
+        <div className="flex-1 overflow-y-auto">
+          {!selectedOpcvm ? (
+            <div className="flex flex-col items-center justify-center h-full gap-3" style={{ fontFamily: "'Courier New', monospace" }}>
+              <div className="text-3xl" style={{ color: BB_ORANGE }}>◈</div>
+              <p className="text-sm font-bold" style={{ color: BB_ORANGE }}>{t('opcvm_no_selection')}</p>
+              <p className="text-xs" style={{ color: BB_MUTED }}>{t('opcvm_no_selection_sub')}</p>
+            </div>
+          ) : (
+            <div className="p-4" style={{ fontFamily: "'Courier New', monospace" }}>
+              {/* Fund name + type */}
+              <div className="mb-4">
+                <p
+                  className="text-xs font-bold mb-1 px-2 py-0.5 inline-block"
+                  style={{ color: opcvmTypeColor(selectedOpcvm.type), border: `1px solid ${opcvmTypeColor(selectedOpcvm.type)}44`, background: `${opcvmTypeColor(selectedOpcvm.type)}11` }}
+                >
+                  {selectedOpcvm.type?.toUpperCase() || '—'}
+                </p>
+                <p className="text-base font-bold mt-1" style={{ color: BB_CYAN }}>{selectedOpcvm.name}</p>
+                <p className="text-sm mt-0.5" style={{ color: BB_MUTED }}>{selectedOpcvm.societe_gestion || '—'}</p>
+              </div>
+
+              {/* Separator */}
+              <div style={{ borderTop: `1px solid ${BB_BORDER}`, marginBottom: '12px' }} />
+
+              {/* VL */}
+              <div className="mb-4">
+                <p className="text-xs mb-1" style={{ color: BB_MUTED }}>{t('opcvm_col_vl')}</p>
+                <p className="text-4xl font-black" style={{ color: BB_WHITE }}>
+                  {selectedOpcvm.vl != null ? selectedOpcvm.vl.toFixed(2) : '—'}
+                  <span className="text-base font-normal ml-2" style={{ color: BB_MUTED }}>DH</span>
+                </p>
+              </div>
+
+              <div style={{ borderTop: `1px solid ${BB_BORDER}`, marginBottom: '12px' }} />
+
+              {/* Performance rows */}
+              {[
+                { label: t('opcvm_col_1m'),  val: selectedOpcvm.perf_1m  },
+                { label: t('opcvm_col_ytd'), val: selectedOpcvm.perf_ytd },
+                { label: t('opcvm_col_1an'), val: selectedOpcvm.perf_1an },
+              ].map(({ label, val }) => (
+                <div key={label} className="flex items-center justify-between py-2" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
+                  <span className="text-sm" style={{ color: BB_MUTED }}>{label}</span>
+                  <span className="text-base font-bold" style={{ color: pctColor(val) }}>
+                    {val != null ? `${val >= 0 ? '▲ +' : '▼ '}${Math.abs(val).toFixed(2)}%` : '—'}
+                  </span>
+                </div>
+              ))}
+
+              <div style={{ borderTop: `1px solid ${BB_BORDER}`, margin: '12px 0' }} />
+
+              {/* Encours */}
+              {selectedOpcvm.encours != null && (
+                <div className="flex items-center justify-between py-2" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
+                  <span className="text-sm" style={{ color: BB_MUTED }}>{t('opcvm_col_encours')}</span>
+                  <span className="text-base font-bold" style={{ color: BB_WHITE }}>
+                    {selectedOpcvm.encours.toLocaleString('fr-MA')} MDH
+                  </span>
+                </div>
+              )}
+
+              <div style={{ borderTop: `1px solid ${BB_BORDER}`, marginTop: '16px', paddingTop: '12px' }}>
+                <p className="text-xs" style={{ color: BB_MUTED }}>
+                  ⚠️ {t('opcvm_disclaimer')}
+                </p>
+                {opcvmSource && (
+                  <p className="text-[10px] mt-1" style={{ color: BB_BORDER }}>
+                    Source: {opcvmSource}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   // ── ROOT RENDER ───────────────────────────────────────────────────────────────
   return (
     <div
@@ -799,7 +1038,7 @@ export default function TerminalPage() {
 
       {/* ── TOP COMMAND BAR ────────────────────────────────────────────────────── */}
       <div
-        className="flex items-center gap-2 px-2 h-9 flex-shrink-0 text-[11px]"
+        className="flex items-center gap-2 px-3 h-12 flex-shrink-0 text-sm"
         style={{ background: '#050505', borderBottom: `1px solid ${BB_BORDER}` }}
       >
         {/* Logo */}
@@ -847,29 +1086,57 @@ export default function TerminalPage() {
             onKeyDown={handleCmd}
             placeholder={t('cmd_placeholder')}
             className="bg-transparent outline-none flex-1 min-w-0 uppercase"
-            style={{ color: BB_WHITE, caretColor: BB_ORANGE, fontFamily: "'Courier New', monospace", fontSize: '11px' }}
+            style={{ color: BB_WHITE, caretColor: BB_ORANGE, fontFamily: "'Courier New', monospace", fontSize: '14px' }}
             autoComplete="off"
             spellCheck={false}
           />
           {cmdMsg && (
-            <span className="text-[10px] truncate flex-shrink-0 max-w-[200px]" style={{ color: cmdMsg.includes('INCONNUE') ? BB_RED : BB_GREEN }}>
+            <span className="text-xs truncate flex-shrink-0 max-w-[200px]" style={{ color: cmdMsg.includes('INCONNUE') ? BB_RED : BB_GREEN }}>
               {cmdMsg}
             </span>
           )}
         </div>
 
+        {/* View mode toggle */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <button
+            onClick={() => setViewMode('bvc')}
+            className="px-2 py-0.5 text-xs font-bold"
+            style={{
+              border: `1px solid ${viewMode === 'bvc' ? BB_ORANGE : BB_BORDER}`,
+              color: viewMode === 'bvc' ? BB_ORANGE : BB_MUTED,
+              background: viewMode === 'bvc' ? '#1a0a00' : 'transparent',
+            }}
+          >
+            BVC
+          </button>
+          <button
+            onClick={() => setViewMode('opcvm')}
+            className="px-2 py-0.5 text-xs font-bold"
+            style={{
+              border: `1px solid ${viewMode === 'opcvm' ? BB_ORANGE : BB_BORDER}`,
+              color: viewMode === 'opcvm' ? BB_ORANGE : BB_MUTED,
+              background: viewMode === 'opcvm' ? '#1a0a00' : 'transparent',
+            }}
+          >
+            {t('opcvm_tab')}
+          </button>
+        </div>
+
+        <span style={{ color: BB_BORDER }}>│</span>
+
         {/* Help + nav */}
         <div className="flex items-center gap-1 flex-shrink-0">
           <button
             onClick={() => setShowHelp(v => !v)}
-            className="px-2 py-0.5 text-[10px] font-bold"
+            className="px-2 py-0.5 text-xs font-bold"
             style={{ border: `1px solid ${BB_BORDER}`, color: BB_MUTED }}
           >
             [H]
           </button>
           <button
             onClick={loadData}
-            className="px-2 py-0.5 text-[10px] font-bold"
+            className="px-2 py-0.5 text-xs font-bold"
             style={{ border: `1px solid ${BB_BORDER}`, color: BB_MUTED }}
             title="Reload (R)"
           >
@@ -884,7 +1151,7 @@ export default function TerminalPage() {
           <button
             key={tab}
             onClick={() => setMobileTab(tab)}
-            className="flex-1 py-1.5 text-[10px] font-bold text-center"
+            className="flex-1 py-1.5 text-xs font-bold text-center"
             style={{
               background: mobileTab === tab ? BB_ORANGE : 'transparent',
               color: mobileTab === tab ? '#000' : BB_MUTED,
@@ -896,26 +1163,33 @@ export default function TerminalPage() {
         ))}
       </div>
 
-      {/* ── 4-PANEL GRID (desktop) / SINGLE PANEL (mobile) ──────────────────────── */}
+      {/* ── MAIN CONTENT ─────────────────────────────────────────────────────────── */}
       <div className="flex-1 overflow-hidden">
-        {/* Desktop: 4-panel grid */}
-        <div
-          className="hidden sm:grid h-full"
-          style={{ gridTemplateColumns: '55fr 45fr', gridTemplateRows: '1fr 1fr' }}
-        >
-          {panelA}
-          {panelB}
-          {panelC}
-          {panelD}
-        </div>
+        {viewMode === 'opcvm' ? (
+          /* OPCVM 2-panel view */
+          panelOpcvm
+        ) : (
+          <>
+            {/* Desktop: 4-panel BVC grid */}
+            <div
+              className="hidden sm:grid h-full"
+              style={{ gridTemplateColumns: '55fr 45fr', gridTemplateRows: '1fr 1fr' }}
+            >
+              {panelA}
+              {panelB}
+              {panelC}
+              {panelD}
+            </div>
 
-        {/* Mobile: one panel at a time */}
-        <div className="sm:hidden h-full">
-          {mobileTab === 'A' && panelA}
-          {mobileTab === 'B' && panelB}
-          {mobileTab === 'C' && panelC}
-          {mobileTab === 'D' && panelD}
-        </div>
+            {/* Mobile: one panel at a time */}
+            <div className="sm:hidden h-full">
+              {mobileTab === 'A' && panelA}
+              {mobileTab === 'B' && panelB}
+              {mobileTab === 'C' && panelC}
+              {mobileTab === 'D' && panelD}
+            </div>
+          </>
+        )}
       </div>
 
       {/* ── DISCLAIMER BAR ────────────────────────────────────────────────────── */}

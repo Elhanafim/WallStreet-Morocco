@@ -86,5 +86,20 @@
   "mobile_tab_b": "DÉTAIL",
   "mobile_tab_c": "MARCHÉ",
   "mobile_tab_d": "MACRO",
-  "valeurs_totales": "VALEURS TOTALES"
+  "valeurs_totales": "VALEURS TOTALES",
+  "opcvm_tab": "OPCVM",
+  "opcvm_panel_left": "FONDS MAROC",
+  "opcvm_panel_right": "DÉTAIL FONDS",
+  "opcvm_col_type": "TYPE",
+  "opcvm_col_name": "NOM",
+  "opcvm_col_vl": "VL (DH)",
+  "opcvm_col_1m": "1M%",
+  "opcvm_col_ytd": "YTD%",
+  "opcvm_col_1an": "1AN%",
+  "opcvm_col_encours": "ENCOURS (MDH)",
+  "opcvm_no_selection": "AUCUN FONDS SÉLECTIONNÉ",
+  "opcvm_no_selection_sub": "Cliquez sur une ligne pour afficher le détail",
+  "opcvm_disclaimer": "Performance passée ≠ performance future",
+  "error_fetch": "Données indisponibles — service en cours de chargement",
+  "retry": "↻ RÉESSAYER"
 }

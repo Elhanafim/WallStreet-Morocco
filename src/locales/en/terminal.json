@@ -86,5 +86,20 @@
   "mobile_tab_b": "DETAIL",
   "mobile_tab_c": "MARKET",
   "mobile_tab_d": "MACRO",
-  "valeurs_totales": "TOTAL STOCKS"
+  "valeurs_totales": "TOTAL STOCKS",
+  "opcvm_tab": "OPCVM",
+  "opcvm_panel_left": "MOROCCO FUNDS",
+  "opcvm_panel_right": "FUND DETAIL",
+  "opcvm_col_type": "TYPE",
+  "opcvm_col_name": "NAME",
+  "opcvm_col_vl": "NAV (DH)",
+  "opcvm_col_1m": "1M%",
+  "opcvm_col_ytd": "YTD%",
+  "opcvm_col_1an": "1Y%",
+  "opcvm_col_encours": "AUM (MDH)",
+  "opcvm_no_selection": "NO FUND SELECTED",
+  "opcvm_no_selection_sub": "Click any row to view fund detail",
+  "opcvm_disclaimer": "Past performance ≠ future performance",
+  "error_fetch": "Data unavailable — service loading",
+  "retry": "↻ RETRY"
 }

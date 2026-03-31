@@ -86,5 +86,20 @@
   "mobile_tab_b": "DETALLE",
   "mobile_tab_c": "MERCADO",
   "mobile_tab_d": "MACRO",
-  "valeurs_totales": "VALORES TOTALES"
+  "valeurs_totales": "VALORES TOTALES",
+  "opcvm_tab": "OPCVM",
+  "opcvm_panel_left": "FONDOS MARRUECOS",
+  "opcvm_panel_right": "DETALLE FONDO",
+  "opcvm_col_type": "TIPO",
+  "opcvm_col_name": "NOMBRE",
+  "opcvm_col_vl": "VL (DH)",
+  "opcvm_col_1m": "1M%",
+  "opcvm_col_ytd": "YTD%",
+  "opcvm_col_1an": "1A%",
+  "opcvm_col_encours": "PATRIMONIO (MDH)",
+  "opcvm_no_selection": "NINGÚN FONDO SELECCIONADO",
+  "opcvm_no_selection_sub": "Haga clic en una fila para ver el detalle",
+  "opcvm_disclaimer": "Rentabilidad pasada ≠ rentabilidad futura",
+  "error_fetch": "Datos no disponibles — servicio cargando",
+  "retry": "↻ REINTENTAR"
 }
