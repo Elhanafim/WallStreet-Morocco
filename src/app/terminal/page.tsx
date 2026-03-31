@@ -40,11 +40,11 @@ const BB_PANEL  = '#0B101E';
 const BB_BG     = '#040914';  
 
 // ── Types ──────────────────────────────────────────────────────────────────────
+type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO';
 type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type SortField   = 'TICKER' | 'PRICE' | 'CHANGE' | 'VOLUME';
 type SortDir     = 'ASC' | 'DESC';
 type PanelBTab   = 1 | 2 | 3;
-type MobileTab   = 'A' | 'B' | 'C' | 'D';
 type OpcvmFilter = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -95,7 +95,6 @@ function opcvmTypeColor(type: string | null | undefined): string {
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
-
 function PanelHeader({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <div
@@ -109,17 +108,9 @@ function PanelHeader({ title, children }: { title: string; children?: React.Reac
 }
 
 const StockRow = memo(function StockRow({
-  stock,
-  isHighlighted,
-  isSelected,
-  isFlashing,
-  onClick,
+  stock, isHighlighted, isSelected, isFlashing, onClick,
 }: {
-  stock: BVCPrice;
-  isHighlighted: boolean;
-  isSelected: boolean;
-  isFlashing: boolean;
-  onClick: () => void;
+  stock: BVCPrice; isHighlighted: boolean; isSelected: boolean; isFlashing: boolean; onClick: () => void;
 }) {
   const { t } = useTranslation('terminal');
   const signal = getSignal(stock.changePercent);
@@ -150,27 +141,17 @@ const StockRow = memo(function StockRow({
         padding: '6px 8px',
       }}
     >
-      {/* TICKER */}
       <span className="font-bold flex-shrink-0 truncate" style={{ color: BB_CYAN }}>{stock.ticker}</span>
-      {/* NOM */}
       <span className="truncate" style={{ color: BB_MUTED }}>{stock.name}</span>
-      {/* COURS */}
       <span className="text-right font-bold tabular-nums">{fmtPrice(stock.lastPrice)}</span>
-      {/* VAR% */}
       <span className="text-right font-bold tabular-nums" style={{ color: pctColor(stock.changePercent) }}>
         {fmtPct(stock.changePercent)}
       </span>
-      {/* VOLUME */}
       <span className="text-right tabular-nums" style={{ color: BB_MUTED }}>{fmtVolume(stock.volume)}</span>
-      {/* SIGNAL */}
       <span className="flex items-center justify-center">
         <span
           className="text-[10px] font-bold px-2 py-0.5 rounded"
-          style={{
-            color: sigColor,
-            border: `1px solid ${sigColor}55`,
-            background: sigBg,
-          }}
+          style={{ color: sigColor, border: `1px solid ${sigColor}55`, background: sigBg }}
           title={t('signal_tooltip')}
         >
           {t(sigKey)}
@@ -189,19 +170,17 @@ function FearGreedGauge({ score, label, color }: { score: number; label: string;
     { label: 'EUPHORIE',     color: BB_GREEN,  pct: 20 },
   ];
   return (
-    <div>
+    <div className="w-full">
       <div className="flex items-end justify-between mb-1" style={robotoMono.style}>
         <span className="text-xs font-bold" style={{ color: BB_MUTED }}>0</span>
         <span className="text-base font-bold" style={{ color }}>{score}</span>
         <span className="text-xs font-bold" style={{ color: BB_MUTED }}>100</span>
       </div>
-      {/* Track */}
       <div className="h-2 w-full flex rounded-none overflow-hidden" style={{ border: `1px solid ${BB_BORDER}` }}>
         {zones.map((z) => (
           <div key={z.label} style={{ width: `${z.pct}%`, background: z.color, opacity: 0.4 }} />
         ))}
       </div>
-      {/* Needle */}
       <div className="relative h-2 w-full mt-0.5">
         <div
           className="absolute top-0 w-1 h-3"
@@ -222,9 +201,10 @@ export default function TerminalPage() {
   // ── Data state ───────────────────────────────────────────────────────────────
   const [stocks,  setStocks]  = useState<BVCPrice[]>([]);
   const [movers,  setMovers]  = useState<BVCMovers | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading]  = useState(true);
 
   // ── UI state ─────────────────────────────────────────────────────────────────
+  const [activeTab,       setActiveTab]       = useState<ActiveTab>('OVERVIEW');
   const [selectedTicker,  setSelectedTicker]  = useState<BVCPrice | null>(null);
   const [search,          setSearch]          = useState('');
   const [quickFilter,     setQuickFilter]     = useState<QuickFilter>('ALL');
@@ -237,7 +217,6 @@ export default function TerminalPage() {
   const [cmdMsg,          setCmdMsg]          = useState('');
   const [clock,           setClock]           = useState('');
   const [flashTickers,    setFlashTickers]    = useState<Set<string>>(new Set());
-  const [mobileTab,       setMobileTab]       = useState<MobileTab>('A');
 
   // ── OPCVM state ──────────────────────────────────────────────────────────────
   const [opcvmFunds,    setOpcvmFunds]    = useState<OpcvmFund[]>([]);
@@ -265,8 +244,6 @@ export default function TerminalPage() {
   const loadData = useCallback(async () => {
     try {
       const [snap, mv] = await Promise.all([fetchSnapshot(), fetchMovers()]);
-
-      // Flash changed prices
       const flash = new Set<string>();
       for (const s of snap) {
         const prev = prevPricesRef.current.get(s.ticker);
@@ -277,7 +254,6 @@ export default function TerminalPage() {
         setFlashTickers(flash);
         setTimeout(() => setFlashTickers(new Set()), 700);
       }
-
       setStocks(snap);
       setMovers(mv);
     } finally {
@@ -298,7 +274,7 @@ export default function TerminalPage() {
   useEffect(() => {
     loadData();
     loadOpcvm();
-    const id = setInterval(loadData, 60_000); // 60s Terminal Refresh
+    const id = setInterval(loadData, 60_000);
     return () => clearInterval(id);
   }, [loadData, loadOpcvm]);
 
@@ -307,41 +283,30 @@ export default function TerminalPage() {
     let list = [...stocks];
     if (search.trim()) {
       const q = search.toLowerCase();
-      list = list.filter(s =>
-        s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q)
-      );
+      list = list.filter(s => s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
     }
-    
-    // Quick filters
     if (quickFilter === 'TOP')    list = list.sort((a, b) => (b.changePercent ?? 0) - (a.changePercent ?? 0)).slice(0, 10);
     else if (quickFilter === 'PIRES')  list = list.sort((a, b) => (a.changePercent ?? 0) - (b.changePercent ?? 0)).slice(0, 10);
     else if (quickFilter === 'VOLUME') list = list.sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
     else {
-      // Column Sort
       list.sort((a, b) => {
         let valA, valB;
         if (sortField === 'TICKER') { valA = a.ticker; valB = b.ticker; }
         else if (sortField === 'PRICE') { valA = a.lastPrice ?? 0; valB = b.lastPrice ?? 0; }
         else if (sortField === 'CHANGE') { valA = a.changePercent ?? 0; valB = b.changePercent ?? 0; }
         else { valA = a.volume ?? 0; valB = b.volume ?? 0; }
-        
         if (valA < valB) return sortDir === 'ASC' ? -1 : 1;
         if (valA > valB) return sortDir === 'ASC' ? 1 : -1;
         return 0;
       });
     }
-
     return list;
   }, [stocks, search, quickFilter, sortField, sortDir]);
 
   const toggleSort = (field: SortField) => {
     setQuickFilter('ALL');
-    if (sortField === field) {
-      setSortDir(sortDir === 'ASC' ? 'DESC' : 'ASC');
-    } else {
-      setSortField(field);
-      setSortDir(field === 'TICKER' ? 'ASC' : 'DESC');
-    }
+    if (sortField === field) setSortDir(sortDir === 'ASC' ? 'DESC' : 'ASC');
+    else { setSortField(field); setSortDir(field === 'TICKER' ? 'ASC' : 'DESC'); }
   };
 
   const marketStatus = getMarketStatus();
@@ -373,90 +338,12 @@ export default function TerminalPage() {
     return BB_GREEN;
   }
 
-  // ── OPCVM filtered list ──────────────────────────────────────────────────────
+  // ── Data: OPCVM & Macro
   const filteredOpcvm = useMemo(() => {
     if (opcvmFilter === 'ALL') return opcvmFunds;
     return opcvmFunds.filter(f => (f.type || '').toLowerCase().includes(opcvmFilter.toLowerCase()));
   }, [opcvmFunds, opcvmFilter]);
 
-  // ── CMD handler ──────────────────────────────────────────────────────────────
-  const handleCmd = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') return;
-    const cmd = cmdValue.trim().toUpperCase();
-    setCmdValue('');
-    if (!cmd) return;
-
-    if (cmd === 'TOP')   { setQuickFilter('TOP');   setCmdMsg('FILTRE: TOP 10 HAUSSES'); return; }
-    if (cmd === 'PIRES') { setQuickFilter('PIRES'); setCmdMsg('FILTRE: PIRES 10 BAISSES'); return; }
-    if (cmd === 'CLR')   { setSearch(''); setQuickFilter('ALL'); setCmdMsg('FILTRES RÉINITIALISÉS'); return; }
-    if (cmd === 'MASI')  { setCmdMsg('→ PANEL C: APERÇU MARCHÉ'); setMobileTab('C'); return; }
-    if (cmd === 'MACRO') { setCmdMsg('→ PANEL D: MACRO & FX'); setMobileTab('D'); return; }
-    if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
-
-    const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
-    if (found) {
-      setSelectedTicker(found);
-      setPanelBTab(1);
-      setMobileTab('B');
-      setCmdMsg(`✓ VALEUR: ${found.ticker} — ${found.name.slice(0, 30)}`);
-      return;
-    }
-    setCmdMsg(t('cmd_unknown'));
-  }, [cmdValue, stocks, t]);
-
-  // ── Keyboard shortcuts ───────────────────────────────────────────────────────
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (document.activeElement === cmdRef.current || document.activeElement === searchRef.current) {
-        if (e.key === 'Escape') (document.activeElement as HTMLElement).blur();
-        return;
-      }
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-
-      switch (e.key) {
-        case 'h': case 'H': setShowHelp(v => !v); break;
-        case 't': case 'T': e.preventDefault(); cmdRef.current?.focus(); break;
-        case 'r': case 'R': loadData(); setCmdMsg('RECHARGEMENT...'); break;
-        case 'Escape': setShowHelp(false); setSelectedTicker(null); break;
-        case '1': setPanelBTab(1); break;
-        case '2': setPanelBTab(2); break;
-        case '3': setPanelBTab(3); break;
-        case 'ArrowDown':
-          e.preventDefault();
-          setHighlightedRow(r => {
-            const next = Math.min(r + 1, filtered.length - 1);
-            if (listRef.current) {
-               const rowEl = listRef.current.children[next] as HTMLElement;
-               if (rowEl) rowEl.scrollIntoView({ block: 'nearest' });
-            }
-            return next;
-          });
-          break;
-        case 'ArrowUp':
-          e.preventDefault();
-          setHighlightedRow(r => {
-            const prev = Math.max(r - 1, 0);
-            if (listRef.current) {
-               const rowEl = listRef.current.children[prev] as HTMLElement;
-               if (rowEl) rowEl.scrollIntoView({ block: 'nearest' });
-            }
-            return prev;
-          });
-          break;
-        case 'Enter':
-          if (filtered[highlightedRow]) {
-            setSelectedTicker(filtered[highlightedRow]);
-            setPanelBTab(1);
-            setMobileTab('B');
-          }
-          break;
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [filtered, highlightedRow, loadData]);
-
-  // ── Macro data (static / indicative) ─────────────────────────────────────────
   const macroData = [
     { label: t('macro_bam'),      value: '2.75%',   source: 'BAM' },
     { label: t('macro_cpi'),      value: '4.1%',    source: 'HCP' },
@@ -470,362 +357,491 @@ export default function TerminalPage() {
     { pair: 'SAR/MAD', rate: '2.64', chg: '0.00' },
   ];
 
-  // ── PANEL RENDERERS ──────────────────────────────────────────────────────────
+  // ── Keyboard CMD
+  const handleCmd = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
+    const cmd = cmdValue.trim().toUpperCase();
+    setCmdValue('');
+    if (!cmd) return;
 
-  const panelA = (
-    <div className="flex flex-col h-full overflow-hidden" style={{ borderRight: `1px solid ${BB_BORDER}`, borderBottom: `1px solid ${BB_BORDER}`, background: BB_PANEL }}>
-      <PanelHeader title={t('panel_a_title')}>
-        <span style={{ color: '#000', fontSize: '10px' }}>{stocks.length} val.</span>
-      </PanelHeader>
+    if (cmd === 'TOP')   { setActiveTab('EQUITIES'); setQuickFilter('TOP'); setCmdMsg('FILTRE: TOP 10 HAUSSES'); return; }
+    if (cmd === 'PIRES') { setActiveTab('EQUITIES'); setQuickFilter('PIRES'); setCmdMsg('FILTRE: PIRES 10 BAISSES'); return; }
+    if (cmd === 'CLR')   { setSearch(''); setQuickFilter('ALL'); setCmdMsg('FILTRES RÉINITIALISÉS'); return; }
+    if (cmd === 'MASI')  { setActiveTab('OVERVIEW'); setCmdMsg('→ APERÇU MARCHÉ'); return; }
+    if (cmd === 'MACRO') { setActiveTab('MACRO'); setCmdMsg('→ MACRO & FX'); return; }
+    if (cmd === 'OPCVM') { setActiveTab('OPCVM'); setCmdMsg('→ FONDS OPCVM'); return; }
+    if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
 
-      {/* Filter bar */}
-      <div className="flex items-center gap-2 px-3 py-2 flex-shrink-0 border-b border-[#1E293B] bg-[#040914]">
-        <input
-          ref={searchRef}
-          value={search}
-          onChange={e => { setSearch(e.target.value); setQuickFilter('ALL'); }}
-          placeholder={t('search_placeholder')}
-          className="flex-1 bg-transparent outline-none text-[12px] px-2"
-          style={{ ...robotoMono.style, color: BB_WHITE, caretColor: BB_ORANGE }}
-        />
-        {(['ALL', 'TOP', 'PIRES', 'VOLUME'] as QuickFilter[]).map(f => (
-          <button
-            key={f}
-            onClick={() => { setQuickFilter(f); setSearch(''); }}
-            className={`text-[10px] px-2 py-1 font-bold rounded-sm ${inter.className}`}
-            style={{
-              background: quickFilter === f ? BB_ORANGE : 'transparent',
-              color: quickFilter === f ? '#000' : BB_MUTED,
-              border: `1px solid ${quickFilter === f ? BB_ORANGE : BB_BORDER}`,
-            }}
-          >
-            {f === 'ALL' ? t('filter_all') : f === 'TOP' ? 'TOP' : f === 'PIRES' ? 'PIRES' : 'VOL↑'}
-          </button>
-        ))}
-      </div>
+    const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
+    if (found) {
+      setActiveTab('EQUITIES');
+      setSelectedTicker(found);
+      setPanelBTab(1);
+      setCmdMsg(`✓ VALEUR: ${found.ticker} — ${found.name.slice(0, 30)}`);
+      return;
+    }
+    setCmdMsg(t('cmd_unknown'));
+  }, [cmdValue, stocks, t]);
 
-      {/* Column headers (Grid) */}
-      <div
-        className="grid items-center gap-2 flex-shrink-0 text-[11px] font-bold px-[8px] py-2 border-b border-[#1E293B] bg-[#0A0F1D]"
-        style={{ color: BB_MUTED, ...robotoMono.style, gridTemplateColumns: '70px minmax(120px, 1fr) 70px 80px 70px 90px' }}
-      >
-        <span className="cursor-pointer hover:text-white truncate" onClick={() => toggleSort('TICKER')}>{t('col_ticker')} {sortField==='TICKER'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-        <span>{t('col_name')}</span>
-        <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('PRICE')}>{t('col_price')} {sortField==='PRICE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-        <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('CHANGE')}>{t('col_change_pct')} {sortField==='CHANGE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-        <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('VOLUME')}>{t('col_volume')} {sortField==='VOLUME'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-        <span className="text-center">{t('col_signal')}</span>
-      </div>
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (document.activeElement === cmdRef.current || document.activeElement === searchRef.current) {
+        if (e.key === 'Escape') (document.activeElement as HTMLElement).blur();
+        return;
+      }
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
-      {/* Rows */}
-      <div className="flex-1 overflow-y-auto" ref={listRef}>
-        {loading ? (
-          <div className="flex items-center justify-center h-full text-sm font-bold" style={{ color: BB_ORANGE, ...robotoMono.style }}>
-            {t('loading')}
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_MUTED, ...robotoMono.style }}>
-            {t('no_data')}
-          </div>
-        ) : (
-          filtered.map((stock, i) => (
-            <StockRow
-              key={stock.ticker}
-              stock={stock}
-              isHighlighted={i === highlightedRow}
-              isSelected={selectedTicker?.ticker === stock.ticker}
-              isFlashing={flashTickers.has(stock.ticker)}
-              onClick={() => { setSelectedTicker(stock); setPanelBTab(1); setMobileTab('B'); setHighlightedRow(i); }}
-            />
-          ))
-        )}
-      </div>
-    </div>
-  );
+      if (e.altKey) {
+        switch (e.key) {
+          case '1': e.preventDefault(); setActiveTab('OVERVIEW'); break;
+          case '2': e.preventDefault(); setActiveTab('EQUITIES'); break;
+          case '3': e.preventDefault(); setActiveTab('OPCVM'); break;
+          case '4': e.preventDefault(); setActiveTab('MACRO'); break;
+        }
+        return;
+      }
 
-  const panelB = (
-    <div className="flex flex-col h-full overflow-hidden" style={{ borderBottom: `1px solid ${BB_BORDER}`, background: BB_PANEL }}>
-      <PanelHeader title={selectedTicker ? `${selectedTicker.ticker} — ACTIONS BVC` : t('panel_b_title')}>
-        {[1, 2, 3].map(tab => (
-          <button
-            key={tab}
-            onClick={() => setPanelBTab(tab as PanelBTab)}
-            className="text-[10px] px-3 py-1 font-bold rounded-sm"
-            style={{
-              background: panelBTab === tab ? '#000' : 'transparent',
-              color: panelBTab === tab ? BB_ORANGE : '#000',
-              ...inter.style,
-            }}
-          >
-            {tab === 1 ? t('tab_quote') : tab === 2 ? t('tab_chart') : t('tab_financials')}
-          </button>
-        ))}
-      </PanelHeader>
+      switch (e.key) {
+        case 'h': case 'H': setShowHelp(v => !v); break;
+        case 't': case 'T': e.preventDefault(); cmdRef.current?.focus(); break;
+        case 'r': case 'R': loadData(); setCmdMsg('RECHARGEMENT...'); break;
+        case 'Escape': setShowHelp(false); setSelectedTicker(null); break;
+        case 'ArrowDown':
+          if (activeTab === 'EQUITIES') {
+            e.preventDefault();
+            setHighlightedRow(r => {
+              const next = Math.min(r + 1, filtered.length - 1);
+              if (listRef.current) {
+                 const rowEl = listRef.current.children[next] as HTMLElement;
+                 if (rowEl) rowEl.scrollIntoView({ block: 'nearest' });
+              }
+              return next;
+            });
+          }
+          break;
+        case 'ArrowUp':
+          if (activeTab === 'EQUITIES') {
+            e.preventDefault();
+            setHighlightedRow(r => {
+              const prev = Math.max(r - 1, 0);
+              if (listRef.current) {
+                 const rowEl = listRef.current.children[prev] as HTMLElement;
+                 if (rowEl) rowEl.scrollIntoView({ block: 'nearest' });
+              }
+              return prev;
+            });
+          }
+          break;
+        case 'Enter':
+          if (activeTab === 'EQUITIES' && filtered[highlightedRow]) {
+            setSelectedTicker(filtered[highlightedRow]);
+            setPanelBTab(1);
+          }
+          break;
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [filtered, highlightedRow, loadData, activeTab]);
 
-      <div className="flex-1 overflow-y-auto p-0">
-        {!selectedTicker ? (
-          <div className="flex flex-col items-center justify-center h-full gap-3" style={robotoMono.style}>
-            <div className="text-3xl" style={{ color: BB_MUTED }}>◈</div>
-            <p className="text-sm font-bold" style={{ color: BB_ORANGE }}>Veuillez sélectionner une action BVC</p>
-            <p className="text-xs" style={{ color: BB_MUTED }}>{t('no_ticker_sub')}</p>
-          </div>
-        ) : panelBTab === 1 ? (
-          /* ── TAB 1: QUOTE ── */
-          <div className="p-4" style={robotoMono.style}>
-            {/* Header */}
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <p className="text-2xl font-black tracking-tight" style={{ color: BB_CYAN }}>{selectedTicker.ticker}</p>
-                <p className="text-sm mt-1" style={{ color: BB_MUTED }}>{selectedTicker.name}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-4xl font-black tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
-                <p className="text-xs font-bold mt-1" style={{ color: BB_MUTED }}>MAD</p>
-              </div>
-            </div>
 
-            {/* Change */}
-            <div
-              className="flex items-center gap-4 p-3 mb-4 text-sm font-bold rounded-sm"
-              style={{ background: (selectedTicker.changePercent ?? 0) >= 0 ? '#00e67610' : '#ff174410', border: `1px solid ${(selectedTicker.changePercent ?? 0) >= 0 ? '#00E67633' : '#FF174433'}` }}
-            >
-              <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '20px' }}>
-                {fmtPct(selectedTicker.changePercent)}
-              </span>
-              <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent) }}>
-                {(selectedTicker.change ?? 0) >= 0 ? '+' : ''}{fmtPrice(selectedTicker.change)} MAD
+  // ── RENDERERS FOR MODULES ────────────────────────────────────────────────────
+
+  const renderOverview = () => (
+    <div className="p-6 md:p-8 space-y-6 h-full overflow-y-auto" style={robotoMono.style}>
+      <h2 className="text-2xl font-black uppercase tracking-tight" style={{ color: BB_CYAN }}>Aperçu de Marché</h2>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* MARKET SNAPSHOT */}
+        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
+          <PanelHeader title={`${t('masi_label')} / MARCHÉ BVC`} />
+          <div className="p-5 flex-1 space-y-4">
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E293B]">
+              <span className="font-bold text-sm" style={{ color: BB_MUTED }}>PERFORMANCE</span>
+              <span className="text-2xl font-black tabular-nums" style={{ color: pctColor(avgChange) }}>
+                {stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—'}
               </span>
             </div>
-
-            {/* OHLV Grid */}
-            <div className="grid grid-cols-2 gap-[1px] mb-4 bg-[#1E293B]">
+            <div className="flex items-center justify-between text-sm py-1 border-b border-[#1E293B]">
+              <span className="font-bold" style={{ color: BB_MUTED }}>{t('total_volume')}</span>
+              <span className="font-bold tabular-nums" style={{ color: BB_WHITE }}>{fmtVolume(totalVolume)} MAD</span>
+            </div>
+            <div className="grid grid-cols-3 gap-1 mt-4 border border-[#1E293B] bg-[#1E293B]">
               {[
-                { label: t('open'),   value: fmtPrice(selectedTicker.open) + ' MAD' },
-                { label: t('high'),   value: fmtPrice(selectedTicker.high) + ' MAD' },
-                { label: t('low'),    value: fmtPrice(selectedTicker.low)  + ' MAD' },
-                { label: t('volume'), value: fmtVolume(selectedTicker.volume) },
-              ].map(({ label, value }) => (
-                <div key={label} className="px-4 py-3" style={{ background: BB_PANEL }}>
-                  <p className="text-xs font-bold mb-1" style={{ color: BB_MUTED }}>{label}</p>
-                  <p className="text-sm font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
+                { label: t('advancers'), value: advancers, color: BB_GREEN },
+                { label: t('decliners'), value: decliners, color: BB_RED   },
+                { label: t('stable'),    value: stable,    color: BB_MUTED  },
+              ].map(({ label, value, color }) => (
+                <div key={label} className="text-center p-2 bg-[#0B101E]">
+                  <p className="text-xl font-black tabular-nums" style={{ color }}>{value}</p>
+                  <p className="text-[10px] mt-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
                 </div>
               ))}
             </div>
-
-            {/* Signal */}
-            {(() => {
-              const sig = getSignal(selectedTicker.changePercent);
-              const sigColor = sig === 'HAUSSIER' ? BB_GREEN : sig === 'BAISSIER' ? BB_RED : BB_YELLOW;
-              return (
-                <div className="flex items-center justify-between p-3 text-sm font-bold rounded-sm border border-[#1E293B]">
-                  <span style={{ color: BB_MUTED }}>SIGNAL TECHNIQUE</span>
-                  <span style={{ color: sigColor }}>{sig}</span>
-                </div>
-              );
-            })()}
-
-            <p className="mt-3 text-xs" style={{ color: BB_MUTED }}>
-              * {t('signal_tooltip')}
-            </p>
-          </div>
-        ) : panelBTab === 2 ? (
-          /* ── TAB 2: CHART ── */
-          <div className="h-full flex flex-col">
-            <div className="flex gap-2 p-2 flex-shrink-0 border-b border-[#1E293B]">
-              {['1D','1W','1M','3M','6M','1Y'].map(r => (
-                <button key={r} className="text-xs px-2 py-1 font-bold rounded-sm" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, ...robotoMono.style }}>
-                  {r}
-                </button>
-              ))}
+            <div className="pt-4 text-center">
+              <button 
+                onClick={() => setActiveTab('EQUITIES')}
+                className="text-xs font-bold hover:underline" style={{ color: BB_CYAN }}
+              >
+                Explorer Valeurs BVC →
+              </button>
             </div>
-            <div className="flex-1 min-h-[300px]">
-              <TradingViewChart
-                symbol={`CSEMA:${selectedTicker.ticker}`}
-                height={300}
-                theme="dark"
-                interval="D"
-                showToolbar={false}
-              />
-            </div>
-          </div>
-        ) : (
-          /* ── TAB 3: FINANCIALS ── */
-          <div className="p-4" style={robotoMono.style}>
-            <div className="h-[300px]">
-              <TradingViewChart
-                symbol={`CSEMA:${selectedTicker.ticker}`}
-                height={300}
-                theme="dark"
-                interval="D"
-                showToolbar={false}
-              />
-            </div>
-            <p className="mt-3 text-xs text-center" style={{ color: BB_MUTED }}>
-              Données via TradingView · Graphique différé
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  const panelC = (
-    <div className="flex flex-col h-full overflow-y-auto" style={{ borderRight: `1px solid ${BB_BORDER}`, background: BB_PANEL }}>
-      <PanelHeader title={t('panel_c_title')} />
-
-      <div className="p-4 space-y-6" style={robotoMono.style}>
-        {/* MASI Dashboard */}
-        <div>
-          <p className="text-xs font-bold mb-3 uppercase tracking-wider" style={{ color: BB_ORANGE }}>■ {t('masi_label')} / MARCHÉ</p>
-          <div className="space-y-1">
-            {[
-              { label: t('masi_label'),       value: stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—', chgPct: avgChange,  isIndex: true },
-              { label: t('valeurs_totales'),   value: `${stocks.length}`,                                                                  chgPct: null,       isIndex: false },
-              { label: t('total_volume'),      value: fmtVolume(totalVolume) + ' MAD',                                                     chgPct: null,       isIndex: false },
-            ].map(row => (
-              <div key={row.label} className="flex items-center justify-between text-sm py-2" style={{ borderBottom: `1px solid ${BB_BORDER}` }}>
-                <span className="font-bold" style={{ color: row.isIndex ? BB_CYAN : BB_MUTED }}>{row.label}</span>
-                <span className="font-bold tabular-nums" style={{ color: row.isIndex ? pctColor(row.chgPct) : BB_WHITE }}>{row.value}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-3 gap-[1px] mt-4 bg-[#1E293B] border border-[#1E293B]">
-            {[
-              { label: t('advancers'), value: advancers, color: BB_GREEN },
-              { label: t('decliners'), value: decliners, color: BB_RED   },
-              { label: t('stable'),    value: stable,    color: BB_MUTED  },
-            ].map(({ label, value, color }) => (
-              <div key={label} className="text-center p-2 bg-[#0B101E]">
-                <p className="text-xl font-black tabular-nums" style={{ color }}>{value}</p>
-                <p className="text-[10px] mt-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* Fear & Greed */}
-        <div>
-          <p className="text-xs font-bold mb-3 uppercase tracking-wider" style={{ color: BB_ORANGE }}>■ {t('fg_title')}</p>
-          <FearGreedGauge score={fgScore} label={fgLabel(fgScore)} color={fgColor(fgScore)} />
-          <div className="mt-4 space-y-2">
-            {[
-              { label: t('fg_breadth'),    value: fgBreadth,    weight: '40%' },
-              { label: t('fg_momentum'),   value: fgMomentum,   weight: '30%' },
-              { label: t('fg_volatility'), value: fgVolatility, weight: '20%' },
-              { label: t('fg_volume_label'), value: 50,         weight: '10%' },
-            ].map(({ label, value, weight }) => (
-              <div key={label} className="flex items-center justify-between text-xs">
-                <span style={{ color: BB_MUTED }}>{label} <span style={{ color: '#475569' }}>({weight})</span></span>
-                <div className="flex items-center gap-2">
-                  <div className="w-16 h-1.5 rounded-none overflow-hidden" style={{ background: BB_BORDER }}>
-                    <div style={{ width: `${value}%`, height: '100%', background: fgColor(value) }} />
+        {/* FEAR & GREED + MOVERS */}
+        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
+          <PanelHeader title={t('fg_title')} />
+          <div className="p-5 flex-1 flex flex-col justify-between">
+            <div className="mb-6">
+              <FearGreedGauge score={fgScore} label={fgLabel(fgScore)} color={fgColor(fgScore)} />
+            </div>
+            {movers && (
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#1E293B]">
+                {([
+                  { key: 'gainers' as const, label: t('top_gainers'), color: BB_GREEN },
+                  { key: 'losers'  as const, label: t('top_losers'),  color: BB_RED   },
+                ] as const).map(({ key, label, color }) => (
+                  <div key={key}>
+                    <p className="text-[10px] font-bold mb-2 uppercase border-b border-[#1E293B] pb-1" style={{ color }}>{label}</p>
+                    {movers[key].slice(0, 3).map(s => (
+                      <div key={s.ticker} className="flex justify-between text-xs py-1">
+                        <span className="font-bold" style={{ color: BB_CYAN }}>{s.ticker}</span>
+                        <span className="tabular-nums font-bold" style={{ color }}>{fmtPct(s.changePercent)}</span>
+                      </div>
+                    ))}
                   </div>
-                  <span className="tabular-nums font-bold min-w-[2ch] text-right" style={{ color: BB_WHITE }}>{Math.round(value)}</span>
-                </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
 
-        {/* Top Movers */}
-        {movers && (
-          <div>
-            <p className="text-xs font-bold mb-3 uppercase tracking-wider" style={{ color: BB_ORANGE }}>■ MOVERS</p>
-            <div className="grid grid-cols-2 gap-4">
-              {([
-                { key: 'gainers' as const, label: t('top_gainers'), color: BB_GREEN },
-                { key: 'losers'  as const, label: t('top_losers'),  color: BB_RED   },
-              ] as const).map(({ key, label, color }) => (
-                <div key={key}>
-                  <p className="text-[11px] font-bold mb-2 uppercase border-b border-[#1E293B] pb-1" style={{ color }}>{label}</p>
-                  {movers[key].slice(0, 5).map(s => (
-                    <div
-                      key={s.ticker}
-                      className="flex justify-between text-xs cursor-pointer hover:bg-[#1E293B] px-1 py-1.5 rounded-sm"
-                      onClick={() => { setSelectedTicker(s); setPanelBTab(1); setMobileTab('B'); }}
-                    >
-                      <span className="font-bold" style={{ color: BB_CYAN }}>{s.ticker}</span>
-                      <span className="tabular-nums font-bold" style={{ color }}>{fmtPct(s.changePercent)}</span>
-                    </div>
-                  ))}
+        {/* FX / OPCVM SNAPSHOT */}
+        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
+          <PanelHeader title="MACRO & OPCVM RAPIDE" />
+          <div className="p-5 flex-1 space-y-6">
+            <div>
+              <p className="text-xs font-bold mb-2 uppercase tracking-wide" style={{ color: BB_ORANGE }}>■ DEVISES / MAD</p>
+              {fxData.slice(0, 3).map(({ pair, rate, chg }) => (
+                <div key={pair} className="flex justify-between text-sm py-1 border-b border-[#1E293B]">
+                  <span className="font-bold" style={{ color: BB_MUTED }}>{pair}</span>
+                  <span className="font-bold tabular-nums text-white">{rate}</span>
+                  <span className="font-bold tabular-nums" style={{ color: pctColor(parseFloat(chg)) }}>{chg}</span>
                 </div>
               ))}
+              <div className="pt-2 text-right">
+                <button onClick={() => setActiveTab('MACRO')} className="text-[10px] font-bold hover:underline" style={{ color: BB_CYAN }}>Plus de Macro →</button>
+              </div>
+            </div>
+            
+            <div>
+              <p className="text-xs font-bold mb-2 uppercase tracking-wide" style={{ color: BB_ORANGE }}>■ OPCVM EN VUE</p>
+              {opcvmFunds.slice(0, 3).map(f => (
+                <div key={f.name} className="flex justify-between text-xs py-1.5 border-b border-[#1E293B] truncate gap-2">
+                  <span className="font-bold truncate text-white" title={f.name}>{f.name}</span>
+                  <span className="font-bold flex-shrink-0" style={{ color: pctColor(f.perf_ytd) }}>{fmtPerf(f.perf_ytd)} YTD</span>
+                </div>
+              ))}
+              <div className="pt-2 text-right">
+                <button onClick={() => setActiveTab('OPCVM')} className="text-[10px] font-bold hover:underline" style={{ color: BB_CYAN }}>Tous les Fonds →</button>
+              </div>
             </div>
           </div>
-        )}
+        </div>
+
       </div>
     </div>
   );
 
-  const panelD = (
-    <div className="flex flex-col h-full overflow-y-auto" style={{ background: BB_PANEL }}>
-      <PanelHeader title={t('panel_d_title')} />
+  const renderEquities = () => (
+    <div className="h-full flex overflow-hidden">
+      {/* LEFT: Terminal List */}
+      <div className="w-full lg:w-[60%] flex flex-col border-r border-[#1E293B] bg-[#0B101E]">
+        <PanelHeader title={t('panel_a_title')}>
+          <span style={{ color: '#000', fontSize: '10px' }}>{stocks.length} val.</span>
+        </PanelHeader>
 
-      <div className="p-4 space-y-6" style={robotoMono.style}>
-        {/* FX Rates */}
-        <div>
-          <div className="flex items-center justify-between mb-3 border-b border-[#1E293B] pb-2">
-            <p className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_ORANGE }}>■ {t('fx_title')}</p>
-            <span className="text-[10px] px-2 py-0.5 rounded-sm" style={{ background: '#1a1a00', color: BB_YELLOW, border: `1px solid ${BB_YELLOW}33` }}>
-              {t('indicative')}
-            </span>
-          </div>
-          {fxData.map(({ pair, rate, chg }) => {
-            const chgNum = parseFloat(chg);
-            return (
-              <div key={pair} className="flex items-center justify-between text-sm py-1.5">
-                <span className="font-bold tracking-wider" style={{ color: BB_CYAN }}>{pair}</span>
-                <span className="font-bold tabular-nums" style={{ color: BB_WHITE }}>{rate}</span>
-                <span className="text-xs font-bold tabular-nums" style={{ color: pctColor(chgNum) }}>{chgNum >= 0 ? '+' : ''}{chg}</span>
-              </div>
-            );
-          })}
+        {/* Filter bar */}
+        <div className="flex items-center gap-2 px-3 py-2 flex-shrink-0 border-b border-[#1E293B] bg-[#040914]">
+          <input
+            ref={searchRef} value={search} onChange={e => { setSearch(e.target.value); setQuickFilter('ALL'); }}
+            placeholder={t('search_placeholder')}
+            className="flex-1 bg-transparent outline-none text-[12px] px-2"
+            style={{ ...robotoMono.style, color: BB_WHITE, caretColor: BB_ORANGE }}
+          />
+          {(['ALL', 'TOP', 'PIRES', 'VOLUME'] as QuickFilter[]).map(f => (
+            <button
+              key={f} onClick={() => { setQuickFilter(f); setSearch(''); }}
+              className={`text-[10px] px-2 py-1 font-bold rounded-sm ${inter.className}`}
+              style={{
+                background: quickFilter === f ? BB_ORANGE : 'transparent',
+                color: quickFilter === f ? '#000' : BB_MUTED,
+                border: `1px solid ${quickFilter === f ? BB_ORANGE : BB_BORDER}`,
+              }}
+            >
+              {f === 'ALL' ? t('filter_all') : f === 'TOP' ? 'TOP' : f === 'PIRES' ? 'PIRES' : 'VOL↑'}
+            </button>
+          ))}
         </div>
 
-        {/* Macro indicators */}
-        <div>
-          <p className="text-xs font-bold mb-3 uppercase tracking-wider border-b border-[#1E293B] pb-2" style={{ color: BB_ORANGE }}>■ {t('macro_title')}</p>
-          {macroData.map(({ label, value, source }) => (
-            <div key={label} className="flex items-center justify-between text-sm py-1.5">
-              <span className="text-xs" style={{ color: BB_MUTED }}>{label}</span>
-              <div className="flex items-center gap-2">
-                <span className="font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</span>
-                <span className="text-[10px]" style={{ color: '#475569' }}>[{source}]</span>
+        {/* Header Grid */}
+        <div
+          className="grid items-center gap-2 flex-shrink-0 text-[11px] font-bold px-[8px] py-2 border-b border-[#1E293B] bg-[#0A0F1D]"
+          style={{ color: BB_MUTED, ...robotoMono.style, gridTemplateColumns: '70px minmax(120px, 1fr) 70px 80px 70px 90px' }}
+        >
+          <span className="cursor-pointer hover:text-white truncate" onClick={() => toggleSort('TICKER')}>{t('col_ticker')} {sortField==='TICKER'? (sortDir==='ASC'?'↑':'↓'):''}</span>
+          <span>{t('col_name')}</span>
+          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('PRICE')}>{t('col_price')} {sortField==='PRICE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
+          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('CHANGE')}>{t('col_change_pct')} {sortField==='CHANGE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
+          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('VOLUME')}>{t('col_volume')} {sortField==='VOLUME'? (sortDir==='ASC'?'↑':'↓'):''}</span>
+          <span className="text-center">{t('col_signal')}</span>
+        </div>
+
+        {/* Rows */}
+        <div className="flex-1 overflow-y-auto" ref={listRef}>
+          {loading ? (
+            <div className="flex items-center justify-center h-full text-sm font-bold" style={{ color: BB_ORANGE, ...robotoMono.style }}>{t('loading')}</div>
+          ) : filtered.length === 0 ? (
+            <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_MUTED, ...robotoMono.style }}>{t('no_data')}</div>
+          ) : (
+            filtered.map((stock, i) => (
+              <StockRow
+                key={stock.ticker} stock={stock} isHighlighted={i === highlightedRow}
+                isSelected={selectedTicker?.ticker === stock.ticker}
+                isFlashing={flashTickers.has(stock.ticker)}
+                onClick={() => { setSelectedTicker(stock); setPanelBTab(1); setHighlightedRow(i); }}
+              />
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* RIGHT: Trading Panel */}
+      <div className="hidden lg:flex flex-col w-[40%] bg-[#0B101E]">
+        <PanelHeader title={selectedTicker ? `${selectedTicker.ticker} — ACTIONS BVC` : t('panel_b_title')}>
+          {[1, 2].map(tab => (
+            <button
+              key={tab} onClick={() => setPanelBTab(tab as PanelBTab)}
+              className="text-[10px] px-3 py-1 font-bold rounded-sm"
+              style={{
+                background: panelBTab === tab ? '#000' : 'transparent', color: panelBTab === tab ? BB_ORANGE : '#000', ...inter.style,
+              }}
+            >
+              {tab === 1 ? t('tab_quote') : t('tab_chart')}
+            </button>
+          ))}
+        </PanelHeader>
+
+        <div className="flex-1 overflow-y-auto p-0 flex flex-col">
+          {!selectedTicker ? (
+            <div className="flex flex-col items-center justify-center h-full gap-3" style={robotoMono.style}>
+              <div className="text-3xl" style={{ color: BB_MUTED }}>◈</div>
+              <p className="text-sm font-bold" style={{ color: BB_ORANGE }}>Sélectionnez une action BVC</p>
+              <p className="text-xs" style={{ color: BB_MUTED }}>Le détail de la valeur apparaîtra ici.</p>
+            </div>
+          ) : panelBTab === 1 ? (
+            <div className="p-4 flex-1 flex flex-col" style={robotoMono.style}>
+              <div className="flex justify-between mb-4 border-b border-[#1E293B] pb-4">
+                <div>
+                  <p className="text-3xl font-black tracking-tight" style={{ color: BB_CYAN }}>{selectedTicker.ticker}</p>
+                  <p className="text-sm mt-1 text-white">{selectedTicker.name}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-4xl font-black tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
+                  <p className="text-xs font-bold mt-1" style={{ color: BB_MUTED }}>MAD</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-4 mb-4 text-sm font-bold rounded-sm"
+                  style={{ background: (selectedTicker.changePercent ?? 0) >= 0 ? '#00e67610' : '#ff174410', border: `1px solid ${(selectedTicker.changePercent ?? 0) >= 0 ? '#00E67633' : '#FF174433'}` }}>
+                <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '24px' }}>
+                  {fmtPct(selectedTicker.changePercent)}
+                </span>
+                <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '18px' }}>
+                  {(selectedTicker.change ?? 0) >= 0 ? '+' : ''}{fmtPrice(selectedTicker.change)} MAD
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-[1px] mb-6 bg-[#1E293B]">
+                {[
+                  { label: t('open'),   value: fmtPrice(selectedTicker.open) },
+                  { label: t('high'),   value: fmtPrice(selectedTicker.high) },
+                  { label: t('low'),    value: fmtPrice(selectedTicker.low) },
+                  { label: t('volume'), value: fmtVolume(selectedTicker.volume) },
+                ].map(({ label, value }) => (
+                  <div key={label} className="px-4 py-3 bg-[#0A0F1D]">
+                    <p className="text-[11px] tracking-widest font-bold mb-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
+                    <p className="text-base font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Smaller quick chart for quoting panel */}
+              <div className="flex-1 min-h-[250px] border border-[#1E293B]">
+                <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={250} theme="dark" interval="D" showToolbar={false} />
               </div>
             </div>
+          ) : (
+            <div className="flex-1 flex flex-col p-2 h-full">
+              <div className="flex gap-2 p-2 border-b border-[#1E293B] mb-2">
+                {['1D','1W','1M','3M','6M','1Y'].map(r => (
+                  <button key={r} className="text-xs px-2 py-1 font-bold rounded-sm" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, ...robotoMono.style }}>{r}</button>
+                ))}
+              </div>
+              <div className="flex-1 min-h-[400px]">
+                <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={450} theme="dark" interval="D" showToolbar={true} />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderOpcvm = () => (
+    <div className="h-full overflow-y-auto p-6 md:p-8" style={{ background: BB_BG }}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-2xl font-black tracking-tight" style={{ color: BB_CYAN }}>OPCVM / FUNDS</h2>
+          <p className="text-sm mt-1" style={{ color: BB_MUTED }}>Fonds d'investissement Marocains — Données statiques de référence</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 p-1 rounded-sm border border-[#1E293B] bg-[#0B101E]">
+          {(['ALL', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'] as OpcvmFilter[]).map(f => (
+            <button
+              key={f} onClick={() => setOpcvmFilter(f)}
+              className={`text-xs px-3 py-1.5 font-bold rounded-sm uppercase tracking-wide transition-colors ${robotoMono.className}`}
+              style={{ background: opcvmFilter === f ? BB_ORANGE : 'transparent', color: opcvmFilter === f ? '#000' : BB_MUTED }}
+            >
+              {f === 'ALL' ? t('filter_all') : f}
+            </button>
           ))}
-          <p className="mt-2 text-[10px]" style={{ color: '#475569' }}>Mis à jour: 2026 · {t('indicative')}</p>
+        </div>
+      </div>
+
+      <div className="bg-[#0B101E] border border-[#1E293B] rounded-md overflow-hidden max-w-[1400px] mx-auto" style={robotoMono.style}>
+        {/* Table Header */}
+        <div className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-3 border-b border-[#1E293B] bg-[#0A0F1D] text-xs font-bold text-[#8B95A1] uppercase tracking-wider">
+          <span>Catégorie</span>
+          <span>Nom du Fonds</span>
+          <span className="text-right">VL (MAD)</span>
+          <span className="text-right">Perf 1M</span>
+          <span className="text-right">Perf YTD</span>
+          <span className="text-right">Perf 1AN</span>
         </div>
 
-        {/* Mini Calendar */}
-        <div>
-          <p className="text-xs font-bold mb-3 uppercase tracking-wider border-b border-[#1E293B] pb-2" style={{ color: BB_ORANGE }}>■ {t('calendar_title')}</p>
-          <div className="space-y-2 text-xs" style={{ color: BB_MUTED }}>
-            {[
-              { date: 'Avr 03', evt: 'BAM — Décision de taux directeur',  ticker: 'BAM' },
-              { date: 'Avr 10', evt: 'Maroc Telecom — Publication T1', ticker: 'IAM' },
-              { date: 'Avr 17', evt: 'HCP — Publication indice des prix', ticker: 'HCP' },
-            ].map(({ date, evt, ticker }) => {
-              const badgeColor = ticker === 'BAM' ? BB_CYAN : ticker === 'IAM' ? BB_YELLOW : ticker === 'ATW' ? BB_GREEN : BB_MUTED;
-              return (
-                <div key={date} className="flex gap-2 py-1 items-start">
-                  <span className="w-12 flex-shrink-0 font-bold mt-0.5" style={{ color: BB_YELLOW }}>{date}</span>
-                  <span className="flex-1 leading-relaxed" style={{ color: BB_WHITE }}>{evt}</span>
-                  <span
-                    className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm flex-shrink-0 mt-0.5"
-                    style={{ color: badgeColor, border: `1px solid ${badgeColor}44`, background: `${badgeColor}11` }}
-                  >
-                    {ticker}
-                  </span>
+        {/* Table Body */}
+        <div className="divide-y divide-[#1E293B]">
+          {opcvmLoading ? (
+            <div className="p-8 text-center text-sm font-bold" style={{ color: BB_ORANGE }}>{t('loading')}</div>
+          ) : filteredOpcvm.length === 0 ? (
+            <div className="p-8 text-center text-sm" style={{ color: BB_MUTED }}>Aucun fonds trouvé pour cette catégorie.</div>
+          ) : (
+            filteredOpcvm.map((fund, i) => (
+              <div key={`${fund.name}-${i}`} className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-4 hover:bg-[#111827] transition-colors items-center text-sm">
+                <span
+                  className="text-[10px] font-bold px-2 py-1 rounded-sm uppercase inline-block text-center border"
+                  style={{ color: opcvmTypeColor(fund.type), borderColor: `${opcvmTypeColor(fund.type)}44`, background: `${opcvmTypeColor(fund.type)}11` }}
+                >
+                  {fund.type?.slice(0, 8)}
+                </span>
+                <div>
+                  <p className="font-bold truncate text-white" title={fund.name}>{fund.name}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-[#8B95A1] mt-1">{fund.societe_gestion || '—'}</p>
                 </div>
-              );
-            })}
-          </div>
-          <Link href="/calendar" className="inline-block mt-4 text-xs font-bold hover:underline" style={{ color: BB_CYAN }}>
-            → {t('see_full_calendar')}
-          </Link>
+                <span className="text-right font-bold tabular-nums text-white">{fund.vl != null ? fund.vl.toFixed(2) : '—'}</span>
+                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1m) }}>{fmtPerf(fund.perf_1m)}</span>
+                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_ytd) }}>{fmtPerf(fund.perf_ytd)}</span>
+                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1an) }}>{fmtPerf(fund.perf_1an)}</span>
+              </div>
+            ))
+          )}
         </div>
+      </div>
+      <p className="mt-4 text-[10px] uppercase tracking-wider text-[#8B95A1] max-w-2xl mx-auto" style={robotoMono.style}>
+        ⚠️ {t('opcvm_disclaimer')}
+      </p>
+    </div>
+  );
+
+  const renderMacro = () => (
+    <div className="h-full overflow-y-auto p-6 md:p-8 space-y-6" style={{ background: BB_BG, ...robotoMono.style }}>
+      <h2 className="text-2xl font-black uppercase tracking-tight" style={{ color: BB_CYAN }}>Macroéconomie & Devises</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Macro Card */}
+        <div className="bg-[#0B101E] border border-[#1E293B]">
+          <PanelHeader title={t('macro_title')} />
+          <div className="p-6">
+            <div className="divide-y divide-[#1E293B]">
+              {macroData.map(({ label, value, source }) => (
+                <div key={label} className="py-4 flex items-center justify-between">
+                  <span className="text-sm font-bold" style={{ color: BB_MUTED }}>{label}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-black tabular-nums text-white">{value}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-sm border border-[#475569] text-[#475569]">{source}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* FX Card */}
+        <div className="bg-[#0B101E] border border-[#1E293B]">
+          <PanelHeader title="TAUX DE CHANGE (MAD) - INDICATIFS" />
+          <div className="p-6">
+            <div className="divide-y divide-[#1E293B]">
+              {fxData.map(({ pair, rate, chg }) => {
+                const chgNum = parseFloat(chg);
+                return (
+                  <div key={pair} className="py-4 flex items-center justify-between">
+                    <span className="text-lg font-black tracking-wider" style={{ color: BB_CYAN }}>{pair}</span>
+                    <span className="text-2xl font-black tabular-nums text-white">{rate}</span>
+                    <span className="text-sm font-bold tabular-nums" style={{ color: pctColor(chgNum) }}>{chgNum >= 0 ? '+' : ''}{chg}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Calendar */}
+        <div className="bg-[#0B101E] border border-[#1E293B] md:col-span-2">
+          <PanelHeader title={t('calendar_title')} />
+          <div className="p-6 text-sm">
+             <div className="grid grid-cols-[100px_minmax(200px,1fr)_80px] gap-4 py-3 border-b border-[#1E293B] font-bold text-[#8B95A1] text-xs uppercase">
+                <span>Date</span>
+                <span>Événement</span>
+                <span>Impact</span>
+             </div>
+             <div className="divide-y divide-[#1E293B]">
+                {[
+                  { date: 'Avr 03, 2026', evt: 'Banque Al-Maghrib — Décision Taux Directeur',  ticker: 'BAM', impact: BB_RED },
+                  { date: 'Avr 10, 2026', evt: 'Maroc Telecom — Publication T1', ticker: 'IAM', impact: BB_YELLOW },
+                  { date: 'Avr 17, 2026', evt: 'HCP — Publication indice des prix CPI', ticker: 'HCP', impact: BB_GREEN },
+                ].map(({ date, evt, ticker, impact }) => (
+                  <div key={date} className="grid grid-cols-[100px_minmax(200px,1fr)_80px] gap-4 py-4 items-center hover:bg-[#111827]">
+                    <span className="font-bold" style={{ color: BB_YELLOW }}>{date}</span>
+                    <span className="text-white font-medium">{evt}</span>
+                    <span
+                      className="text-[10px] font-bold px-2 py-1 rounded-sm text-center border"
+                      style={{ color: impact, borderColor: `${impact}44`, background: `${impact}11` }}
+                    >
+                      {ticker}
+                    </span>
+                  </div>
+                ))}
+             </div>
+             <div className="mt-4">
+                <Link href="/calendar" className="inline-block text-xs font-bold hover:underline" style={{ color: BB_CYAN }}>
+                  → Consulter le calendrier complet
+                </Link>
+             </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );
@@ -833,13 +849,12 @@ export default function TerminalPage() {
   // ── Keyboard Help Modal ───────────────────────────────────────────────────────
   const helpModal = showHelp && (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(4, 9, 20, 0.9)' }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90"
       onClick={() => setShowHelp(false)}
     >
       <div
-        className="p-0 w-full max-w-lg shadow-2xl rounded-sm overflow-hidden"
-        style={{ border: `1px solid ${BB_ORANGE}`, background: BB_PANEL, ...robotoMono.style }}
+        className="p-0 w-full max-w-lg shadow-2xl rounded-sm overflow-hidden border border-[#FF9800] bg-[#0B101E]"
+        style={robotoMono.style}
         onClick={e => e.stopPropagation()}
       >
         <div className="px-4 py-3 flex items-center justify-between" style={{ background: BB_ORANGE }}>
@@ -848,31 +863,30 @@ export default function TerminalPage() {
         </div>
         <div className="p-6 space-y-3 text-xs">
           {[
+            { key: 'Alt+1..4', desc: "Changer de module principal" },
             { key: 'H',       desc: t('help_h') },
             { key: 'T',       desc: t('help_t') },
             { key: '↑ / ↓',   desc: t('help_arrows') },
             { key: 'Enter',   desc: t('help_enter') },
-            { key: '1 / 2 / 3', desc: t('help_123') },
             { key: 'R',       desc: t('help_r') },
-            { key: 'Esc',     desc: t('help_esc') },
           ].map(({ key, desc }) => (
             <div key={key} className="flex gap-4 items-center">
               <span className="w-24 font-bold text-center py-1 rounded-sm bg-[#1E293B]" style={{ color: BB_YELLOW }}>[{key}]</span>
-              <span className="text-sm" style={{ color: BB_WHITE }}>{desc}</span>
+              <span className="text-sm text-white">{desc}</span>
             </div>
           ))}
-          <div className="mt-6 pt-4 text-sm" style={{ borderTop: `1px solid ${BB_BORDER}`, color: BB_ORANGE, fontWeight: 'bold' }}>
+          <div className="mt-6 pt-4 text-sm font-bold border-t border-[#1E293B]" style={{ color: BB_ORANGE }}>
             COMMANDES CMD:
           </div>
           {[
-            { key: 'TOP',      desc: t('cmd_help_top') },
-            { key: 'PIRES',    desc: t('cmd_help_pires') },
-            { key: 'CLR',      desc: t('cmd_help_clr') },
+            { key: 'MASI',     desc: "Aller à l'aperçu de marché" },
+            { key: 'MACRO',    desc: "Aller aux données Macro" },
+            { key: 'OPCVM',    desc: "Aller aux fonds d'investissement" },
             { key: '<TICKER>', desc: t('cmd_help_ticker') },
           ].map(({ key, desc }) => (
             <div key={key} className="flex gap-4 items-center">
-              <span className="w-24 font-bold text-center py-1" style={{ color: BB_CYAN }}>{key}</span>
-              <span className="text-sm" style={{ color: BB_WHITE }}>{desc}</span>
+              <span className="w-24 font-bold text-center py-1 text-[#00E5FF]">{key}</span>
+              <span className="text-sm text-white">{desc}</span>
             </div>
           ))}
         </div>
@@ -882,218 +896,83 @@ export default function TerminalPage() {
 
   // ── ROOT RENDER ───────────────────────────────────────────────────────────────
   return (
-    <div
-      className="min-h-screen flex flex-col select-none"
-      style={{ background: BB_BG, color: BB_WHITE, ...inter.style }}
-    >
+    <div className="h-screen w-screen flex flex-col overflow-hidden select-none" style={{ background: BB_BG, color: BB_WHITE, ...inter.style }}>
       {helpModal}
 
       {/* ── TOP COMMAND BAR ────────────────────────────────────────────────────── */}
-      <div
-        className="flex items-center gap-4 px-4 h-14 flex-shrink-0 text-sm z-10 relative"
-        style={{ background: BB_PANEL, borderBottom: `1px solid ${BB_BORDER}` }}
-      >
-        {/* Logo */}
+      <div className="flex items-center gap-4 px-4 h-14 flex-shrink-0 text-sm z-20 border-b border-[#1E293B] bg-[#0B101E]">
         <Link href="/" className="font-black text-sm flex-shrink-0 hover:opacity-80 transition-opacity" style={{ color: BB_ORANGE, letterSpacing: '2px' }}>
           ◈ {t('topbar_title')}
         </Link>
-
         <span style={{ color: BB_BORDER }}>│</span>
-
-        {/* MASI indicator */}
         <div className="flex items-center gap-2 flex-shrink-0" style={robotoMono.style}>
           <span className="font-bold text-xs" style={{ color: BB_MUTED }}>MASI</span>
-          <span className="font-bold text-[13px] tabular-nums" style={{ color: BB_WHITE }}>
-            {stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—'}
-          </span>
+          <span className="font-bold text-[13px] tabular-nums" style={{ color: BB_WHITE }}>{stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—'}</span>
         </div>
-
         <span style={{ color: BB_BORDER }}>│</span>
-
-        {/* Market status */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <span
-            className="inline-block w-2 h-2 rounded-full"
-            style={{ background: marketStatus.open ? BB_GREEN : BB_RED, boxShadow: marketStatus.open ? `0 0 6px ${BB_GREEN}` : 'none' }}
-          />
-          <span className="font-bold text-xs uppercase tracking-wider" style={{ color: marketStatus.open ? BB_GREEN : BB_RED }}>
-            {marketStatus.open ? t('live') : t('closed')}
-          </span>
+          <span className="inline-block w-2 h-2 rounded-full" style={{ background: marketStatus.open ? BB_GREEN : BB_RED, boxShadow: marketStatus.open ? `0 0 6px ${BB_GREEN}` : 'none' }} />
+          <span className="font-bold text-xs uppercase tracking-wider" style={{ color: marketStatus.open ? BB_GREEN : BB_RED }}>{marketStatus.open ? t('live') : t('closed')}</span>
         </div>
-
         <span style={{ color: BB_BORDER }}>│</span>
-
-        {/* Clock */}
         <span className="font-bold text-sm tracking-widest flex-shrink-0 tabular-nums" style={{ color: BB_YELLOW, ...robotoMono.style }}>{clock}</span>
-
         <span style={{ color: BB_BORDER }}>│</span>
-
-        {/* CMD input */}
         <div className="flex items-center gap-2 flex-1 min-w-0" style={robotoMono.style}>
           <span className="font-bold text-xs flex-shrink-0" style={{ color: BB_ORANGE }}>CMD:</span>
           <input
-            ref={cmdRef}
-            value={cmdValue}
+            ref={cmdRef} value={cmdValue}
             onChange={e => { setCmdValue(e.target.value.toUpperCase()); setCmdMsg(''); }}
             onKeyDown={handleCmd}
             placeholder={t('cmd_placeholder')}
             className="bg-transparent outline-none flex-1 min-w-0 uppercase font-bold text-sm"
             style={{ color: BB_WHITE, caretColor: BB_ORANGE }}
-            autoComplete="off"
-            spellCheck={false}
+            autoComplete="off" spellCheck={false}
           />
-          {cmdMsg && (
-            <span className="text-xs font-bold truncate flex-shrink-0 max-w-[250px]" style={{ color: cmdMsg.includes('INCONNUE') ? BB_RED : BB_GREEN }}>
-              {cmdMsg}
-            </span>
-          )}
+          {cmdMsg && <span className="text-xs font-bold truncate flex-shrink-0" style={{ color: cmdMsg.includes('INCONNUE') ? BB_RED : BB_GREEN }}>{cmdMsg}</span>}
         </div>
-
         <span style={{ color: BB_BORDER }}>│</span>
-
-        {/* Help + nav */}
         <div className="flex items-center gap-2 flex-shrink-0" style={robotoMono.style}>
-          <button
-            onClick={() => setShowHelp(v => !v)}
-            className="px-2 py-1 text-xs font-bold rounded hover:bg-[#1E293B] transition-colors"
-            style={{ border: `1px solid ${BB_BORDER}`, color: BB_MUTED }}
-          >
-            [H] AIDE
-          </button>
-          <button
-            onClick={loadData}
-            className="px-2 py-1 text-xs font-bold rounded hover:bg-[#1E293B] transition-colors"
-            style={{ border: `1px solid ${BB_BORDER}`, color: BB_MUTED }}
-            title="Reload (R)"
-          >
-            ↻ REFRESH
-          </button>
+          <button onClick={() => setShowHelp(v => !v)} className="px-2 py-1 text-xs font-bold rounded hover:bg-[#1E293B] border border-[#1E293B] text-[#8B95A1]">[H] AIDE</button>
+          <button onClick={loadData} className="px-2 py-1 text-xs font-bold rounded hover:bg-[#1E293B] border border-[#1E293B] text-[#8B95A1]">↻ REFRESH</button>
         </div>
       </div>
 
-      {/* ── MOBILE TABS ──────────────────────────────────────────────────────────── */}
-      <div className="flex sm:hidden flex-shrink-0" style={{ background: BB_PANEL, borderBottom: `1px solid ${BB_BORDER}` }}>
-        {(['A','B','C','D'] as MobileTab[]).map(tab => (
+      {/* ── NAVIGATION TABS ────────────────────────────────────────────────────── */}
+      <div className="flex items-center h-12 flex-shrink-0 border-b border-[#1E293B] bg-[#0A0F1D] px-4 overflow-x-auto scrollbar-hide">
+        {(
+          [
+            { id: 'OVERVIEW', label: 'Aperçu de marché', shortcut: 'Alt+1' },
+            { id: 'EQUITIES', label: 'Valeurs BVC', shortcut: 'Alt+2' },
+            { id: 'OPCVM', label: 'Fonds OPCVM', shortcut: 'Alt+3' },
+            { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
+          ] as { id: ActiveTab; label: string; shortcut: string }[]
+        ).map(tab => (
           <button
-            key={tab}
-            onClick={() => setMobileTab(tab)}
-            className="flex-1 py-3 text-xs font-bold text-center uppercase tracking-widest"
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className="h-full px-6 flex items-center justify-center gap-3 border-b-2 text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-colors"
             style={{
-              background: mobileTab === tab ? BB_ORANGE : 'transparent',
-              color: mobileTab === tab ? '#000' : BB_MUTED,
-              borderRight: `1px solid ${BB_BORDER}`,
+              borderColor: activeTab === tab.id ? BB_ORANGE : 'transparent',
+              color: activeTab === tab.id ? BB_ORANGE : BB_MUTED,
+              backgroundColor: activeTab === tab.id ? '#1a140a' : 'transparent',
             }}
           >
-            {tab === 'A' ? t('mobile_tab_a') : tab === 'B' ? t('mobile_tab_b') : tab === 'C' ? t('mobile_tab_c') : t('mobile_tab_d')}
+            {tab.label}
+            <span className="hidden sm:inline-block text-[10px] bg-[#1E293B] text-[#8B95A1] px-1.5 py-0.5 rounded-sm" style={robotoMono.style}>{tab.shortcut}</span>
           </button>
         ))}
       </div>
 
-      {/* ── EQUITY TERMINAL (H-SCREEN BLOCK) ─────────────────────────────────────── */}
-      <div className="h-[calc(100vh-56px)] flex-shrink-0">
-        <div className="hidden sm:grid h-full" style={{ gridTemplateColumns: '55fr 45fr', gridTemplateRows: '1fr 1fr' }}>
-          {panelA}
-          {panelB}
-          {panelC}
-          {panelD}
-        </div>
-        <div className="sm:hidden h-full">
-          {mobileTab === 'A' && panelA}
-          {mobileTab === 'B' && panelB}
-          {mobileTab === 'C' && panelC}
-          {mobileTab === 'D' && panelD}
-        </div>
-      </div>
-
-      {/* ── SEPARATE MODULE: OPCVM / FUNDS (STATIC LIST) ─────────────────────────── */}
-      <div className="mt-8 border-t-[4px]" style={{ borderColor: BB_BORDER, background: BB_BG }}>
-        <div className="max-w-[1400px] mx-auto p-6 md:p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-black tracking-tight" style={{ color: BB_CYAN }}>OPCVM / FUNDS</h2>
-              <p className="text-sm mt-1" style={{ color: BB_MUTED }}>Fonds d'investissement Marocains — Données statiques de référence</p>
-            </div>
-            {/* Filter buttons for OPCVM */}
-            <div className="flex flex-wrap items-center gap-2 p-1 rounded-sm" style={{ background: BB_PANEL, border: `1px solid ${BB_BORDER}` }}>
-              {(['ALL', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'] as OpcvmFilter[]).map(f => (
-                <button
-                  key={f}
-                  onClick={() => setOpcvmFilter(f)}
-                  className={`text-xs px-3 py-1.5 font-bold rounded-sm uppercase tracking-wide transition-colors ${robotoMono.className}`}
-                  style={{
-                    background: opcvmFilter === f ? BB_ORANGE : 'transparent',
-                    color: opcvmFilter === f ? '#000' : BB_MUTED,
-                  }}
-                >
-                  {f === 'ALL' ? t('filter_all') : f}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-[#0B101E] border border-[#1E293B] rounded-md overflow-hidden" style={robotoMono.style}>
-            {/* Table Header */}
-            <div className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-3 border-b border-[#1E293B] bg-[#0A0F1D] text-xs font-bold text-[#8B95A1] uppercase tracking-wider">
-              <span>Catégorie</span>
-              <span>Nom du Fonds</span>
-              <span className="text-right">VL (MAD)</span>
-              <span className="text-right">Perf 1M</span>
-              <span className="text-right">Perf YTD</span>
-              <span className="text-right">Perf 1AN</span>
-            </div>
-
-            {/* Table Body */}
-            <div className="divide-y divide-[#1E293B]">
-              {opcvmLoading ? (
-                <div className="p-8 text-center text-sm font-bold" style={{ color: BB_ORANGE }}>{t('loading')}</div>
-              ) : filteredOpcvm.length === 0 ? (
-                <div className="p-8 text-center text-sm" style={{ color: BB_MUTED }}>Aucun fonds trouvé pour cette catégorie.</div>
-              ) : (
-                filteredOpcvm.map((fund, i) => (
-                  <div key={`${fund.name}-${i}`} className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-4 hover:bg-[#111827] transition-colors items-center text-sm">
-                    <span
-                      className="text-[10px] font-bold px-2 py-1 rounded-sm uppercase inline-block text-center border"
-                      style={{
-                        color: opcvmTypeColor(fund.type),
-                        borderColor: `${opcvmTypeColor(fund.type)}44`,
-                        background: `${opcvmTypeColor(fund.type)}11`,
-                      }}
-                    >
-                      {fund.type?.slice(0, 8)}
-                    </span>
-                    <div>
-                      <p className="font-bold truncate text-white" title={fund.name}>{fund.name}</p>
-                      <p className="text-[10px] uppercase tracking-wider text-[#8B95A1] mt-1">{fund.societe_gestion || '—'}</p>
-                    </div>
-                    <span className="text-right font-bold tabular-nums text-white">
-                      {fund.vl != null ? fund.vl.toFixed(2) : '—'}
-                    </span>
-                    <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1m) }}>
-                      {fmtPerf(fund.perf_1m)}
-                    </span>
-                    <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_ytd) }}>
-                      {fmtPerf(fund.perf_ytd)}
-                    </span>
-                    <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1an) }}>
-                      {fmtPerf(fund.perf_1an)}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-          
-          <p className="mt-4 text-[10px] uppercase tracking-wider text-[#8B95A1] max-w-2xl" style={robotoMono.style}>
-            ⚠️ {t('opcvm_disclaimer')}
-          </p>
-        </div>
-      </div>
+      {/* ── DYNAMIC MODULE CONTAINER ───────────────────────────────────────────── */}
+      <main className="flex-1 overflow-hidden relative">
+        {activeTab === 'OVERVIEW' && renderOverview()}
+        {activeTab === 'EQUITIES' && renderEquities()}
+        {activeTab === 'OPCVM' && renderOpcvm()}
+        {activeTab === 'MACRO' && renderMacro()}
+      </main>
 
       {/* ── DISCLAIMER BAR ────────────────────────────────────────────────────── */}
-      <div
-        className="flex-shrink-0 flex items-center justify-center px-4 py-2 text-[10px] font-bold text-center tracking-wider uppercase"
-        style={{ background: '#0A0F1D', color: BB_MUTED, borderTop: `1px solid ${BB_BORDER}` }}
-      >
+      <div className="h-8 flex-shrink-0 flex items-center justify-center px-4 text-[10px] font-bold text-center tracking-wider uppercase border-t border-[#1E293B] bg-[#0A0F1D] text-[#8B95A1]">
         ⚠️ {t('disclaimer')} ⚠️
       </div>
     </div>
