@@ -22,3 +22,6 @@ groq>=0.9.0              # Groq API client (Llama 3.1 70B, free tier)
 # ── OPCVM scraper ─────────────────────────────────────────────────────────────
 httpx>=0.27.0            # async HTTP client for OPCVM scraping
 xlrd>=2.0.1              # legacy .xls support for AMMC files
+
+# ── Financials ───────────────────────────────────────────────────────────────────
+BVCscrap>=0.2.0          # Financials data scraper

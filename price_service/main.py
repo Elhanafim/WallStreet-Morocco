@@ -28,6 +28,7 @@ import casabourse as cb  # noqa: E402  (after dotenv so env is ready)
 from price_cache import PriceCache  # noqa: E402
 from calendar_router import calendar_router, start_background_refresh  # noqa: E402
 from chatbot.router import router as chat_router  # noqa: E402
+from financials_router import router as financials_router_obj, start_financials_refresh  # noqa: E402
 from stocksma_fetcher import (  # noqa: E402
     get_live_price as sm_get_live_price,
     get_all_prices as sm_get_all_prices,
@@ -228,8 +229,9 @@ async def _background_refresh():
 async def lifespan(app: FastAPI):
     price_task = asyncio.create_task(_background_refresh())
     cal_task = start_background_refresh()
+    fin_task = start_financials_refresh()
     yield
-    for task in (price_task, cal_task):
+    for task in (price_task, cal_task, fin_task):
         task.cancel()
         try:
             await task
@@ -257,6 +259,7 @@ app.add_middleware(
 
 app.include_router(calendar_router)
 app.include_router(chat_router)
+app.include_router(financials_router_obj)
 
 from opcvm.router import router as opcvm_router  # noqa: E402
 app.include_router(opcvm_router)
