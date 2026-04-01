@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useTranslation } from 'react-i18next';
+import ValuesFinancials from '@/components/terminal/ValuesFinancials';
 import { Roboto_Mono, Inter } from 'next/font/google';
 
 import {
@@ -40,7 +41,7 @@ const BB_PANEL  = '#0B101E';
 const BB_BG     = '#040914';  
 
 // ── Types ──────────────────────────────────────────────────────────────────────
-type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO';
+type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS';
 type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type SortField   = 'TICKER' | 'PRICE' | 'CHANGE' | 'VOLUME';
 type SortDir     = 'ASC' | 'DESC';
@@ -370,6 +371,7 @@ export default function TerminalPage() {
     if (cmd === 'MASI')  { setActiveTab('OVERVIEW'); setCmdMsg('→ APERÇU MARCHÉ'); return; }
     if (cmd === 'MACRO') { setActiveTab('MACRO'); setCmdMsg('→ MACRO & FX'); return; }
     if (cmd === 'OPCVM') { setActiveTab('OPCVM'); setCmdMsg('→ FONDS OPCVM'); return; }
+    if (cmd === 'FIN')   { setActiveTab('FINANCIALS'); setCmdMsg('→ VALEURS FINANCIALS'); return; }
     if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
 
     const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
@@ -397,6 +399,7 @@ export default function TerminalPage() {
           case '2': e.preventDefault(); setActiveTab('EQUITIES'); break;
           case '3': e.preventDefault(); setActiveTab('OPCVM'); break;
           case '4': e.preventDefault(); setActiveTab('MACRO'); break;
+          case '5': e.preventDefault(); setActiveTab('FINANCIALS'); break;
         }
         return;
       }
@@ -863,7 +866,7 @@ export default function TerminalPage() {
         </div>
         <div className="p-6 space-y-3 text-xs">
           {[
-            { key: 'Alt+1..4', desc: "Changer de module principal" },
+            { key: 'Alt+1..5', desc: "Changer de module principal" },
             { key: 'H',       desc: t('help_h') },
             { key: 'T',       desc: t('help_t') },
             { key: '↑ / ↓',   desc: t('help_arrows') },
@@ -882,6 +885,7 @@ export default function TerminalPage() {
             { key: 'MASI',     desc: "Aller à l'aperçu de marché" },
             { key: 'MACRO',    desc: "Aller aux données Macro" },
             { key: 'OPCVM',    desc: "Aller aux fonds d'investissement" },
+            { key: 'FIN',      desc: "Aller aux données financières" },
             { key: '<TICKER>', desc: t('cmd_help_ticker') },
           ].map(({ key, desc }) => (
             <div key={key} className="flex gap-4 items-center">
@@ -945,6 +949,7 @@ export default function TerminalPage() {
             { id: 'EQUITIES', label: 'Valeurs BVC', shortcut: 'Alt+2' },
             { id: 'OPCVM', label: 'Fonds OPCVM', shortcut: 'Alt+3' },
             { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
+            { id: 'FINANCIALS', label: 'Valeurs Financials', shortcut: 'Alt+5' },
           ] as { id: ActiveTab; label: string; shortcut: string }[]
         ).map(tab => (
           <button
@@ -969,6 +974,9 @@ export default function TerminalPage() {
         {activeTab === 'EQUITIES' && renderEquities()}
         {activeTab === 'OPCVM' && renderOpcvm()}
         {activeTab === 'MACRO' && renderMacro()}
+        {activeTab === 'FINANCIALS' && (
+          <ValuesFinancials ticker={selectedTicker?.ticker ?? null} />
+        )}
       </main>
 
       {/* ── DISCLAIMER BAR ────────────────────────────────────────────────────── */}
