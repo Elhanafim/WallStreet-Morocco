@@ -3,6 +3,19 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, RefreshCw, AlertTriangle } from 'lucide-react';
 import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
+import { opcvmFunds as staticFunds } from '@/lib/data/opcvm';
+
+// Map static OPCVMFund → live OpcvmFund shape for fallback display
+const STATIC_FALLBACK: OpcvmFund[] = staticFunds.map(f => ({
+  type:             f.type,
+  name:             f.name,
+  societe_gestion:  f.bank,
+  vl:               f.nav              ?? null,
+  perf_1m:          null,
+  perf_ytd:         f.performanceYTD   ?? null,
+  perf_1an:         f.performance1Y,
+  encours:          f.totalAssets      ?? null,
+}));
 
 type FilterType = 'Tous' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
 type SortKey    = 'name' | 'societe_gestion' | 'vl' | 'perf_ytd' | 'perf_1m' | 'perf_1an' | 'encours';
@@ -146,6 +159,7 @@ export default function OpcvmFundList() {
   const [funds,       setFunds]       = useState<OpcvmFund[]>([]);
   const [loadState,   setLoadState]   = useState<LoadState>('loading');
   const [lastUpdated, setLastUpdated] = useState('');
+  const [isLive,      setIsLive]      = useState(false);
   const [activeType,  setActiveType]  = useState<FilterType>('Tous');
   const [search,      setSearch]      = useState('');
   const [sortKey,     setSortKey]     = useState<SortKey>('perf_ytd');
@@ -155,15 +169,23 @@ export default function OpcvmFundList() {
     setLoadState('loading');
     try {
       const res = await fetchOpcvm();
-      if (res.error || res.funds.length === 0) {
-        setLoadState('error');
-      } else {
+      if (!res.error && res.funds.length > 0) {
         setFunds(res.funds);
         setLastUpdated(res.last_updated ?? '');
-        setLoadState('success');
+        setIsLive(true);
+      } else {
+        // Live service unavailable — show static reference data
+        setFunds(STATIC_FALLBACK);
+        setLastUpdated('');
+        setIsLive(false);
       }
+      setLoadState('success');
     } catch {
-      setLoadState('error');
+      // Network error — still show static data
+      setFunds(STATIC_FALLBACK);
+      setLastUpdated('');
+      setIsLive(false);
+      setLoadState('success');
     }
   }, []);
 
@@ -255,6 +277,20 @@ export default function OpcvmFundList() {
           </button>
         </div>
       </div>
+
+      {/* ── Demo data banner ── */}
+      {loadState === 'success' && !isLive && (
+        <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-sm text-amber-800">
+          <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+          <span>
+            <strong>Données de référence</strong> — connexion au flux en temps réel indisponible.
+            Les performances affichées sont indicatives.
+          </span>
+          <button onClick={load} className="ml-auto text-xs font-semibold underline hover:no-underline flex-shrink-0">
+            Réessayer
+          </button>
+        </div>
+      )}
 
       {/* ── Error state ── */}
       {loadState === 'error' && (
@@ -366,8 +402,9 @@ export default function OpcvmFundList() {
           {/* Source footer */}
           {loadState === 'success' && (
             <p className="text-xs text-primary/30 mt-4 text-right">
-              Source : Bourse de Casablanca / AMMC
-              {lastUpdated ? ` · ${lastUpdated}` : ''}
+              {isLive
+                ? `Source : Bourse de Casablanca / AMMC${lastUpdated ? ` · ${lastUpdated}` : ''}`
+                : 'Données de référence indicatives · non connecté au flux temps réel'}
             </p>
           )}
         </>
