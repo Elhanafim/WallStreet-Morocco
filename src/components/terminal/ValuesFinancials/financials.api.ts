@@ -10,13 +10,26 @@ export interface FinancialIndicator {
 
 export interface FinancialsData {
   ticker: string;
+  // Company identity (from StocksMA / bvcCompanies)
+  isin: string | null;
   sector: string | null;
+  companyName: string | null;
+  companyDesc: string | null;
+  // Market data
   currentPrice: number | null;
   performance: number | null;
   marketCap: number | null;
   peRatio: number | null;
   avgVolume30d: number | null;
   ytdChange: number | null;
+  // Extended Yahoo Finance fields
+  week52High: number | null;
+  week52Low: number | null;
+  priceToBook: number | null;
+  eps: number | null;
+  dividendYield: number | null;
+  dividendRate: number | null;
+  // Estimates
   estimatedRevenue: number | null;
   estimatedNetIncome: number | null;
   indicators: FinancialIndicator[];

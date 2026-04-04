@@ -12,6 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getCompany } from '@/lib/data/bvcCompanies';
 
 const YAHOO_QUOTE = 'https://query1.finance.yahoo.com/v7/finance/quote';
 
@@ -106,6 +107,9 @@ export async function GET(req: NextRequest) {
 
   const origin = req.nextUrl.origin;
 
+  // Enrich with static company data (ISIN, sector, name) from StocksMA
+  const company = getCompany(ticker);
+
   // Fetch BVC price and Yahoo Finance in parallel
   const [bvc, yf] = await Promise.all([
     fetchBVCPrice(ticker, origin),
@@ -118,6 +122,10 @@ export async function GET(req: NextRequest) {
       {
         error: 'Données temporairement indisponibles. Veuillez réessayer.',
         ticker,
+        isin:        company?.isin        ?? null,
+        sector:      company?.sector      ?? null,
+        companyName: company?.name        ?? null,
+        companyDesc: company?.desc        ?? null,
         indicators: [],
         source: 'unavailable',
       },
@@ -163,13 +171,22 @@ export async function GET(req: NextRequest) {
 
   const response = {
     ticker,
-    sector: null,
+    isin:               company?.isin                          ?? null,
+    sector:             company?.sector                        ?? null,
+    companyName:        company?.name                          ?? null,
+    companyDesc:        company?.desc                          ?? null,
     currentPrice:       bvc?.lastPrice              ?? yf?.regularMarketPrice          ?? null,
     performance:        bvc?.changePercent           ?? yf?.regularMarketChangePercent  ?? null,
     marketCap:          yf?.marketCap                ?? null,
     peRatio:            yf?.trailingPE               ?? null,
     avgVolume30d:       yf?.averageDailyVolume3Month ?? null,
     ytdChange:          yf?.ytdReturn                ?? null,
+    week52High:         yf?.fiftyTwoWeekHigh         ?? null,
+    week52Low:          yf?.fiftyTwoWeekLow          ?? null,
+    priceToBook:        yf?.priceToBook              ?? null,
+    eps:                yf?.epsTrailingTwelveMonths  ?? null,
+    dividendYield:      yf?.dividendYield != null ? yf.dividendYield * 100 : null,
+    dividendRate:       yf?.trailingAnnualDividendRate ?? null,
     estimatedRevenue:   null,
     estimatedNetIncome: null,
     indicators,
