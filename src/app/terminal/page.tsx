@@ -15,6 +15,19 @@ import {
   getMarketStatus,
 } from '@/lib/bvcPriceService';
 import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
+import { opcvmFunds as staticOpcvmFunds } from '@/lib/data/opcvm';
+
+// Map static OPCVMFund → live OpcvmFund shape for terminal fallback
+const TERMINAL_OPCVM_FALLBACK: OpcvmFund[] = staticOpcvmFunds.map(f => ({
+  type:             f.type,
+  name:             f.name,
+  societe_gestion:  f.bank,
+  vl:               f.nav            ?? null,
+  perf_1m:          null,
+  perf_ytd:         f.performanceYTD ?? null,
+  perf_1an:         f.performance1Y,
+  encours:          f.totalAssets    ?? null,
+}));
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500', '700'] });
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700', '900'] });
@@ -265,7 +278,7 @@ export default function TerminalPage() {
     setOpcvmLoading(true);
     try {
       const data = await fetchOpcvm();
-      setOpcvmFunds(data.funds);
+      setOpcvmFunds(data.funds.length > 0 ? data.funds : TERMINAL_OPCVM_FALLBACK);
     } finally {
       setOpcvmLoading(false);
     }
