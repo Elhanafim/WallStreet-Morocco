@@ -172,7 +172,7 @@ export default function ValuesFinancials({ ticker }: Props) {
             className="text-[10px] uppercase tracking-widest"
             style={{ color: BB_MUTED, ...robotoMono.style }}
           >
-            Source: terminal.risk.ma
+            Source : Bourse de Casablanca
           </span>
         </div>
       </div>
@@ -226,7 +226,7 @@ export default function ValuesFinancials({ ticker }: Props) {
               className="text-[10px] uppercase tracking-wider text-center pb-4"
               style={{ color: BB_MUTED }}
             >
-              ⚠ Les données financières sont fournies à titre indicatif et éducatif uniquement. Source : terminal.risk.ma
+              ⚠ Les données financières sont fournies à titre indicatif et éducatif uniquement. Source : Bourse de Casablanca
             </p>
           </>
         )}

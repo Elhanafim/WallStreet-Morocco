@@ -1,106 +1,86 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
-import { Info, Search, ArrowUpDown, ArrowUp, ArrowDown, ChevronDown, ChevronUp, Plus } from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { opcvmFunds, banks, getFundsByBank } from '@/lib/data/opcvm';
-import { OPCVMFund } from '@/types';
-import { formatCurrency, formatPercent, getRiskColor } from '@/lib/utils';
-import AddToPortfolioModal, { type ModalAsset } from '@/components/AddToPortfolioModal';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { Search, ArrowUpDown, ArrowUp, ArrowDown, RefreshCw, AlertTriangle } from 'lucide-react';
+import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
 
-type FundType  = 'Tous' | OPCVMFund['type'];
-type SortKey   = 'name' | 'performanceYTD' | 'performance1Y' | 'performance3Y' | 'risk' | 'nav';
-type SortDir   = 'asc' | 'desc';
+type FilterType = 'Tous' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
+type SortKey    = 'name' | 'societe_gestion' | 'vl' | 'perf_ytd' | 'perf_1m' | 'perf_1an' | 'encours';
+type SortDir    = 'asc' | 'desc';
+type LoadState  = 'loading' | 'success' | 'error';
 
-// ── Constants ───────────────────────────────────────────────────────────────
+const FUND_TYPES: FilterType[] = ['Tous', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'];
 
-const FUND_TYPES: FundType[] = ['Tous', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'];
-
-const TYPE_STYLE: Record<string, string> = {
-  Actions:     'bg-success/10 text-success',
-  Obligataire: 'bg-secondary/10 text-secondary',
-  Monétaire:   'bg-sky-50 text-sky-600',
-  Diversifié:  'bg-accent/10 text-accent-600',
+const TYPE_BADGE: Record<string, string> = {
+  Actions:     'bg-emerald-50 text-emerald-700 border border-emerald-200',
+  Obligataire: 'bg-blue-50 text-blue-700 border border-blue-200',
+  Monétaire:   'bg-slate-100 text-slate-600 border border-slate-200',
+  Diversifié:  'bg-amber-50 text-amber-700 border border-amber-200',
+  Contractuel: 'bg-purple-50 text-purple-700 border border-purple-200',
 };
 
-const BANK_LOGOS: Record<string, string> = {
-  ATW:  '/images/banks/attijariwafa.svg',
-  BMCE: '/images/banks/bmce.svg',
-  CIH:  '/images/banks/cih.png',
-  CDG:  '/images/banks/cdg.svg',
-};
+// ── Formatting helpers ─────────────────────────────────────────────────────────
 
-const BANK_COLORS: Record<string, string> = {
-  ATW:  'bg-[#F47920]',
-  BMCE: 'bg-[#0066CC]',
-  CDG:  'bg-[#00A86B]',
-  CIH:  'bg-[#E63946]',
-};
+function fmt(v: number | null | undefined, decimals = 2): string {
+  if (v == null) return '—';
+  return v.toLocaleString('fr-MA', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
 
-// ── Sub-components ───────────────────────────────────────────────────────────
+function fmtAum(v: number | null | undefined): string {
+  if (v == null) return '—';
+  if (Math.abs(v) >= 1e9) return `${(v / 1e9).toFixed(1)} Mrd MAD`;
+  if (Math.abs(v) >= 1e6) return `${(v / 1e6).toFixed(0)} M MAD`;
+  return `${fmt(v, 0)} MAD`;
+}
 
-function TypeBadge({ type }: { type: string }) {
+// ── Sub-components ─────────────────────────────────────────────────────────────
+
+function PerfBadge({ value }: { value: number | null | undefined }) {
+  if (value == null) return <span className="text-primary/30 text-sm">—</span>;
+  const pos = value >= 0;
+  const zero = value === 0;
   return (
-    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${TYPE_STYLE[type] ?? 'bg-surface-200 text-primary/60'}`}>
-      {type}
+    <span
+      className={`inline-flex items-center gap-0.5 font-bold text-sm tabular-nums ${
+        zero ? 'text-primary/50' : pos ? 'text-emerald-600' : 'text-red-600'
+      }`}
+    >
+      {zero ? '' : pos ? '▲ ' : '▼ '}
+      {pos && !zero ? '+' : ''}{value.toFixed(2)}%
     </span>
   );
 }
 
-function RiskDots({ risk }: { risk: number }) {
+function TypeBadge({ type }: { type: string | null }) {
+  const t = type ?? 'Autre';
   return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: 7 }, (_, i) => (
-        <div
-          key={i}
-          className={`rounded-full ${i < risk ? 'bg-accent' : 'bg-surface-200'}`}
-          style={{ width: 7, height: 5 + i * 1.5 }}
-        />
-      ))}
-      <span className={`text-xs font-bold ml-1 ${getRiskColor(risk)}`}>{risk}/7</span>
-    </div>
-  );
-}
-
-function BankLogo({ bankCode, bankName }: { bankCode: string; bankName: string }) {
-  const src = BANK_LOGOS[bankCode];
-  if (src) {
-    return (
-      <div className="w-8 h-8 rounded-lg overflow-hidden bg-white border border-surface-200 flex items-center justify-center flex-shrink-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={src}
-          alt={bankName}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            const t = e.currentTarget as HTMLImageElement;
-            t.style.display = 'none';
-            const p = t.parentElement;
-            if (p) {
-              p.className = `w-8 h-8 rounded-lg ${BANK_COLORS[bankCode] ?? 'bg-primary'} flex items-center justify-center flex-shrink-0`;
-              p.innerHTML = `<span class="text-white text-xs font-black">${bankCode[0]}</span>`;
-            }
-          }}
-        />
-      </div>
-    );
-  }
-  return (
-    <div className={`w-8 h-8 rounded-lg ${BANK_COLORS[bankCode] ?? 'bg-primary'} flex items-center justify-center flex-shrink-0`}>
-      <span className="text-white text-xs font-black">{bankCode[0]}</span>
-    </div>
-  );
-}
-
-function PerfCell({ value }: { value: number }) {
-  return (
-    <span className={`font-bold text-sm ${value >= 0 ? 'text-success' : 'text-danger'}`}>
-      {formatPercent(value)}
+    <span
+      className={`text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${
+        TYPE_BADGE[t] ?? 'bg-surface-100 text-primary/60 border border-surface-200'
+      }`}
+    >
+      {t}
     </span>
   );
 }
 
-// ── Sortable header ──────────────────────────────────────────────────────────
+function SkeletonRow() {
+  return (
+    <tr className="animate-pulse border-b border-surface-100">
+      <td className="px-4 py-3.5"><div className="h-4 bg-surface-200 rounded w-48" /></td>
+      <td className="px-4 py-3.5"><div className="h-4 bg-surface-200 rounded w-28" /></td>
+      <td className="px-4 py-3.5"><div className="h-5 bg-surface-200 rounded-full w-20" /></td>
+      <td className="px-4 py-3.5 text-right"><div className="h-4 bg-surface-200 rounded w-20 ml-auto" /></td>
+      <td className="px-4 py-3.5 text-right"><div className="h-4 bg-surface-200 rounded w-14 ml-auto" /></td>
+      <td className="px-4 py-3.5 text-right"><div className="h-4 bg-surface-200 rounded w-14 ml-auto" /></td>
+      <td className="px-4 py-3.5 text-right"><div className="h-4 bg-surface-200 rounded w-14 ml-auto" /></td>
+      <td className="px-4 py-3.5 text-right"><div className="h-4 bg-surface-200 rounded w-20 ml-auto" /></td>
+    </tr>
+  );
+}
 
 function SortTh({
   label, sortKey, current, dir, onSort, align = 'right',
@@ -112,253 +92,126 @@ function SortTh({
   const Icon   = active ? (dir === 'asc' ? ArrowUp : ArrowDown) : ArrowUpDown;
   return (
     <th
-      className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none
+      className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none whitespace-nowrap
         ${align === 'right' ? 'text-right' : 'text-left'}
         ${active ? 'text-secondary' : 'text-primary/50 hover:text-primary/70'}`}
       onClick={() => onSort(sortKey)}
     >
       <span className="inline-flex items-center gap-1">
         {align === 'left' && label}
-        <Icon className="w-3 h-3" />
+        <Icon className="w-3 h-3 flex-shrink-0" />
         {align === 'right' && label}
       </span>
     </th>
   );
 }
 
-// ── Fund table ───────────────────────────────────────────────────────────────
-
-function FundTable({ funds, onAddClick }: { funds: OPCVMFund[]; onAddClick: (f: OPCVMFund) => void }) {
-  const [sortKey, setSortKey] = useState<SortKey>('performance1Y');
-  const [sortDir, setSortDir] = useState<SortDir>('desc');
-
-  function handleSort(key: SortKey) {
-    if (key === sortKey) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
-    else { setSortKey(key); setSortDir('desc'); }
-  }
-
-  const sorted = useMemo(() => {
-    return [...funds].sort((a, b) => {
-      const va = a[sortKey] ?? 0;
-      const vb = b[sortKey] ?? 0;
-      if (typeof va === 'string' && typeof vb === 'string')
-        return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
-      return sortDir === 'asc' ? (va as number) - (vb as number) : (vb as number) - (va as number);
-    });
-  }, [funds, sortKey, sortDir]);
-
-  const shProps = { current: sortKey, dir: sortDir, onSort: handleSort };
-
+function FundCard({ fund }: { fund: OpcvmFund }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-surface-200 shadow-card bg-white">
-      <table className="w-full min-w-[800px]">
-        <thead className="bg-surface-50 border-b border-surface-200">
-          <tr>
-            <SortTh label="Fonds" sortKey="name" {...shProps} align="left" />
-            <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary/50">Banque</th>
-            <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary/50">Type</th>
-            <SortTh label="YTD"    sortKey="performanceYTD"  {...shProps} />
-            <SortTh label="1 an"   sortKey="performance1Y"   {...shProps} />
-            <SortTh label="3 ans"  sortKey="performance3Y"   {...shProps} />
-            <SortTh label="Risque" sortKey="risk"            {...shProps} />
-            <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-primary/50">VL (MAD)</th>
-            <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-primary/50">Min.</th>
-            <th className="px-4 py-3" />
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-surface-100">
-          {sorted.map((fund) => (
-            <tr key={fund.id} className="hover:bg-surface-50 transition-colors group">
-              <td className="px-4 py-3.5">
-                <p className="font-semibold text-primary text-sm">{fund.name}</p>
-              </td>
-              <td className="px-4 py-3.5">
-                <div className="flex items-center gap-2">
-                  <BankLogo bankCode={fund.bankCode} bankName={fund.bank} />
-                  <span className="text-xs font-bold text-primary/60 hidden sm:block">{fund.bankCode}</span>
-                </div>
-              </td>
-              <td className="px-4 py-3.5"><TypeBadge type={fund.type} /></td>
-              <td className="px-4 py-3.5 text-right"><PerfCell value={fund.performanceYTD ?? 0} /></td>
-              <td className="px-4 py-3.5 text-right"><PerfCell value={fund.performance1Y} /></td>
-              <td className="px-4 py-3.5 text-right"><PerfCell value={fund.performance3Y} /></td>
-              <td className="px-4 py-3.5 text-right"><RiskDots risk={fund.risk} /></td>
-              <td className="px-4 py-3.5 text-right text-sm font-semibold text-primary">
-                {fund.nav ? fund.nav.toLocaleString('fr-MA') : '—'}
-              </td>
-              <td className="px-4 py-3.5 text-right text-xs text-primary/50">
-                {formatCurrency(fund.minInvestment)}
-              </td>
-              <td className="px-4 py-3.5 text-right">
-                <button
-                  onClick={() => onAddClick(fund)}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all opacity-0 group-hover:opacity-100 whitespace-nowrap"
-                >
-                  <Plus className="w-3 h-3" />
-                  Ajouter
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-// ── Fund card ────────────────────────────────────────────────────────────────
-
-function FundCard({ fund, onAddClick }: { fund: OPCVMFund; onAddClick: (f: OPCVMFund) => void }) {
-  return (
-    <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
-      {/* Name + 1Y perf */}
-      <div className="flex items-start justify-between mb-3 gap-2">
+    <div className="bg-white rounded-xl border border-surface-200 shadow-sm p-4">
+      <div className="flex items-start justify-between gap-2 mb-3">
         <div className="min-w-0">
-          <p className="font-bold text-sm text-primary leading-snug truncate">{fund.name}</p>
-          <div className="flex items-center gap-2 mt-1.5">
-            <TypeBadge type={fund.type} />
-          </div>
+          <p className="font-bold text-sm text-primary leading-snug">{fund.name}</p>
+          <p className="text-xs text-primary/50 mt-0.5">{fund.societe_gestion ?? '—'}</p>
         </div>
-        <div className="text-right flex-shrink-0">
-          <p className={`text-xl font-black ${fund.performance1Y >= 0 ? 'text-success' : 'text-danger'}`}>
-            {formatPercent(fund.performance1Y)}
-          </p>
-          <p className="text-2xs text-primary/40">1 an</p>
-        </div>
+        <TypeBadge type={fund.type} />
       </div>
-
-      {/* Perf grid */}
-      <div className="grid grid-cols-3 gap-1.5 mb-3">
+      <div className="grid grid-cols-3 gap-2">
         {[
-          { label: 'YTD',   val: fund.performanceYTD ?? 0 },
-          { label: '1 an',  val: fund.performance1Y },
-          { label: '3 ans', val: fund.performance3Y },
-        ].map(({ label, val }) => (
-          <div key={label} className="bg-surface-50 rounded-xl p-2 text-center">
-            <p className="text-2xs text-primary/40 mb-0.5">{label}</p>
-            <p className={`text-xs font-bold ${val >= 0 ? 'text-success' : 'text-danger'}`}>
-              {formatPercent(val)}
-            </p>
+          { label: 'VL',     val: fund.vl != null ? `${fmt(fund.vl)} MAD` : '—', raw: null },
+          { label: 'YTD',    val: null, raw: fund.perf_ytd },
+          { label: '1 an',   val: null, raw: fund.perf_1an },
+        ].map(({ label, val, raw }) => (
+          <div key={label} className="text-center bg-surface-50 rounded-lg p-2">
+            <p className="text-[10px] text-primary/40 mb-0.5 uppercase font-medium">{label}</p>
+            {val != null
+              ? <p className="text-xs font-bold text-primary">{val}</p>
+              : <PerfBadge value={raw} />
+            }
           </div>
         ))}
       </div>
-
-      {/* Risk + VL */}
-      <div className="flex items-center justify-between pt-3 border-t border-surface-100 mb-3">
-        <RiskDots risk={fund.risk} />
-        {fund.nav && (
-          <div className="text-right">
-            <p className="text-2xs text-primary/40">VL</p>
-            <p className="text-xs font-bold text-primary">{fund.nav.toLocaleString('fr-MA')} MAD</p>
-          </div>
-        )}
-      </div>
-
-      {/* Add button */}
-      <button
-        onClick={() => onAddClick(fund)}
-        className="mt-auto w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-200"
-      >
-        <Plus className="w-3.5 h-3.5" />
-        Ajouter au portefeuille
-      </button>
-    </div>
-  );
-}
-
-// ── Bank section ─────────────────────────────────────────────────────────────
-
-const BANK_ACCENT: Record<string, string> = {
-  ATW:  'border-l-[#F47920]',
-  BMCE: 'border-l-[#0066CC]',
-  CDG:  'border-l-[#00A86B]',
-  CIH:  'border-l-[#E63946]',
-};
-
-function BankSection({ bankCode, onAddClick }: { bankCode: string; onAddClick: (f: OPCVMFund) => void }) {
-  const [open, setOpen] = useState(true);
-  const bank  = banks.find((b) => b.code === bankCode)!;
-  const funds = getFundsByBank(bankCode);
-
-  return (
-    <div className={`bg-white rounded-2xl border border-surface-200 shadow-card border-l-4 ${BANK_ACCENT[bankCode] ?? ''}`}>
-      {/* Collapsible header */}
-      <button
-        className="w-full flex items-center gap-4 px-6 py-4 hover:bg-surface-50 transition-colors rounded-t-2xl"
-        onClick={() => setOpen(!open)}
-      >
-        <div className="w-10 h-10 rounded-xl overflow-hidden bg-surface-50 border border-surface-200 flex items-center justify-center flex-shrink-0">
-          {BANK_LOGOS[bankCode] ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={BANK_LOGOS[bankCode]} alt={bank.name} className="w-full h-full object-cover" />
-          ) : (
-            <span className="text-white text-sm font-black">{bankCode[0]}</span>
-          )}
-        </div>
-        <div className="text-left flex-1">
-          <p className="font-black text-primary text-base">{bank.name}</p>
-          <p className="text-primary/40 text-xs">{funds.length} fonds disponibles</p>
-        </div>
-        {open ? (
-          <ChevronUp className="w-4 h-4 text-primary/40 flex-shrink-0" />
-        ) : (
-          <ChevronDown className="w-4 h-4 text-primary/40 flex-shrink-0" />
-        )}
-      </button>
-
-      {open && (
-        <div className="px-6 pb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {funds.map((fund) => <FundCard key={fund.id} fund={fund} onAddClick={onAddClick} />)}
-          </div>
-        </div>
+      {fund.encours != null && (
+        <p className="text-xs text-primary/40 mt-2 text-right">
+          Actif net : {fmtAum(fund.encours)}
+        </p>
       )}
     </div>
   );
 }
 
-// ── Main export ──────────────────────────────────────────────────────────────
+// ── Main component ─────────────────────────────────────────────────────────────
 
 export default function OpcvmFundList() {
-  const { status: authStatus } = useSession();
-  const [activeType,   setActiveType]   = useState<FundType>('Tous');
-  const [searchQuery,  setSearchQuery]  = useState('');
-  const [view,         setView]         = useState<'banks' | 'table'>('banks');
+  const [funds,       setFunds]       = useState<OpcvmFund[]>([]);
+  const [loadState,   setLoadState]   = useState<LoadState>('loading');
+  const [lastUpdated, setLastUpdated] = useState('');
+  const [activeType,  setActiveType]  = useState<FilterType>('Tous');
+  const [search,      setSearch]      = useState('');
+  const [sortKey,     setSortKey]     = useState<SortKey>('perf_ytd');
+  const [sortDir,     setSortDir]     = useState<SortDir>('desc');
 
-  // ── Modal state ──
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalAsset, setModalAsset] = useState<ModalAsset | null>(null);
-
-  const handleAddClick = useCallback((fund: OPCVMFund) => {
-    if (authStatus !== 'authenticated') {
-      // Open modal anyway — it will show the login prompt
+  const load = useCallback(async () => {
+    setLoadState('loading');
+    try {
+      const res = await fetchOpcvm();
+      if (res.error || res.funds.length === 0) {
+        setLoadState('error');
+      } else {
+        setFunds(res.funds);
+        setLastUpdated(res.last_updated ?? '');
+        setLoadState('success');
+      }
+    } catch {
+      setLoadState('error');
     }
-    setModalAsset({
-      ticker: fund.id,
-      name: fund.name,
-      type: 'opcvm',
-      nav: fund.nav,
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  function handleSort(key: SortKey) {
+    if (key === sortKey) setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    else { setSortKey(key); setSortDir('desc'); }
+  }
+
+  const displayed = useMemo(() => {
+    let list = [...funds];
+
+    if (activeType !== 'Tous') {
+      const q = activeType.toLowerCase();
+      list = list.filter(f => (f.type ?? '').toLowerCase().includes(q));
+    }
+
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      list = list.filter(f =>
+        f.name.toLowerCase().includes(q) ||
+        (f.societe_gestion ?? '').toLowerCase().includes(q)
+      );
+    }
+
+    list.sort((a, b) => {
+      const va = (a[sortKey] as number | string | null) ?? (sortKey === 'name' || sortKey === 'societe_gestion' ? '' : -Infinity);
+      const vb = (b[sortKey] as number | string | null) ?? (sortKey === 'name' || sortKey === 'societe_gestion' ? '' : -Infinity);
+      if (typeof va === 'string' && typeof vb === 'string')
+        return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+      return sortDir === 'asc'
+        ? (va as number) - (vb as number)
+        : (vb as number) - (va as number);
     });
-    setModalOpen(true);
-  }, [authStatus]);
 
-  const filtered = useMemo(() => opcvmFunds.filter((f) => {
-    const matchesType   = activeType === 'Tous' || f.type === activeType;
-    const matchesSearch = !searchQuery ||
-      f.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      f.bank.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesType && matchesSearch;
-  }), [activeType, searchQuery]);
+    return list;
+  }, [funds, activeType, search, sortKey, sortDir]);
 
-  const showTable = view === 'table' || !!searchQuery || activeType !== 'Tous';
+  const shProps = { current: sortKey, dir: sortDir, onSort: handleSort };
 
   return (
-    <>
-      {/* ── Controls ── */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        {/* Type filter */}
-        <div className="flex items-center gap-1 bg-white border border-surface-200 rounded-xl p-1 shadow-sm overflow-x-auto">
-          {FUND_TYPES.map((type) => (
+    <div>
+      {/* ── Controls bar ── */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-5 flex-wrap">
+        {/* Category tabs */}
+        <div className="flex items-center gap-1 bg-white border border-surface-200 rounded-xl p-1 shadow-sm overflow-x-auto flex-shrink-0">
+          {FUND_TYPES.map(type => (
             <button
               key={type}
               onClick={() => setActiveType(type)}
@@ -373,75 +226,152 @@ export default function OpcvmFundList() {
           ))}
         </div>
 
-        {/* Search */}
-        <div className="relative flex-1 min-w-0 max-w-xs">
+        {/* Text search */}
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
           <input
             type="text"
-            placeholder="Rechercher un fonds..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Rechercher un fonds ou une société..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 rounded-xl border border-surface-200 bg-white text-primary text-sm focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
           />
         </div>
 
-        {/* View toggle — only visible in default state */}
-        {!searchQuery && activeType === 'Tous' && (
-          <div className="flex items-center gap-1 bg-white border border-surface-200 rounded-xl p-1 shadow-sm ml-auto">
-            <button
-              onClick={() => setView('banks')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${view === 'banks' ? 'bg-primary text-white' : 'text-primary/50 hover:text-primary'}`}
-            >
-              Par banque
-            </button>
-            <button
-              onClick={() => setView('table')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${view === 'table' ? 'bg-primary text-white' : 'text-primary/50 hover:text-primary'}`}
-            >
-              Tableau
-            </button>
+        {/* Count + refresh */}
+        <div className="flex items-center gap-3 ml-auto flex-shrink-0">
+          {loadState === 'success' && (
+            <span className="text-sm text-primary/50 font-medium whitespace-nowrap">
+              {displayed.length} fonds affichés
+            </span>
+          )}
+          <button
+            onClick={load}
+            disabled={loadState === 'loading'}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-surface-200 text-primary/60 text-xs font-semibold hover:text-secondary hover:border-secondary transition-all disabled:opacity-40 whitespace-nowrap"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loadState === 'loading' ? 'animate-spin' : ''}`} />
+            Actualiser
+          </button>
+        </div>
+      </div>
+
+      {/* ── Error state ── */}
+      {loadState === 'error' && (
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-warning/10 flex items-center justify-center">
+            <AlertTriangle className="w-7 h-7 text-warning" />
           </div>
-        )}
-      </div>
-
-      {/* Disclaimer */}
-      <div className="bg-secondary/5 border border-secondary/20 rounded-xl p-3.5 mb-6 flex gap-3">
-        <Info className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-primary/70 leading-relaxed">
-          Performances historiques · données indicatives · ne constituent pas un conseil en investissement.
-          Consultez le prospectus officiel avant toute souscription.
-        </p>
-      </div>
-
-      {/* ── Table view ── */}
-      {showTable && (
-        <>
-          <p className="text-sm text-primary/50 mb-3 font-medium">
-            {filtered.length} fonds
-            {activeType !== 'Tous' && <span className="text-secondary"> · {activeType}</span>}
-            {searchQuery && <span> · «{searchQuery}»</span>}
-          </p>
-          <FundTable funds={filtered} onAddClick={handleAddClick} />
-        </>
-      )}
-
-      {/* ── Bank card view ── */}
-      {!showTable && (
-        <div className="space-y-4">
-          {banks.map((bank) => (
-            <BankSection key={bank.code} bankCode={bank.code} onAddClick={handleAddClick} />
-          ))}
+          <div className="text-center">
+            <p className="font-bold text-primary text-base">Données temporairement indisponibles</p>
+            <p className="text-sm text-primary/50 mt-1 max-w-xs">
+              La connexion au service OPCVM a échoué. Vérifiez votre connexion internet et réessayez.
+            </p>
+          </div>
+          <button
+            onClick={load}
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all"
+          >
+            <RefreshCw className="w-4 h-4" />
+            Réessayer
+          </button>
         </div>
       )}
 
-      {/* ── Add to portfolio modal ── */}
-      {modalAsset && (
-        <AddToPortfolioModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          asset={modalAsset}
-        />
+      {/* ── Desktop table ── */}
+      {loadState !== 'error' && (
+        <>
+          <div className="hidden md:block overflow-x-auto rounded-2xl border border-surface-200 shadow-card bg-white">
+            <table className="w-full min-w-[900px]">
+              <thead className="bg-surface-50 border-b border-surface-200">
+                <tr>
+                  <SortTh label="Nom du fonds"    sortKey="name"            {...shProps} align="left" />
+                  <SortTh label="Soc. de gestion" sortKey="societe_gestion" {...shProps} align="left" />
+                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary/50 whitespace-nowrap">
+                    Catégorie
+                  </th>
+                  <SortTh label="VL (MAD)"  sortKey="vl"       {...shProps} />
+                  <SortTh label="Perf 1M"   sortKey="perf_1m"  {...shProps} />
+                  <SortTh label="Perf YTD"  sortKey="perf_ytd" {...shProps} />
+                  <SortTh label="Perf 1 an" sortKey="perf_1an" {...shProps} />
+                  <SortTh label="Actif net" sortKey="encours"  {...shProps} />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-surface-100">
+                {loadState === 'loading'
+                  ? Array.from({ length: 10 }).map((_, i) => <SkeletonRow key={i} />)
+                  : displayed.length === 0
+                  ? (
+                    <tr>
+                      <td colSpan={8} className="px-4 py-16 text-center text-primary/40 text-sm">
+                        Aucun fonds ne correspond à votre recherche.
+                      </td>
+                    </tr>
+                  )
+                  : displayed.map((fund, i) => (
+                    <tr key={`${fund.name}-${i}`} className="hover:bg-surface-50 transition-colors">
+                      <td className="px-4 py-3.5 max-w-[240px]">
+                        <p className="font-semibold text-primary text-sm leading-snug line-clamp-2" title={fund.name}>
+                          {fund.name}
+                        </p>
+                      </td>
+                      <td className="px-4 py-3.5 text-sm text-primary/60 whitespace-nowrap">
+                        {fund.societe_gestion ?? '—'}
+                      </td>
+                      <td className="px-4 py-3.5">
+                        <TypeBadge type={fund.type} />
+                      </td>
+                      <td className="px-4 py-3.5 text-right font-mono text-sm text-primary font-semibold tabular-nums">
+                        {fund.vl != null ? `${fmt(fund.vl)} MAD` : '—'}
+                      </td>
+                      <td className="px-4 py-3.5 text-right">
+                        <PerfBadge value={fund.perf_1m} />
+                      </td>
+                      <td className="px-4 py-3.5 text-right">
+                        <PerfBadge value={fund.perf_ytd} />
+                      </td>
+                      <td className="px-4 py-3.5 text-right">
+                        <PerfBadge value={fund.perf_1an} />
+                      </td>
+                      <td className="px-4 py-3.5 text-right text-sm text-primary/70 font-mono tabular-nums whitespace-nowrap">
+                        {fmtAum(fund.encours)}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* ── Mobile cards ── */}
+          <div className="md:hidden">
+            {loadState === 'loading' ? (
+              <div className="space-y-3">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl border border-surface-200 p-4 h-28" />
+                ))}
+              </div>
+            ) : displayed.length === 0 ? (
+              <p className="text-center text-primary/40 text-sm py-12">
+                Aucun fonds ne correspond à votre recherche.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {displayed.map((fund, i) => (
+                  <FundCard key={`${fund.name}-${i}`} fund={fund} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Source footer */}
+          {loadState === 'success' && (
+            <p className="text-xs text-primary/30 mt-4 text-right">
+              Source : Bourse de Casablanca / AMMC
+              {lastUpdated ? ` · ${lastUpdated}` : ''}
+            </p>
+          )}
+        </>
       )}
-    </>
+    </div>
   );
 }

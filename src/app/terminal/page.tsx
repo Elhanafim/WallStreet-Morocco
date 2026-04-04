@@ -35,10 +35,9 @@ const BB_RED    = '#FF1744';
 const BB_YELLOW = '#FFD700';  
 const BB_CYAN   = '#00E5FF';  
 const BB_WHITE  = '#FFFFFF';  
-const BB_MUTED  = '#8B95A1';  
-const BB_BORDER = '#1E293B';  
-const BB_PANEL  = '#0B101E';  
-const BB_BG     = '#040914';  
+const BB_MUTED  = '#8B95A1';
+const BB_BORDER = '#1E293B';
+const BB_BG     = '#040914';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS';
@@ -280,8 +279,15 @@ export default function TerminalPage() {
   }, [loadData, loadOpcvm]);
 
   // ── Computed values ──────────────────────────────────────────────────────────
+  // Equity-only list: exclude Droits d'Attribution (ticker contains space, e.g. "DA ATW")
+  // and any other non-equity instruments that sneak through the BVC API.
+  const equityStocks = useMemo(
+    () => stocks.filter(s => !s.ticker.includes(' ')),
+    [stocks]
+  );
+
   const filtered = useMemo(() => {
-    let list = [...stocks];
+    let list = [...equityStocks];
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter(s => s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
@@ -302,7 +308,7 @@ export default function TerminalPage() {
       });
     }
     return list;
-  }, [stocks, search, quickFilter, sortField, sortDir]);
+  }, [equityStocks, search, quickFilter, sortField, sortDir]);
 
   const toggleSort = (field: SortField) => {
     setQuickFilter('ALL');
@@ -311,17 +317,17 @@ export default function TerminalPage() {
   };
 
   const marketStatus = getMarketStatus();
-  const advancers    = stocks.filter(s => (s.changePercent ?? 0) > 0).length;
-  const decliners    = stocks.filter(s => (s.changePercent ?? 0) < 0).length;
-  const stable       = stocks.length - advancers - decliners;
-  const totalVolume  = stocks.reduce((sum, s) => sum + (s.volume ?? 0), 0);
-  const avgChange    = stocks.length ? stocks.reduce((s, x) => s + (x.changePercent ?? 0), 0) / stocks.length : 0;
+  const advancers    = equityStocks.filter(s => (s.changePercent ?? 0) > 0).length;
+  const decliners    = equityStocks.filter(s => (s.changePercent ?? 0) < 0).length;
+  const stable       = equityStocks.length - advancers - decliners;
+  const totalVolume  = equityStocks.reduce((sum, s) => sum + (s.volume ?? 0), 0);
+  const avgChange    = equityStocks.length ? equityStocks.reduce((s, x) => s + (x.changePercent ?? 0), 0) / equityStocks.length : 0;
 
   // Fear & Greed
-  const fgBreadth    = stocks.length ? (advancers / stocks.length) * 100 : 50;
+  const fgBreadth    = equityStocks.length ? (advancers / equityStocks.length) * 100 : 50;
   const fgMomentum   = Math.max(0, Math.min(100, 50 + avgChange * 10));
-  const highVolCount = stocks.filter(s => Math.abs(s.changePercent ?? 0) > 2).length;
-  const fgVolatility = stocks.length ? 100 - Math.min(100, (highVolCount / stocks.length) * 200) : 50;
+  const highVolCount = equityStocks.filter(s => Math.abs(s.changePercent ?? 0) > 2).length;
+  const fgVolatility = equityStocks.length ? 100 - Math.min(100, (highVolCount / equityStocks.length) * 200) : 50;
   const fgScore      = Math.round(fgBreadth * 0.4 + fgMomentum * 0.3 + fgVolatility * 0.2 + 50 * 0.1);
 
   function fgLabel(s: number) {
@@ -450,120 +456,408 @@ export default function TerminalPage() {
 
   // ── RENDERERS FOR MODULES ────────────────────────────────────────────────────
 
-  const renderOverview = () => (
-    <div className="p-6 md:p-8 space-y-6 h-full overflow-y-auto" style={robotoMono.style}>
-      <h2 className="text-2xl font-black uppercase tracking-tight" style={{ color: BB_CYAN }}>Aperçu de Marché</h2>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* MARKET SNAPSHOT */}
-        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
-          <PanelHeader title={`${t('masi_label')} / MARCHÉ BVC`} />
-          <div className="p-5 flex-1 space-y-4">
-            <div className="flex items-center justify-between pb-4 border-b border-[#1E293B]">
-              <span className="font-bold text-sm" style={{ color: BB_MUTED }}>PERFORMANCE</span>
-              <span className="text-2xl font-black tabular-nums" style={{ color: pctColor(avgChange) }}>
-                {stocks.length > 0 ? `~${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` : '—'}
-              </span>
+  const renderOverview = () => {
+    // ── Sector performance from live equity data ──────────────────────────────
+    const SECTOR_MAP: Record<string, string> = {
+      ATW: 'Banques',  BCP: 'Banques',  BOA: 'Banques',  CIH: 'Banques',  CDM: 'Banques',  CFG: 'Banques',  BCI: 'Banques',
+      WAA: 'Assurance', ATL: 'Assurance', SAH: 'Assurance', AGM: 'Assurance', AFM: 'Assurance',
+      EQD: 'Crédit', SLF: 'Crédit', MAB: 'Crédit', MLE: 'Crédit',
+      IAM: 'Télécoms',
+      MNG: 'Mines', SMI: 'Mines', CMT: 'Mines', ZDJ: 'Mines', ALM: 'Mines',
+      LHM: 'BTP', CMA: 'BTP', GTM: 'BTP', TGC: 'BTP', JET: 'BTP', STR: 'BTP',
+      ADH: 'Immobilier', ADI: 'Immobilier', RDS: 'Immobilier', ARD: 'Immobilier', IMO: 'Immobilier', RIS: 'Immobilier', BAL: 'Immobilier',
+      GAZ: 'Énergie', TQM: 'Énergie', TMA: 'Énergie',
+      CSR: 'Agroalim.', LES: 'Agroalim.', OUL: 'Agroalim.', MUT: 'Agroalim.', SBM: 'Agroalim.', CRS: 'Agroalim.', DRI: 'Agroalim.', UMR: 'Agroalim.',
+      LBV: 'Distribution', ATH: 'Distribution', NEJ: 'Distribution', NKL: 'Distribution',
+      SOT: 'Santé', AKT: 'Santé', PRO: 'Santé',
+      HPS: 'Technologie', S2M: 'Technologie', MIC: 'Technologie', DYT: 'Technologie', M2M: 'Technologie', INV: 'Technologie', IBC: 'Technologie', CMG: 'Technologie', DWY: 'Technologie',
+      MSA: 'Transport', CTM: 'Transport', CAP: 'Transport',
+      DHO: 'Industrie', SID: 'Industrie', SNA: 'Industrie', FBR: 'Industrie', MOX: 'Industrie', SRM: 'Industrie', MDP: 'Industrie', AFI: 'Industrie', SNP: 'Industrie', COL: 'Industrie',
+      VCN: 'Holding', REB: 'Holding',
+    };
+
+    const bySector: Record<string, number[]> = {};
+    for (const s of equityStocks) {
+      const sec = SECTOR_MAP[s.ticker] ?? 'Autres';
+      if (!bySector[sec]) bySector[sec] = [];
+      bySector[sec].push(s.changePercent ?? 0);
+    }
+    const sectorData = Object.entries(bySector)
+      .map(([name, changes]) => ({
+        name,
+        count: changes.length,
+        avgChange: changes.reduce((a, b) => a + b, 0) / changes.length,
+      }))
+      .sort((a, b) => b.avgChange - a.avgChange);
+
+    function sectorBg(p: number): string {
+      if (p >= 2)  return '#0a2010';
+      if (p > 0)   return '#071510';
+      if (p > -2)  return '#200a0a';
+      return '#2d0606';
+    }
+    function sectorFg(p: number): string {
+      if (p >= 2)  return BB_GREEN;
+      if (p > 0)   return '#4ade80';
+      if (p > -2)  return '#f87171';
+      return BB_RED;
+    }
+
+    // Ticker tape: top-volume stocks (up to 20)
+    const tickerList = [...equityStocks]
+      .sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0))
+      .slice(0, 20);
+
+    const gainers5 = movers?.gainers.slice(0, 5) ?? [];
+    const losers5  = movers?.losers.slice(0, 5) ?? [];
+
+    return (
+      <div className="h-full overflow-y-auto" style={{ background: BB_BG, ...robotoMono.style }}>
+
+        {/* ── CSS for scrolling ticker ── */}
+        <style>{`
+          @keyframes bb-scroll { 0% { transform: translateX(0) } 100% { transform: translateX(-50%) } }
+          .bb-scroll-track { animation: bb-scroll 45s linear infinite; }
+          .bb-scroll-track:hover { animation-play-state: paused; }
+        `}</style>
+
+        {/* ── Scrolling activity ticker ── */}
+        <div
+          className="overflow-hidden border-b h-8 flex items-center"
+          style={{ background: '#050b14', borderColor: BB_BORDER }}
+          title="Survol pour pause · Classés par volume"
+        >
+          {tickerList.length > 0 ? (
+            <div className="bb-scroll-track flex items-center whitespace-nowrap">
+              {[...tickerList, ...tickerList].map((s, i) => (
+                <span
+                  key={`ticker-${i}`}
+                  className="inline-flex items-center gap-2 px-4 h-8 text-[11px] font-bold border-r"
+                  style={{ borderColor: BB_BORDER }}
+                >
+                  <span style={{ color: BB_CYAN }}>{s.ticker}</span>
+                  <span className="tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(s.lastPrice)}</span>
+                  <span className="tabular-nums" style={{ color: pctColor(s.changePercent) }}>
+                    {(s.changePercent ?? 0) >= 0 ? '▲' : '▼'} {Math.abs(s.changePercent ?? 0).toFixed(2)}%
+                  </span>
+                </span>
+              ))}
             </div>
-            <div className="flex items-center justify-between text-sm py-1 border-b border-[#1E293B]">
-              <span className="font-bold" style={{ color: BB_MUTED }}>{t('total_volume')}</span>
-              <span className="font-bold tabular-nums" style={{ color: BB_WHITE }}>{fmtVolume(totalVolume)} MAD</span>
+          ) : (
+            <span className="px-4 text-xs" style={{ color: BB_MUTED }}>Chargement du flux…</span>
+          )}
+        </div>
+
+        <div className="p-4 md:p-5 space-y-4">
+
+          {/* ── Indices bar ── */}
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: BB_ORANGE }}>
+              ■ INDICES BOURSIERS — BOURSE DE CASABLANCA
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {([
+                { name: 'MASI',  desc: 'All Shares Index',    multiplier: 1.00 },
+                { name: 'MADEX', desc: 'Most Active Shares',  multiplier: 0.97 },
+                { name: 'MSI20', desc: 'Top 20 Blue Chips',   multiplier: 0.94 },
+              ] as const).map(({ name, desc, multiplier }) => {
+                const approxChg = avgChange * multiplier;
+                const clr = pctColor(approxChg);
+                return (
+                  <div
+                    key={name}
+                    className="border p-4 flex flex-col gap-2"
+                    style={{ background: '#0B101E', borderColor: BB_BORDER }}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>{desc}</p>
+                        <p className="text-3xl font-black tracking-wide mt-0.5" style={{ color: BB_CYAN }}>{name}</p>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab('EQUITIES')}
+                        className="text-[10px] font-bold px-2 py-1 border flex-shrink-0 hover:opacity-70"
+                        style={{ color: BB_MUTED, borderColor: BB_BORDER }}
+                      >
+                        VALEURS →
+                      </button>
+                    </div>
+                    <div
+                      className="flex items-center gap-3 pt-2 border-t"
+                      style={{ borderColor: BB_BORDER }}
+                    >
+                      <span className="text-xs font-bold" style={{ color: BB_MUTED }}>Var. séance</span>
+                      <span className="text-sm font-black tabular-nums" style={{ color: clr }}>
+                        {approxChg >= 0 ? '▲ +' : '▼ '}{Math.abs(approxChg).toFixed(2)}%
+                      </span>
+                      <span className="text-[9px] ml-auto px-1.5 py-0.5 border" style={{ color: BB_MUTED, borderColor: BB_BORDER }}>
+                        approx.
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <div className="grid grid-cols-3 gap-1 mt-4 border border-[#1E293B] bg-[#1E293B]">
+          </div>
+
+          {/* ── Market breadth ── */}
+          <div className="border p-4" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+            <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                ■ DYNAMIQUE DE MARCHÉ
+              </p>
+              <div className="flex items-center gap-4 text-[11px]" style={{ color: BB_MUTED }}>
+                <span>Vol. total : <strong style={{ color: BB_WHITE }}>{fmtVolume(totalVolume)} MAD</strong></span>
+                <span style={{ color: BB_BORDER }}>|</span>
+                <span>{equityStocks.length} titres actifs</span>
+                {equityStocks.length > 0 && decliners > 0 && (
+                  <>
+                    <span style={{ color: BB_BORDER }}>|</span>
+                    <span>Ratio H/B : <strong style={{ color: BB_WHITE }}>{(advancers / decliners).toFixed(1)}×</strong></span>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2 mb-3">
               {[
-                { label: t('advancers'), value: advancers, color: BB_GREEN },
-                { label: t('decliners'), value: decliners, color: BB_RED   },
-                { label: t('stable'),    value: stable,    color: BB_MUTED  },
-              ].map(({ label, value, color }) => (
-                <div key={label} className="text-center p-2 bg-[#0B101E]">
-                  <p className="text-xl font-black tabular-nums" style={{ color }}>{value}</p>
-                  <p className="text-[10px] mt-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
+                { label: 'HAUSSES', val: advancers, color: BB_GREEN },
+                { label: 'STABLES', val: stable,    color: BB_MUTED },
+                { label: 'BAISSES', val: decliners, color: BB_RED   },
+              ].map(({ label, val, color }) => (
+                <div key={label} className="text-center p-3 border" style={{ background: '#040914', borderColor: BB_BORDER }}>
+                  <p className="text-2xl font-black tabular-nums" style={{ color }}>{val}</p>
+                  <p className="text-[10px] mt-1 uppercase tracking-widest" style={{ color: BB_MUTED }}>{label}</p>
                 </div>
               ))}
             </div>
-            <div className="pt-4 text-center">
-              <button 
-                onClick={() => setActiveTab('EQUITIES')}
-                className="text-xs font-bold hover:underline" style={{ color: BB_CYAN }}
-              >
-                Explorer Valeurs BVC →
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* FEAR & GREED + MOVERS */}
-        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
-          <PanelHeader title={t('fg_title')} />
-          <div className="p-5 flex-1 flex flex-col justify-between">
-            <div className="mb-6">
-              <FearGreedGauge score={fgScore} label={fgLabel(fgScore)} color={fgColor(fgScore)} />
-            </div>
-            {movers && (
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#1E293B]">
-                {([
-                  { key: 'gainers' as const, label: t('top_gainers'), color: BB_GREEN },
-                  { key: 'losers'  as const, label: t('top_losers'),  color: BB_RED   },
-                ] as const).map(({ key, label, color }) => (
-                  <div key={key}>
-                    <p className="text-[10px] font-bold mb-2 uppercase border-b border-[#1E293B] pb-1" style={{ color }}>{label}</p>
-                    {movers[key].slice(0, 3).map(s => (
-                      <div key={s.ticker} className="flex justify-between text-xs py-1">
-                        <span className="font-bold" style={{ color: BB_CYAN }}>{s.ticker}</span>
-                        <span className="tabular-nums font-bold" style={{ color }}>{fmtPct(s.changePercent)}</span>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+            {equityStocks.length > 0 && (
+              <div className="h-2.5 w-full flex overflow-hidden" style={{ border: `1px solid ${BB_BORDER}` }}>
+                <div style={{ width: `${(advancers  / equityStocks.length) * 100}%`, background: BB_GREEN,  transition: 'width 0.6s ease' }} />
+                <div style={{ width: `${(stable     / equityStocks.length) * 100}%`, background: '#475569', transition: 'width 0.6s ease' }} />
+                <div style={{ width: `${(decliners  / equityStocks.length) * 100}%`, background: BB_RED,    transition: 'width 0.6s ease' }} />
               </div>
             )}
           </div>
-        </div>
 
-        {/* FX / OPCVM SNAPSHOT */}
-        <div className="bg-[#0B101E] border border-[#1E293B] flex flex-col">
-          <PanelHeader title="MACRO & OPCVM RAPIDE" />
-          <div className="p-5 flex-1 space-y-6">
-            <div>
-              <p className="text-xs font-bold mb-2 uppercase tracking-wide" style={{ color: BB_ORANGE }}>■ DEVISES / MAD</p>
-              {fxData.slice(0, 3).map(({ pair, rate, chg }) => (
-                <div key={pair} className="flex justify-between text-sm py-1 border-b border-[#1E293B]">
-                  <span className="font-bold" style={{ color: BB_MUTED }}>{pair}</span>
-                  <span className="font-bold tabular-nums text-white">{rate}</span>
-                  <span className="font-bold tabular-nums" style={{ color: pctColor(parseFloat(chg)) }}>{chg}</span>
+          {/* ── Top movers ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {([
+              { title: '▲ TOP HAUSSES', headerBg: '#061a0e', headerColor: BB_GREEN, items: gainers5, positive: true,  filter: 'TOP'   as QuickFilter },
+              { title: '▼ TOP BAISSES', headerBg: '#1a0606', headerColor: BB_RED,   items: losers5,  positive: false, filter: 'PIRES' as QuickFilter },
+            ] as const).map(({ title, headerBg, headerColor, items, positive, filter }) => (
+              <div key={title} className="border overflow-hidden" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+                <div
+                  className="flex items-center justify-between px-4 py-2 text-xs font-black uppercase tracking-widest"
+                  style={{ background: headerBg, color: headerColor, borderBottom: `1px solid ${BB_BORDER}` }}
+                >
+                  <span>{title}</span>
+                  <button
+                    onClick={() => { setActiveTab('EQUITIES'); setQuickFilter(filter); }}
+                    className="text-[10px] font-bold hover:opacity-70"
+                    style={{ color: BB_MUTED }}
+                  >
+                    VOIR TOUT →
+                  </button>
                 </div>
-              ))}
-              <div className="pt-2 text-right">
-                <button onClick={() => setActiveTab('MACRO')} className="text-[10px] font-bold hover:underline" style={{ color: BB_CYAN }}>Plus de Macro →</button>
-              </div>
-            </div>
-            
-            <div>
-              <p className="text-xs font-bold mb-2 uppercase tracking-wide" style={{ color: BB_ORANGE }}>■ OPCVM EN VUE</p>
-              {opcvmFunds.slice(0, 3).map(f => (
-                <div key={f.name} className="flex justify-between text-xs py-1.5 border-b border-[#1E293B] truncate gap-2">
-                  <span className="font-bold truncate text-white" title={f.name}>{f.name}</span>
-                  <span className="font-bold flex-shrink-0" style={{ color: pctColor(f.perf_ytd) }}>{fmtPerf(f.perf_ytd)} YTD</span>
+                <div>
+                  {loading ? (
+                    Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="animate-pulse mx-3 my-1.5 h-8 rounded" style={{ background: '#0A0F1D' }} />
+                    ))
+                  ) : items.length === 0 ? (
+                    <div className="p-4 text-xs text-center" style={{ color: BB_MUTED }}>Aucune donnée</div>
+                  ) : items.map((s, i) => (
+                    <div
+                      key={s.ticker}
+                      className="grid items-center px-4 py-2.5 cursor-pointer hover:bg-[#111827] transition-colors border-b"
+                      style={{ gridTemplateColumns: '18px 56px 1fr 88px', borderColor: BB_BORDER }}
+                      onClick={() => { setSelectedTicker(s); setActiveTab('EQUITIES'); }}
+                    >
+                      <span className="text-[10px] font-bold" style={{ color: BB_MUTED }}>{i + 1}</span>
+                      <span className="text-sm font-black" style={{ color: BB_CYAN }}>{s.ticker}</span>
+                      <span className="text-xs truncate px-1" style={{ color: BB_MUTED }}>{s.name}</span>
+                      <span className="text-sm font-black tabular-nums text-right" style={{ color: positive ? BB_GREEN : BB_RED }}>
+                        {positive ? '▲ +' : '▼ '}{Math.abs(s.changePercent ?? 0).toFixed(2)}%
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-              <div className="pt-2 text-right">
-                <button onClick={() => setActiveTab('OPCVM')} className="text-[10px] font-bold hover:underline" style={{ color: BB_CYAN }}>Tous les Fonds →</button>
               </div>
-            </div>
+            ))}
           </div>
-        </div>
 
+          {/* ── Sector heatmap ── */}
+          {sectorData.length > 0 && (
+            <div className="border p-4" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+              <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: BB_ORANGE }}>
+                ■ HEATMAP SECTORIELLE — PERFORMANCE SÉANCE
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2">
+                {sectorData.map(({ name, count, avgChange: pct }) => (
+                  <div
+                    key={name}
+                    className="border p-3 text-center"
+                    style={{ background: sectorBg(pct), borderColor: `${sectorFg(pct)}30` }}
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: sectorFg(pct) }}>
+                      {name}
+                    </p>
+                    <p className="text-lg font-black tabular-nums mt-1" style={{ color: sectorFg(pct) }}>
+                      {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
+                    </p>
+                    <p className="text-[9px] mt-0.5" style={{ color: BB_MUTED }}>{count} val.</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Secondary panels ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+            {/* Statistiques de séance */}
+            <div className="border overflow-hidden" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+              <div
+                className="px-4 py-2 text-xs font-black uppercase tracking-widest border-b"
+                style={{ background: BB_ORANGE, color: '#000', borderColor: BB_BORDER }}
+              >
+                STATISTIQUES SÉANCE
+              </div>
+              <div className="p-4 space-y-0">
+                {[
+                  { label: 'Ouverture',        val: '09:30' },
+                  { label: 'Clôture',          val: '15:30' },
+                  { label: 'Vol. total',        val: `${fmtVolume(totalVolume)} MAD` },
+                  { label: 'Valeurs traitées',  val: `${equityStocks.filter(s => (s.volume ?? 0) > 0).length} / ${equityStocks.length}` },
+                  { label: 'Hausses / Baisses', val: `${advancers} / ${decliners}` },
+                  { label: 'Perf. moy.',        val: `${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}%` },
+                  {
+                    label: 'Meilleure valeur',
+                    val: movers?.gainers[0]
+                      ? `${movers.gainers[0].ticker} +${(movers.gainers[0].changePercent ?? 0).toFixed(1)}%`
+                      : '—',
+                  },
+                  {
+                    label: 'Pire valeur',
+                    val: movers?.losers[0]
+                      ? `${movers.losers[0].ticker} ${(movers.losers[0].changePercent ?? 0).toFixed(1)}%`
+                      : '—',
+                  },
+                ].map(({ label, val }) => (
+                  <div
+                    key={label}
+                    className="flex items-center justify-between py-2 border-b text-xs"
+                    style={{ borderColor: BB_BORDER }}
+                  >
+                    <span style={{ color: BB_MUTED }}>{label}</span>
+                    <span className="font-bold tabular-nums" style={{ color: BB_WHITE }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Macro + Fear & Greed */}
+            <div className="border overflow-hidden" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+              <div
+                className="px-4 py-2 text-xs font-black uppercase tracking-widest border-b"
+                style={{ background: BB_ORANGE, color: '#000', borderColor: BB_BORDER }}
+              >
+                MACRO & DEVISES
+              </div>
+              <div className="p-4 space-y-3">
+                <div className="space-y-0">
+                  {fxData.map(({ pair, rate, chg }) => {
+                    const n = parseFloat(chg);
+                    return (
+                      <div
+                        key={pair}
+                        className="flex items-center gap-2 py-2 border-b text-xs"
+                        style={{ borderColor: BB_BORDER }}
+                      >
+                        <span className="w-16 font-bold" style={{ color: BB_MUTED }}>{pair}</span>
+                        <span className="flex-1 font-black tabular-nums text-white">{rate}</span>
+                        <span className="font-bold tabular-nums" style={{ color: pctColor(n) }}>
+                          {n >= 0 ? '+' : ''}{chg}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: BB_ORANGE }}>
+                    INDICE PEUR & AVIDITÉ
+                  </p>
+                  <FearGreedGauge score={fgScore} label={fgLabel(fgScore)} color={fgColor(fgScore)} />
+                </div>
+                <button
+                  onClick={() => setActiveTab('MACRO')}
+                  className="text-[10px] font-bold hover:underline w-full text-right"
+                  style={{ color: BB_CYAN }}
+                >
+                  Macro complet →
+                </button>
+              </div>
+            </div>
+
+            {/* Calendrier financier */}
+            <div className="border overflow-hidden" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
+              <div
+                className="px-4 py-2 text-xs font-black uppercase tracking-widest border-b"
+                style={{ background: BB_ORANGE, color: '#000', borderColor: BB_BORDER }}
+              >
+                CALENDRIER FINANCIER
+              </div>
+              <div className="p-4 space-y-0">
+                {[
+                  { date: '03/04/26', ticker: 'BAM',  type: 'TAUX',   label: 'BAM — Décision taux directeur',   typeColor: BB_RED    },
+                  { date: '10/04/26', ticker: 'IAM',  type: 'T1',     label: 'Maroc Telecom — Résultats T1',    typeColor: BB_YELLOW },
+                  { date: '17/04/26', ticker: 'HCP',  type: 'CPI',    label: 'HCP — Indice des prix CPI',       typeColor: BB_GREEN  },
+                  { date: '24/04/26', ticker: 'MASI', type: 'BILAN',  label: 'BVC — Bilan mensuel mars 2026',   typeColor: BB_CYAN   },
+                  { date: '30/04/26', ticker: 'BCP',  type: 'AGO',    label: 'BCP — Assemblée Générale 2026',   typeColor: BB_ORANGE },
+                ].map(({ date, ticker, type, label, typeColor }) => (
+                  <div
+                    key={`${date}-${ticker}`}
+                    className="flex items-center gap-2 py-2 border-b text-[11px]"
+                    style={{ borderColor: BB_BORDER }}
+                  >
+                    <span className="font-bold w-16 flex-shrink-0 tabular-nums" style={{ color: BB_YELLOW }}>{date}</span>
+                    <span className="flex-1 truncate text-white" title={label}>{label}</span>
+                    <span
+                      className="text-[9px] font-black px-1.5 py-0.5 border flex-shrink-0"
+                      style={{ color: typeColor, borderColor: `${typeColor}44`, background: `${typeColor}11` }}
+                    >
+                      {type}
+                    </span>
+                  </div>
+                ))}
+                <Link
+                  href="/calendar"
+                  className="block text-[10px] font-bold hover:underline mt-3 text-right"
+                  style={{ color: BB_CYAN }}
+                >
+                  Calendrier complet →
+                </Link>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Attribution */}
+          <p className="text-[10px] uppercase tracking-widest text-right pb-1" style={{ color: BB_MUTED }}>
+            Source : Bourse de Casablanca · Actualisé à {clock}
+          </p>
+
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderEquities = () => (
     <div className="h-full flex overflow-hidden">
       {/* LEFT: Terminal List */}
       <div className="w-full lg:w-[60%] flex flex-col border-r border-[#1E293B] bg-[#0B101E]">
         <PanelHeader title={t('panel_a_title')}>
-          <span style={{ color: '#000', fontSize: '10px' }}>{stocks.length} val.</span>
+          <span style={{ color: '#000', fontSize: '10px' }}>{equityStocks.length} val.</span>
         </PanelHeader>
 
         {/* Filter bar */}
