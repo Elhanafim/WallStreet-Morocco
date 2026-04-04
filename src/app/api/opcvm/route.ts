@@ -266,8 +266,8 @@ export async function GET(req: NextRequest) {
   // Sort
   const reverse = order !== 'asc';
   funds.sort((a, b) => {
-    const va = (a as Record<string, number | null>)[sort] ?? -Infinity;
-    const vb = (b as Record<string, number | null>)[sort] ?? -Infinity;
+    const va = (a as unknown as Record<string, number | null>)[sort] ?? -Infinity;
+    const vb = (b as unknown as Record<string, number | null>)[sort] ?? -Infinity;
     return reverse ? vb - va : va - vb;
   });
 
