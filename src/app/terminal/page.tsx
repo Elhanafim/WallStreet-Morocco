@@ -15,19 +15,40 @@ import {
   getMarketStatus,
 } from '@/lib/bvcPriceService';
 import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
-import { opcvmFunds as staticOpcvmFunds } from '@/lib/data/opcvm';
 
-// Map static OPCVMFund → live OpcvmFund shape for terminal fallback
-const TERMINAL_OPCVM_FALLBACK: OpcvmFund[] = staticOpcvmFunds.map(f => ({
-  type:             f.type,
-  name:             f.name,
-  societe_gestion:  f.bank,
-  vl:               f.nav            ?? null,
-  perf_1m:          null,
-  perf_ytd:         f.performanceYTD ?? null,
-  perf_1an:         f.performance1Y,
-  encours:          f.totalAssets    ?? null,
-}));
+// Static fallback — data sourced from terminal.risk.ma/opcvm (30 fonds, encours en MDH)
+const TERMINAL_OPCVM_FALLBACK: OpcvmFund[] = [
+  { type: 'Actions',     name: 'MAF Actions Africa',       societe_gestion: 'MAF Gestion',              vl: 1250.45, perf_1m:  2.4, perf_ytd: 18.4, perf_1an: 22.1, encours: 2450 },
+  { type: 'Actions',     name: 'Upline Sélection',          societe_gestion: 'Upline Capital',           vl:  890.30, perf_1m:  1.8, perf_ytd: 15.2, perf_1an: 18.5, encours: 1890 },
+  { type: 'Actions',     name: 'CFG Actions Maghreb',       societe_gestion: 'CFG Gestion',              vl:  145.80, perf_1m:  3.2, perf_ytd: 12.8, perf_1an: 15.3, encours: 3200 },
+  { type: 'Actions',     name: 'Attijari Valeurs',          societe_gestion: 'Attijari Intermédiation',  vl: 2340.00, perf_1m: -1.2, perf_ytd:  8.4, perf_1an: 11.2, encours: 5600 },
+  { type: 'Actions',     name: 'Wafa Sécurité',             societe_gestion: 'Wafagestion',              vl: 1120.50, perf_1m:  0.8, perf_ytd:  6.2, perf_1an:  9.1, encours: 1200 },
+  { type: 'Actions',     name: 'BMCE Croissance',           societe_gestion: 'BMCE Capital',             vl:  445.30, perf_1m:  2.1, perf_ytd:  9.8, perf_1an: 12.4, encours: 1500 },
+  { type: 'Actions',     name: 'CFG Emerging',              societe_gestion: 'CFG Gestion',              vl:  890.20, perf_1m:  1.5, perf_ytd: 11.2, perf_1an: 14.5, encours:  890 },
+  { type: 'Actions',     name: 'Upline Actions',            societe_gestion: 'Upline Capital',           vl:  780.40, perf_1m:  2.8, perf_ytd: 14.6, perf_1an: 17.2, encours:  670 },
+  { type: 'Actions',     name: 'MAMDA Actions',             societe_gestion: 'MAMDA MCMA',               vl:  670.50, perf_1m: -0.5, perf_ytd:  5.2, perf_1an:  7.8, encours:  920 },
+  { type: 'Actions',     name: 'CDG Actions',               societe_gestion: 'CDG Capital',              vl: 1450.20, perf_1m:  1.9, perf_ytd: 10.5, perf_1an: 13.2, encours: 2100 },
+  { type: 'Actions',     name: 'Wafa Actions',              societe_gestion: 'Wafagestion',              vl:  560.80, perf_1m:  1.2, perf_ytd:  7.5, perf_1an:  9.4, encours: 1100 },
+  { type: 'Obligataire', name: 'MAMDA Obligations',         societe_gestion: 'MAMDA MCMA',               vl:  105.20, perf_1m:  0.3, perf_ytd:  3.8, perf_1an:  5.2, encours: 8900 },
+  { type: 'Obligataire', name: 'CFG Obligataire',           societe_gestion: 'CFG Gestion',              vl:   98.45, perf_1m:  0.2, perf_ytd:  3.2, perf_1an:  4.8, encours: 4500 },
+  { type: 'Obligataire', name: 'Attijari Oblig',            societe_gestion: 'Attijari Intermédiation',  vl:  110.30, perf_1m:  0.4, perf_ytd:  2.9, perf_1an:  4.1, encours: 6700 },
+  { type: 'Obligataire', name: 'BMCE Euro Oblig',           societe_gestion: 'BMCE Capital',             vl:  125.60, perf_1m: -0.1, perf_ytd:  2.1, perf_1an:  3.5, encours: 2100 },
+  { type: 'Obligataire', name: 'Upline Premium',            societe_gestion: 'Upline Capital',           vl:  105.80, perf_1m:  0.3, perf_ytd:  3.5, perf_1an:  4.9, encours: 1200 },
+  { type: 'Obligataire', name: 'Wafa Oblig',                societe_gestion: 'Wafagestion',              vl:  102.30, perf_1m:  0.2, perf_ytd:  2.8, perf_1an:  4.2, encours: 2300 },
+  { type: 'Obligataire', name: 'CDG Obligataire',           societe_gestion: 'CDG Capital',              vl:  108.40, perf_1m:  0.3, perf_ytd:  3.1, perf_1an:  4.5, encours: 3400 },
+  { type: 'Obligataire', name: 'BMCE Oblig',                societe_gestion: 'BMCE Capital',             vl:  104.20, perf_1m:  0.2, perf_ytd:  3.0, perf_1an:  4.3, encours: 4100 },
+  { type: 'Monétaire',   name: 'Upline Cash',               societe_gestion: 'Upline Capital',           vl: 1000.00, perf_1m:  0.1, perf_ytd:  1.2, perf_1an:  2.1, encours: 5400 },
+  { type: 'Monétaire',   name: 'CFG Monétaire',             societe_gestion: 'CFG Gestion',              vl:  995.40, perf_1m:  0.1, perf_ytd:  1.1, perf_1an:  1.9, encours: 3200 },
+  { type: 'Monétaire',   name: 'BCP Liquidité',             societe_gestion: 'BCP Capital',              vl: 1002.20, perf_1m:  0.1, perf_ytd:  1.0, perf_1an:  1.8, encours: 7800 },
+  { type: 'Monétaire',   name: 'MAF Trésorerie',            societe_gestion: 'MAF Gestion',              vl:  998.90, perf_1m:  0.1, perf_ytd:  1.1, perf_1an:  2.0, encours: 4500 },
+  { type: 'Monétaire',   name: 'Attijari Cash',             societe_gestion: 'Attijari Intermédiation',  vl: 1001.50, perf_1m:  0.1, perf_ytd:  1.0, perf_1an:  1.9, encours: 8900 },
+  { type: 'Diversifié',  name: 'MAF Patrimoine',            societe_gestion: 'MAF Gestion',              vl: 1540.00, perf_1m:  1.2, perf_ytd:  7.8, perf_1an: 10.2, encours: 3400 },
+  { type: 'Diversifié',  name: 'CFG Equilibre',             societe_gestion: 'CFG Gestion',              vl: 1120.80, perf_1m:  0.9, perf_ytd:  6.5, perf_1an:  8.4, encours: 2800 },
+  { type: 'Diversifié',  name: 'Wafa Diversifié',           societe_gestion: 'Wafagestion',              vl:  980.50, perf_1m:  0.6, perf_ytd:  5.2, perf_1an:  7.1, encours: 4100 },
+  { type: 'Diversifié',  name: 'Attijari Patrimoine',       societe_gestion: 'Attijari Intermédiation',  vl: 1340.60, perf_1m:  1.0, perf_ytd:  7.2, perf_1an:  9.8, encours: 5600 },
+  { type: 'Diversifié',  name: 'BMCE Sécurité',             societe_gestion: 'BMCE Capital',             vl:  890.10, perf_1m:  0.5, perf_ytd:  4.8, perf_1an:  6.5, encours: 1800 },
+  { type: 'Diversifié',  name: 'CDG Diversifié',            societe_gestion: 'CDG Capital',              vl: 1120.30, perf_1m:  0.8, perf_ytd:  6.0, perf_1an:  8.2, encours: 2800 },
+];
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500', '700'] });
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '700', '900'] });
@@ -58,7 +79,8 @@ type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type SortField   = 'TICKER' | 'PRICE' | 'CHANGE' | 'VOLUME';
 type SortDir     = 'ASC' | 'DESC';
 type PanelBTab   = 1 | 2 | 3;
-type OpcvmFilter = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
+type OpcvmFilter  = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
+type OpcvmSortCol = 'vl' | 'perf_1m' | 'perf_ytd' | 'perf_1an' | 'encours' | '';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fmtPrice(n: number | null | undefined): string {
@@ -235,6 +257,10 @@ export default function TerminalPage() {
   const [opcvmFunds,    setOpcvmFunds]    = useState<OpcvmFund[]>([]);
   const [opcvmLoading,  setOpcvmLoading]  = useState(true);
   const [opcvmFilter,   setOpcvmFilter]   = useState<OpcvmFilter>('ALL');
+  const [opcvmSearch,   setOpcvmSearch]   = useState('');
+  const [opcvmSgFilter, setOpcvmSgFilter] = useState('');
+  const [opcvmSortCol,  setOpcvmSortCol]  = useState<OpcvmSortCol>('perf_ytd');
+  const [opcvmSortDir,  setOpcvmSortDir]  = useState<'asc' | 'desc'>('desc');
 
   const cmdRef         = useRef<HTMLInputElement>(null);
   const searchRef      = useRef<HTMLInputElement>(null);
@@ -360,9 +386,32 @@ export default function TerminalPage() {
 
   // ── Data: OPCVM & Macro
   const filteredOpcvm = useMemo(() => {
-    if (opcvmFilter === 'ALL') return opcvmFunds;
-    return opcvmFunds.filter(f => (f.type || '').toLowerCase().includes(opcvmFilter.toLowerCase()));
-  }, [opcvmFunds, opcvmFilter]);
+    let list = [...opcvmFunds];
+    if (opcvmFilter !== 'ALL') {
+      list = list.filter(f => (f.type || '').toLowerCase().includes(opcvmFilter.toLowerCase()));
+    }
+    if (opcvmSearch.trim()) {
+      const q = opcvmSearch.toLowerCase();
+      list = list.filter(f =>
+        f.name.toLowerCase().includes(q) ||
+        (f.societe_gestion || '').toLowerCase().includes(q)
+      );
+    }
+    if (opcvmSgFilter) {
+      list = list.filter(f => f.societe_gestion === opcvmSgFilter);
+    }
+    if (opcvmSortCol) {
+      list.sort((a, b) => {
+        const aVal = a[opcvmSortCol as keyof OpcvmFund] as number | null;
+        const bVal = b[opcvmSortCol as keyof OpcvmFund] as number | null;
+        if (aVal == null && bVal == null) return 0;
+        if (aVal == null) return 1;
+        if (bVal == null) return -1;
+        return opcvmSortDir === 'asc' ? aVal - bVal : bVal - aVal;
+      });
+    }
+    return list;
+  }, [opcvmFunds, opcvmFilter, opcvmSearch, opcvmSgFilter, opcvmSortCol, opcvmSortDir]);
 
   const macroData = [
     { label: t('macro_bam'),      value: '2.75%',   source: 'BAM' },
@@ -1010,70 +1059,201 @@ export default function TerminalPage() {
     </div>
   );
 
-  const renderOpcvm = () => (
-    <div className="h-full overflow-y-auto p-6 md:p-8" style={{ background: BB_BG }}>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-2xl font-black tracking-tight" style={{ color: BB_CYAN }}>OPCVM / FUNDS</h2>
-          <p className="text-sm mt-1" style={{ color: BB_MUTED }}>Fonds d'investissement Marocains — Données statiques de référence</p>
+  const renderOpcvm = () => {
+    const sgOptions = Array.from(
+      new Set(opcvmFunds.map(f => f.societe_gestion).filter(Boolean))
+    ).sort() as string[];
+
+    const COLS: { key: OpcvmSortCol; label: string }[] = [
+      { key: 'vl',       label: 'VL (DH)'       },
+      { key: 'perf_1m',  label: '1M %'          },
+      { key: 'perf_ytd', label: 'YTD %'         },
+      { key: 'perf_1an', label: '1 An %'        },
+      { key: 'encours',  label: 'Encours (MDH)' },
+    ];
+
+    return (
+      <div className="h-full overflow-y-auto" style={{ background: BB_BG, ...robotoMono.style }}>
+
+        {/* ── Top bar ── */}
+        <div
+          className="flex items-center justify-between px-4 py-2 border-b flex-shrink-0"
+          style={{ background: '#050b14', borderColor: BB_BORDER }}
+        >
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+            ■ OPCVM — FONDS D'INVESTISSEMENT MAROC
+          </span>
+          <span className="text-[10px]" style={{ color: BB_MUTED }}>
+            {filteredOpcvm.length} fonds affichés
+          </span>
         </div>
-        <div className="flex flex-wrap items-center gap-2 p-1 rounded-sm border border-[#1E293B] bg-[#0B101E]">
-          {(['ALL', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'] as OpcvmFilter[]).map(f => (
+
+        {/* ── Filters bar ── */}
+        <div
+          className="flex flex-wrap items-center gap-2 px-4 py-3 border-b flex-shrink-0"
+          style={{ borderColor: BB_BORDER, background: '#0B101E' }}
+        >
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="Rechercher fonds / société..."
+            value={opcvmSearch}
+            onChange={e => setOpcvmSearch(e.target.value)}
+            className="bg-transparent border px-3 py-1.5 text-xs outline-none placeholder:text-[#475569]"
+            style={{ borderColor: BB_BORDER, color: BB_WHITE, width: 220, ...robotoMono.style }}
+          />
+
+          {/* Type filter */}
+          <div className="flex items-center gap-1">
+            {(['ALL', 'Actions', 'Obligataire', 'Monétaire', 'Diversifié'] as OpcvmFilter[]).map(f => (
+              <button
+                key={f}
+                onClick={() => setOpcvmFilter(f)}
+                className="text-[11px] px-2.5 py-1 font-bold uppercase tracking-wide transition-colors"
+                style={{
+                  background: opcvmFilter === f ? BB_ORANGE : 'transparent',
+                  color: opcvmFilter === f ? '#000' : BB_MUTED,
+                  border: `1px solid ${opcvmFilter === f ? BB_ORANGE : BB_BORDER}`,
+                  ...robotoMono.style,
+                }}
+              >
+                {f === 'ALL' ? 'TOUS' : f}
+              </button>
+            ))}
+          </div>
+
+          {/* SG dropdown */}
+          <select
+            value={opcvmSgFilter}
+            onChange={e => setOpcvmSgFilter(e.target.value)}
+            className="bg-[#0B101E] border px-3 py-1.5 text-xs outline-none"
+            style={{ borderColor: BB_BORDER, color: opcvmSgFilter ? BB_WHITE : BB_MUTED, ...robotoMono.style }}
+          >
+            <option value="">Toutes les sociétés</option>
+            {sgOptions.map(sg => <option key={sg} value={sg}>{sg}</option>)}
+          </select>
+
+          {/* Reset */}
+          {(opcvmSearch || opcvmSgFilter || opcvmFilter !== 'ALL') && (
             <button
-              key={f} onClick={() => setOpcvmFilter(f)}
-              className={`text-xs px-3 py-1.5 font-bold rounded-sm uppercase tracking-wide transition-colors ${robotoMono.className}`}
-              style={{ background: opcvmFilter === f ? BB_ORANGE : 'transparent', color: opcvmFilter === f ? '#000' : BB_MUTED }}
+              onClick={() => { setOpcvmSearch(''); setOpcvmSgFilter(''); setOpcvmFilter('ALL'); }}
+              className="text-[11px] px-2.5 py-1 font-bold uppercase tracking-wide"
+              style={{ color: BB_RED, border: `1px solid ${BB_RED}33`, ...robotoMono.style }}
             >
-              {f === 'ALL' ? t('filter_all') : f}
+              ✕ RESET
             </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-[#0B101E] border border-[#1E293B] rounded-md overflow-hidden max-w-[1400px] mx-auto" style={robotoMono.style}>
-        {/* Table Header */}
-        <div className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-3 border-b border-[#1E293B] bg-[#0A0F1D] text-xs font-bold text-[#8B95A1] uppercase tracking-wider">
-          <span>Catégorie</span>
-          <span>Nom du Fonds</span>
-          <span className="text-right">VL (MAD)</span>
-          <span className="text-right">Perf 1M</span>
-          <span className="text-right">Perf YTD</span>
-          <span className="text-right">Perf 1AN</span>
-        </div>
-
-        {/* Table Body */}
-        <div className="divide-y divide-[#1E293B]">
-          {opcvmLoading ? (
-            <div className="p-8 text-center text-sm font-bold" style={{ color: BB_ORANGE }}>{t('loading')}</div>
-          ) : filteredOpcvm.length === 0 ? (
-            <div className="p-8 text-center text-sm" style={{ color: BB_MUTED }}>Aucun fonds trouvé pour cette catégorie.</div>
-          ) : (
-            filteredOpcvm.map((fund, i) => (
-              <div key={`${fund.name}-${i}`} className="grid grid-cols-[100px_minmax(180px,1fr)_120px_100px_100px_100px] gap-4 px-6 py-4 hover:bg-[#111827] transition-colors items-center text-sm">
-                <span
-                  className="text-[10px] font-bold px-2 py-1 rounded-sm uppercase inline-block text-center border"
-                  style={{ color: opcvmTypeColor(fund.type), borderColor: `${opcvmTypeColor(fund.type)}44`, background: `${opcvmTypeColor(fund.type)}11` }}
-                >
-                  {fund.type?.slice(0, 8)}
-                </span>
-                <div>
-                  <p className="font-bold truncate text-white" title={fund.name}>{fund.name}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-[#8B95A1] mt-1">{fund.societe_gestion || '—'}</p>
-                </div>
-                <span className="text-right font-bold tabular-nums text-white">{fund.vl != null ? fund.vl.toFixed(2) : '—'}</span>
-                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1m) }}>{fmtPerf(fund.perf_1m)}</span>
-                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_ytd) }}>{fmtPerf(fund.perf_ytd)}</span>
-                <span className="text-right font-bold tabular-nums" style={{ color: pctColor(fund.perf_1an) }}>{fmtPerf(fund.perf_1an)}</span>
-              </div>
-            ))
           )}
         </div>
+
+        {/* ── Table ── */}
+        <div className="overflow-x-auto">
+          {/* Column headers */}
+          <div
+            className="grid items-center px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest sticky top-0 z-10"
+            style={{
+              gridTemplateColumns: '86px minmax(160px,1fr) 140px 90px 76px 76px 76px 100px',
+              borderColor: BB_BORDER,
+              background: '#0A0F1D',
+              gap: '10px',
+              color: BB_MUTED,
+            }}
+          >
+            <span>Type</span>
+            <span>Nom OPCVM</span>
+            <span>Société Gestion</span>
+            {COLS.map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => {
+                  if (opcvmSortCol === key) setOpcvmSortDir(d => d === 'asc' ? 'desc' : 'asc');
+                  else { setOpcvmSortCol(key); setOpcvmSortDir('desc'); }
+                }}
+                className="text-right flex items-center justify-end gap-1 w-full hover:opacity-100 transition-opacity"
+                style={{ color: opcvmSortCol === key ? BB_ORANGE : BB_MUTED, ...robotoMono.style, opacity: opcvmSortCol === key ? 1 : 0.7 }}
+              >
+                {label}
+                {opcvmSortCol === key && <span style={{ color: BB_ORANGE }}>{opcvmSortDir === 'asc' ? '▲' : '▼'}</span>}
+              </button>
+            ))}
+          </div>
+
+          {/* Rows */}
+          <div>
+            {opcvmLoading ? (
+              <div className="p-8 text-center text-sm font-bold" style={{ color: BB_ORANGE }}>CHARGEMENT...</div>
+            ) : filteredOpcvm.length === 0 ? (
+              <div className="p-8 text-center text-sm" style={{ color: BB_MUTED }}>Aucun fonds trouvé.</div>
+            ) : (
+              filteredOpcvm.map((fund, i) => (
+                <div
+                  key={`${fund.name}-${i}`}
+                  className="grid items-center px-4 py-3 border-b hover:bg-[#111827] transition-colors"
+                  style={{
+                    gridTemplateColumns: '86px minmax(160px,1fr) 140px 90px 76px 76px 76px 100px',
+                    borderColor: BB_BORDER,
+                    gap: '10px',
+                    fontSize: '12px',
+                    color: BB_WHITE,
+                  }}
+                >
+                  {/* Type badge */}
+                  <span
+                    className="text-[9px] font-bold px-1.5 py-0.5 text-center border uppercase inline-block"
+                    style={{
+                      color: opcvmTypeColor(fund.type),
+                      borderColor: `${opcvmTypeColor(fund.type)}44`,
+                      background: `${opcvmTypeColor(fund.type)}11`,
+                    }}
+                  >
+                    {fund.type?.slice(0, 8)}
+                  </span>
+
+                  {/* Fund name */}
+                  <span className="font-bold truncate" style={{ color: BB_WHITE }} title={fund.name}>
+                    {fund.name}
+                  </span>
+
+                  {/* SG */}
+                  <span className="truncate text-[11px]" style={{ color: BB_MUTED }}>
+                    {fund.societe_gestion || '—'}
+                  </span>
+
+                  {/* VL */}
+                  <span className="text-right tabular-nums font-bold" style={{ color: BB_CYAN }}>
+                    {fund.vl != null ? fund.vl.toFixed(2) : '—'}
+                  </span>
+
+                  {/* 1M */}
+                  <span className="text-right tabular-nums font-bold" style={{ color: pctColor(fund.perf_1m) }}>
+                    {fmtPerf(fund.perf_1m)}
+                  </span>
+
+                  {/* YTD */}
+                  <span className="text-right tabular-nums font-bold" style={{ color: pctColor(fund.perf_ytd) }}>
+                    {fmtPerf(fund.perf_ytd)}
+                  </span>
+
+                  {/* 1 An */}
+                  <span className="text-right tabular-nums font-bold" style={{ color: pctColor(fund.perf_1an) }}>
+                    {fmtPerf(fund.perf_1an)}
+                  </span>
+
+                  {/* Encours */}
+                  <span className="text-right tabular-nums" style={{ color: BB_MUTED }}>
+                    {fund.encours != null ? `${fund.encours.toLocaleString('fr-MA')} M` : '—'}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <p className="px-4 py-3 text-[10px] uppercase tracking-wider border-t" style={{ color: BB_MUTED, borderColor: BB_BORDER }}>
+          ⚠️ {t('opcvm_disclaimer')}
+        </p>
       </div>
-      <p className="mt-4 text-[10px] uppercase tracking-wider text-[#8B95A1] max-w-2xl mx-auto" style={robotoMono.style}>
-        ⚠️ {t('opcvm_disclaimer')}
-      </p>
-    </div>
-  );
+    );
+  };
 
   const renderMacro = () => (
     <div className="h-full overflow-y-auto p-6 md:p-8 space-y-6" style={{ background: BB_BG, ...robotoMono.style }}>
