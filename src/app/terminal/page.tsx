@@ -439,7 +439,7 @@ export default function TerminalPage() {
     if (cmd === 'MASI')  { setActiveTab('OVERVIEW'); setCmdMsg('→ APERÇU MARCHÉ'); return; }
     if (cmd === 'MACRO') { setActiveTab('MACRO'); setCmdMsg('→ MACRO & FX'); return; }
     if (cmd === 'OPCVM') { setActiveTab('OPCVM'); setCmdMsg('→ FONDS OPCVM'); return; }
-    if (cmd === 'FIN')   { setActiveTab('FINANCIALS'); setCmdMsg('→ VALEURS FINANCIALS'); return; }
+    if (cmd === 'FIN')   { setActiveTab('FINANCIALS'); setCmdMsg('→ DONNÉES'); return; }
     if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
 
     const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
@@ -1372,7 +1372,7 @@ export default function TerminalPage() {
             { key: 'MASI',     desc: "Aller à l'aperçu de marché" },
             { key: 'MACRO',    desc: "Aller aux données Macro" },
             { key: 'OPCVM',    desc: "Aller aux fonds d'investissement" },
-            { key: 'FIN',      desc: "Aller aux données financières" },
+            { key: 'FIN',      desc: "Aller aux Données" },
             { key: '<TICKER>', desc: t('cmd_help_ticker') },
           ].map(({ key, desc }) => (
             <div key={key} className="flex gap-4 items-center">
@@ -1436,7 +1436,7 @@ export default function TerminalPage() {
             { id: 'EQUITIES', label: 'Valeurs BVC', shortcut: 'Alt+2' },
             { id: 'OPCVM', label: 'Fonds OPCVM', shortcut: 'Alt+3' },
             { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
-            { id: 'FINANCIALS', label: 'Valeurs Financials', shortcut: 'Alt+5' },
+            { id: 'FINANCIALS', label: 'Données', shortcut: 'Alt+5' },
           ] as { id: ActiveTab; label: string; shortcut: string }[]
         ).map(tab => (
           <button
