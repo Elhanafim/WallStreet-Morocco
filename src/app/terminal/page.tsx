@@ -906,7 +906,7 @@ export default function TerminalPage() {
 
           {/* Attribution */}
           <p className="text-[10px] uppercase tracking-widest text-right pb-1" style={{ color: BB_MUTED }}>
-            Source : Bourse de Casablanca · Actualisé à {clock}
+            Actualisé à {clock}
           </p>
 
         </div>

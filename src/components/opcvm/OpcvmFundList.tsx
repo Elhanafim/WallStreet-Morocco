@@ -400,11 +400,9 @@ export default function OpcvmFundList() {
           </div>
 
           {/* Source footer */}
-          {loadState === 'success' && (
+          {loadState === 'success' && !isLive && (
             <p className="text-xs text-primary/30 mt-4 text-right">
-              {isLive
-                ? `Source : Bourse de Casablanca / AMMC${lastUpdated ? ` · ${lastUpdated}` : ''}`
-                : 'Données de référence indicatives · non connecté au flux temps réel'}
+              Données de référence indicatives · non connecté au flux temps réel
             </p>
           )}
         </>

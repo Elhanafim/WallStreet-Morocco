@@ -368,9 +368,6 @@ export default function ValuesFinancials({ ticker }: Props) {
               ● EN DIRECT
             </span>
           )}
-          <span className="text-[10px] uppercase tracking-widest" style={{ color: BB_MUTED, ...robotoMono.style }}>
-            Source : Bourse de Casablanca
-          </span>
         </div>
       </div>
 
@@ -420,7 +417,7 @@ export default function ValuesFinancials({ ticker }: Props) {
                   <IndicatorsTable indicators={data?.indicators ?? []} loading={isLoading} />
                 </div>
                 <p className="text-[10px] uppercase tracking-wider text-center pb-4" style={{ color: BB_MUTED }}>
-                  ⚠ Les données financières sont fournies à titre indicatif et éducatif uniquement. Source : Bourse de Casablanca
+                  ⚠ Les données financières sont fournies à titre indicatif et éducatif uniquement.
                 </p>
               </div>
             )}
