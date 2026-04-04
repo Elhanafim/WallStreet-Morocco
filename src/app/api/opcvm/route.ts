@@ -279,7 +279,7 @@ export async function GET(req: NextRequest) {
   if (path === 'top') {
     const n      = Math.max(1, Math.min(50, parseInt(searchParams.get('n') ?? '5')));
     const metric = searchParams.get('metric') ?? 'perf_ytd';
-    const eligible = funds.filter(f => (f as Record<string, unknown>)[metric] != null);
+    const eligible = funds.filter(f => (f as unknown as Record<string, unknown>)[metric] != null);
     return NextResponse.json(
       { top: eligible.slice(0, n), metric, source: data.source, last_updated: data.last_updated },
       { headers: CACHE_HEADERS }
