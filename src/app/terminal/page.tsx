@@ -85,6 +85,8 @@ type OpcvmFilter  = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversif
 type OpcvmSortCol = 'vl' | 'perf_1m' | 'perf_ytd' | 'perf_1an' | 'encours' | '';
 // Three exclusive sub-filters inside the Valeurs BVC tab
 type EquitiesSubFilter = 'ACTIONS' | 'DA' | 'OPCVM';
+// Two heatmap display modes in Aperçu de marché
+type HeatmapView = 'SECTORS' | 'STOCKS';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fmtPrice(n: number | null | undefined): string {
@@ -271,6 +273,8 @@ export default function TerminalPage() {
   const [sectorFilter,      setSectorFilter]      = useState<string>('ALL');
   // History of last 5 viewed stocks for the Données stock switcher (Task 2)
   const [lastViewedStocks,  setLastViewedStocks]  = useState<string[]>([]);
+  // Heatmap display mode in Aperçu de marché
+  const [heatmapView,       setHeatmapView]       = useState<HeatmapView>('SECTORS');
 
   const cmdRef         = useRef<HTMLInputElement>(null);
   const searchRef      = useRef<HTMLInputElement>(null);
@@ -790,29 +794,102 @@ export default function TerminalPage() {
             ))}
           </div>
 
-          {/* ── Sector heatmap ── */}
-          {sectorData.length > 0 && (
+          {/* ── Heatmap (Sectorielle / Valeurs BVC) ── */}
+          {(sectorData.length > 0 || equityStocks.length > 0) && (
             <div className="border p-4" style={{ background: '#0B101E', borderColor: BB_BORDER }}>
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: BB_ORANGE }}>
-                ■ HEATMAP SECTORIELLE — PERFORMANCE SÉANCE
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2">
-                {sectorData.map(({ name, count, avgChange: pct }) => (
-                  <div
-                    key={name}
-                    className="border p-3 text-center"
-                    style={{ background: sectorBg(pct), borderColor: `${sectorFg(pct)}30` }}
-                  >
-                    <p className="text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: sectorFg(pct) }}>
-                      {name}
-                    </p>
-                    <p className="text-lg font-black tabular-nums mt-1" style={{ color: sectorFg(pct) }}>
-                      {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
-                    </p>
-                    <p className="text-[9px] mt-0.5" style={{ color: BB_MUTED }}>{count} val.</p>
-                  </div>
-                ))}
+
+              {/* Header + toggle */}
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                  ■ HEATMAP — PERFORMANCE SÉANCE
+                </p>
+                <div className="flex items-center gap-1" style={robotoMono.style}>
+                  {(['SECTORS', 'STOCKS'] as HeatmapView[]).map(v => (
+                    <button
+                      key={v}
+                      onClick={() => setHeatmapView(v)}
+                      className="text-[10px] px-3 py-1 font-bold uppercase tracking-wide transition-colors"
+                      style={{
+                        background: heatmapView === v ? BB_ORANGE : 'transparent',
+                        color: heatmapView === v ? '#000' : BB_MUTED,
+                        border: `1px solid ${heatmapView === v ? BB_ORANGE : BB_BORDER}`,
+                      }}
+                    >
+                      {v === 'SECTORS' ? 'Sectorielle' : 'Valeurs BVC'}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              {/* Sectoral heatmap */}
+              {heatmapView === 'SECTORS' && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2">
+                  {sectorData.map(({ name, count, avgChange: pct }) => (
+                    <div
+                      key={name}
+                      className="border p-3 text-center"
+                      style={{ background: sectorBg(pct), borderColor: `${sectorFg(pct)}30` }}
+                    >
+                      <p className="text-[10px] font-bold uppercase tracking-wider truncate" style={{ color: sectorFg(pct) }}>
+                        {name}
+                      </p>
+                      <p className="text-lg font-black tabular-nums mt-1" style={{ color: sectorFg(pct) }}>
+                        {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
+                      </p>
+                      <p className="text-[9px] mt-0.5" style={{ color: BB_MUTED }}>{count} val.</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* All-stocks heatmap — one tile per BVC equity, sorted best→worst */}
+              {heatmapView === 'STOCKS' && (
+                equityStocks.length === 0 ? (
+                  <p className="text-xs text-center py-6" style={{ color: BB_MUTED }}>
+                    Chargement des données…
+                  </p>
+                ) : (
+                  <div
+                    className="grid gap-1.5"
+                    style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(76px, 1fr))' }}
+                  >
+                    {[...equityStocks]
+                      .sort((a, b) => (b.changePercent ?? 0) - (a.changePercent ?? 0))
+                      .map(s => {
+                        const pct = s.changePercent ?? 0;
+                        return (
+                          <div
+                            key={s.ticker}
+                            className="border p-2 text-center cursor-pointer transition-transform hover:scale-105 hover:z-10 relative select-none"
+                            style={{
+                              background: sectorBg(pct),
+                              borderColor: `${sectorFg(pct)}44`,
+                            }}
+                            onClick={() => {
+                              setSelectedTicker(s);
+                              setEquitiesSubFilter('ACTIONS');
+                              setActiveTab('EQUITIES');
+                            }}
+                            title={`${s.ticker} — ${s.name}\n${pct >= 0 ? '+' : ''}${pct.toFixed(2)}%`}
+                          >
+                            <p
+                              className="text-[11px] font-black truncate"
+                              style={{ color: BB_WHITE, ...robotoMono.style }}
+                            >
+                              {s.ticker}
+                            </p>
+                            <p
+                              className="text-[10px] font-bold tabular-nums mt-0.5"
+                              style={{ color: sectorFg(pct), ...robotoMono.style }}
+                            >
+                              {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
+                            </p>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )
+              )}
             </div>
           )}
 
