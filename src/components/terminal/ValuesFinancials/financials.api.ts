@@ -10,20 +10,20 @@ export interface FinancialIndicator {
 
 export interface FinancialsData {
   ticker: string;
-  // Company identity (from StocksMA / bvcCompanies)
+  // Company identity
   isin: string | null;
   sector: string | null;
   industry: string | null;
   companyName: string | null;
   companyDesc: string | null;
-  // Market data
+  // Market data (from BVC API — MAD)
   currentPrice: number | null;
   performance: number | null;
   marketCap: number | null;
   peRatio: number | null;
   avgVolume30d: number | null;
   ytdChange: number | null;
-  // Extended Yahoo Finance / TradingView fields
+  // Extended (from TradingView scanner)
   week52High: number | null;
   week52Low: number | null;
   priceToBook: number | null;
@@ -31,11 +31,42 @@ export interface FinancialsData {
   dividendYield: number | null;
   dividendRate: number | null;
   sharesOutstanding: number | null;
-  // Fundamentals (last reported, from TradingView screener)
+  // Fundamentals (TradingView FY)
   revenue: number | null;
   netIncome: number | null;
   ebitda: number | null;
-  // Estimates
+  grossProfit: number | null;
+  operatingIncome: number | null;
+  totalAssets: number | null;
+  totalDebt: number | null;
+  stockholdersEquity: number | null;
+  freeCashFlow: number | null;
+  cashFromOperations: number | null;
+  cashFromInvesting: number | null;
+  cashFromFinancing: number | null;
+  // Margins (%)
+  grossMarginPct: number | null;
+  operatingMarginPct: number | null;
+  netMarginPct: number | null;
+  // Profitability & ratios
+  roe: number | null;
+  roa: number | null;
+  debtToEquity: number | null;
+  currentRatio: number | null;
+  beta: number | null;
+  // Performance (%, already percentage — e.g. -15.5 means -15.5%)
+  perfW: number | null;
+  perf1M: number | null;
+  perf3M: number | null;
+  perf6M: number | null;
+  perfY: number | null;
+  perfYTD: number | null;
+  // Technical indicators
+  rsi: number | null;
+  adx: number | null;
+  macd: number | null;
+  recommendAll: number | null;
+  // Legacy estimates (same as revenue/netIncome for fallback compat)
   estimatedRevenue: number | null;
   estimatedNetIncome: number | null;
   indicators: FinancialIndicator[];

@@ -2,11 +2,11 @@
  * Financials API Route
  *
  * Data strategy (in priority order):
- * 1. BVC Prices API (/api/bvc/prices) — always available, gives real-time
- *    price + volume + OHLC data directly from Casablanca Bourse.
- * 2. Yahoo Finance (TICKER.CS) — enriches with P/E, market cap, 52w range.
- *    Optional: shown if available, silently omitted if not.
- * 3. Never proxies localhost — no dependency on the Python microservice.
+ * 1. BVC Prices API (/api/bvc/prices) — real-time price + volume + OHLC
+ *    directly from Casablanca Bourse.
+ * 2. TradingView Scanner Symbol API — enriches with P/E, market cap,
+ *    52w range, fundamentals, performance metrics, technical indicators.
+ * 3. Static donnees.ts snapshot — fallback for fundamentals when TV is down.
  *
  * GET /api/financials?ticker=ADH
  */
@@ -25,49 +25,115 @@ function getDonnees(ticker: string) {
   return DONNEES_MAP.get(ticker) ?? DONNEES_MAP.get(TICKER_ALIASES[ticker] ?? '');
 }
 
-const YAHOO_QUOTE = 'https://query1.finance.yahoo.com/v7/finance/quote';
+// ── TradingView Scanner Symbol API ────────────────────────────────────────────
 
-// ── Yahoo Finance helper ──────────────────────────────────────────────────────
+const TV_SYMBOL_API = 'https://scanner.tradingview.com/symbol';
 
-interface YFQuote {
-  regularMarketPrice?: number;
-  regularMarketChangePercent?: number;
-  regularMarketOpen?: number;
-  regularMarketDayHigh?: number;
-  regularMarketDayLow?: number;
-  regularMarketVolume?: number;
-  averageDailyVolume3Month?: number;
-  fiftyTwoWeekHigh?: number;
-  fiftyTwoWeekLow?: number;
-  marketCap?: number;
-  trailingPE?: number;
-  priceToBook?: number;
-  dividendYield?: number;
-  trailingAnnualDividendRate?: number;
-  epsTrailingTwelveMonths?: number;
-  ytdReturn?: number;
+const TV_FIELDS = [
+  // Valuation
+  'market_cap_basic', 'price_earnings_ttm', 'price_book_fq',
+  'earnings_per_share_basic_ttm', 'dividends_yield', 'dividends_per_share_fq',
+  'shares_outstanding',
+  // 52-week range
+  'price_52_week_high', 'price_52_week_low',
+  // Income statement (FY)
+  'total_revenue', 'total_revenue_fy',
+  'net_income', 'net_income_fy',
+  'EBITDA',
+  'gross_profit', 'gross_profit_fy',
+  'operating_income', 'operating_income_fy',
+  // Balance sheet (FY)
+  'total_assets', 'total_assets_fy',
+  'total_debt', 'total_debt_fy',
+  'stockholders_equity', 'stockholders_equity_fy',
+  // Cash flow (FY)
+  'cash_f_operating_activities', 'cash_f_operating_activities_fy',
+  'cash_f_investing_activities', 'cash_f_investing_activities_fy',
+  'cash_f_financing_activities', 'cash_f_financing_activities_fy',
+  'free_cash_flow',
+  // Margins
+  'gross_margin_percent_ttm', 'operating_margin_ttm', 'net_margin_percent_ttm',
+  // Profitability & ratios
+  'return_on_equity_fq', 'return_on_assets_fq',
+  'debt_to_equity_fq', 'current_ratio_fq',
+  // Performance (already in percent, e.g. -15.5 = -15.5%)
+  'Perf.W', 'Perf.1M', 'Perf.3M', 'Perf.6M', 'Perf.Y', 'Perf.YTD',
+  // Technical indicators
+  'RSI', 'ADX', 'MACD.macd', 'Recommend.All',
+  // Volatility
+  'beta_1_year',
+].join(',');
+
+interface TVSymbolData {
+  market_cap_basic?: number | null;
+  price_earnings_ttm?: number | null;
+  price_book_fq?: number | null;
+  earnings_per_share_basic_ttm?: number | null;
+  dividends_yield?: number | null;
+  dividends_per_share_fq?: number | null;
+  shares_outstanding?: number | null;
+  price_52_week_high?: number | null;
+  price_52_week_low?: number | null;
+  total_revenue?: number | null;
+  total_revenue_fy?: number | null;
+  net_income?: number | null;
+  net_income_fy?: number | null;
+  EBITDA?: number | null;
+  gross_profit?: number | null;
+  gross_profit_fy?: number | null;
+  operating_income?: number | null;
+  operating_income_fy?: number | null;
+  total_assets?: number | null;
+  total_assets_fy?: number | null;
+  total_debt?: number | null;
+  total_debt_fy?: number | null;
+  stockholders_equity?: number | null;
+  stockholders_equity_fy?: number | null;
+  cash_f_operating_activities?: number | null;
+  cash_f_operating_activities_fy?: number | null;
+  cash_f_investing_activities?: number | null;
+  cash_f_investing_activities_fy?: number | null;
+  cash_f_financing_activities?: number | null;
+  cash_f_financing_activities_fy?: number | null;
+  free_cash_flow?: number | null;
+  gross_margin_percent_ttm?: number | null;
+  operating_margin_ttm?: number | null;
+  net_margin_percent_ttm?: number | null;
+  return_on_equity_fq?: number | null;
+  return_on_assets_fq?: number | null;
+  debt_to_equity_fq?: number | null;
+  current_ratio_fq?: number | null;
+  'Perf.W'?: number | null;
+  'Perf.1M'?: number | null;
+  'Perf.3M'?: number | null;
+  'Perf.6M'?: number | null;
+  'Perf.Y'?: number | null;
+  'Perf.YTD'?: number | null;
+  RSI?: number | null;
+  ADX?: number | null;
+  'MACD.macd'?: number | null;
+  'Recommend.All'?: number | null;
+  beta_1_year?: number | null;
 }
 
-async function fetchYahoo(ticker: string): Promise<YFQuote | null> {
-  const fields = [
-    'regularMarketPrice', 'regularMarketChangePercent', 'regularMarketOpen',
-    'regularMarketDayHigh', 'regularMarketDayLow', 'regularMarketVolume',
-    'averageDailyVolume3Month', 'fiftyTwoWeekHigh', 'fiftyTwoWeekLow',
-    'marketCap', 'trailingPE', 'priceToBook', 'dividendYield',
-    'trailingAnnualDividendRate', 'epsTrailingTwelveMonths', 'ytdReturn',
-  ].join(',');
+/** Prefer the non-null value between TTM and FY variants */
+function tvPick(a: number | null | undefined, b: number | null | undefined): number | null {
+  return a ?? b ?? null;
+}
+
+async function fetchTVSymbol(ticker: string): Promise<TVSymbolData | null> {
   try {
-    const res = await fetch(
-      `${YAHOO_QUOTE}?symbols=${ticker}.CS&fields=${fields}`,
-      {
-        headers: { 'User-Agent': 'Mozilla/5.0' },
-        signal: AbortSignal.timeout(5_000),
-        next: { revalidate: 300 },
-      }
-    );
+    const url = `${TV_SYMBOL_API}?symbol=CSEMA:${encodeURIComponent(ticker)}&fields=${TV_FIELDS}`;
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+      signal: AbortSignal.timeout(8_000),
+      next: { revalidate: 300 },
+    });
     if (!res.ok) return null;
-    const json = await res.json();
-    return (json?.quoteResponse?.result?.[0] as YFQuote) ?? null;
+    const data = await res.json() as TVSymbolData;
+    // Return null if the object is completely empty (symbol not found)
+    if (!data || Object.keys(data).length === 0) return null;
+    return data;
   } catch {
     return null;
   }
@@ -117,18 +183,16 @@ export async function GET(req: NextRequest) {
   }
 
   const origin = req.nextUrl.origin;
-
-  // Enrich with static company data (ISIN, sector, name) from StocksMA
   const company = getCompany(ticker);
 
-  // Fetch BVC price and Yahoo Finance in parallel
-  const [bvc, yf] = await Promise.all([
+  // Fetch BVC price and TradingView data in parallel
+  const [bvc, tv] = await Promise.all([
     fetchBVCPrice(ticker, origin),
-    fetchYahoo(ticker),
+    fetchTVSymbol(ticker),
   ]);
 
-  // Nothing from live sources — fall back to donnees-only response (no 503)
-  if (!bvc && !yf) {
+  // Nothing from live sources — fall back to donnees-only response
+  if (!bvc && !tv) {
     const dn503 = getDonnees(ticker);
     const dn503D = dn503?.donnees;
     if (dn503D) {
@@ -155,6 +219,33 @@ export async function GET(req: NextRequest) {
         revenue:            dn503D.revenue       ?? null,
         netIncome:          dn503D.net_income    ?? null,
         ebitda:             dn503D.ebitda        ?? null,
+        grossProfit:        null,
+        operatingIncome:    null,
+        totalAssets:        null,
+        totalDebt:          null,
+        stockholdersEquity: null,
+        freeCashFlow:       null,
+        cashFromOperations: null,
+        cashFromInvesting:  null,
+        cashFromFinancing:  null,
+        grossMarginPct:     null,
+        operatingMarginPct: null,
+        netMarginPct:       null,
+        roe:                null,
+        roa:                null,
+        debtToEquity:       null,
+        currentRatio:       null,
+        beta:               null,
+        perfW:              null,
+        perf1M:             null,
+        perf3M:             null,
+        perf6M:             null,
+        perfY:              null,
+        perfYTD:            null,
+        rsi:                null,
+        adx:                null,
+        macd:               null,
+        recommendAll:       null,
         estimatedRevenue:   dn503D.revenue       ?? null,
         estimatedNetIncome: dn503D.net_income    ?? null,
         indicators:         [],
@@ -177,7 +268,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Build indicators list from what we have
+  // Build indicators list from BVC session data
   const indicators: { name: string; value: number | null; trend: number | null }[] = [];
 
   if (bvc) {
@@ -192,25 +283,19 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  if (yf) {
-    if (yf.averageDailyVolume3Month != null)
-      indicators.push({ name: 'Vol. moyen 30j',        value: yf.averageDailyVolume3Month,      trend: null });
-    if (yf.fiftyTwoWeekHigh != null)
-      indicators.push({ name: 'Plus haut 52 sem.',     value: yf.fiftyTwoWeekHigh,              trend: null });
-    if (yf.fiftyTwoWeekLow != null)
-      indicators.push({ name: 'Plus bas 52 sem.',      value: yf.fiftyTwoWeekLow,               trend: null });
-    if (yf.marketCap != null)
-      indicators.push({ name: 'Capitalisation bours.', value: yf.marketCap,                     trend: null });
-    if (yf.trailingPE != null)
-      indicators.push({ name: 'P/E ratio (PER)',        value: yf.trailingPE,                   trend: null });
-    if (yf.priceToBook != null)
-      indicators.push({ name: 'Prix / Valeur compt.',  value: yf.priceToBook,                   trend: null });
-    if (yf.epsTrailingTwelveMonths != null)
-      indicators.push({ name: 'BPA (12 mois)',         value: yf.epsTrailingTwelveMonths,       trend: null });
-    if (yf.trailingAnnualDividendRate != null)
-      indicators.push({ name: 'Dividende (MAD/action)', value: yf.trailingAnnualDividendRate,   trend: null });
-    if (yf.dividendYield != null)
-      indicators.push({ name: 'Rend. dividende (%)',   value: yf.dividendYield * 100,           trend: null });
+  if (tv) {
+    if (tv['price_52_week_high'] != null)
+      indicators.push({ name: 'Plus haut 52 sem.',      value: tv['price_52_week_high'],  trend: null });
+    if (tv['price_52_week_low'] != null)
+      indicators.push({ name: 'Plus bas 52 sem.',       value: tv['price_52_week_low'],   trend: null });
+    if (tv['market_cap_basic'] != null)
+      indicators.push({ name: 'Capitalisation (USD)',   value: tv['market_cap_basic'],    trend: null });
+    if (tv['price_earnings_ttm'] != null)
+      indicators.push({ name: 'P/E ratio (PER)',        value: tv['price_earnings_ttm'],  trend: null });
+    if (tv['RSI'] != null)
+      indicators.push({ name: 'RSI (14)',               value: tv['RSI'],                 trend: null });
+    if (tv['ADX'] != null)
+      indicators.push({ name: 'ADX',                   value: tv['ADX'],                 trend: null });
   }
 
   const dn = getDonnees(ticker);
@@ -223,33 +308,63 @@ export async function GET(req: NextRequest) {
     industry:           dnD?.industry          ?? null,
     companyName:        company?.name          ?? null,
     companyDesc:        company?.desc          ?? null,
-    currentPrice:       bvc?.lastPrice         ?? yf?.regularMarketPrice         ?? null,
-    performance:        bvc?.changePercent      ?? yf?.regularMarketChangePercent ?? null,
-    // Market cap: prefer BVC (MAD), then donnees (MAD), then Yahoo Finance
-    marketCap:          bvc
-                          ? (dnD?.market_cap ?? yf?.marketCap ?? null)
-                          : (dnD?.market_cap ?? yf?.marketCap ?? null),
-    // Valuation ratios: donnees (TradingView) preferred over Yahoo Finance
-    peRatio:            dnD?.pe_ratio          ?? yf?.trailingPE               ?? null,
-    avgVolume30d:       yf?.averageDailyVolume3Month ?? null,
-    ytdChange:          yf?.ytdReturn          ?? null,
-    week52High:         yf?.fiftyTwoWeekHigh   ?? null,
-    week52Low:          yf?.fiftyTwoWeekLow    ?? null,
-    priceToBook:        yf?.priceToBook        ?? null,
-    eps:                dnD?.eps               ?? yf?.epsTrailingTwelveMonths ?? null,
+    currentPrice:       bvc?.lastPrice         ?? null,
+    performance:        bvc?.changePercent      ?? null,
+    // Market cap: prefer BVC donnees (MAD), then TV (USD noted in indicator)
+    marketCap:          dnD?.market_cap ?? tv?.market_cap_basic ?? null,
+    // Valuation: donnees preferred, then TV
+    peRatio:            dnD?.pe_ratio          ?? tv?.price_earnings_ttm         ?? null,
+    avgVolume30d:       null,                  // TV scanner has no 30d avg volume
+    ytdChange:          tv?.['Perf.YTD']       ?? null,
+    week52High:         tv?.price_52_week_high ?? null,
+    week52Low:          tv?.price_52_week_low  ?? null,
+    priceToBook:        tv?.price_book_fq      ?? null,
+    eps:                dnD?.eps               ?? tv?.earnings_per_share_basic_ttm ?? null,
     dividendYield:      dnD?.dividend_yield != null
                           ? dnD.dividend_yield * 100
-                          : yf?.dividendYield != null ? yf.dividendYield * 100 : null,
-    dividendRate:       yf?.trailingAnnualDividendRate ?? null,
-    sharesOutstanding:  dnD?.shares_outstanding ?? null,
-    // Fundamentals from TradingView screener (last reported)
-    revenue:            dnD?.revenue     ?? null,
-    netIncome:          dnD?.net_income  ?? null,
-    ebitda:             dnD?.ebitda      ?? null,
-    estimatedRevenue:   dnD?.revenue     ?? null,
-    estimatedNetIncome: dnD?.net_income  ?? null,
+                          : tv?.dividends_yield ?? null,
+    dividendRate:       tv?.dividends_per_share_fq ?? null,
+    sharesOutstanding:  dnD?.shares_outstanding ?? tv?.shares_outstanding ?? null,
+    // Fundamentals: TV FY preferred, donnees as fallback
+    revenue:            tvPick(tv?.total_revenue_fy, tv?.total_revenue) ?? dnD?.revenue ?? null,
+    netIncome:          tvPick(tv?.net_income_fy, tv?.net_income)       ?? dnD?.net_income ?? null,
+    ebitda:             tv?.EBITDA                                       ?? dnD?.ebitda ?? null,
+    grossProfit:        tvPick(tv?.gross_profit_fy, tv?.gross_profit)   ?? null,
+    operatingIncome:    tvPick(tv?.operating_income_fy, tv?.operating_income) ?? null,
+    totalAssets:        tvPick(tv?.total_assets_fy, tv?.total_assets)   ?? null,
+    totalDebt:          tvPick(tv?.total_debt_fy, tv?.total_debt)       ?? null,
+    stockholdersEquity: tvPick(tv?.stockholders_equity_fy, tv?.stockholders_equity) ?? null,
+    freeCashFlow:       tv?.free_cash_flow                              ?? null,
+    cashFromOperations: tvPick(tv?.cash_f_operating_activities_fy, tv?.cash_f_operating_activities) ?? null,
+    cashFromInvesting:  tvPick(tv?.cash_f_investing_activities_fy, tv?.cash_f_investing_activities) ?? null,
+    cashFromFinancing:  tvPick(tv?.cash_f_financing_activities_fy, tv?.cash_f_financing_activities) ?? null,
+    // Margins (TV TTM)
+    grossMarginPct:     tv?.gross_margin_percent_ttm ?? null,
+    operatingMarginPct: tv?.operating_margin_ttm     ?? null,
+    netMarginPct:       tv?.net_margin_percent_ttm   ?? null,
+    // Profitability & ratios
+    roe:                tv?.return_on_equity_fq  ?? null,
+    roa:                tv?.return_on_assets_fq  ?? null,
+    debtToEquity:       tv?.debt_to_equity_fq    ?? null,
+    currentRatio:       tv?.current_ratio_fq     ?? null,
+    beta:               tv?.beta_1_year          ?? null,
+    // Performance
+    perfW:              tv?.['Perf.W']   ?? null,
+    perf1M:             tv?.['Perf.1M']  ?? null,
+    perf3M:             tv?.['Perf.3M']  ?? null,
+    perf6M:             tv?.['Perf.6M']  ?? null,
+    perfY:              tv?.['Perf.Y']   ?? null,
+    perfYTD:            tv?.['Perf.YTD'] ?? null,
+    // Technical indicators
+    rsi:                tv?.RSI                  ?? null,
+    adx:                tv?.ADX                  ?? null,
+    macd:               tv?.['MACD.macd']        ?? null,
+    recommendAll:       tv?.['Recommend.All']    ?? null,
+    // Legacy compat
+    estimatedRevenue:   tvPick(tv?.total_revenue_fy, tv?.total_revenue) ?? dnD?.revenue ?? null,
+    estimatedNetIncome: tvPick(tv?.net_income_fy, tv?.net_income)       ?? dnD?.net_income ?? null,
     indicators,
-    source: bvc ? 'casablanca-bourse' : (dn ? 'tradingview-screener' : 'yahoo-finance'),
+    source: bvc ? 'casablanca-bourse' : (tv ? 'tradingview' : 'static'),
   };
 
   return NextResponse.json(response, {

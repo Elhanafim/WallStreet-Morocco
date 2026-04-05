@@ -31,82 +31,20 @@ const FIN_TABS: { id: FinTab; label: string }[] = [
   { id: 'CASHFLOW', label: 'FLUX DE TRÉSORERIE' },
 ];
 
-// ── Ticker-seeded illustrative financial data ─────────────────────────────────
-// Each ticker produces unique but consistent numbers (deterministic hash).
-// Source pattern: iamleblanc/StocksMA — same approach as terminal.risk.ma.
-
-function djb2(s: string): number {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
-
-/** Returns a scale multiplier in [min, max] seeded by ticker + salt */
-function scale(ticker: string, salt: number, min = 0.3, max = 4.5): number {
-  const n = djb2(ticker + salt) % 10000;
-  return min + (n / 10000) * (max - min);
-}
-
-function seededIncome(ticker: string) {
-  const s = scale(ticker, 1);
-  const revenue   = [1240, 1350, 1420, 1580].map(v => Math.round(v * s));
-  const cogs      = revenue.map(v => Math.round(v * 0.65));
-  const opex      = revenue.map(v => Math.round(v * 0.22));
-  const interest  = [45, 42, 38, 35].map(v => Math.round(v * s * 0.6));
-  const tax       = revenue.map((v, i) => {
-    const ebit = v - cogs[i] - opex[i];
-    return Math.max(0, Math.round(ebit * 0.28));
-  });
-  const netIncome = revenue.map((v, i) => {
-    const ebit = v - cogs[i] - opex[i];
-    return Math.max(0, Math.round(ebit - interest[i] - tax[i]));
-  });
-  return { revenue, cogs, opex, interest, tax, netIncome };
-}
-
-function seededBalance(ticker: string, netIncome: number[]) {
-  const s = scale(ticker, 2);
-  const immocorp   = [1400, 1560, 1750, 2050].map(v => Math.round(v * s));
-  const immoinc    = [260,  310,  400,  480 ].map(v => Math.round(v * s * 0.8));
-  const actifFin   = [300,  330,  350,  380 ].map(v => Math.round(v * s * 0.7));
-  const stocks     = [210,  220,  230,  240 ].map(v => Math.round(v * s));
-  const creances   = [380,  400,  420,  450 ].map(v => Math.round(v * s));
-  const tresorerie = [300,  300,  300,  290 ].map(v => Math.round(v * s * 0.5));
-  const capital    = [500,  500,  500,  500 ].map(v => Math.round(v * s * 0.9));
-  const reserves   = [1000, 1205, 1468, 1835].map(v => Math.round(v * s));
-  const dettesCT   = [390,  400,  410,  420 ].map(v => Math.round(v * s * 0.75));
-  const dettesLT   = [700,  720,  740,  760 ].map(v => Math.round(v * s * 0.9));
-  return { immocorp, immoinc, actifFin, stocks, creances, tresorerie, capital, reserves, dettesCT, dettesLT, netIncome };
-}
-
-function seededCashflow(ticker: string, netIncome: number[]) {
-  const s = scale(ticker, 3, 0.4, 4.0);
-  return {
-    da:             [85,   95,   105,  115 ].map(v => Math.round(v * s)),
-    bfr:            [-40,  -35,  -30,  -25 ].map(v => Math.round(v * s)),
-    capex:          [-180, -200, -220, -250].map(v => Math.round(v * s)),
-    cessions:       [20,   15,   25,   30  ].map(v => Math.round(v * s * 0.5)),
-    remboursements: [-50,  -50,  -50,  -50 ].map(v => Math.round(v * s)),
-    dividendes:     [-95,  -115, -162, -195].map(v => Math.round(v * s * 0.6)),
-    netIncome,
-  };
-}
-
 // ── Helpers ───────────────────────────────────────────────────────────────────
-const YEARS = ['2021', '2022', '2023', '2024'];
-
-function fmtMDH(n: number): string {
-  return n.toLocaleString('fr-MA') + ' M';
-}
-
-function pctOf(a: number, b: number): string {
-  if (!b) return '—';
-  return ((a / b) * 100).toFixed(1) + '%';
-}
-
 function pctColor(v: number | null): string {
   if (v == null) return BB_MUTED;
   return v > 0 ? BB_GREEN : v < 0 ? BB_RED : BB_MUTED;
+}
+
+function fmtNum(v: number | null | undefined, decimals = 2): string {
+  if (v == null) return '—';
+  return v.toFixed(decimals);
+}
+
+function fmtPctVal(v: number | null | undefined): string {
+  if (v == null) return '—';
+  return `${v >= 0 ? '+' : ''}${v.toFixed(2)}%`;
 }
 
 // ── 52-week range bar ─────────────────────────────────────────────────────────
@@ -135,154 +73,252 @@ function Week52Bar({ price, low, high }: { price: number | null; low: number | n
   );
 }
 
-// ── Table helpers ─────────────────────────────────────────────────────────────
-function TableHeader() {
+// ── Performance strip ─────────────────────────────────────────────────────────
+function PerformanceStrip({ d }: { d: FinancialsData }) {
+  const periods = [
+    { label: 'Semaine',  value: d.perfW   },
+    { label: '1 Mois',   value: d.perf1M  },
+    { label: '3 Mois',   value: d.perf3M  },
+    { label: '6 Mois',   value: d.perf6M  },
+    { label: 'YTD',      value: d.perfYTD },
+    { label: '1 An',     value: d.perfY   },
+  ].filter(p => p.value != null);
+
+  if (periods.length === 0) return null;
+
   return (
-    <div
-      className="grid items-center px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest sticky top-0 z-10"
-      style={{
-        gridTemplateColumns: `minmax(200px,1fr) repeat(4, 100px)`,
-        gap: '8px',
-        borderColor: BB_BORDER,
-        background: '#050b14',
-        color: BB_MUTED,
-      }}
-    >
-      <span>Indicateur</span>
-      {YEARS.map(y => (
-        <span key={y} className="text-right" style={{ color: BB_ORANGE }}>{y}</span>
-      ))}
+    <div>
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ PERFORMANCE</span>
+        <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+      </div>
+      <div className={`grid gap-px bg-[#1E293B]`} style={{ gridTemplateColumns: `repeat(${periods.length}, 1fr)` }}>
+        {periods.map(p => (
+          <div key={p.label} className="flex flex-col items-center gap-1 p-3 bg-[#0B101E]" style={{ borderLeft: `2px solid ${pctColor(p.value)}33` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-center" style={{ color: BB_MUTED }}>{p.label}</span>
+            <span className="text-base font-black tabular-nums" style={{ color: pctColor(p.value), ...robotoMono.style }}>
+              {fmtPctVal(p.value)}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function StatRow({
-  label, customValues, highlight = false, indent = false, isMuted = false,
-}: {
+// ── Technical signals ─────────────────────────────────────────────────────────
+function TechnicalSignals({ d }: { d: FinancialsData }) {
+  if (d.rsi == null && d.adx == null && d.recommendAll == null) return null;
+
+  const rec = d.recommendAll;
+  const recLabel = rec == null ? null
+    : rec > 0.5  ? 'FORT ACHAT'
+    : rec > 0.1  ? 'ACHETER'
+    : rec < -0.5 ? 'FORTE VENTE'
+    : rec < -0.1 ? 'VENDRE'
+    : 'NEUTRE';
+  const recColor = recLabel == null ? BB_MUTED
+    : recLabel.includes('ACHAT') ? BB_GREEN
+    : recLabel.includes('VENTE') ? BB_RED
+    : BB_MUTED;
+
+  const rsiColor = d.rsi == null ? BB_MUTED
+    : d.rsi > 70 ? BB_RED
+    : d.rsi < 30 ? BB_GREEN
+    : BB_WHITE;
+
+  const adxStrength = d.adx == null ? null
+    : d.adx > 50 ? 'TRÈS FORT'
+    : d.adx > 25 ? 'FORT'
+    : 'FAIBLE';
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ SIGNAUX TECHNIQUES</span>
+        <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#1E293B]">
+        {recLabel != null && (
+          <div className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${recColor}55` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>Signal global</span>
+            <span className="text-sm font-black uppercase tracking-wide" style={{ color: recColor }}>{recLabel}</span>
+            <span className="text-[10px]" style={{ color: BB_MUTED }}>{rec != null ? rec.toFixed(3) : ''}</span>
+          </div>
+        )}
+        {d.rsi != null && (
+          <div className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${rsiColor}55` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>RSI (14)</span>
+            <span className="text-xl font-black tabular-nums" style={{ color: rsiColor }}>{d.rsi.toFixed(1)}</span>
+            <span className="text-[10px]" style={{ color: BB_MUTED }}>
+              {d.rsi > 70 ? 'Suracheté' : d.rsi < 30 ? 'Survendu' : 'Neutre'}
+            </span>
+          </div>
+        )}
+        {d.adx != null && (
+          <div className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${BB_ORANGE}55` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>ADX</span>
+            <span className="text-xl font-black tabular-nums" style={{ color: BB_ORANGE }}>{d.adx.toFixed(1)}</span>
+            <span className="text-[10px]" style={{ color: BB_MUTED }}>Tendance {adxStrength}</span>
+          </div>
+        )}
+        {d.macd != null && (
+          <div className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${d.macd >= 0 ? BB_GREEN : BB_RED}55` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>MACD</span>
+            <span className="text-xl font-black tabular-nums" style={{ color: d.macd >= 0 ? BB_GREEN : BB_RED }}>{d.macd.toFixed(4)}</span>
+            <span className="text-[10px]" style={{ color: BB_MUTED }}>{d.macd >= 0 ? 'Haussier' : 'Baissier'}</span>
+          </div>
+        )}
+      </div>
+      {d.beta != null && (
+        <div className="mt-px flex items-center gap-4 p-3 bg-[#0B101E] border border-[#1E293B]">
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>Bêta (1 an)</span>
+          <span className="text-sm font-black tabular-nums" style={{ color: BB_WHITE }}>{d.beta.toFixed(3)}</span>
+          <span className="text-[10px]" style={{ color: BB_MUTED }}>
+            {d.beta > 1.2 ? '↑ Plus volatil que le marché' : d.beta < 0.8 ? '↓ Moins volatil que le marché' : '≈ En ligne avec le marché'}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Margins / Profitability ───────────────────────────────────────────────────
+function MarginsBlock({ d }: { d: FinancialsData }) {
+  const metrics = [
+    { label: 'Marge opération.',  value: d.operatingMarginPct, fmt: (v: number) => `${v.toFixed(1)}%` },
+    { label: 'Marge nette',       value: d.netMarginPct,       fmt: (v: number) => `${v.toFixed(1)}%` },
+    { label: 'Marge brute',       value: d.grossMarginPct,     fmt: (v: number) => `${v.toFixed(1)}%` },
+    { label: 'ROE',               value: d.roe,                fmt: (v: number) => `${v.toFixed(1)}%` },
+    { label: 'ROA',               value: d.roa,                fmt: (v: number) => `${v.toFixed(1)}%` },
+    { label: 'Dette / Capitaux',  value: d.debtToEquity,       fmt: (v: number) => `${v.toFixed(2)}x` },
+    { label: 'Ratio liquidité',   value: d.currentRatio,       fmt: (v: number) => `${v.toFixed(2)}x` },
+  ].filter(m => m.value != null);
+
+  if (metrics.length === 0) return null;
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ MARGES & RENTABILITÉ</span>
+        <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#1E293B]">
+        {metrics.map(m => (
+          <div key={m.label} className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${BB_YELLOW}44` }}>
+            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>{m.label}</span>
+            <span className="text-xl font-black tabular-nums" style={{ color: BB_WHITE }}>{m.fmt(m.value!)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Financial statement helpers ───────────────────────────────────────────────
+function SectionHeader({ title }: { title: string }) {
+  return (
+    <div className="px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest" style={{
+      borderColor: BB_BORDER, background: '#050b14', color: BB_ORANGE,
+    }}>
+      {title}
+    </div>
+  );
+}
+
+function MetricRow({ label, value, highlight = false, indent = false, valueColor }: {
   label: string;
-  customValues: string[];
+  value: string;
   highlight?: boolean;
   indent?: boolean;
-  isMuted?: boolean;
+  valueColor?: string;
 }) {
   return (
-    <div
-      className="grid items-center px-4 py-2.5 border-b"
-      style={{
-        gridTemplateColumns: `minmax(200px,1fr) repeat(4, 100px)`,
-        gap: '8px',
-        borderColor: BB_BORDER,
-        background: highlight ? '#0A0F1D' : 'transparent',
-      }}
-    >
+    <div className="flex items-center justify-between px-4 py-3 border-b hover:bg-[#0A0F1D]"
+      style={{ borderColor: BB_BORDER, background: highlight ? '#0A0F1D' : 'transparent' }}>
       <span
-        className={`text-xs font-bold ${indent ? 'pl-5' : ''} ${highlight ? 'uppercase tracking-wider' : ''}`}
-        style={{ color: isMuted ? BB_MUTED : highlight ? BB_ORANGE : BB_WHITE }}
+        className={`text-xs font-bold ${indent ? 'pl-4' : ''} ${highlight ? 'uppercase tracking-wide' : ''}`}
+        style={{ color: highlight ? BB_ORANGE : BB_MUTED }}
       >
         {label}
       </span>
-      {customValues.map((v, i) => (
-        <span key={i} className="text-right text-xs tabular-nums font-bold" style={{ color: highlight ? BB_CYAN : isMuted ? BB_MUTED : BB_WHITE }}>
-          {v}
-        </span>
-      ))}
+      <span className="text-sm font-black tabular-nums" style={{ color: valueColor ?? (highlight ? BB_WHITE : BB_WHITE) }}>
+        {value}
+      </span>
     </div>
   );
 }
 
-// ── Financial statement renderers ─────────────────────────────────────────────
-function IncomeStatement({ ticker }: { ticker: string }) {
-  const { revenue, cogs, opex, interest, tax, netIncome } = seededIncome(ticker);
-  const grossMargin = YEARS.map((_, i) => revenue[i] - cogs[i]);
-  const ebit        = YEARS.map((_, i) => grossMargin[i] - opex[i]);
-  const ebt         = YEARS.map((_, i) => ebit[i] - interest[i]);
-
+function NoData() {
   return (
-    <div style={robotoMono.style}>
-      <TableHeader />
-      <StatRow label="Chiffre d'affaires (CA)"      highlight customValues={revenue.map(fmtMDH)} />
-      <StatRow label="Coût des ventes"               indent isMuted customValues={cogs.map(v => `(${fmtMDH(v)})`)} />
-      <StatRow label="Marge brute"                   customValues={grossMargin.map(fmtMDH)} />
-      <StatRow label="Marge brute %"                 isMuted customValues={YEARS.map((_, i) => pctOf(grossMargin[i], revenue[i]))} />
-      <StatRow label="Charges opérationnelles"       indent isMuted customValues={opex.map(v => `(${fmtMDH(v)})`)} />
-      <StatRow label="EBIT (Résultat d'exploitation)" highlight customValues={ebit.map(fmtMDH)} />
-      <StatRow label="Marge EBIT %"                  isMuted customValues={YEARS.map((_, i) => pctOf(ebit[i], revenue[i]))} />
-      <StatRow label="Charges financières"           indent isMuted customValues={interest.map(v => `(${fmtMDH(v)})`)} />
-      <StatRow label="Résultat avant impôts"         customValues={ebt.map(fmtMDH)} />
-      <StatRow label="Impôts sur le résultat"        indent isMuted customValues={tax.map(v => `(${fmtMDH(v)})`)} />
-      <StatRow label="RÉSULTAT NET"                  highlight customValues={netIncome.map(fmtMDH)} />
-      <StatRow label="Marge nette %"                 isMuted customValues={YEARS.map((_, i) => pctOf(netIncome[i], revenue[i]))} />
+    <div className="flex items-center justify-center h-40 text-xs" style={{ color: BB_MUTED, ...robotoMono.style }}>
+      Données non disponibles pour cette valeur
     </div>
   );
 }
 
-function BalanceSheet({ ticker }: { ticker: string }) {
-  const { netIncome } = seededIncome(ticker);
-  const b = seededBalance(ticker, netIncome);
-
-  const totalActifNC = YEARS.map((_, i) => b.immocorp[i] + b.immoinc[i] + b.actifFin[i]);
-  const totalActifC  = YEARS.map((_, i) => b.stocks[i] + b.creances[i] + b.tresorerie[i]);
-  const totalActif   = YEARS.map((_, i) => totalActifNC[i] + totalActifC[i]);
-  const capitProp    = YEARS.map((_, i) => b.capital[i] + b.reserves[i] + b.netIncome[i]);
-  const totalDettes  = YEARS.map((_, i) => b.dettesCT[i] + b.dettesLT[i]);
-  const totalPassif  = YEARS.map((_, i) => capitProp[i] + totalDettes[i]);
+// ── Financial statement tabs ──────────────────────────────────────────────────
+function IncomeStatementTab({ d }: { d: FinancialsData }) {
+  const hasData = d.revenue != null || d.netIncome != null || d.grossProfit != null;
+  if (!hasData) return <NoData />;
 
   return (
     <div style={robotoMono.style}>
-      <TableHeader />
-      <StatRow label="ACTIFS NON COURANTS"   highlight customValues={totalActifNC.map(fmtMDH)} />
-      <StatRow label="Immobilisations corp." indent    customValues={b.immocorp.map(fmtMDH)} />
-      <StatRow label="Immobilisations inc."  indent    customValues={b.immoinc.map(fmtMDH)} />
-      <StatRow label="Actifs financiers"     indent    customValues={b.actifFin.map(fmtMDH)} />
-      <StatRow label="ACTIFS COURANTS"       highlight customValues={totalActifC.map(fmtMDH)} />
-      <StatRow label="Stocks"                indent    customValues={b.stocks.map(fmtMDH)} />
-      <StatRow label="Créances clients"      indent    customValues={b.creances.map(fmtMDH)} />
-      <StatRow label="Trésorerie"            indent    customValues={b.tresorerie.map(fmtMDH)} />
-      <StatRow label="TOTAL ACTIF"           highlight customValues={totalActif.map(fmtMDH)} />
-      <StatRow label="CAPITAUX PROPRES"      highlight customValues={capitProp.map(fmtMDH)} />
-      <StatRow label="Capital social"        indent    customValues={b.capital.map(fmtMDH)} />
-      <StatRow label="Réserves"              indent    customValues={b.reserves.map(fmtMDH)} />
-      <StatRow label="Résultat de l'exercice" indent   customValues={b.netIncome.map(fmtMDH)} />
-      <StatRow label="DETTES TOTALES"        highlight customValues={totalDettes.map(fmtMDH)} />
-      <StatRow label="Dettes long terme"     indent    customValues={b.dettesLT.map(fmtMDH)} />
-      <StatRow label="Dettes court terme"    indent    customValues={b.dettesCT.map(fmtMDH)} />
-      <StatRow label="TOTAL PASSIF"          highlight customValues={totalPassif.map(fmtMDH)} />
-      <StatRow label="── RATIOS CLÉS ──"     isMuted   customValues={['', '', '', '']} />
-      <StatRow label="Ratio d'endettement"   customValues={YEARS.map((_, i) => pctOf(totalDettes[i], capitProp[i]))} />
-      <StatRow label="Ratio de liquidité"    customValues={YEARS.map((_, i) => (totalActifC[i] / b.dettesCT[i]).toFixed(2) + 'x')} />
-      <StatRow label="ROE (Rentab. cap. prop.)" customValues={YEARS.map((_, i) => pctOf(b.netIncome[i], capitProp[i]))} />
+      <SectionHeader title={`■ COMPTE DE RÉSULTAT — ${d.ticker}   Exercice annuel · Source: TradingView`} />
+      {d.revenue      != null && <MetricRow label="Chiffre d'affaires"      value={fmtMAD(d.revenue)}       highlight />}
+      {d.grossProfit  != null && <MetricRow label="Marge brute"             value={fmtMAD(d.grossProfit)}   indent />}
+      {d.grossMarginPct != null && <MetricRow label="Marge brute %"         value={`${d.grossMarginPct.toFixed(1)}%`} indent />}
+      {d.operatingIncome != null && <MetricRow label="Résultat d'exploitation" value={fmtMAD(d.operatingIncome)} highlight />}
+      {d.operatingMarginPct != null && <MetricRow label="Marge opérationnelle %"  value={`${d.operatingMarginPct.toFixed(1)}%`} indent />}
+      {d.ebitda       != null && <MetricRow label="EBITDA"                  value={fmtMAD(d.ebitda)}        />}
+      {d.netIncome    != null && <MetricRow label="RÉSULTAT NET"            value={fmtMAD(d.netIncome)}     highlight />}
+      {d.netMarginPct != null && <MetricRow label="Marge nette %"           value={`${d.netMarginPct.toFixed(1)}%`} indent />}
+      {d.eps          != null && <MetricRow label="BPA (bénéfice / action)" value={`${d.eps.toFixed(4)} MAD`} />}
+      <div className="mt-4 border-t" style={{ borderColor: BB_BORDER }}>
+        <SectionHeader title="■ RENTABILITÉ" />
+        {d.roe != null && <MetricRow label="ROE (Rentab. capitaux propres)" value={`${d.roe.toFixed(1)}%`} />}
+        {d.roa != null && <MetricRow label="ROA (Rentab. actifs)"           value={`${d.roa.toFixed(1)}%`} />}
+      </div>
     </div>
   );
 }
 
-function CashFlowStatement({ ticker }: { ticker: string }) {
-  const { netIncome } = seededIncome(ticker);
-  const cf = seededCashflow(ticker, netIncome);
-
-  const operating = YEARS.map((_, i) => cf.netIncome[i] + cf.da[i] + cf.bfr[i]);
-  const investing  = YEARS.map((_, i) => cf.capex[i] + cf.cessions[i]);
-  const financing  = YEARS.map((_, i) => cf.remboursements[i] + cf.dividendes[i]);
-  const fcf        = YEARS.map((_, i) => operating[i] + cf.capex[i]);
-  const { revenue } = seededIncome(ticker);
-
-  function fmt(n: number): string { return fmtMDH(n); }
+function BalanceSheetTab({ d }: { d: FinancialsData }) {
+  const hasData = d.totalAssets != null || d.totalDebt != null;
+  if (!hasData) return <NoData />;
 
   return (
     <div style={robotoMono.style}>
-      <TableHeader />
-      <StatRow label="FLUX D'EXPLOITATION"         highlight customValues={operating.map(fmt)} />
-      <StatRow label="Résultat net"                indent    customValues={cf.netIncome.map(fmt)} />
-      <StatRow label="Amortissements & dépréciations" indent customValues={cf.da.map(fmt)} />
-      <StatRow label="Variation BFR"              indent isMuted customValues={cf.bfr.map(fmt)} />
-      <StatRow label="FLUX D'INVESTISSEMENT"       highlight customValues={investing.map(fmt)} />
-      <StatRow label="Investissements (CAPEX)"    indent isMuted customValues={cf.capex.map(fmt)} />
-      <StatRow label="Cessions d'actifs"           indent    customValues={cf.cessions.map(fmt)} />
-      <StatRow label="FLUX DE FINANCEMENT"         highlight customValues={financing.map(fmt)} />
-      <StatRow label="Remboursements dettes"      indent isMuted customValues={cf.remboursements.map(fmt)} />
-      <StatRow label="Dividendes versés"          indent isMuted customValues={cf.dividendes.map(fmt)} />
-      <StatRow label="VARIATION NETTE TRÉSORERIE" highlight customValues={YEARS.map((_, i) => fmt(operating[i] + investing[i] + financing[i]))} />
-      <StatRow label="FREE CASH FLOW (FCF)"        highlight customValues={fcf.map(fmt)} />
-      <StatRow label="Marge FCF %"                 isMuted   customValues={YEARS.map((_, i) => pctOf(fcf[i], revenue[i]))} />
+      <SectionHeader title={`■ BILAN — ${d.ticker}   Exercice annuel · Source: TradingView`} />
+      {d.totalAssets        != null && <MetricRow label="TOTAL ACTIF"                value={fmtMAD(d.totalAssets)}        highlight />}
+      {d.totalDebt          != null && <MetricRow label="Dettes totales"             value={fmtMAD(d.totalDebt)}          indent />}
+      {d.stockholdersEquity != null && <MetricRow label="Capitaux propres"           value={fmtMAD(d.stockholdersEquity)} indent />}
+      {d.debtToEquity       != null && <MetricRow label="Ratio dette / capitaux"     value={`${d.debtToEquity.toFixed(2)}x`} />}
+      {d.currentRatio       != null && <MetricRow label="Ratio de liquidité courante" value={`${d.currentRatio.toFixed(2)}x`} />}
+      {d.priceToBook        != null && <MetricRow label="Prix / Valeur comptable"    value={`${d.priceToBook.toFixed(2)}x`} />}
+      {d.sharesOutstanding  != null && (
+        <MetricRow label="Nombre d'actions" value={d.sharesOutstanding.toLocaleString('fr-MA')} />
+      )}
+    </div>
+  );
+}
+
+function CashFlowTab({ d }: { d: FinancialsData }) {
+  const hasData = d.cashFromOperations != null || d.freeCashFlow != null;
+  if (!hasData) return <NoData />;
+
+  const fcfYield = (d.freeCashFlow != null && d.marketCap != null && d.marketCap > 0)
+    ? (d.freeCashFlow / d.marketCap) * 100
+    : null;
+
+  return (
+    <div style={robotoMono.style}>
+      <SectionHeader title={`■ FLUX DE TRÉSORERIE — ${d.ticker}   Exercice annuel · Source: TradingView`} />
+      {d.cashFromOperations != null && <MetricRow label="Flux d'exploitation"    value={fmtMAD(d.cashFromOperations)} highlight valueColor={d.cashFromOperations >= 0 ? BB_GREEN : BB_RED} />}
+      {d.cashFromInvesting  != null && <MetricRow label="Flux d'investissement"  value={fmtMAD(d.cashFromInvesting)}  highlight valueColor={d.cashFromInvesting  >= 0 ? BB_GREEN : BB_RED} />}
+      {d.cashFromFinancing  != null && <MetricRow label="Flux de financement"    value={fmtMAD(d.cashFromFinancing)}  highlight valueColor={d.cashFromFinancing  >= 0 ? BB_GREEN : BB_RED} />}
+      {d.freeCashFlow       != null && <MetricRow label="FREE CASH FLOW (FCF)"   value={fmtMAD(d.freeCashFlow)}       highlight valueColor={d.freeCashFlow       >= 0 ? BB_GREEN : BB_RED} />}
+      {fcfYield             != null && <MetricRow label="Rendement FCF"          value={`${fcfYield.toFixed(1)}%`}    indent />}
     </div>
   );
 }
@@ -299,7 +335,7 @@ function ProfilTab({ data }: { data: FinancialsData }) {
     { label: 'Capitalisation',        value: data.marketCap != null ? fmtMAD(data.marketCap) : null },
     { label: 'P/E Ratio (TTM)',        value: data.peRatio != null ? data.peRatio.toFixed(1) + 'x' : null },
     { label: 'Prix / Valeur comptable', value: data.priceToBook != null ? data.priceToBook.toFixed(2) + 'x' : null },
-    { label: 'BPA (12 mois)',          value: data.eps != null ? `${data.eps.toFixed(4)}` : null },
+    { label: 'BPA (12 mois)',          value: data.eps != null ? `${data.eps.toFixed(4)} MAD` : null },
     { label: 'Rend. dividende',        value: data.dividendYield != null ? fmtPct(data.dividendYield) : null },
     { label: 'Dividende / action',     value: data.dividendRate != null ? `${data.dividendRate.toFixed(2)} MAD` : null },
     { label: 'Nbre actions',           value: data.sharesOutstanding != null ? data.sharesOutstanding.toLocaleString('fr-MA') : null },
@@ -308,11 +344,11 @@ function ProfilTab({ data }: { data: FinancialsData }) {
     { label: 'EBITDA',                value: data.ebitda != null ? fmtMAD(data.ebitda) : null },
     { label: 'Plus haut 52 sem.',     value: data.week52High != null ? `${data.week52High.toFixed(2)} MAD` : null },
     { label: 'Plus bas 52 sem.',      value: data.week52Low != null ? `${data.week52Low.toFixed(2)} MAD` : null },
+    { label: 'Bêta (1 an)',           value: data.beta != null ? data.beta.toFixed(3) : null },
   ];
 
   return (
     <div className="p-5 space-y-5" style={robotoMono.style}>
-      {/* Identity card */}
       <div className="border" style={{ borderColor: BB_BORDER }}>
         <div className="px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest" style={{ borderColor: BB_BORDER, background: '#050b14', color: BB_ORANGE }}>
           ■ FICHE SOCIÉTÉ — {data.ticker}
@@ -327,7 +363,6 @@ function ProfilTab({ data }: { data: FinancialsData }) {
         </div>
       </div>
 
-      {/* Description */}
       {data.companyDesc && (
         <div className="border p-4" style={{ borderColor: BB_BORDER, background: BB_PANEL }}>
           <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: BB_ORANGE }}>■ PRÉSENTATION</p>
@@ -335,7 +370,6 @@ function ProfilTab({ data }: { data: FinancialsData }) {
         </div>
       )}
 
-      {/* 52-week range */}
       {data.week52High != null && data.week52Low != null && data.currentPrice != null && (
         <div className="border p-4" style={{ borderColor: BB_BORDER, background: BB_PANEL }}>
           <p className="text-[10px] font-bold uppercase tracking-widest mb-3" style={{ color: BB_ORANGE }}>■ FOURCHETTE 52 SEMAINES</p>
@@ -344,7 +378,7 @@ function ProfilTab({ data }: { data: FinancialsData }) {
       )}
 
       <p className="text-[10px] uppercase tracking-wider" style={{ color: BB_MUTED }}>
-        ⚠ Données indicatives. Source: iamleblanc/StocksMA · Yahoo Finance · Bourse de Casablanca.
+        Source: Bourse de Casablanca · TradingView · iamleblanc/StocksMA
       </p>
     </div>
   );
@@ -384,6 +418,13 @@ const EMPTY_DATA: FinancialsData = {
   avgVolume30d: null, ytdChange: null, week52High: null, week52Low: null,
   priceToBook: null, eps: null, dividendYield: null, dividendRate: null,
   sharesOutstanding: null, revenue: null, netIncome: null, ebitda: null,
+  grossProfit: null, operatingIncome: null,
+  totalAssets: null, totalDebt: null, stockholdersEquity: null,
+  freeCashFlow: null, cashFromOperations: null, cashFromInvesting: null, cashFromFinancing: null,
+  grossMarginPct: null, operatingMarginPct: null, netMarginPct: null,
+  roe: null, roa: null, debtToEquity: null, currentRatio: null, beta: null,
+  perfW: null, perf1M: null, perf3M: null, perf6M: null, perfY: null, perfYTD: null,
+  rsi: null, adx: null, macd: null, recommendAll: null,
   estimatedRevenue: null, estimatedNetIncome: null, indicators: [],
 };
 
@@ -492,22 +533,37 @@ export default function ValuesFinancials({ ticker }: Props) {
                 {/* Summary cards */}
                 <SummaryCards data={d} loading={isLoading} />
 
-                {/* Extended quote metrics */}
+                {/* Performance strip */}
+                {!isLoading && <PerformanceStrip d={d} />}
+
+                {/* Extended valuation metrics */}
                 {!isLoading && (d.priceToBook != null || d.eps != null || d.dividendYield != null) && (
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#1E293B]">
-                    {[
-                      { label: 'Prix / Valeur comptable', value: d.priceToBook != null ? d.priceToBook.toFixed(2) + 'x' : null },
-                      { label: 'BPA (12 mois)',            value: d.eps != null ? `${d.eps.toFixed(2)} MAD` : null },
-                      { label: 'Rend. dividende',          value: d.dividendYield != null ? fmtPct(d.dividendYield) : null, color: BB_GREEN },
-                      { label: 'Dividende / action',       value: d.dividendRate != null ? `${d.dividendRate.toFixed(2)} MAD` : null },
-                    ].filter(c => c.value != null).map(card => (
-                      <div key={card.label} className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${BB_YELLOW}44` }}>
-                        <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>{card.label}</span>
-                        <span className="text-xl font-black tabular-nums" style={{ color: card.color ?? BB_WHITE, ...robotoMono.style }}>{card.value}</span>
-                      </div>
-                    ))}
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ VALORISATION</span>
+                      <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[#1E293B]">
+                      {[
+                        { label: 'Prix / Valeur comptable', value: d.priceToBook != null ? d.priceToBook.toFixed(2) + 'x' : null },
+                        { label: 'BPA (12 mois)',            value: d.eps != null ? `${d.eps.toFixed(2)} MAD` : null },
+                        { label: 'Rend. dividende',          value: d.dividendYield != null ? fmtPct(d.dividendYield) : null, color: BB_GREEN },
+                        { label: 'Dividende / action',       value: d.dividendRate != null ? `${d.dividendRate.toFixed(2)} MAD` : null },
+                      ].filter(c => c.value != null).map(card => (
+                        <div key={card.label} className="flex flex-col gap-1 p-4 bg-[#0B101E]" style={{ borderLeft: `2px solid ${BB_YELLOW}44` }}>
+                          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>{card.label}</span>
+                          <span className="text-xl font-black tabular-nums" style={{ color: card.color ?? BB_WHITE, ...robotoMono.style }}>{card.value}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
+
+                {/* Technical signals */}
+                {!isLoading && <TechnicalSignals d={d} />}
+
+                {/* Margins */}
+                {!isLoading && <MarginsBlock d={d} />}
 
                 {/* 52-week range bar */}
                 {!isLoading && d.week52High != null && d.week52Low != null && d.currentPrice != null && (
@@ -517,17 +573,19 @@ export default function ValuesFinancials({ ticker }: Props) {
                   </div>
                 )}
 
-                {/* Indicators table */}
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ INDICATEURS SÉANCE</span>
-                    <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+                {/* Indicators table (BVC session data) */}
+                {d.indicators.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ INDICATEURS SÉANCE</span>
+                      <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+                    </div>
+                    <IndicatorsTable indicators={d.indicators} loading={isLoading} />
                   </div>
-                  <IndicatorsTable indicators={d.indicators} loading={isLoading} />
-                </div>
+                )}
 
                 <p className="text-[10px] uppercase tracking-wider text-center pb-4" style={{ color: BB_MUTED }}>
-                  ⚠ Données indicatives à titre éducatif uniquement.
+                  Source: Bourse de Casablanca · TradingView · Données en temps réel
                 </p>
               </div>
             )}
@@ -536,22 +594,9 @@ export default function ValuesFinancials({ ticker }: Props) {
             {finTab === 'PROFIL' && <ProfilTab data={d} />}
 
             {/* ─ Statements ─ */}
-            {(['INCOME', 'BALANCE', 'CASHFLOW'] as FinTab[]).includes(finTab) && ticker && (
-              <div>
-                <div className="flex items-center justify-between px-4 py-2 border-b" style={{ borderColor: BB_BORDER, background: '#050b14' }}>
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BB_ORANGE }}>
-                    ■ {finTab === 'INCOME' ? 'COMPTE DE RÉSULTAT' : finTab === 'BALANCE' ? 'BILAN COMPTABLE' : 'FLUX DE TRÉSORERIE'} — {ticker}
-                  </span>
-                  <span className="text-[10px]" style={{ color: BB_MUTED }}>En MDH · Illustratif · 2021–2024</span>
-                </div>
-                {finTab === 'INCOME'   && <IncomeStatement   ticker={ticker} />}
-                {finTab === 'BALANCE'  && <BalanceSheet       ticker={ticker} />}
-                {finTab === 'CASHFLOW' && <CashFlowStatement  ticker={ticker} />}
-                <p className="px-4 py-3 text-[10px] uppercase tracking-wider border-t" style={{ color: BB_MUTED, borderColor: BB_BORDER }}>
-                  ⚠ Données illustratives générées à titre éducatif — ne pas utiliser pour des décisions d'investissement.
-                </p>
-              </div>
-            )}
+            {finTab === 'INCOME'   && <IncomeStatementTab d={d} />}
+            {finTab === 'BALANCE'  && <BalanceSheetTab    d={d} />}
+            {finTab === 'CASHFLOW' && <CashFlowTab        d={d} />}
           </>
         )}
       </div>
