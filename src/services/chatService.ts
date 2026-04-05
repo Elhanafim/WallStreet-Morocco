@@ -3,7 +3,7 @@
  *
  * Routing:
  *  - With NEXT_PUBLIC_PRICE_SERVICE_URL set (local dev with Python running):
- *      → calls ${PRICE_SERVICE_URL}/chat/stream  (FastAPI)
+ *      → calls ${PRICE_SERVICE_URL}/chat/stream  (FastAPI + Groq)
  *  - Without it (Vercel production):
  *      → calls /api/chat/stream  (Next.js route → Groq directly)
  */
@@ -25,13 +25,6 @@ export interface ChatContext {
     bestTickers: string;
   } | null;
   marketStatus: "open" | "closed" | "unknown";
-  // Real-time market data injected into every Claude request
-  masi?: string;
-  masiChange?: string;
-  bamRate?: string;
-  usdMad?: string;
-  eurMad?: string;
-  nextEvent?: string;
 }
 
 export interface StreamCallbacks {
@@ -47,8 +40,49 @@ const PRICE_SERVICE =
 const CHAT_URL = PRICE_SERVICE ? `${PRICE_SERVICE}/chat/stream` : "/api/chat/stream";
 
 /**
+ * Build rich context from the current browser state.
+ * Reads portfolio from localStorage if available.
+ */
+export function buildChatContext(base: Omit<ChatContext, "portfolioSummary">): ChatContext {
+  if (typeof window === "undefined") return { ...base, portfolioSummary: null };
+
+  let portfolioSummary: ChatContext["portfolioSummary"] = null;
+  try {
+    const raw = localStorage.getItem("wsm_portfolio") || localStorage.getItem("wsma_portfolio");
+    if (raw) {
+      const holdings = JSON.parse(raw);
+      if (Array.isArray(holdings) && holdings.length > 0) {
+        const totalInvested = holdings.reduce((s: number, h: Record<string, unknown>) => s + (Number(h.totalCost) || 0), 0);
+        const currentValue  = holdings.reduce((s: number, h: Record<string, unknown>) => s + (Number(h.currentValue) || 0), 0);
+        const gainLossPercent = totalInvested > 0 ? ((currentValue - totalInvested) / totalInvested) * 100 : 0;
+        const tickers = holdings
+          .sort((a: Record<string, unknown>, b: Record<string, unknown>) =>
+            (Number(b.currentValue) || 0) - (Number(a.currentValue) || 0)
+          )
+          .slice(0, 5)
+          .map((h: Record<string, unknown>) => String(h.ticker || ""))
+          .filter(Boolean)
+          .join(", ");
+        portfolioSummary = {
+          totalInvested: Math.round(totalInvested),
+          currentValue:  Math.round(currentValue),
+          gainLossPercent: Math.round(gainLossPercent * 100) / 100,
+          holdingsCount: holdings.length,
+          bestTickers: tickers,
+        };
+      }
+    }
+  } catch {
+    // localStorage access error — skip portfolio context
+  }
+
+  return { ...base, portfolioSummary };
+}
+
+/**
  * Send a chat request and stream the response token-by-token.
  * Returns an AbortController so the caller can cancel the stream.
+ * Keeps last 20 messages (10 pairs) for conversation memory.
  */
 export function streamChat(
   messages: ChatMessage[],
@@ -56,6 +90,7 @@ export function streamChat(
   callbacks: StreamCallbacks
 ): AbortController {
   const controller = new AbortController();
+  const trimmedMessages = messages.slice(-20);
 
   (async () => {
     try {
@@ -63,18 +98,12 @@ export function streamChat(
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages,
+          messages: trimmedMessages,
           language:         context.language,
           currentPage:      context.currentPage,
           isAuthenticated:  context.isAuthenticated,
           portfolioSummary: context.portfolioSummary ?? null,
           marketStatus:     context.marketStatus,
-          masi:             context.masi,
-          masiChange:       context.masiChange,
-          bamRate:          context.bamRate,
-          usdMad:           context.usdMad,
-          eurMad:           context.eurMad,
-          nextEvent:        context.nextEvent,
         }),
         signal: controller.signal,
       });

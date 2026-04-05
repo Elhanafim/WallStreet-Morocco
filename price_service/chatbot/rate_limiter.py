@@ -8,10 +8,10 @@ from collections import defaultdict
 from typing import Tuple
 
 LIMITS = {
-    "per_minute": 10,
-    "per_hour":   50,
-    "per_day":    200,
-    "max_chars":  1000,
+    "per_minute": 15,
+    "per_hour":   100,
+    "per_day":    500,
+    "max_chars":  2000,
     "max_turns":  20,
 }
 
@@ -45,9 +45,9 @@ def check_rate_limit(ip: str) -> Tuple[bool, str]:
     if len(s["minute"]) >= LIMITS["per_minute"]:
         return False, "Trop de messages. Attendez 1 minute avant de renvoyer un message."
     if len(s["hour"]) >= LIMITS["per_hour"]:
-        return False, "Limite horaire atteinte (50 messages/heure). Revenez dans 1h."
+        return False, "Limite horaire atteinte (100 messages/heure). Revenez dans 1h."
     if len(s["day"]) >= LIMITS["per_day"]:
-        return False, "Limite journalière atteinte (200 messages/jour). Revenez demain."
+        return False, "Limite journalière atteinte (500 messages/jour). Revenez demain."
 
     s["minute"].append(now)
     s["hour"].append(now)

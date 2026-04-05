@@ -13,7 +13,7 @@ interface ChatInputProps {
   onTypingStart?: () => void;
 }
 
-const MAX_CHARS = 500;
+const MAX_CHARS = 1000;
 
 export default function ChatInput({
   onSend,
@@ -109,8 +109,7 @@ export default function ChatInput({
           <button
             onClick={submit}
             disabled={!value.trim() || disabled}
-            className="shrink-0 w-9 h-9 rounded-full disabled:opacity-40 text-white flex items-center justify-center transition"
-            style={{ background: "#1d4ed8" }}
+            className="shrink-0 w-9 h-9 rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white flex items-center justify-center transition"
             title={t("send", "Envoyer")}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

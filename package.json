@@ -10,7 +10,6 @@
     "price-service": "cd price_service && python3 -m uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.82.0",
     "@neondatabase/neon-js": "^0.2.0-beta.1",
     "@prisma/client": "^5.13.0",
     "@vercel/analytics": "^2.0.1",

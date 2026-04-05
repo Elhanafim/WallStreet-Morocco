@@ -1,34 +1,37 @@
 """
-FastAPI chatbot router — Groq / Llama 3.1 70B streaming endpoint.
+FastAPI chatbot router — Groq / Llama 3.3 70B streaming endpoint.
 Streams Server-Sent Events (SSE) to the frontend.
+Injects live BVC market data into every system prompt.
 """
 
 import asyncio
 import json
 import logging
 import os
+from datetime import datetime
 from typing import Optional
 
+import httpx
+import pytz
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from groq import Groq
 from pydantic import BaseModel
 
 from .rate_limiter import check_rate_limit, validate_message
-from .system_prompt import build_system_prompt
+from .system_prompt import get_system_prompt
 
 logger = logging.getLogger("wsm.chatbot")
 
 router = APIRouter(prefix="/chat", tags=["chatbot"])
 
-# ── Model config ───────────────────────────────────────────────────────────────
-# Free Groq models (best → fastest):
-#   llama-3.1-70b-versatile   — best quality, 131k context
-#   llama-3.1-8b-instant      — fastest response
-#   mixtral-8x7b-32768        — long context tasks
-GROQ_MODEL  = os.getenv("CHAT_MODEL", "llama-3.1-70b-versatile")
-MAX_TOKENS  = int(os.getenv("CHAT_MAX_TOKENS", "1024"))
-TEMPERATURE = 0.7
+# ── Model config ──────────────────────────────────────────────────────────────
+GROQ_MODEL  = os.getenv("CHAT_MODEL", "llama-3.3-70b-versatile")
+MAX_TOKENS  = int(os.getenv("CHAT_MAX_TOKENS", "2048"))
+TEMPERATURE = float(os.getenv("CHAT_TEMPERATURE", "0.4"))
+
+# Internal base URL for fetching live market data from the price service itself
+_SELF_BASE = os.getenv("PRICE_SERVICE_INTERNAL_URL", "http://127.0.0.1:8001")
 
 _client: Optional[Groq] = None
 
@@ -39,17 +42,60 @@ def get_groq_client() -> Groq:
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise RuntimeError(
-                "GROQ_API_KEY not set. "
-                "Get your free key at https://console.groq.com"
+                "GROQ_API_KEY not set. Get your free key at https://console.groq.com"
             )
         _client = Groq(api_key=api_key)
     return _client
 
 
+# ── Live market context ───────────────────────────────────────────────────────
+
+async def fetch_live_context() -> dict:
+    """Fetch live BVC data to inject into the system prompt."""
+    context: dict = {}
+
+    # Market status from local clock (no HTTP needed)
+    try:
+        tz = pytz.timezone("Africa/Casablanca")
+        now = datetime.now(tz)
+        is_weekday = now.weekday() < 5
+        minutes = now.hour * 60 + now.minute
+        is_open = is_weekday and 570 <= minutes <= 940  # 09:30–15:40
+        context["market_status"] = "OUVERT" if is_open else "FERMÉ"
+    except Exception:
+        context["market_status"] = "unknown"
+
+    # MASI and movers via the price service's own /prices/movers endpoint
+    try:
+        async with httpx.AsyncClient(timeout=3.0) as client:
+            resp = await client.get(f"{_SELF_BASE}/prices/movers")
+            if resp.status_code == 200:
+                data = resp.json()
+                gainers = data.get("gainers", [])[:3]
+                losers  = data.get("losers",  [])[:3]
+
+                # Build a compact MASI proxy from the top gainer/loser snapshot
+                # (MASI itself is not in /prices/movers, but we can note top movers)
+                g_str = ", ".join(
+                    f"{m['ticker']} +{m['changePercent']:.2f}%" for m in gainers
+                    if m.get("ticker") and m.get("changePercent") is not None
+                )
+                l_str = ", ".join(
+                    f"{m['ticker']} {m['changePercent']:.2f}%" for m in losers
+                    if m.get("ticker") and m.get("changePercent") is not None
+                )
+                if g_str or l_str:
+                    context["top_movers"] = f"Hausses: {g_str} | Baisses: {l_str}"
+    except Exception as exc:
+        logger.debug("[Chatbot] Live movers fetch skipped: %s", exc)
+
+    return context
+
+
 # ── Schemas ───────────────────────────────────────────────────────────────────
 
 class ChatMessage(BaseModel):
-    role:    str   # "user" or "assistant"
+    role:    str
     content: str
 
 
@@ -68,25 +114,22 @@ class ChatRequest(BaseModel):
 async def chat_stream(request: Request, body: ChatRequest):
     """
     Streaming chat endpoint via Server-Sent Events (SSE).
-    Powered by Groq API + Llama 3.1 70B — completely free.
+    Powered by Groq API + Llama 3.3 70B.
 
     SSE event types emitted:
       { "type": "token",  "content": "..." }   — incremental token
       { "type": "done" }                        — stream finished
       { "type": "error", "content": "..." }     — error message
     """
-    # Disable chat if explicitly turned off
     if os.getenv("CHAT_ENABLED", "true").lower() == "false":
         raise HTTPException(status_code=503, detail="Chat service is disabled.")
 
     ip = getattr(request.client, "host", "0.0.0.0")
 
-    # Per-IP rate limiting
     allowed, err = check_rate_limit(ip)
     if not allowed:
         raise HTTPException(status_code=429, detail=err)
 
-    # Input validation
     if not body.messages:
         raise HTTPException(status_code=400, detail="No messages provided.")
 
@@ -95,16 +138,18 @@ async def chat_stream(request: Request, body: ChatRequest):
     if not valid:
         raise HTTPException(status_code=400, detail=err)
 
-    # Build dynamic system prompt with full per-request context
-    system = build_system_prompt(
-        language=body.language,
-        current_page=body.currentPage,
-        is_authenticated=body.isAuthenticated,
-        portfolio_summary=body.portfolioSummary,
-        market_status=body.marketStatus,
-    )
+    # Fetch live backend context, then merge with frontend-sent context
+    live_ctx = await fetch_live_context()
+    full_context = {
+        **live_ctx,
+        "current_page":      body.currentPage,
+        "language":          body.language,
+        "market_status":     live_ctx.get("market_status", body.marketStatus),
+        "portfolio_summary": _format_portfolio(body.portfolioSummary),
+    }
 
-    # Keep last MAX_TURNS messages, filter to valid roles
+    system = get_system_prompt(full_context)
+
     messages_for_groq = [
         {"role": m.role, "content": m.content}
         for m in body.messages[-20:]
@@ -114,8 +159,6 @@ async def chat_stream(request: Request, body: ChatRequest):
     async def generate():
         try:
             client = get_groq_client()
-
-            # Groq streaming — identical interface to OpenAI
             stream = client.chat.completions.create(
                 model=GROQ_MODEL,
                 messages=[
@@ -124,15 +167,19 @@ async def chat_stream(request: Request, body: ChatRequest):
                 ],
                 max_tokens=MAX_TOKENS,
                 temperature=TEMPERATURE,
+                top_p=0.9,
                 stream=True,
             )
 
             for chunk in stream:
                 delta = chunk.choices[0].delta
                 if delta and delta.content:
-                    payload = json.dumps({"type": "token", "content": delta.content}, ensure_ascii=False)
+                    payload = json.dumps(
+                        {"type": "token", "content": delta.content},
+                        ensure_ascii=False,
+                    )
                     yield f"data: {payload}\n\n"
-                    await asyncio.sleep(0)  # yield control to event loop
+                    await asyncio.sleep(0)
 
             yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
@@ -166,14 +213,36 @@ async def chat_stream(request: Request, body: ChatRequest):
 
 @router.get("/health")
 async def chat_health():
-    """Check chatbot service availability."""
-    has_key   = bool(os.getenv("GROQ_API_KEY"))
-    enabled   = os.getenv("CHAT_ENABLED", "true").lower() != "false"
+    has_key = bool(os.getenv("GROQ_API_KEY"))
+    enabled = os.getenv("CHAT_ENABLED", "true").lower() != "false"
     return {
         "status":    "ok" if (has_key and enabled) else "degraded",
         "provider":  "Groq",
         "model":     GROQ_MODEL,
+        "max_tokens": MAX_TOKENS,
         "free":      True,
         "hasApiKey": has_key,
         "enabled":   enabled,
     }
+
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _format_portfolio(summary: Optional[dict]) -> Optional[str]:
+    """Convert portfolio dict to a compact human-readable string for the prompt."""
+    if not summary:
+        return None
+    try:
+        pct   = summary.get("gainLossPercent", 0)
+        sign  = "+" if pct >= 0 else ""
+        count = summary.get("holdingsCount", 0)
+        inv   = summary.get("totalInvested", 0)
+        cur   = summary.get("currentValue", 0)
+        best  = summary.get("bestTickers", "N/A")
+        return (
+            f"{count} position(s) — investi: {inv:,.0f} MAD, "
+            f"valeur actuelle: {cur:,.0f} MAD ({sign}{pct:.2f}%) — "
+            f"Meilleures valeurs: {best}"
+        )
+    except Exception:
+        return None
