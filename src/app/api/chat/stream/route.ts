@@ -9,7 +9,8 @@ import { NextRequest } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+// Client is created per-request so a missing/invalid key fails gracefully
+// rather than crashing the module at cold-start time.
 
 // ── Rate limiter (in-memory, per IP) ─────────────────────────────────────────
 
@@ -46,10 +47,10 @@ function buildSystemPrompt(opts: {
   const now = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Casablanca' });
   const date = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Africa/Casablanca' });
 
-  return `Tu es Casablanca, l'assistant IA officiel de WallStreet Morocco — la plateforme éducative de référence sur la Bourse de Casablanca (BVC).
+  return `Tu es l'Assistant IA officiel de WallStreet Morocco — la plateforme éducative de référence sur la Bourse de Casablanca (BVC).
 
 ## TON IDENTITÉ
-- Nom : Casablanca (ou "l'Assistant IA de WallStreet Morocco")
+- Nom : Assistant IA de WallStreet Morocco
 - Langue : Réponds dans la langue utilisée par l'utilisateur (français ou arabe principalement, anglais si demandé). Par défaut : français.
 - Ton : Professionnel, pédagogique, clair, confiant — comme un analyste financier expérimenté qui explique à un étudiant, jamais condescendant.
 
@@ -157,9 +158,13 @@ function sseResponse(chunk: Uint8Array, status = 200): Response {
 // ── Route handler ─────────────────────────────────────────────────────────────
 
 export async function POST(req: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY?.trim()) {
-    return sseResponse(sseChunk({ type: 'error', content: 'Service non configuré. Contactez l\'équipe.' }));
+  const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
+  if (!apiKey) {
+    return sseResponse(sseChunk({ type: 'error', content: 'Service IA non configuré. Contactez l\'équipe.' }));
   }
+
+  // Create per-request to avoid module-level crash when key is absent
+  const client = new Anthropic({ apiKey });
 
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '0.0.0.0';
   const rl = checkRateLimit(ip);
@@ -267,10 +272,5 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   const hasKey = Boolean(process.env.ANTHROPIC_API_KEY?.trim());
-  return Response.json({
-    status:   hasKey ? 'ok' : 'degraded',
-    provider: 'Anthropic',
-    model:    'claude-sonnet-4-6',
-    hasApiKey: hasKey,
-  });
+  return Response.json({ status: hasKey ? 'ok' : 'degraded', provider: 'Anthropic', model: 'claude-sonnet-4-6', hasApiKey: hasKey });
 }

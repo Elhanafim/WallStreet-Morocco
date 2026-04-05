@@ -110,7 +110,7 @@ export default function ChatInput({
             onClick={submit}
             disabled={!value.trim() || disabled}
             className="shrink-0 w-9 h-9 rounded-full disabled:opacity-40 text-white flex items-center justify-center transition"
-            style={{ background: "#C1272D" }}
+            style={{ background: "#1d4ed8" }}
             title={t("send", "Envoyer")}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

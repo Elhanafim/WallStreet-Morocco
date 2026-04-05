@@ -137,7 +137,7 @@ export default function ChatBubble() {
         {/* Bounce tooltip */}
         {showTooltip && !chat.isOpen && (
           <div className="bg-white text-gray-800 text-xs font-medium rounded-xl shadow-lg border border-gray-200 px-3 py-2 max-w-[200px] animate-fade-in relative">
-            ★ {t("bounceTooltip", "Bonjour ! Casablanca peut vous aider.")}
+            ★ {t("bounceTooltip", "Bonjour ! Je peux vous aider.")}
             <span className="absolute bottom-[-6px] right-6 w-3 h-3 bg-white border-r border-b border-gray-200 rotate-45 block" />
           </div>
         )}
@@ -145,7 +145,7 @@ export default function ChatBubble() {
         {/* Bubble button */}
         <button
           onClick={handleToggle}
-          aria-label={chat.isOpen ? "Fermer Casablanca" : "Ouvrir Casablanca — Assistant IA BVC"}
+          aria-label={chat.isOpen ? "Fermer le chat" : "Ouvrir l'Assistant IA — WallStreet Morocco"}
           className={`
             chat-bubble-btn relative flex items-center gap-2.5 text-white font-semibold
             transition-all duration-200 active:scale-95
@@ -155,7 +155,7 @@ export default function ChatBubble() {
         >
           {/* Unread badge */}
           {!chat.isOpen && chat.unreadCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-white text-[#C1272D] text-[10px] font-bold flex items-center justify-center animate-badge-in border border-red-200">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-white text-[#1d4ed8] text-[10px] font-bold flex items-center justify-center animate-badge-in border border-blue-200">
               {chat.unreadCount > 9 ? "9+" : chat.unreadCount}
             </span>
           )}
@@ -174,21 +174,21 @@ export default function ChatBubble() {
           </span>
 
           <span className="hidden md:block text-sm pr-1">
-            {chat.isOpen ? "Fermer" : "Casablanca"}
+            {chat.isOpen ? "Fermer" : "Assistant IA"}
           </span>
         </button>
       </div>
 
       <style jsx>{`
         .chat-bubble-btn {
-          background: linear-gradient(135deg, #C1272D 0%, #8B0000 100%);
+          background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
           border: 2px solid rgba(255, 255, 255, 0.25);
           border-radius: 9999px;
           padding: 12px 18px 12px 14px;
-          box-shadow: 0 8px 24px rgba(193, 39, 45, 0.45), 0 2px 8px rgba(0,0,0,0.2);
+          box-shadow: 0 8px 24px rgba(29, 78, 216, 0.45), 0 2px 8px rgba(0,0,0,0.2);
         }
         .chat-bubble-btn:hover {
-          background: linear-gradient(135deg, #a01f24 0%, #6b0000 100%);
+          background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
         }
         @media (max-width: 767px) {
           .chat-bubble-btn {
@@ -201,9 +201,9 @@ export default function ChatBubble() {
         }
 
         @keyframes chat-pulse-ring {
-          0%   { box-shadow: 0 8px 24px rgba(193,39,45,0.45), 0 0 0 0   rgba(193,39,45,0.5); }
-          70%  { box-shadow: 0 8px 24px rgba(193,39,45,0.45), 0 0 0 12px rgba(193,39,45,0); }
-          100% { box-shadow: 0 8px 24px rgba(193,39,45,0.45), 0 0 0 0   rgba(193,39,45,0); }
+          0%   { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 0   rgba(29,78,216,0.5); }
+          70%  { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 12px rgba(29,78,216,0); }
+          100% { box-shadow: 0 8px 24px rgba(29,78,216,0.45), 0 0 0 0   rgba(29,78,216,0); }
         }
         .chat-pulse { animation: chat-pulse-ring 2s ease-out infinite; }
 
@@ -231,7 +231,7 @@ export default function ChatBubble() {
         .chat-hint-strip {
           background: white;
           border: 1px solid #e5e7eb;
-          border-left: 3px solid #C1272D;
+          border-left: 3px solid #1d4ed8;
           border-radius: 8px;
           box-shadow: 0 4px 12px rgba(0,0,0,0.1);
           padding: 10px 14px;

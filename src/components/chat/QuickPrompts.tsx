@@ -93,8 +93,8 @@ export default function QuickPrompts({ currentPage, onSelect, hidden }: QuickPro
         <button
           key={p}
           onClick={() => onSelect(p)}
-          className="text-left text-xs bg-red-50 hover:bg-red-100 border border-red-100 hover:border-red-200 rounded-lg px-3 py-1.5 transition truncate"
-          style={{ color: "#C1272D" }}
+          className="text-left text-xs bg-blue-50 hover:bg-blue-100 border border-blue-100 hover:border-blue-200 rounded-lg px-3 py-1.5 transition truncate"
+          style={{ color: "#1d4ed8" }}
           title={p}
         >
           {p}
