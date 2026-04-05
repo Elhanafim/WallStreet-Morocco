@@ -15,7 +15,7 @@ import {
   getMarketStatus,
 } from '@/lib/bvcPriceService';
 import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
-import { BVC_STOCKS_78, DA_PARENT_MAP } from '@/lib/constants';
+import { BVC_STOCKS_78, DA_PARENT_MAP, DA_TICKERS, BOND_TICKERS } from '@/lib/constants';
 import { BVC_COMPANIES } from '@/lib/data/bvcCompanies';
 
 // Static fallback — data sourced from terminal.risk.ma/opcvm (30 fonds, encours en MDH)
@@ -332,16 +332,20 @@ export default function TerminalPage() {
   }, [loadData, loadOpcvm]);
 
   // ── Computed values ──────────────────────────────────────────────────────────
-  // Equity-only list: exclude Droits d'Attribution (ticker contains space, e.g. "DA ATW")
-  // and any other non-equity instruments that sneak through the BVC API.
+  // Equity-only list: exclude DA instruments, bonds, and legacy space-format tickers.
   const equityStocks = useMemo(
-    () => stocks.filter(s => !s.ticker.includes(' ')),
+    () => stocks.filter(s =>
+      !s.ticker.includes(' ') &&
+      !DA_TICKERS.has(s.ticker) &&
+      !BOND_TICKERS.has(s.ticker)
+    ),
     [stocks]
   );
 
-  // DA instruments: tickers with a space (BVC API format: "DA ATW", "DA BCP", etc.)
+  // DA instruments: actual BVC DA ticker codes (e.g. AADHA, AATHA, …)
+  // plus legacy space-format tickers returned by older API responses.
   const daStocks = useMemo(
-    () => stocks.filter(s => s.ticker.includes(' ')),
+    () => stocks.filter(s => DA_TICKERS.has(s.ticker) || s.ticker.includes(' ')),
     [stocks]
   );
 
@@ -1929,6 +1933,7 @@ export default function TerminalPage() {
               >
                 <option value="">🔍 Changer de valeur...</option>
                 {equityStocks
+                  .filter(s => BVC_STOCKS_78.includes(s.ticker))
                   .slice()
                   .sort((a, b) => a.ticker.localeCompare(b.ticker))
                   .map(s => (

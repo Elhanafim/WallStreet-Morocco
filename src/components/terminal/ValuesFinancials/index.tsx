@@ -290,19 +290,24 @@ function CashFlowStatement({ ticker }: { ticker: string }) {
 // ── PROFIL tab ────────────────────────────────────────────────────────────────
 function ProfilTab({ data }: { data: FinancialsData }) {
   const fields: { label: string; value: string | null; accent?: boolean }[] = [
-    { label: 'Raison sociale',  value: data.companyName,   accent: true },
-    { label: 'Ticker BVC',      value: data.ticker,        accent: true },
-    { label: 'Code ISIN',       value: data.isin },
-    { label: 'Secteur BVC',     value: data.sector },
-    { label: 'Cours actuel',    value: data.currentPrice != null ? `${fmtPrice(data.currentPrice)} MAD` : null },
-    { label: 'Capitalisation',  value: data.marketCap != null ? fmtMAD(data.marketCap) : null },
-    { label: 'P/E Ratio (TTM)', value: data.peRatio != null ? data.peRatio.toFixed(1) + 'x' : null },
+    { label: 'Raison sociale',        value: data.companyName,   accent: true },
+    { label: 'Ticker BVC',            value: data.ticker,        accent: true },
+    { label: 'Code ISIN',             value: data.isin },
+    { label: 'Secteur BVC',           value: data.sector },
+    { label: 'Sous-secteur',          value: data.industry },
+    { label: 'Cours actuel',          value: data.currentPrice != null ? `${fmtPrice(data.currentPrice)} MAD` : null },
+    { label: 'Capitalisation',        value: data.marketCap != null ? fmtMAD(data.marketCap) : null },
+    { label: 'P/E Ratio (TTM)',        value: data.peRatio != null ? data.peRatio.toFixed(1) + 'x' : null },
     { label: 'Prix / Valeur comptable', value: data.priceToBook != null ? data.priceToBook.toFixed(2) + 'x' : null },
-    { label: 'BPA (12 mois)',   value: data.eps != null ? `${data.eps.toFixed(2)} MAD` : null },
-    { label: 'Rend. dividende', value: data.dividendYield != null ? fmtPct(data.dividendYield) : null },
-    { label: 'Dividende / action', value: data.dividendRate != null ? `${data.dividendRate.toFixed(2)} MAD` : null },
-    { label: 'Plus haut 52 sem.', value: data.week52High != null ? `${data.week52High.toFixed(2)} MAD` : null },
-    { label: 'Plus bas 52 sem.', value: data.week52Low != null ? `${data.week52Low.toFixed(2)} MAD` : null },
+    { label: 'BPA (12 mois)',          value: data.eps != null ? `${data.eps.toFixed(4)}` : null },
+    { label: 'Rend. dividende',        value: data.dividendYield != null ? fmtPct(data.dividendYield) : null },
+    { label: 'Dividende / action',     value: data.dividendRate != null ? `${data.dividendRate.toFixed(2)} MAD` : null },
+    { label: 'Nbre actions',           value: data.sharesOutstanding != null ? data.sharesOutstanding.toLocaleString('fr-MA') : null },
+    { label: 'Chiffre d\'affaires',   value: data.revenue != null ? fmtMAD(data.revenue) : null },
+    { label: 'Résultat net',          value: data.netIncome != null ? fmtMAD(data.netIncome) : null },
+    { label: 'EBITDA',                value: data.ebitda != null ? fmtMAD(data.ebitda) : null },
+    { label: 'Plus haut 52 sem.',     value: data.week52High != null ? `${data.week52High.toFixed(2)} MAD` : null },
+    { label: 'Plus bas 52 sem.',      value: data.week52Low != null ? `${data.week52Low.toFixed(2)} MAD` : null },
   ];
 
   return (
@@ -373,10 +378,12 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
 }
 
 const EMPTY_DATA: FinancialsData = {
-  ticker: '', isin: null, sector: null, companyName: null, companyDesc: null,
+  ticker: '', isin: null, sector: null, industry: null,
+  companyName: null, companyDesc: null,
   currentPrice: null, performance: null, marketCap: null, peRatio: null,
   avgVolume30d: null, ytdChange: null, week52High: null, week52Low: null,
   priceToBook: null, eps: null, dividendYield: null, dividendRate: null,
+  sharesOutstanding: null, revenue: null, netIncome: null, ebitda: null,
   estimatedRevenue: null, estimatedNetIncome: null, indicators: [],
 };
 

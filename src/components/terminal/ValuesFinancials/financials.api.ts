@@ -13,6 +13,7 @@ export interface FinancialsData {
   // Company identity (from StocksMA / bvcCompanies)
   isin: string | null;
   sector: string | null;
+  industry: string | null;
   companyName: string | null;
   companyDesc: string | null;
   // Market data
@@ -22,13 +23,18 @@ export interface FinancialsData {
   peRatio: number | null;
   avgVolume30d: number | null;
   ytdChange: number | null;
-  // Extended Yahoo Finance fields
+  // Extended Yahoo Finance / TradingView fields
   week52High: number | null;
   week52Low: number | null;
   priceToBook: number | null;
   eps: number | null;
   dividendYield: number | null;
   dividendRate: number | null;
+  sharesOutstanding: number | null;
+  // Fundamentals (last reported, from TradingView screener)
+  revenue: number | null;
+  netIncome: number | null;
+  ebitda: number | null;
   // Estimates
   estimatedRevenue: number | null;
   estimatedNetIncome: number | null;

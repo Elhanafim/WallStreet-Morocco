@@ -13,6 +13,17 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getCompany } from '@/lib/data/bvcCompanies';
+import { DONNEES_BVC } from '@/lib/data/donnees';
+
+// BVC ticker → donnees entry (handles DWY/DIS alias for Disway)
+const DONNEES_MAP = new Map(
+  DONNEES_BVC.map(d => [d.ticker, d])
+);
+const TICKER_ALIASES: Record<string, string> = { 'DWY': 'DIS' };
+
+function getDonnees(ticker: string) {
+  return DONNEES_MAP.get(ticker) ?? DONNEES_MAP.get(TICKER_ALIASES[ticker] ?? '');
+}
 
 const YAHOO_QUOTE = 'https://query1.finance.yahoo.com/v7/finance/quote';
 
@@ -116,18 +127,51 @@ export async function GET(req: NextRequest) {
     fetchYahoo(ticker),
   ]);
 
-  // Nothing at all — return 503
+  // Nothing from live sources — fall back to donnees-only response (no 503)
   if (!bvc && !yf) {
+    const dn503 = getDonnees(ticker);
+    const dn503D = dn503?.donnees;
+    if (dn503D) {
+      return NextResponse.json({
+        ticker,
+        isin:               company?.isin      ?? null,
+        sector:             company?.sector     ?? dn503D.sector   ?? null,
+        industry:           dn503D.industry     ?? null,
+        companyName:        company?.name       ?? null,
+        companyDesc:        company?.desc       ?? null,
+        currentPrice:       null,
+        performance:        null,
+        marketCap:          dn503D.market_cap   ?? null,
+        peRatio:            dn503D.pe_ratio      ?? null,
+        avgVolume30d:       null,
+        ytdChange:          null,
+        week52High:         null,
+        week52Low:          null,
+        priceToBook:        null,
+        eps:                dn503D.eps           ?? null,
+        dividendYield:      dn503D.dividend_yield != null ? dn503D.dividend_yield * 100 : null,
+        dividendRate:       null,
+        sharesOutstanding:  dn503D.shares_outstanding ?? null,
+        revenue:            dn503D.revenue       ?? null,
+        netIncome:          dn503D.net_income    ?? null,
+        ebitda:             dn503D.ebitda        ?? null,
+        estimatedRevenue:   dn503D.revenue       ?? null,
+        estimatedNetIncome: dn503D.net_income    ?? null,
+        indicators:         [],
+        source:             'tradingview-screener',
+      });
+    }
     return NextResponse.json(
       {
         error: 'Données temporairement indisponibles. Veuillez réessayer.',
         ticker,
-        isin:        company?.isin        ?? null,
-        sector:      company?.sector      ?? null,
-        companyName: company?.name        ?? null,
-        companyDesc: company?.desc        ?? null,
-        indicators: [],
-        source: 'unavailable',
+        isin:        company?.isin   ?? null,
+        sector:      company?.sector ?? null,
+        industry:    null,
+        companyName: company?.name   ?? null,
+        companyDesc: company?.desc   ?? null,
+        indicators:  [],
+        source:      'unavailable',
       },
       { status: 503 }
     );
@@ -169,28 +213,43 @@ export async function GET(req: NextRequest) {
       indicators.push({ name: 'Rend. dividende (%)',   value: yf.dividendYield * 100,           trend: null });
   }
 
+  const dn = getDonnees(ticker);
+  const dnD = dn?.donnees;
+
   const response = {
     ticker,
-    isin:               company?.isin                          ?? null,
-    sector:             company?.sector                        ?? null,
-    companyName:        company?.name                          ?? null,
-    companyDesc:        company?.desc                          ?? null,
-    currentPrice:       bvc?.lastPrice              ?? yf?.regularMarketPrice          ?? null,
-    performance:        bvc?.changePercent           ?? yf?.regularMarketChangePercent  ?? null,
-    marketCap:          yf?.marketCap                ?? null,
-    peRatio:            yf?.trailingPE               ?? null,
+    isin:               company?.isin         ?? null,
+    sector:             company?.sector        ?? dnD?.sector    ?? null,
+    industry:           dnD?.industry          ?? null,
+    companyName:        company?.name          ?? null,
+    companyDesc:        company?.desc          ?? null,
+    currentPrice:       bvc?.lastPrice         ?? yf?.regularMarketPrice         ?? null,
+    performance:        bvc?.changePercent      ?? yf?.regularMarketChangePercent ?? null,
+    // Market cap: prefer BVC (MAD), then donnees (MAD), then Yahoo Finance
+    marketCap:          bvc
+                          ? (dnD?.market_cap ?? yf?.marketCap ?? null)
+                          : (dnD?.market_cap ?? yf?.marketCap ?? null),
+    // Valuation ratios: donnees (TradingView) preferred over Yahoo Finance
+    peRatio:            dnD?.pe_ratio          ?? yf?.trailingPE               ?? null,
     avgVolume30d:       yf?.averageDailyVolume3Month ?? null,
-    ytdChange:          yf?.ytdReturn                ?? null,
-    week52High:         yf?.fiftyTwoWeekHigh         ?? null,
-    week52Low:          yf?.fiftyTwoWeekLow          ?? null,
-    priceToBook:        yf?.priceToBook              ?? null,
-    eps:                yf?.epsTrailingTwelveMonths  ?? null,
-    dividendYield:      yf?.dividendYield != null ? yf.dividendYield * 100 : null,
+    ytdChange:          yf?.ytdReturn          ?? null,
+    week52High:         yf?.fiftyTwoWeekHigh   ?? null,
+    week52Low:          yf?.fiftyTwoWeekLow    ?? null,
+    priceToBook:        yf?.priceToBook        ?? null,
+    eps:                dnD?.eps               ?? yf?.epsTrailingTwelveMonths ?? null,
+    dividendYield:      dnD?.dividend_yield != null
+                          ? dnD.dividend_yield * 100
+                          : yf?.dividendYield != null ? yf.dividendYield * 100 : null,
     dividendRate:       yf?.trailingAnnualDividendRate ?? null,
-    estimatedRevenue:   null,
-    estimatedNetIncome: null,
+    sharesOutstanding:  dnD?.shares_outstanding ?? null,
+    // Fundamentals from TradingView screener (last reported)
+    revenue:            dnD?.revenue     ?? null,
+    netIncome:          dnD?.net_income  ?? null,
+    ebitda:             dnD?.ebitda      ?? null,
+    estimatedRevenue:   dnD?.revenue     ?? null,
+    estimatedNetIncome: dnD?.net_income  ?? null,
     indicators,
-    source: bvc ? 'casablanca-bourse' : 'yahoo-finance',
+    source: bvc ? 'casablanca-bourse' : (dn ? 'tradingview-screener' : 'yahoo-finance'),
   };
 
   return NextResponse.json(response, {

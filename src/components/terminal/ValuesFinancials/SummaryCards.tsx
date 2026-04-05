@@ -49,14 +49,14 @@ const CARDS: CardDef[] = [
     getColor: d => pctColor(d.ytdChange),
   },
   {
-    label: 'Revenus Est.',
-    subtext: '2024 estimé',
-    getValue: d => fmtMAD(d.estimatedRevenue),
+    label: 'Revenus',
+    subtext: 'Dernier exercice',
+    getValue: d => fmtMAD(d.revenue ?? d.estimatedRevenue),
   },
   {
-    label: 'Bénéfice Net Est.',
-    subtext: '2024 estimé',
-    getValue: d => fmtMAD(d.estimatedNetIncome),
+    label: 'Résultat Net',
+    subtext: 'Dernier exercice',
+    getValue: d => fmtMAD(d.netIncome ?? d.estimatedNetIncome),
   },
 ];
 
