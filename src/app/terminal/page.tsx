@@ -15,6 +15,8 @@ import {
   getMarketStatus,
 } from '@/lib/bvcPriceService';
 import { fetchOpcvm, type OpcvmFund } from '@/lib/opcvmService';
+import { BVC_STOCKS_78, DA_PARENT_MAP } from '@/lib/constants';
+import { BVC_COMPANIES } from '@/lib/data/bvcCompanies';
 
 // Static fallback — data sourced from terminal.risk.ma/opcvm (30 fonds, encours en MDH)
 const TERMINAL_OPCVM_FALLBACK: OpcvmFund[] = [
@@ -81,6 +83,8 @@ type SortDir     = 'ASC' | 'DESC';
 type PanelBTab   = 1 | 2 | 3;
 type OpcvmFilter  = 'ALL' | 'Actions' | 'Obligataire' | 'Monétaire' | 'Diversifié';
 type OpcvmSortCol = 'vl' | 'perf_1m' | 'perf_ytd' | 'perf_1an' | 'encours' | '';
+// Three exclusive sub-filters inside the Valeurs BVC tab
+type EquitiesSubFilter = 'ACTIONS' | 'DA' | 'OPCVM';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function fmtPrice(n: number | null | undefined): string {
@@ -262,6 +266,12 @@ export default function TerminalPage() {
   const [opcvmSortCol,  setOpcvmSortCol]  = useState<OpcvmSortCol>('perf_ytd');
   const [opcvmSortDir,  setOpcvmSortDir]  = useState<'asc' | 'desc'>('desc');
 
+  // ── Valeurs BVC sub-filter state ─────────────────────────────────────────────
+  const [equitiesSubFilter, setEquitiesSubFilter] = useState<EquitiesSubFilter>('ACTIONS');
+  const [sectorFilter,      setSectorFilter]      = useState<string>('ALL');
+  // History of last 5 viewed stocks for the Données stock switcher (Task 2)
+  const [lastViewedStocks,  setLastViewedStocks]  = useState<string[]>([]);
+
   const cmdRef         = useRef<HTMLInputElement>(null);
   const searchRef      = useRef<HTMLInputElement>(null);
   const prevPricesRef  = useRef<Map<string, number>>(new Map());
@@ -325,29 +335,50 @@ export default function TerminalPage() {
     [stocks]
   );
 
+  // DA instruments: tickers with a space (BVC API format: "DA ATW", "DA BCP", etc.)
+  const daStocks = useMemo(
+    () => stocks.filter(s => s.ticker.includes(' ')),
+    [stocks]
+  );
+
   const filtered = useMemo(() => {
-    let list = [...equityStocks];
+    // DA sub-tab: show only DA instruments, filtered by search text
+    if (equitiesSubFilter === 'DA') {
+      if (!search.trim()) return daStocks;
+      const q = search.toLowerCase();
+      return daStocks.filter(s =>
+        s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q)
+      );
+    }
+
+    // ACTIONS sub-tab: restrict to official 78 BVC stocks
+    let list = equityStocks.filter(s => BVC_STOCKS_78.includes(s.ticker));
+    // Fallback: if API hasn't returned the official list yet, show all equities
+    if (list.length === 0) list = [...equityStocks];
+
+    // Sector sub-filter (Actions only)
+    if (sectorFilter !== 'ALL') {
+      list = list.filter(s => (BVC_COMPANIES[s.ticker]?.sector ?? '') === sectorFilter);
+    }
     if (search.trim()) {
       const q = search.toLowerCase();
       list = list.filter(s => s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q));
     }
-    if (quickFilter === 'TOP')    list = list.sort((a, b) => (b.changePercent ?? 0) - (a.changePercent ?? 0)).slice(0, 10);
-    else if (quickFilter === 'PIRES')  list = list.sort((a, b) => (a.changePercent ?? 0) - (b.changePercent ?? 0)).slice(0, 10);
-    else if (quickFilter === 'VOLUME') list = list.sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
-    else {
-      list.sort((a, b) => {
-        let valA, valB;
-        if (sortField === 'TICKER') { valA = a.ticker; valB = b.ticker; }
-        else if (sortField === 'PRICE') { valA = a.lastPrice ?? 0; valB = b.lastPrice ?? 0; }
-        else if (sortField === 'CHANGE') { valA = a.changePercent ?? 0; valB = b.changePercent ?? 0; }
-        else { valA = a.volume ?? 0; valB = b.volume ?? 0; }
-        if (valA < valB) return sortDir === 'ASC' ? -1 : 1;
-        if (valA > valB) return sortDir === 'ASC' ? 1 : -1;
-        return 0;
-      });
-    }
+    if (quickFilter === 'TOP')    return list.sort((a, b) => (b.changePercent ?? 0) - (a.changePercent ?? 0)).slice(0, 10);
+    if (quickFilter === 'PIRES')  return list.sort((a, b) => (a.changePercent ?? 0) - (b.changePercent ?? 0)).slice(0, 10);
+    if (quickFilter === 'VOLUME') return list.sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
+    list.sort((a, b) => {
+      let valA: string | number, valB: string | number;
+      if (sortField === 'TICKER') { valA = a.ticker; valB = b.ticker; }
+      else if (sortField === 'PRICE') { valA = a.lastPrice ?? 0; valB = b.lastPrice ?? 0; }
+      else if (sortField === 'CHANGE') { valA = a.changePercent ?? 0; valB = b.changePercent ?? 0; }
+      else { valA = a.volume ?? 0; valB = b.volume ?? 0; }
+      if (valA < valB) return sortDir === 'ASC' ? -1 : 1;
+      if (valA > valB) return sortDir === 'ASC' ? 1 : -1;
+      return 0;
+    });
     return list;
-  }, [equityStocks, search, quickFilter, sortField, sortDir]);
+  }, [equityStocks, daStocks, equitiesSubFilter, sectorFilter, search, quickFilter, sortField, sortDir]);
 
   const toggleSort = (field: SortField) => {
     setQuickFilter('ALL');
@@ -452,6 +483,17 @@ export default function TerminalPage() {
     }
     setCmdMsg(t('cmd_unknown'));
   }, [cmdValue, stocks, t]);
+
+  /** Switch to a stock in the Données tab and record it in the recently-viewed history. */
+  const switchToStock = useCallback((ticker: string) => {
+    const found = stocks.find(s => s.ticker === ticker);
+    if (!found) return;
+    setSelectedTicker(found);
+    setLastViewedStocks(prev => {
+      const deduped = prev.filter(t => t !== ticker);
+      return [ticker, ...deduped].slice(0, 5);
+    });
+  }, [stocks]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -914,150 +956,460 @@ export default function TerminalPage() {
     );
   };
 
-  const renderEquities = () => (
-    <div className="h-full flex overflow-hidden">
-      {/* LEFT: Terminal List */}
-      <div className="w-full lg:w-[60%] flex flex-col border-r border-[#1E293B] bg-[#0B101E]">
-        <PanelHeader title={t('panel_a_title')}>
-          <span style={{ color: '#000', fontSize: '10px' }}>{equityStocks.length} val.</span>
-        </PanelHeader>
+  const renderEquities = () => {
+    // Derive unique sectors from the live Actions list for the sector dropdown
+    const sectorSet = new Set<string>();
+    for (const s of equityStocks) {
+      const sec = BVC_COMPANIES[s.ticker]?.sector;
+      if (sec) sectorSet.add(sec);
+    }
+    const sectorOptions = Array.from(sectorSet).sort();
 
-        {/* Filter bar */}
-        <div className="flex items-center gap-2 px-3 py-2 flex-shrink-0 border-b border-[#1E293B] bg-[#040914]">
-          <input
-            ref={searchRef} value={search} onChange={e => { setSearch(e.target.value); setQuickFilter('ALL'); }}
-            placeholder={t('search_placeholder')}
-            className="flex-1 bg-transparent outline-none text-[12px] px-2"
-            style={{ ...robotoMono.style, color: BB_WHITE, caretColor: BB_ORANGE }}
-          />
-          {(['ALL', 'TOP', 'PIRES', 'VOLUME'] as QuickFilter[]).map(f => (
-            <button
-              key={f} onClick={() => { setQuickFilter(f); setSearch(''); }}
-              className={`text-[10px] px-2 py-1 font-bold rounded-sm ${inter.className}`}
-              style={{
-                background: quickFilter === f ? BB_ORANGE : 'transparent',
-                color: quickFilter === f ? '#000' : BB_MUTED,
-                border: `1px solid ${quickFilter === f ? BB_ORANGE : BB_BORDER}`,
-              }}
-            >
-              {f === 'ALL' ? t('filter_all') : f === 'TOP' ? 'TOP' : f === 'PIRES' ? 'PIRES' : 'VOL↑'}
-            </button>
-          ))}
-        </div>
+    /** Switch sub-filter tab and reset search/sector state */
+    const switchSubFilter = (f: EquitiesSubFilter) => {
+      setEquitiesSubFilter(f);
+      setSearch('');
+      setSectorFilter('ALL');
+      setHighlightedRow(0);
+      setSelectedTicker(null);
+    };
 
-        {/* Header Grid */}
+    return (
+      <div className="h-full flex flex-col overflow-hidden">
+
+        {/* ── Sub-filter tab bar: Actions / DA / OPCVM ── */}
         <div
-          className="grid items-center gap-2 flex-shrink-0 text-[11px] font-bold px-[8px] py-2 border-b border-[#1E293B] bg-[#0A0F1D]"
-          style={{ color: BB_MUTED, ...robotoMono.style, gridTemplateColumns: '70px minmax(120px, 1fr) 70px 80px 70px 90px' }}
+          className="flex items-center border-b flex-shrink-0 overflow-x-auto scrollbar-hide"
+          style={{ background: '#050b14', borderColor: BB_BORDER }}
         >
-          <span className="cursor-pointer hover:text-white truncate" onClick={() => toggleSort('TICKER')}>{t('col_ticker')} {sortField==='TICKER'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-          <span>{t('col_name')}</span>
-          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('PRICE')}>{t('col_price')} {sortField==='PRICE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('CHANGE')}>{t('col_change_pct')} {sortField==='CHANGE'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-          <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('VOLUME')}>{t('col_volume')} {sortField==='VOLUME'? (sortDir==='ASC'?'↑':'↓'):''}</span>
-          <span className="text-center">{t('col_signal')}</span>
-        </div>
-
-        {/* Rows */}
-        <div className="flex-1 overflow-y-auto" ref={listRef}>
-          {loading ? (
-            <div className="flex items-center justify-center h-full text-sm font-bold" style={{ color: BB_ORANGE, ...robotoMono.style }}>{t('loading')}</div>
-          ) : filtered.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_MUTED, ...robotoMono.style }}>{t('no_data')}</div>
-          ) : (
-            filtered.map((stock, i) => (
-              <StockRow
-                key={stock.ticker} stock={stock} isHighlighted={i === highlightedRow}
-                isSelected={selectedTicker?.ticker === stock.ticker}
-                isFlashing={flashTickers.has(stock.ticker)}
-                onClick={() => { setSelectedTicker(stock); setPanelBTab(1); setHighlightedRow(i); }}
-              />
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* RIGHT: Trading Panel */}
-      <div className="hidden lg:flex flex-col w-[40%] bg-[#0B101E]">
-        <PanelHeader title={selectedTicker ? `${selectedTicker.ticker} — ACTIONS BVC` : t('panel_b_title')}>
-          {[1, 2].map(tab => (
+          {([
+            { id: 'ACTIONS' as EquitiesSubFilter, label: '📈 Actions',               badge: `${filtered.length > 0 ? filtered.length : BVC_STOCKS_78.length} val.` },
+            { id: 'DA'      as EquitiesSubFilter, label: '📋 Droits d\'Attribution',  badge: `${daStocks.length} DA` },
+            { id: 'OPCVM'   as EquitiesSubFilter, label: '🏦 OPCVM',                 badge: `${opcvmFunds.length} fonds` },
+          ]).map(tab => (
             <button
-              key={tab} onClick={() => setPanelBTab(tab as PanelBTab)}
-              className="text-[10px] px-3 py-1 font-bold rounded-sm"
+              key={tab.id}
+              onClick={() => switchSubFilter(tab.id)}
+              className="h-10 px-5 flex items-center gap-2 border-b-2 text-[11px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors"
               style={{
-                background: panelBTab === tab ? '#000' : 'transparent', color: panelBTab === tab ? BB_ORANGE : '#000', ...inter.style,
+                borderColor: equitiesSubFilter === tab.id ? BB_ORANGE : 'transparent',
+                color: equitiesSubFilter === tab.id ? BB_ORANGE : BB_MUTED,
+                background: equitiesSubFilter === tab.id ? '#1a140a' : 'transparent',
+                ...robotoMono.style,
               }}
             >
-              {tab === 1 ? t('tab_quote') : t('tab_chart')}
+              {tab.label}
+              <span
+                className="text-[9px] px-1.5 py-0.5 border"
+                style={{
+                  color: equitiesSubFilter === tab.id ? BB_ORANGE : BB_MUTED,
+                  borderColor: equitiesSubFilter === tab.id ? `${BB_ORANGE}55` : BB_BORDER,
+                  background: equitiesSubFilter === tab.id ? `${BB_ORANGE}11` : 'transparent',
+                }}
+              >
+                {tab.badge}
+              </span>
             </button>
           ))}
-        </PanelHeader>
+        </div>
 
-        <div className="flex-1 overflow-y-auto p-0 flex flex-col">
-          {!selectedTicker ? (
-            <div className="flex flex-col items-center justify-center h-full gap-3" style={robotoMono.style}>
-              <div className="text-3xl" style={{ color: BB_MUTED }}>◈</div>
-              <p className="text-sm font-bold" style={{ color: BB_ORANGE }}>Sélectionnez une action BVC</p>
-              <p className="text-xs" style={{ color: BB_MUTED }}>Le détail de la valeur apparaîtra ici.</p>
+        {/* ══════════════════════════════════════════════════════════════
+            SUB-TAB: 🏦 OPCVM — full-width embedded view
+        ══════════════════════════════════════════════════════════════ */}
+        {equitiesSubFilter === 'OPCVM' && (
+          <div className="flex-1 overflow-y-auto" style={{ background: BB_BG, ...robotoMono.style }}>
+
+            {/* Warning banner (Task 1 — Filter 3) */}
+            <div
+              className="flex items-start gap-3 px-5 py-4 border-b flex-shrink-0"
+              style={{ borderColor: '#7c4f00', background: '#1a0f00' }}
+            >
+              <span style={{ color: BB_ORANGE, fontSize: '18px', flexShrink: 0 }}>⚠️</span>
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest mb-1" style={{ color: BB_ORANGE }}>
+                  Section OPCVM — Amélioration en cours
+                </p>
+                <p className="text-xs leading-relaxed" style={{ color: '#CC9944' }}>
+                  La présentation des fonds n&apos;est pas encore optimale
+                  et le filtre par type d&apos;OPCVM est temporairement non fonctionnel.
+                </p>
+              </div>
             </div>
-          ) : panelBTab === 1 ? (
-            <div className="p-4 flex-1 flex flex-col" style={robotoMono.style}>
-              <div className="flex justify-between mb-4 border-b border-[#1E293B] pb-4">
-                <div>
-                  <p className="text-3xl font-black tracking-tight" style={{ color: BB_CYAN }}>{selectedTicker.ticker}</p>
-                  <p className="text-sm mt-1 text-white">{selectedTicker.name}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-4xl font-black tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
-                  <p className="text-xs font-bold mt-1" style={{ color: BB_MUTED }}>MAD</p>
-                </div>
-              </div>
 
-              <div className="flex items-center justify-between p-4 mb-4 text-sm font-bold rounded-sm"
-                  style={{ background: (selectedTicker.changePercent ?? 0) >= 0 ? '#00e67610' : '#ff174410', border: `1px solid ${(selectedTicker.changePercent ?? 0) >= 0 ? '#00E67633' : '#FF174433'}` }}>
-                <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '24px' }}>
-                  {fmtPct(selectedTicker.changePercent)}
-                </span>
-                <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '18px' }}>
-                  {(selectedTicker.change ?? 0) >= 0 ? '+' : ''}{fmtPrice(selectedTicker.change)} MAD
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-[1px] mb-6 bg-[#1E293B]">
+            {/* Roadmap card (Bonus S3) */}
+            <div
+              className="mx-4 my-4 border p-4"
+              style={{ borderColor: `${BB_CYAN}33`, background: `${BB_CYAN}08` }}
+            >
+              <p className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: BB_CYAN }}>
+                ■ FEUILLE DE ROUTE OPCVM
+              </p>
+              <ul className="space-y-1.5">
                 {[
-                  { label: t('open'),   value: fmtPrice(selectedTicker.open) },
-                  { label: t('high'),   value: fmtPrice(selectedTicker.high) },
-                  { label: t('low'),    value: fmtPrice(selectedTicker.low) },
-                  { label: t('volume'), value: fmtVolume(selectedTicker.volume) },
-                ].map(({ label, value }) => (
-                  <div key={label} className="px-4 py-3 bg-[#0A0F1D]">
-                    <p className="text-[11px] tracking-widest font-bold mb-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
-                    <p className="text-base font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
+                  'Filtrage par catégorie AMF (Obligations, Actions, Monétaire, Diversifié)',
+                  'Comparateur de fonds côte-à-côte',
+                  'Évolution de la VL (valeur liquidative)',
+                  'Données AMMC officielles',
+                ].map(item => (
+                  <li key={item} className="text-xs flex items-center gap-2" style={{ color: BB_MUTED }}>
+                    <span style={{ color: BB_CYAN }}>◦</span> {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Basic OPCVM table (Task 1 — Filter 3 columns: Nom | VL | Variation % | Catégorie | Gérant) */}
+            <div className="overflow-x-auto">
+              <div
+                className="grid items-center px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest sticky top-0 z-10"
+                style={{
+                  gridTemplateColumns: 'minmax(180px,1fr) 100px 80px 100px minmax(130px,1fr)',
+                  gap: '10px',
+                  borderColor: BB_BORDER,
+                  background: '#0A0F1D',
+                  color: BB_MUTED,
+                }}
+              >
+                <span>Nom</span>
+                <span className="text-right">VL (DH)</span>
+                <span className="text-right">Var. %</span>
+                <span>Catégorie</span>
+                <span>Gérant</span>
+              </div>
+              <div>
+                {opcvmLoading ? (
+                  <div className="p-8 text-center text-sm font-bold" style={{ color: BB_ORANGE }}>CHARGEMENT...</div>
+                ) : opcvmFunds.length === 0 ? (
+                  <div className="p-8 text-center text-sm" style={{ color: BB_MUTED }}>Aucun fonds disponible.</div>
+                ) : opcvmFunds.map((fund, i) => (
+                  <div
+                    key={`opcvm-${fund.name}-${i}`}
+                    className="grid items-center px-4 py-3 border-b hover:bg-[#111827] transition-colors"
+                    style={{
+                      gridTemplateColumns: 'minmax(180px,1fr) 100px 80px 100px minmax(130px,1fr)',
+                      gap: '10px',
+                      borderColor: BB_BORDER,
+                      fontSize: '12px',
+                      color: BB_WHITE,
+                    }}
+                  >
+                    <span className="font-bold truncate" title={fund.name}>{fund.name}</span>
+                    <span className="text-right tabular-nums font-bold" style={{ color: BB_CYAN }}>
+                      {fund.vl != null ? fund.vl.toFixed(2) : '—'}
+                    </span>
+                    <span className="text-right tabular-nums font-bold" style={{ color: pctColor(fund.perf_1m) }}>
+                      {fmtPerf(fund.perf_1m)}
+                    </span>
+                    <span
+                      className="text-[10px] font-bold px-1.5 py-0.5 border truncate"
+                      style={{
+                        color: opcvmTypeColor(fund.type),
+                        borderColor: `${opcvmTypeColor(fund.type)}44`,
+                        background: `${opcvmTypeColor(fund.type)}11`,
+                      }}
+                    >
+                      {fund.type ?? '—'}
+                    </span>
+                    <span className="truncate text-[11px]" style={{ color: BB_MUTED }}>
+                      {fund.societe_gestion ?? '—'}
+                    </span>
                   </div>
                 ))}
               </div>
+            </div>
+            <p className="px-4 py-3 text-[10px] uppercase tracking-wider border-t" style={{ color: BB_MUTED, borderColor: BB_BORDER }}>
+              ⚠️ {t('opcvm_disclaimer')}
+            </p>
+          </div>
+        )}
 
-              {/* Smaller quick chart for quoting panel */}
-              <div className="flex-1 min-h-[250px] border border-[#1E293B]">
-                <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={250} theme="dark" interval="D" showToolbar={false} />
+        {/* ══════════════════════════════════════════════════════════════
+            SUB-TABS: 📈 ACTIONS  and  📋 DA — two-panel layout
+        ══════════════════════════════════════════════════════════════ */}
+        {(equitiesSubFilter === 'ACTIONS' || equitiesSubFilter === 'DA') && (
+          <div className="flex-1 flex overflow-hidden">
+
+            {/* LEFT: Stock / DA list */}
+            <div className="w-full lg:w-[60%] flex flex-col border-r border-[#1E293B] bg-[#0B101E]">
+              <PanelHeader title={equitiesSubFilter === 'ACTIONS' ? 'ACTIONS BVC — 78 VALEURS OFFICIELLES' : 'DROITS D\'ATTRIBUTION'}>
+                <span style={{ color: '#000', fontSize: '10px' }}>{filtered.length} val.</span>
+              </PanelHeader>
+
+              {/* Filter bar */}
+              <div className="flex flex-wrap items-center gap-2 px-3 py-2 flex-shrink-0 border-b border-[#1E293B] bg-[#040914]">
+                <input
+                  ref={searchRef} value={search}
+                  onChange={e => { setSearch(e.target.value); setQuickFilter('ALL'); }}
+                  placeholder={t('search_placeholder')}
+                  className="flex-1 min-w-[120px] bg-transparent outline-none text-[12px] px-2"
+                  style={{ ...robotoMono.style, color: BB_WHITE, caretColor: BB_ORANGE }}
+                />
+                {/* Quick filters and sector dropdown — Actions only */}
+                {equitiesSubFilter === 'ACTIONS' && (
+                  <>
+                    {(['ALL', 'TOP', 'PIRES', 'VOLUME'] as QuickFilter[]).map(f => (
+                      <button
+                        key={f} onClick={() => { setQuickFilter(f); setSearch(''); }}
+                        className={`text-[10px] px-2 py-1 font-bold rounded-sm ${inter.className}`}
+                        style={{
+                          background: quickFilter === f ? BB_ORANGE : 'transparent',
+                          color: quickFilter === f ? '#000' : BB_MUTED,
+                          border: `1px solid ${quickFilter === f ? BB_ORANGE : BB_BORDER}`,
+                        }}
+                      >
+                        {f === 'ALL' ? t('filter_all') : f === 'TOP' ? 'TOP' : f === 'PIRES' ? 'PIRES' : 'VOL↑'}
+                      </button>
+                    ))}
+                    {/* Sector sub-filter dropdown */}
+                    <select
+                      value={sectorFilter}
+                      onChange={e => { setSectorFilter(e.target.value); setQuickFilter('ALL'); }}
+                      className="bg-[#0B101E] border px-2 py-1 text-[10px] outline-none cursor-pointer"
+                      style={{
+                        borderColor: sectorFilter !== 'ALL' ? BB_ORANGE : BB_BORDER,
+                        color: sectorFilter !== 'ALL' ? BB_ORANGE : BB_MUTED,
+                        ...robotoMono.style,
+                      }}
+                    >
+                      <option value="ALL">Tous secteurs</option>
+                      {sectorOptions.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </>
+                )}
+              </div>
+
+              {/* Column headers */}
+              {equitiesSubFilter === 'ACTIONS' && (
+                <div
+                  className="grid items-center gap-2 flex-shrink-0 text-[11px] font-bold px-[8px] py-2 border-b border-[#1E293B] bg-[#0A0F1D]"
+                  style={{ color: BB_MUTED, ...robotoMono.style, gridTemplateColumns: '70px minmax(120px, 1fr) 70px 80px 70px 90px' }}
+                >
+                  <span className="cursor-pointer hover:text-white truncate" onClick={() => toggleSort('TICKER')}>{t('col_ticker')} {sortField==='TICKER'?(sortDir==='ASC'?'↑':'↓'):''}</span>
+                  <span>{t('col_name')}</span>
+                  <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('PRICE')}>{t('col_price')} {sortField==='PRICE'?(sortDir==='ASC'?'↑':'↓'):''}</span>
+                  <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('CHANGE')}>{t('col_change_pct')} {sortField==='CHANGE'?(sortDir==='ASC'?'↑':'↓'):''}</span>
+                  <span className="text-right cursor-pointer hover:text-white" onClick={() => toggleSort('VOLUME')}>{t('col_volume')} {sortField==='VOLUME'?(sortDir==='ASC'?'↑':'↓'):''}</span>
+                  <span className="text-center">{t('col_signal')}</span>
+                </div>
+              )}
+              {equitiesSubFilter === 'DA' && (
+                <div
+                  className="grid items-center gap-2 flex-shrink-0 text-[11px] font-bold px-[8px] py-2 border-b border-[#1E293B] bg-[#0A0F1D]"
+                  style={{ color: BB_MUTED, ...robotoMono.style, gridTemplateColumns: '110px minmax(130px, 1fr) 70px 80px 70px' }}
+                >
+                  <span>TICKER DA</span>
+                  <span>NOM</span>
+                  <span className="text-right">COURS</span>
+                  <span className="text-right">VAR%</span>
+                  <span className="text-right">VOLUME</span>
+                </div>
+              )}
+
+              {/* Rows */}
+              <div className="flex-1 overflow-y-auto" ref={listRef}>
+                {loading ? (
+                  <div className="flex items-center justify-center h-full text-sm font-bold" style={{ color: BB_ORANGE, ...robotoMono.style }}>{t('loading')}</div>
+                ) : filtered.length === 0 ? (
+                  <div className="flex items-center justify-center h-full text-sm" style={{ color: BB_MUTED, ...robotoMono.style }}>
+                    {equitiesSubFilter === 'DA' ? 'Aucun droit d\'attribution actif.' : t('no_data')}
+                  </div>
+                ) : equitiesSubFilter === 'ACTIONS' ? (
+                  filtered.map((stock, i) => (
+                    <StockRow
+                      key={stock.ticker} stock={stock}
+                      isHighlighted={i === highlightedRow}
+                      isSelected={selectedTicker?.ticker === stock.ticker}
+                      isFlashing={flashTickers.has(stock.ticker)}
+                      onClick={() => { setSelectedTicker(stock); setPanelBTab(1); setHighlightedRow(i); }}
+                    />
+                  ))
+                ) : (
+                  // DA rows
+                  filtered.map((stock, i) => (
+                    <div
+                      key={stock.ticker}
+                      onClick={() => { setSelectedTicker(stock); setHighlightedRow(i); }}
+                      className="grid items-center gap-2 select-none transition-colors duration-150 hover:bg-[#111827] cursor-pointer"
+                      style={{
+                        background: selectedTicker?.ticker === stock.ticker ? '#1a2235' : 'transparent',
+                        borderLeft: selectedTicker?.ticker === stock.ticker ? `2px solid ${BB_YELLOW}` : '2px solid transparent',
+                        borderBottom: `1px solid ${BB_BORDER}`,
+                        ...robotoMono.style, fontSize: '12px', color: BB_WHITE,
+                        gridTemplateColumns: '110px minmax(130px, 1fr) 70px 80px 70px',
+                        padding: '6px 8px',
+                      }}
+                    >
+                      <span className="font-bold truncate" style={{ color: BB_YELLOW }}>{stock.ticker}</span>
+                      <span className="truncate" style={{ color: BB_MUTED }}>{stock.name}</span>
+                      <span className="text-right font-bold tabular-nums">{fmtPrice(stock.lastPrice)}</span>
+                      <span className="text-right font-bold tabular-nums" style={{ color: pctColor(stock.changePercent) }}>{fmtPct(stock.changePercent)}</span>
+                      <span className="text-right tabular-nums" style={{ color: BB_MUTED }}>{fmtVolume(stock.volume)}</span>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
-          ) : (
-            <div className="flex-1 flex flex-col p-2 h-full">
-              <div className="flex gap-2 p-2 border-b border-[#1E293B] mb-2">
-                {['1D','1W','1M','3M','6M','1Y'].map(r => (
-                  <button key={r} className="text-xs px-2 py-1 font-bold rounded-sm" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, ...robotoMono.style }}>{r}</button>
-                ))}
-              </div>
-              <div className="flex-1 min-h-[400px]">
-                <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={450} theme="dark" interval="D" showToolbar={true} />
-              </div>
+
+            {/* RIGHT: Detail panel */}
+            <div className="hidden lg:flex flex-col w-[40%] bg-[#0B101E]">
+
+              {/* DA detail panel — no TradingView chart */}
+              {equitiesSubFilter === 'DA' ? (
+                !selectedTicker ? (
+                  <div className="flex flex-col items-center justify-center h-full gap-3" style={robotoMono.style}>
+                    <div className="text-3xl" style={{ color: BB_MUTED }}>◈</div>
+                    <p className="text-sm font-bold" style={{ color: BB_YELLOW }}>Sélectionnez un DA</p>
+                    <p className="text-xs" style={{ color: BB_MUTED }}>Le détail apparaîtra ici.</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col h-full" style={robotoMono.style}>
+                    <PanelHeader title={`${selectedTicker.ticker} — DÉTAIL DA`} />
+                    <div className="flex-1 overflow-y-auto p-5 space-y-4">
+                      {/* Price header */}
+                      <div className="flex justify-between items-start border-b pb-4" style={{ borderColor: BB_BORDER }}>
+                        <div>
+                          <p className="text-2xl font-black" style={{ color: BB_YELLOW }}>{selectedTicker.ticker}</p>
+                          <p className="text-sm mt-1" style={{ color: BB_WHITE }}>{selectedTicker.name}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-3xl font-black tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
+                          <p className="text-sm mt-1 font-bold tabular-nums" style={{ color: pctColor(selectedTicker.changePercent) }}>{fmtPct(selectedTicker.changePercent)}</p>
+                        </div>
+                      </div>
+
+                      {/* No-chart info card */}
+                      <div className="border p-4" style={{ borderColor: `${BB_CYAN}44`, background: `${BB_CYAN}08` }}>
+                        <p className="text-xs font-bold mb-2" style={{ color: BB_CYAN }}>ℹ️ GRAPHIQUE INDISPONIBLE</p>
+                        <p className="text-[11px] leading-relaxed" style={{ color: BB_MUTED }}>
+                          Les Droits d&apos;Attribution ne disposent pas de graphique boursier.
+                          Consultez l&apos;avis d&apos;opération sur le site de la BVC pour plus de détails.
+                        </p>
+                      </div>
+
+                      {/* Parent stock link (Bonus S2) */}
+                      {DA_PARENT_MAP[selectedTicker.ticker] && (
+                        <div
+                          className="border p-3 cursor-pointer hover:bg-[#111827] transition-colors"
+                          style={{ borderColor: BB_BORDER }}
+                          onClick={() => {
+                            const parentTicker = DA_PARENT_MAP[selectedTicker.ticker];
+                            const parentStock = stocks.find(s => s.ticker === parentTicker);
+                            if (parentStock) {
+                              setEquitiesSubFilter('ACTIONS');
+                              setSelectedTicker(parentStock);
+                            }
+                          }}
+                        >
+                          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: BB_MUTED }}>VALEUR MÈRE</p>
+                          <p className="text-sm font-black" style={{ color: BB_CYAN }}>
+                            → {DA_PARENT_MAP[selectedTicker.ticker]}
+                          </p>
+                          <p className="text-[10px] mt-1" style={{ color: BB_MUTED }}>Cliquer pour voir la valeur mère dans Actions</p>
+                        </div>
+                      )}
+
+                      {/* OHLV grid */}
+                      <div className="grid grid-cols-2 gap-[1px] bg-[#1E293B]">
+                        {[
+                          { label: t('open'),   value: fmtPrice(selectedTicker.open)   },
+                          { label: t('high'),   value: fmtPrice(selectedTicker.high)   },
+                          { label: t('low'),    value: fmtPrice(selectedTicker.low)    },
+                          { label: t('volume'), value: fmtVolume(selectedTicker.volume)},
+                        ].map(({ label, value }) => (
+                          <div key={label} className="px-4 py-3 bg-[#0A0F1D]">
+                            <p className="text-[11px] tracking-widest font-bold mb-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
+                            <p className="text-base font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )
+              ) : (
+                /* ACTIONS detail panel — existing quote/chart behavior */
+                <>
+                  <PanelHeader title={selectedTicker ? `${selectedTicker.ticker} — ACTIONS BVC` : t('panel_b_title')}>
+                    {[1, 2].map(tab => (
+                      <button
+                        key={tab} onClick={() => setPanelBTab(tab as PanelBTab)}
+                        className="text-[10px] px-3 py-1 font-bold rounded-sm"
+                        style={{
+                          background: panelBTab === tab ? '#000' : 'transparent',
+                          color: panelBTab === tab ? BB_ORANGE : '#000',
+                          ...inter.style,
+                        }}
+                      >
+                        {tab === 1 ? t('tab_quote') : t('tab_chart')}
+                      </button>
+                    ))}
+                  </PanelHeader>
+
+                  <div className="flex-1 overflow-y-auto p-0 flex flex-col">
+                    {!selectedTicker ? (
+                      <div className="flex flex-col items-center justify-center h-full gap-3" style={robotoMono.style}>
+                        <div className="text-3xl" style={{ color: BB_MUTED }}>◈</div>
+                        <p className="text-sm font-bold" style={{ color: BB_ORANGE }}>Sélectionnez une action BVC</p>
+                        <p className="text-xs" style={{ color: BB_MUTED }}>Le détail de la valeur apparaîtra ici.</p>
+                      </div>
+                    ) : panelBTab === 1 ? (
+                      <div className="p-4 flex-1 flex flex-col" style={robotoMono.style}>
+                        <div className="flex justify-between mb-4 border-b border-[#1E293B] pb-4">
+                          <div>
+                            <p className="text-3xl font-black tracking-tight" style={{ color: BB_CYAN }}>{selectedTicker.ticker}</p>
+                            <p className="text-sm mt-1 text-white">{selectedTicker.name}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-4xl font-black tabular-nums" style={{ color: BB_WHITE }}>{fmtPrice(selectedTicker.lastPrice)}</p>
+                            <p className="text-xs font-bold mt-1" style={{ color: BB_MUTED }}>MAD</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between p-4 mb-4 text-sm font-bold rounded-sm"
+                          style={{ background: (selectedTicker.changePercent ?? 0) >= 0 ? '#00e67610' : '#ff174410', border: `1px solid ${(selectedTicker.changePercent ?? 0) >= 0 ? '#00E67633' : '#FF174433'}` }}>
+                          <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '24px' }}>
+                            {fmtPct(selectedTicker.changePercent)}
+                          </span>
+                          <span className="tabular-nums" style={{ color: pctColor(selectedTicker.changePercent), fontSize: '18px' }}>
+                            {(selectedTicker.change ?? 0) >= 0 ? '+' : ''}{fmtPrice(selectedTicker.change)} MAD
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-[1px] mb-6 bg-[#1E293B]">
+                          {[
+                            { label: t('open'),   value: fmtPrice(selectedTicker.open)   },
+                            { label: t('high'),   value: fmtPrice(selectedTicker.high)   },
+                            { label: t('low'),    value: fmtPrice(selectedTicker.low)    },
+                            { label: t('volume'), value: fmtVolume(selectedTicker.volume)},
+                          ].map(({ label, value }) => (
+                            <div key={label} className="px-4 py-3 bg-[#0A0F1D]">
+                              <p className="text-[11px] tracking-widest font-bold mb-1 uppercase" style={{ color: BB_MUTED }}>{label}</p>
+                              <p className="text-base font-bold tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex-1 min-h-[250px] border border-[#1E293B]">
+                          <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={250} theme="dark" interval="D" showToolbar={false} />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex-1 flex flex-col p-2 h-full">
+                        <div className="flex gap-2 p-2 border-b border-[#1E293B] mb-2">
+                          {['1D','1W','1M','3M','6M','1Y'].map(r => (
+                            <button key={r} className="text-xs px-2 py-1 font-bold rounded-sm" style={{ color: BB_ORANGE, border: `1px solid ${BB_BORDER}`, ...robotoMono.style }}>{r}</button>
+                          ))}
+                        </div>
+                        <div className="flex-1 min-h-[400px]">
+                          <TradingViewChart symbol={`CSEMA:${selectedTicker.ticker}`} height={450} theme="dark" interval="D" showToolbar={true} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderOpcvm = () => {
     const sgOptions = Array.from(
@@ -1462,7 +1814,67 @@ export default function TerminalPage() {
         {activeTab === 'OPCVM' && renderOpcvm()}
         {activeTab === 'MACRO' && renderMacro()}
         {activeTab === 'FINANCIALS' && (
-          <ValuesFinancials ticker={selectedTicker?.ticker ?? null} />
+          <div className="h-full flex flex-col overflow-hidden">
+
+            {/* ── Persistent stock switcher (Task 2) ── */}
+            <div
+              className="flex flex-wrap items-center gap-3 px-4 py-2 border-b flex-shrink-0"
+              style={{ background: '#050b14', borderColor: BB_BORDER, ...robotoMono.style }}
+            >
+              {/* Last 5 viewed — quick-access buttons (Bonus S4) */}
+              {lastViewedStocks.length > 0 && (
+                <>
+                  <span className="text-[10px] font-bold uppercase tracking-widest flex-shrink-0" style={{ color: BB_MUTED }}>RÉCENTS:</span>
+                  {lastViewedStocks.map(ticker => (
+                    <button
+                      key={ticker}
+                      onClick={() => switchToStock(ticker)}
+                      className="text-[10px] font-black px-2 py-1 border transition-colors hover:opacity-80"
+                      style={{
+                        color: selectedTicker?.ticker === ticker ? BB_ORANGE : BB_CYAN,
+                        borderColor: selectedTicker?.ticker === ticker ? BB_ORANGE : `${BB_CYAN}44`,
+                        background: selectedTicker?.ticker === ticker ? `${BB_ORANGE}15` : 'transparent',
+                      }}
+                    >
+                      {ticker}
+                    </button>
+                  ))}
+                  <span style={{ color: BB_BORDER }}>│</span>
+                </>
+              )}
+
+              {/* Search-enabled selectbox */}
+              <select
+                value={selectedTicker?.ticker ?? ''}
+                onChange={e => { if (e.target.value) switchToStock(e.target.value); }}
+                className="border px-3 py-1 text-xs outline-none cursor-pointer flex-shrink-0"
+                style={{ background: '#0B101E', borderColor: BB_BORDER, color: BB_WHITE, ...robotoMono.style, minWidth: 220 }}
+              >
+                <option value="">🔍 Changer de valeur...</option>
+                {equityStocks
+                  .slice()
+                  .sort((a, b) => a.ticker.localeCompare(b.ticker))
+                  .map(s => (
+                    <option key={s.ticker} value={s.ticker}>{s.ticker} — {s.name}</option>
+                  ))}
+              </select>
+
+              {/* Current stock display */}
+              {selectedTicker && (
+                <span className="text-xs font-bold flex-shrink-0" style={{ color: BB_MUTED }}>
+                  Affichage :{' '}
+                  <span style={{ color: BB_CYAN }}>{selectedTicker.ticker}</span>
+                  {' '}—{' '}
+                  <span style={{ color: BB_WHITE }}>{selectedTicker.name}</span>
+                </span>
+              )}
+            </div>
+
+            {/* ValuesFinancials fills the rest */}
+            <div className="flex-1 overflow-hidden">
+              <ValuesFinancials ticker={selectedTicker?.ticker ?? null} />
+            </div>
+          </div>
         )}
       </main>
 
