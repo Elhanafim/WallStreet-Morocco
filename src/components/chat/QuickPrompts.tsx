@@ -1,91 +1,100 @@
 "use client";
 
-import { useTranslation } from "react-i18next";
-
 interface QuickPromptsProps {
   currentPage: string;
   onSelect: (prompt: string) => void;
   hidden?: boolean;
 }
 
-const PROMPTS: Record<string, string[]> = {
+// ── Comprehensive question library, grouped by category ──────────────────────
+
+const PROMPTS_BY_PAGE: Record<string, string[]> = {
   "/": [
     "Comment fonctionne la Bourse de Casablanca ?",
-    "Quels indices suivre au Maroc ?",
-    "Comment créer un compte gratuit ?",
+    "Qu'est-ce que le MASI ?",
+    "Par où commencer pour investir en bourse au Maroc ?",
   ],
   "/market": [
-    "Qu'est-ce que le MASI ?",
+    "Comment est calculé le MASI ?",
+    "Quelles sont les valeurs les plus liquides de la BVC ?",
     "Comment lire un cours boursier ?",
-    "Quelles sont les meilleures hausses du jour ?",
+  ],
+  "/terminal": [
+    "Comment analyser une action marocaine ?",
+    "Comment lire les résultats financiers d'une société BVC ?",
+    "Qu'est-ce que le P/E ratio ?",
   ],
   "/calendar": [
-    "Qu'est-ce qu'un événement macro ?",
-    "Comment Bank Al-Maghrib influence les marchés ?",
-    "Que signifie un impact 5 étoiles ?",
+    "Comment le taux directeur BAM influence la bourse ?",
+    "Comment lire un rapport HCP sur l'inflation ?",
+    "Quel est l'impact du dollar sur les entreprises marocaines ?",
   ],
   "/portfolio": [
-    "Comment ajouter une action à mon portefeuille ?",
+    "C'est quoi la stratégie DCA ?",
     "Comment calculer ma performance ?",
-    "Qu'est-ce que le DCA ?",
+    "Comment diversifier un portefeuille BVC ?",
+  ],
+  "/simulator": [
+    "Comment simuler une stratégie DCA ?",
+    "C'est quoi un portefeuille équilibré ?",
+    "Comment réduire le risque dans un portefeuille ?",
+  ],
+  "/learn": [
+    "Par où commencer pour investir à la BVC ?",
+    "C'est quoi la stratégie DCA ?",
+    "Comment lire un bilan comptable ?",
+  ],
+  "/opcvm": [
+    "Quelle différence entre un OPCVM actions et obligataire ?",
+    "Comment choisir un OPCVM au Maroc ?",
+    "Qu'est-ce que la VL d'un fonds ?",
   ],
   "/dashboard": [
     "Comment interpréter mes gains/pertes ?",
     "Qu'est-ce que la répartition sectorielle ?",
     "Comment diversifier mon portefeuille BVC ?",
   ],
-  "/learn": [
-    "Par où commencer pour investir à la BVC ?",
-    "Qu'est-ce qu'une OPCVM ?",
-    "Quelle est la différence entre MASI et MSI20 ?",
-  ],
-  "/about": [
-    "Quelle est la stratégie DCA présentée sur ce site ?",
-    "Comment contacter l'équipe ?",
-    "Qu'est-ce que WallStreet Morocco ?",
-  ],
   "/donate": [
-    "Comment soutenir WallStreet Morocco ?",
     "Le site est-il vraiment gratuit ?",
-    "Quels moyens de paiement acceptés ?",
-  ],
-  "/opcvm": [
-    "Qu'est-ce qu'un OPCVM marocain ?",
-    "Quelle est la différence entre OPCVM actions et obligataire ?",
-    "Comment investir dans un OPCVM au Maroc ?",
-  ],
-  "/simulator": [
-    "Comment utiliser le simulateur ?",
-    "Puis-je simuler sans créer un compte ?",
-    "Qu'est-ce qu'une simulation de portefeuille ?",
+    "Qu'est-ce que WallStreet Morocco ?",
+    "Comment soutenir WallStreet Morocco ?",
   ],
 };
 
+// Fallback global suggestions shown when no page-specific match
+const GLOBAL_PROMPTS = [
+  "Comment fonctionne la BVC ?",
+  "Qu'est-ce que le MASI ?",
+  "Comment lire les résultats financiers d'ATW ?",
+  "Expliquez-moi les OPCVM",
+  "Quel est l'impact du taux directeur BAM sur les actions ?",
+  "Comment analyser une action marocaine ?",
+];
+
 function getPrompts(page: string): string[] {
-  if (PROMPTS[page]) return PROMPTS[page].slice(0, 3);
-  // Match prefix (e.g. /learn/slug → /learn)
-  for (const key of Object.keys(PROMPTS)) {
-    if (key !== "/" && page.startsWith(key)) return PROMPTS[key].slice(0, 3);
+  if (PROMPTS_BY_PAGE[page]) return PROMPTS_BY_PAGE[page];
+  for (const key of Object.keys(PROMPTS_BY_PAGE)) {
+    if (key !== "/" && page.startsWith(key)) return PROMPTS_BY_PAGE[key];
   }
-  return PROMPTS["/"].slice(0, 3);
+  return GLOBAL_PROMPTS.slice(0, 3);
 }
 
 export default function QuickPrompts({ currentPage, onSelect, hidden }: QuickPromptsProps) {
-  const { t } = useTranslation("chat");
   if (hidden) return null;
 
   const prompts = getPrompts(currentPage);
 
   return (
     <div className="px-3 pb-2 flex flex-col gap-1.5">
-      <p className="text-xs text-gray-400 dark:text-gray-500">
-        {t("quickPromptsLabel", "Suggestions :")}
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+        Suggestions
       </p>
       {prompts.map((p) => (
         <button
           key={p}
           onClick={() => onSelect(p)}
-          className="text-left text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200 dark:border-emerald-800 rounded-lg px-3 py-1.5 transition truncate"
+          className="text-left text-xs bg-red-50 hover:bg-red-100 border border-red-100 hover:border-red-200 rounded-lg px-3 py-1.5 transition truncate"
+          style={{ color: "#C1272D" }}
           title={p}
         >
           {p}

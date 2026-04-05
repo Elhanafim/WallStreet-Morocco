@@ -15,6 +15,7 @@ interface ChatPanelProps {
   onClose: () => void;
   onSend: (text: string) => void;
   onCancel: () => void;
+  onClear: () => void;
   context: ChatContext;
   hasGreeted: boolean;
   prefillInput?: string;
@@ -23,64 +24,121 @@ interface ChatPanelProps {
   onHideDonateNudge?: () => void;
 }
 
-// Minimal markdown renderer: bold, inline code, links, bullet lines
+// ── Markdown renderer ─────────────────────────────────────────────────────────
+// Handles: **bold**, `code`, [links](url), ## headers, - bullets, numbered lists
 function renderMarkdown(text: string): React.ReactNode {
   const lines = text.split("\n");
-  return lines.map((line, i) => {
+  const nodes: React.ReactNode[] = [];
+
+  lines.forEach((line, i) => {
     const key = i;
-    const isBullet = /^[-*•]\s/.test(line);
-    const content = isBullet ? line.replace(/^[-*•]\s/, "") : line;
 
-    const parts = content.split(/(\*\*[^*]+\*\*|`[^`]+`|\[.+?\]\(.+?\))/g);
-    const rendered = parts.map((part, j) => {
-      if (/^\*\*(.+)\*\*$/.test(part)) {
-        return <strong key={j}>{part.slice(2, -2)}</strong>;
-      }
-      if (/^`(.+)`$/.test(part)) {
-        return (
-          <code key={j} className="bg-gray-100 dark:bg-gray-700 rounded px-1 text-xs font-mono">
-            {part.slice(1, -1)}
-          </code>
-        );
-      }
-      const linkMatch = part.match(/^\[(.+)\]\((.+)\)$/);
-      if (linkMatch) {
-        return (
-          <a key={j} href={linkMatch[2]} className="text-emerald-600 underline" target="_blank" rel="noopener noreferrer">
-            {linkMatch[1]}
-          </a>
-        );
-      }
-      return part;
-    });
+    // Heading ## or ###
+    if (/^#{2,3}\s/.test(line)) {
+      const content = line.replace(/^#{2,3}\s/, "");
+      nodes.push(
+        <p key={key} className="font-bold text-sm mt-2 mb-0.5" style={{ color: "#C1272D" }}>
+          {inlineMarkdown(content)}
+        </p>
+      );
+      return;
+    }
 
-    if (isBullet) {
-      return (
-        <div key={key} className="flex gap-1.5 items-start">
-          <span className="mt-0.5 shrink-0 text-emerald-500">•</span>
-          <span>{rendered}</span>
+    // Horizontal rule ---
+    if (/^-{3,}$/.test(line.trim())) {
+      nodes.push(<hr key={key} className="my-2 border-gray-200" />);
+      return;
+    }
+
+    // Unordered bullet
+    if (/^[-*•]\s/.test(line)) {
+      const content = line.replace(/^[-*•]\s/, "");
+      nodes.push(
+        <div key={key} className="flex gap-2 items-start leading-snug my-0.5">
+          <span className="mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full bg-[#C1272D] mt-1.5" />
+          <span>{inlineMarkdown(content)}</span>
         </div>
       );
+      return;
     }
-    return (
-      <div key={key} className={line === "" ? "h-2" : ""}>
-        {rendered}
+
+    // Numbered list
+    const numMatch = line.match(/^(\d+)\.\s(.+)/);
+    if (numMatch) {
+      nodes.push(
+        <div key={key} className="flex gap-2 items-start leading-snug my-0.5">
+          <span className="shrink-0 font-bold text-[#C1272D] text-xs w-4">{numMatch[1]}.</span>
+          <span>{inlineMarkdown(numMatch[2])}</span>
+        </div>
+      );
+      return;
+    }
+
+    // Empty line → spacing
+    if (line.trim() === "") {
+      nodes.push(<div key={key} className="h-1.5" />);
+      return;
+    }
+
+    // Normal paragraph
+    nodes.push(
+      <div key={key} className="leading-snug">
+        {inlineMarkdown(line)}
       </div>
     );
+  });
+
+  return <>{nodes}</>;
+}
+
+function inlineMarkdown(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[.+?\]\(.+?\))/g);
+  return parts.map((part, j) => {
+    if (/^\*\*(.+)\*\*$/.test(part)) {
+      return <strong key={j} className="font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    if (/^\*(.+)\*$/.test(part)) {
+      return <em key={j}>{part.slice(1, -1)}</em>;
+    }
+    if (/^`(.+)`$/.test(part)) {
+      return (
+        <code key={j} className="bg-gray-100 rounded px-1 text-xs font-mono text-red-700">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+    const linkMatch = part.match(/^\[(.+)\]\((.+)\)$/);
+    if (linkMatch) {
+      return (
+        <a key={j} href={linkMatch[2]} className="text-[#C1272D] underline" target="_blank" rel="noopener noreferrer">
+          {linkMatch[1]}
+        </a>
+      );
+    }
+    return part;
   });
 }
 
 function TypingIndicator() {
   return (
-    <div className="flex items-center gap-1 px-3 py-2">
+    <div className="flex items-center gap-1 px-1 py-1">
       {[0, 1, 2].map((i) => (
         <span
           key={i}
-          className="w-2 h-2 rounded-full bg-blue-500 animate-bounce"
+          className="w-2 h-2 rounded-full bg-[#C1272D] animate-bounce opacity-70"
           style={{ animationDelay: `${i * 0.15}s` }}
         />
       ))}
     </div>
+  );
+}
+
+// ── Morocco star SVG ──────────────────────────────────────────────────────────
+function MoroccoStar({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
+    </svg>
   );
 }
 
@@ -92,8 +150,8 @@ export default function ChatPanel({
   onClose,
   onSend,
   onCancel,
+  onClear,
   context,
-  hasGreeted,
   prefillInput,
   onPrefillConsumed,
   showDonateNudge,
@@ -101,7 +159,8 @@ export default function ChatPanel({
 }: ChatPanelProps) {
   const { t } = useTranslation("chat");
   const bottomRef = useRef<HTMLDivElement>(null);
-  const showQuickPrompts = messages.length === 0 || (messages.length === 1 && messages[0].role === "assistant");
+  const showQuickPrompts =
+    messages.length === 0 || (messages.length === 1 && messages[0].role === "assistant");
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -111,51 +170,92 @@ export default function ChatPanel({
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 top-16 sm:inset-auto sm:bottom-20 sm:right-4 sm:w-[380px] sm:h-[580px] z-[999] flex flex-col overflow-hidden rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+      className="fixed inset-x-0 bottom-0 top-16 sm:inset-auto sm:bottom-20 sm:right-4 sm:w-[390px] sm:h-[600px] z-[999] flex flex-col overflow-hidden rounded-none sm:rounded-2xl shadow-2xl border-0 sm:border border-gray-200 bg-white"
       role="dialog"
-      aria-label={t("panelTitle", "Assistant WallStreet Morocco")}
+      aria-label="Casablanca — Assistant IA WallStreet Morocco"
     >
-      {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-blue-700 text-white shrink-0">
-        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-          W
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm leading-tight truncate">
-            {t("assistantName", "Assistant WallStreet Morocco")}
-          </p>
-          <p className="text-emerald-200 text-xs">
-            {isStreaming
-              ? t("typing", "En train d'écrire…")
-              : t("online", "En ligne · Powered by Groq")}
-          </p>
-        </div>
-        <button
-          onClick={onClose}
-          className="ml-1 p-1 rounded-full hover:bg-blue-600 transition"
-          aria-label={t("close", "Fermer")}
+      {/* ── Header ── */}
+      <div
+        className="flex items-center gap-2.5 px-4 py-3 shrink-0"
+        style={{ background: "linear-gradient(135deg, #C1272D 0%, #8B0000 100%)" }}
+      >
+        {/* Avatar */}
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-white"
+          style={{ background: "rgba(255,255,255,0.2)", border: "1.5px solid rgba(255,255,255,0.4)" }}
+          aria-hidden="true"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+          <MoroccoStar size={16} />
+        </div>
+
+        {/* Title */}
+        <div className="flex-1 min-w-0">
+          <p className="font-bold text-sm text-white leading-tight">Casablanca</p>
+          <p className="text-red-200 text-[11px] leading-tight">
+            {isStreaming
+              ? "En train de répondre…"
+              : "Assistant IA · WallStreet Morocco"}
+          </p>
+        </div>
+
+        {/* Clear + Close */}
+        <div className="flex items-center gap-1">
+          {messages.length > 0 && !isStreaming && (
+            <button
+              onClick={onClear}
+              className="p-1.5 rounded-full hover:bg-white/20 transition text-white/80 hover:text-white"
+              title="Effacer la conversation"
+              aria-label="Effacer la conversation"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          )}
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-full hover:bg-white/20 transition text-white"
+            aria-label={t("close", "Fermer")}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-3 text-sm">
-        {/* Welcome message */}
+      {/* ── Disclaimer banner ── */}
+      <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 border-b border-amber-200 shrink-0">
+        <span className="text-amber-600 shrink-0 text-base leading-none">⚠️</span>
+        <p className="text-[10px] text-amber-700 leading-tight">
+          <strong>Usage éducatif uniquement.</strong>{" "}
+          Pas de conseil en investissement. Risque de perte en capital.
+        </p>
+      </div>
+
+      {/* ── Messages ── */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-2.5 text-sm">
+
+        {/* Welcome */}
         {messages.length === 0 && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
-              W
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-white"
+              style={{ background: "#C1272D" }}
+              aria-hidden="true"
+            >
+              <MoroccoStar size={11} />
             </div>
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 dark:text-gray-200 leading-relaxed">
-              {renderMarkdown(
-                t(
-                  "welcome",
-                  "Bonjour ! 👋 Je suis l'assistant IA de **WallStreet Morocco**.\n\nJe peux vous aider à naviguer sur le site, comprendre les données boursières, ou apprendre les bases de l'investissement à la BVC.\n\nComment puis-je vous aider ?"
-                )
-              )}
+            <div>
+              <p className="text-[10px] font-semibold mb-1" style={{ color: "#C1272D" }}>
+                Casablanca
+              </p>
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 leading-relaxed">
+                {renderMarkdown(
+                  "Bonjour ! Je suis **Casablanca**, votre assistant éducatif sur la Bourse de Casablanca.\n\nPosez-moi vos questions sur la BVC, le MASI, les OPCVM, ou l'analyse financière. Comment puis-je vous aider ?"
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -167,20 +267,30 @@ export default function ChatPanel({
             className={`flex gap-2 items-start ${msg.role === "user" ? "flex-row-reverse" : ""}`}
           >
             {msg.role === "assistant" && (
-              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
-                W
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-white"
+                style={{ background: "#C1272D" }}
+                aria-hidden="true"
+              >
+                <MoroccoStar size={11} />
               </div>
             )}
-            <div
-              className={`rounded-2xl px-3 py-2 max-w-[85%] leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-blue-600 text-white rounded-tr-sm"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm"
-              }`}
-            >
-              {msg.role === "assistant"
-                ? renderMarkdown(msg.content)
-                : msg.content}
+
+            <div className={msg.role === "assistant" ? "" : ""}>
+              {msg.role === "assistant" && (
+                <p className="text-[10px] font-semibold mb-1" style={{ color: "#C1272D" }}>
+                  Casablanca
+                </p>
+              )}
+              <div
+                className={`rounded-2xl px-3 py-2 max-w-[85%] leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-[#C1272D] text-white rounded-tr-sm ml-auto"
+                    : "bg-gray-50 border border-gray-100 text-gray-800 rounded-tl-sm"
+                }`}
+              >
+                {msg.role === "assistant" ? renderMarkdown(msg.content) : msg.content}
+              </div>
             </div>
           </div>
         ))}
@@ -188,18 +298,27 @@ export default function ChatPanel({
         {/* Streaming bubble */}
         {isStreaming && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
-              W
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-white"
+              style={{ background: "#C1272D" }}
+              aria-hidden="true"
+            >
+              <MoroccoStar size={11} />
             </div>
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 dark:text-gray-200 leading-relaxed">
-              {streamingContent ? (
-                <>
-                  {renderMarkdown(streamingContent)}
-                  <span className="inline-block w-0.5 h-3.5 bg-blue-500 animate-pulse ml-0.5 align-middle" />
-                </>
-              ) : (
-                <TypingIndicator />
-              )}
+            <div>
+              <p className="text-[10px] font-semibold mb-1" style={{ color: "#C1272D" }}>
+                Casablanca
+              </p>
+              <div className="bg-gray-50 border border-gray-100 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-gray-800 leading-relaxed">
+                {streamingContent ? (
+                  <>
+                    {renderMarkdown(streamingContent)}
+                    <span className="inline-block w-0.5 h-3 bg-[#C1272D] animate-pulse ml-0.5 align-middle" />
+                  </>
+                ) : (
+                  <TypingIndicator />
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -207,23 +326,23 @@ export default function ChatPanel({
         <div ref={bottomRef} />
       </div>
 
-      {/* Quick prompts */}
+      {/* ── Quick prompts ── */}
       <QuickPrompts
         currentPage={context.currentPage}
         onSelect={onSend}
         hidden={!showQuickPrompts || isStreaming}
       />
 
-      {/* Donation nudge — shown every 3rd response, never on /donate */}
-      {showDonateNudge && !isStreaming && context.currentPage !== '/donate' && (
-        <div className="mx-3 mb-2 rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-3.5 py-2.5 text-xs animate-fade-in-up">
+      {/* ── Donation nudge ── */}
+      {showDonateNudge && !isStreaming && context.currentPage !== "/donate" && (
+        <div className="mx-3 mb-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-xs">
           <div className="flex items-start justify-between gap-2">
-            <p className="text-amber-900 dark:text-amber-200 leading-snug">
-              {t("donateNudge", "♥ Ce service est gratuit et independant. Si cette reponse vous a aide, soutenez-nous.")}
+            <p className="text-amber-800 leading-snug">
+              ♥ Ce service est gratuit. Si cette réponse vous a aidé, soutenez-nous.
             </p>
             <button
               onClick={onHideDonateNudge}
-              className="text-amber-400 hover:text-amber-600 dark:hover:text-amber-300 shrink-0 mt-0.5"
+              className="text-amber-400 hover:text-amber-600 shrink-0 mt-0.5"
               aria-label="Fermer"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,14 +353,14 @@ export default function ChatPanel({
           <a
             href="/donate"
             onClick={onHideDonateNudge}
-            className="mt-1.5 inline-block font-semibold text-red-600 dark:text-red-400 hover:underline"
+            className="mt-1.5 inline-block font-semibold text-[#C1272D] hover:underline"
           >
-            {t("donateCta", "Faire un don →")}
+            Faire un don →
           </a>
         </div>
       )}
 
-      {/* Input */}
+      {/* ── Input ── */}
       <ChatInput
         onSend={(text) => { onHideDonateNudge?.(); onSend(text); }}
         disabled={false}
@@ -251,6 +370,12 @@ export default function ChatPanel({
         onPrefillConsumed={onPrefillConsumed}
         onTypingStart={onHideDonateNudge}
       />
+
+      {/* ── Footer ── */}
+      <div className="flex items-center justify-center gap-1 py-1.5 border-t border-gray-100">
+        <span className="text-[10px] text-gray-400">◈ Casablanca · Propulsé par</span>
+        <span className="text-[10px] font-semibold text-gray-500">Claude AI</span>
+      </div>
     </div>
   );
 }

@@ -25,6 +25,13 @@ export interface ChatContext {
     bestTickers: string;
   } | null;
   marketStatus: "open" | "closed" | "unknown";
+  // Real-time market data injected into every Claude request
+  masi?: string;
+  masiChange?: string;
+  bamRate?: string;
+  usdMad?: string;
+  eurMad?: string;
+  nextEvent?: string;
 }
 
 export interface StreamCallbacks {
@@ -57,11 +64,17 @@ export function streamChat(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages,
-          language: context.language,
-          currentPage: context.currentPage,
-          isAuthenticated: context.isAuthenticated,
+          language:         context.language,
+          currentPage:      context.currentPage,
+          isAuthenticated:  context.isAuthenticated,
           portfolioSummary: context.portfolioSummary ?? null,
-          marketStatus: context.marketStatus,
+          marketStatus:     context.marketStatus,
+          masi:             context.masi,
+          masiChange:       context.masiChange,
+          bamRate:          context.bamRate,
+          usdMad:           context.usdMad,
+          eurMad:           context.eurMad,
+          nextEvent:        context.nextEvent,
         }),
         signal: controller.signal,
       });
