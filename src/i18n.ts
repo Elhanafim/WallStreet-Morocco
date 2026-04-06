@@ -13,6 +13,7 @@ import frDonate from '@/locales/fr/donate.json';
 import frChat from '@/locales/fr/chat.json';
 import frLegal from '@/locales/fr/legal.json';
 import frTerminal from '@/locales/fr/terminal.json';
+import frOpcvm from '@/locales/fr/opcvm.json';
 
 // EN
 import enCommon from '@/locales/en/common.json';
@@ -26,6 +27,7 @@ import enDonate from '@/locales/en/donate.json';
 import enChat from '@/locales/en/chat.json';
 import enLegal from '@/locales/en/legal.json';
 import enTerminal from '@/locales/en/terminal.json';
+import enOpcvm from '@/locales/en/opcvm.json';
 
 // ES
 import esCommon from '@/locales/es/common.json';
@@ -39,6 +41,7 @@ import esDonate from '@/locales/es/donate.json';
 import esChat from '@/locales/es/chat.json';
 import esLegal from '@/locales/es/legal.json';
 import esTerminal from '@/locales/es/terminal.json';
+import esOpcvm from '@/locales/es/opcvm.json';
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -54,6 +57,7 @@ i18n.use(initReactI18next).init({
       chat: frChat,
       legal: frLegal,
       terminal: frTerminal,
+      opcvm: frOpcvm,
     },
     en: {
       common: enCommon,
@@ -67,6 +71,7 @@ i18n.use(initReactI18next).init({
       chat: enChat,
       legal: enLegal,
       terminal: enTerminal,
+      opcvm: enOpcvm,
     },
     es: {
       common: esCommon,
@@ -80,12 +85,13 @@ i18n.use(initReactI18next).init({
       chat: esChat,
       legal: esLegal,
       terminal: esTerminal,
+      opcvm: esOpcvm,
     },
   },
   lng: 'fr',
   fallbackLng: 'fr',
   defaultNS: 'common',
-  ns: ['common', 'home', 'calendrier', 'portfolio', 'fondateur', 'marches', 'errors', 'donate', 'chat', 'legal', 'terminal'],
+  ns: ['common', 'home', 'calendrier', 'portfolio', 'fondateur', 'marches', 'errors', 'donate', 'chat', 'legal', 'terminal', 'opcvm'],
   interpolation: {
     escapeValue: false,
   },
