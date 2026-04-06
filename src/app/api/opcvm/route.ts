@@ -451,8 +451,8 @@ export async function GET(req: NextRequest) {
   // Sort
   const reverse = order !== 'asc';
   funds.sort((a, b) => {
-    const va = (a as Record<string, number | null>)[sort] ?? null;
-    const vb = (b as Record<string, number | null>)[sort] ?? null;
+    const va = (a as unknown as Record<string, number | null>)[sort] ?? null;
+    const vb = (b as unknown as Record<string, number | null>)[sort] ?? null;
     if (va === null && vb === null) return 0;
     if (va === null) return 1;
     if (vb === null) return -1;
