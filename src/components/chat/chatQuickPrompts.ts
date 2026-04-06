@@ -6,21 +6,21 @@
 const PROMPTS_BY_PAGE: Record<string, string[]> = {
   "/terminal": [
     "Comment lire le Fear & Greed Index ?",
-    "Explique-moi la différence MASI / MADEX",
-    "Comment interpréter le volume d'une séance ?",
-    "Qu'est-ce qu'un signal HAUSSIER vs BAISSIER ?",
+    "À quoi sert la barre CMD ?",
+    "Explique-moi le panneau Aperçu de Marché",
+    "Comment fonctionne la carte de chaleur MAP ?",
   ],
   "/market": [
+    "Explique les mouvements du marché aujourd'hui",
+    "Comment fonctionne une séance BVC ?",
+    "C'est quoi le volume d'échanges ?",
     "Quels secteurs performent le mieux cette année ?",
-    "Comment fonctionne une séance de bourse à Casablanca ?",
-    "C'est quoi le fixing à la BVC ?",
-    "Comment lire une variation en pourcentage ?",
   ],
   "/portfolio": [
     "Comment calculer mon rendement annualisé ?",
-    "Qu'est-ce que la diversification sectorielle ?",
-    "Explique-moi le ratio de Sharpe",
-    "Comment fonctionne l'imposition des plus-values au Maroc ?",
+    "Comment fonctionne le prix auto-rempli ?",
+    "C'est quoi la diversification sectorielle ?",
+    "Comment sont calculés mes gains/pertes ?",
   ],
   "/simulator": [
     "Comment simuler une stratégie DCA à la BVC ?",
@@ -29,22 +29,22 @@ const PROMPTS_BY_PAGE: Record<string, string[]> = {
     "Quelle différence entre DCA et investissement en une seule fois ?",
   ],
   "/opcvm": [
-    "Quelle différence entre un OPCVM Actions et Obligataire ?",
-    "Comment les OPCVM marocains sont-ils taxés ?",
-    "À partir de combien peut-on investir dans un OPCVM ?",
-    "Comment choisir un OPCVM selon mon profil de risque ?",
+    "Différence entre OPCVM Actions et Obligataire ?",
+    "Comment lire la colonne VL ?",
+    "Comment investir dans un OPCVM au Maroc ?",
+    "C'est quoi l'encours d'un fonds ?",
   ],
   "/calendar": [
-    "Quel est l'impact des résultats semestriels sur le cours ?",
+    "Quel impact ont les résultats S1 sur le cours ?",
     "C'est quoi une AGO et pourquoi c'est important ?",
     "Comment fonctionnent les dividendes à la BVC ?",
-    "Quel impact a le taux directeur BAM sur les marchés ?",
+    "Qu'est-ce qu'une décision BAM ?",
   ],
   "/learn": [
-    "Par où commencer pour investir à la BVC ?",
-    "C'est quoi la stratégie DCA ?",
+    "Par où commencer pour apprendre la bourse ?",
+    "C'est quoi un PER et comment l'utiliser ?",
+    "Explique-moi l'analyse technique vs fondamentale",
     "Comment lire un bilan comptable ?",
-    "Explique-moi l'analyse fondamentale",
   ],
   "/dashboard": [
     "Comment interpréter mes gains/pertes ?",
@@ -65,26 +65,25 @@ const PROMPTS_BY_PAGE: Record<string, string[]> = {
     "Qu'est-ce que WallStreet Morocco ?",
   ],
   "/": [
-    "Comment débuter en bourse au Maroc ?",
+    "Comment débuter à la Bourse de Casablanca ?",
     "Explique-moi le MASI en 2 minutes",
-    "Quelles sociétés sont cotées à Casablanca ?",
+    "Quelles fonctionnalités propose ce site ?",
     "C'est quoi un OPCVM ?",
   ],
 };
 
 /**
  * Returns 4 relevant quick prompts for the given page.
- * Matches by prefix so /portfolio/123 → /portfolio prompts.
+ * Matches by prefix so /portfolio/detail → /portfolio prompts.
  */
 export function getQuickPrompts(page: string): string[] {
   // Exact match first
   if (PROMPTS_BY_PAGE[page]) return PROMPTS_BY_PAGE[page];
 
-  // Prefix match (e.g. /portfolio/detail → /portfolio)
-  for (const key of Object.keys(PROMPTS_BY_PAGE)) {
-    if (key !== "/" && page.startsWith(key)) return PROMPTS_BY_PAGE[key];
-  }
+  // Prefix match (e.g. /terminal/map → /terminal)
+  const match = Object.keys(PROMPTS_BY_PAGE)
+    .filter((k) => k !== "/" && page.startsWith(k))
+    .sort((a, b) => b.length - a.length)[0];
 
-  // Fallback to homepage prompts
-  return PROMPTS_BY_PAGE["/"];
+  return PROMPTS_BY_PAGE[match || "/"];
 }

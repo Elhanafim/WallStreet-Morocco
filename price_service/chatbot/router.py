@@ -54,40 +54,89 @@ async def fetch_live_context() -> dict:
     """Fetch live BVC data to inject into the system prompt."""
     context: dict = {}
 
-    # Market status from local clock (no HTTP needed)
+    # Market status + date/time from local clock (no HTTP needed)
     try:
         tz = pytz.timezone("Africa/Casablanca")
         now = datetime.now(tz)
         is_weekday = now.weekday() < 5
         minutes = now.hour * 60 + now.minute
-        is_open = is_weekday and 570 <= minutes <= 940  # 09:30–15:40
+        is_open = is_weekday and 570 <= minutes <= 930  # 09:30–15:30
         context["market_status"] = "OUVERT" if is_open else "FERMÉ"
+        context["current_time"] = now.strftime("%H:%M")
+        context["current_date"] = now.strftime("%A %d %B %Y")
     except Exception:
         context["market_status"] = "unknown"
 
-    # MASI and movers via the price service's own /prices/movers endpoint
-    try:
-        async with httpx.AsyncClient(timeout=3.0) as client:
+    # Movers + market breadth + volume via the price service's own endpoints
+    async with httpx.AsyncClient(timeout=4.0) as client:
+        # /prices/movers → gainers, losers (top 5 each)
+        try:
             resp = await client.get(f"{_SELF_BASE}/prices/movers")
             if resp.status_code == 200:
                 data = resp.json()
-                gainers = data.get("gainers", [])[:3]
-                losers  = data.get("losers",  [])[:3]
+                gainers = data.get("gainers", [])[:5]
+                losers  = data.get("losers",  [])[:5]
 
-                # Build a compact MASI proxy from the top gainer/loser snapshot
-                # (MASI itself is not in /prices/movers, but we can note top movers)
+                def _fmt_g(m: dict) -> str:
+                    pct = m.get("changePercent") or 0
+                    price = m.get("lastPrice") or m.get("price") or 0
+                    return f"{m['ticker']} +{pct:.2f}% ({price:.2f} MAD)"
+
+                def _fmt_l(m: dict) -> str:
+                    pct = m.get("changePercent") or 0
+                    price = m.get("lastPrice") or m.get("price") or 0
+                    return f"{m['ticker']} {pct:.2f}% ({price:.2f} MAD)"
+
                 g_str = ", ".join(
-                    f"{m['ticker']} +{m['changePercent']:.2f}%" for m in gainers
+                    _fmt_g(m) for m in gainers
                     if m.get("ticker") and m.get("changePercent") is not None
                 )
                 l_str = ", ".join(
-                    f"{m['ticker']} {m['changePercent']:.2f}%" for m in losers
+                    _fmt_l(m) for m in losers
                     if m.get("ticker") and m.get("changePercent") is not None
                 )
+                if g_str:
+                    context["top_gainers"] = g_str
+                if l_str:
+                    context["top_losers"] = l_str
+                # Keep legacy key for any old prompt references
                 if g_str or l_str:
                     context["top_movers"] = f"Hausses: {g_str} | Baisses: {l_str}"
-    except Exception as exc:
-        logger.debug("[Chatbot] Live movers fetch skipped: %s", exc)
+        except Exception as exc:
+            logger.debug("[Chatbot] Live movers fetch skipped: %s", exc)
+
+        # /prices/snapshot → market breadth, total volume, MASI if present
+        try:
+            resp = await client.get(f"{_SELF_BASE}/prices/snapshot")
+            if resp.status_code == 200:
+                snap = resp.json()
+                stocks = snap.get("data", [])
+                if stocks:
+                    total   = len(stocks)
+                    up      = sum(1 for s in stocks if (s.get("changePercent") or 0) > 0)
+                    down    = sum(1 for s in stocks if (s.get("changePercent") or 0) < 0)
+                    stable  = total - up - down
+                    vol_sum = sum(s.get("volume") or 0 for s in stocks)
+
+                    context["market_breadth"] = (
+                        f"{up} hausses / {down} baisses / {stable} stables "
+                        f"sur {total} valeurs"
+                    )
+                    if vol_sum > 0:
+                        context["total_volume"] = f"{vol_sum / 1_000_000:.1f}M MAD"
+
+                    # MASI may appear as a row in the snapshot
+                    masi_row = next(
+                        (s for s in stocks if (s.get("ticker") or "").upper() == "MASI"),
+                        None,
+                    )
+                    if masi_row:
+                        val = masi_row.get("lastPrice") or masi_row.get("close") or 0
+                        pct = masi_row.get("changePercent") or 0
+                        sign = "+" if pct >= 0 else ""
+                        context["masi_value"] = f"{val:,.2f} ({sign}{pct:.2f}%)"
+        except Exception as exc:
+            logger.debug("[Chatbot] Snapshot fetch skipped: %s", exc)
 
     return context
 
