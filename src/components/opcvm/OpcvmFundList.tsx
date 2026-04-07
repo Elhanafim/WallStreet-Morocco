@@ -11,6 +11,7 @@ const STATIC_FALLBACK: OpcvmFund[] = staticFunds.map(f => ({
   name:             f.name,
   societe_gestion:  f.bank,
   vl:               f.nav              ?? null,
+  var_jour:         null,
   perf_1m:          null,
   perf_ytd:         f.performanceYTD   ?? null,
   perf_1an:         f.performance1Y,
