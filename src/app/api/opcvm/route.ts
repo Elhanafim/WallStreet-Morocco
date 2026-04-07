@@ -463,7 +463,7 @@ export async function GET(req: NextRequest) {
   if (path === 'top') {
     const n      = Math.max(1, Math.min(50, parseInt(searchParams.get('n') ?? '5')));
     const metric = searchParams.get('metric') ?? 'perf_ytd';
-    const elig   = funds.filter(f => (f as Record<string, unknown>)[metric] != null);
+    const elig   = funds.filter(f => (f as unknown as Record<string, unknown>)[metric] != null);
     return NextResponse.json(
       {
         top:          elig.slice(0, n),
