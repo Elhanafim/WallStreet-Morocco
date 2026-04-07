@@ -1,0 +1,219 @@
+[
+  {
+    "date": "2026-01-30",
+    "week_number": 5,
+    "aum_total": 666850,
+    "aum_prev": null,
+    "weekly_growth": null,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 285400, "aum_prev": null, "weight": 42.80, "weekly_growth": null, "perf_index": 102.15, "subscriptions": 3350, "redemptions": 2920, "net_flow": 430, "net_flow_pct": 0.151, "nb_fonds": 227, "score": 61.8 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 137800, "aum_prev": null, "weight": 20.66, "weekly_growth": null, "perf_index": 104.20, "subscriptions": 1150, "redemptions":  980, "net_flow": 170, "net_flow_pct": 0.123, "nb_fonds": 185, "score": 65.4 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  82200, "aum_prev": null, "weight": 12.33, "weekly_growth": null, "perf_index": 101.65, "subscriptions":  640, "redemptions":  575, "net_flow":  65, "net_flow_pct": 0.079, "nb_fonds":  87, "score": 55.6 },
+      "actions":         { "label": "Actions",      "aum":  87500, "aum_prev": null, "weight": 13.12, "weekly_growth": null, "perf_index": 111.80, "subscriptions":  430, "redemptions":  375, "net_flow":  55, "net_flow_pct": 0.063, "nb_fonds":  64, "score": 74.3 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  64100, "aum_prev": null, "weight":  9.61, "weekly_growth": null, "perf_index": 106.30, "subscriptions":  365, "redemptions":  295, "net_flow":  70, "net_flow_pct": 0.109, "nb_fonds":  78, "score": 68.7 },
+      "contractuel":     { "label": "Contractuels", "aum":   9850, "aum_prev": null, "weight":  1.48, "weekly_growth": null, "perf_index": 100.40, "subscriptions":   48, "redemptions":   32, "net_flow":  16, "net_flow_pct": 0.162, "nb_fonds":  12, "score": 51.2 }
+    },
+    "flows": { "subscriptions": 5983, "redemptions": 5177, "net_flow": 806 },
+    "insights": [
+      "Les fonds Monétaires dominent avec 42.8 % de l'actif total géré.",
+      "Flux nets positifs sur l'ensemble des catégories cette semaine.",
+      "Les fonds Actions affichent la meilleure performance relative (indice 111.80).",
+      "Encours total du marché OPCVM : 666.9 Mrd MAD."
+    ],
+    "scores": { "monetaire": 61.8, "obligataire_mlt": 65.4, "obligataire_ct": 55.6, "actions": 74.3, "diversifie": 68.7, "contractuel": 51.2 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-02-06",
+    "week_number": 6,
+    "aum_total": 668420,
+    "aum_prev": 666850,
+    "weekly_growth": 0.00235,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 286700, "aum_prev": 285400, "weight": 42.89, "weekly_growth": 0.00456, "perf_index": 102.22, "subscriptions": 3520, "redemptions": 3080, "net_flow": 440, "net_flow_pct": 0.154, "nb_fonds": 228, "score": 62.4 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 138200, "aum_prev": 137800, "weight": 20.68, "weekly_growth": 0.00290, "perf_index": 104.55, "subscriptions": 1080, "redemptions":  940, "net_flow": 140, "net_flow_pct": 0.101, "nb_fonds": 185, "score": 66.8 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  82500, "aum_prev":  82200, "weight": 12.34, "weekly_growth": 0.00365, "perf_index": 101.72, "subscriptions":  620, "redemptions":  560, "net_flow":  60, "net_flow_pct": 0.073, "nb_fonds":  87, "score": 56.0 },
+      "actions":         { "label": "Actions",      "aum":  87100, "aum_prev":  87500, "weight": 13.03, "weekly_growth": -0.00457, "perf_index": 110.92, "subscriptions":  390, "redemptions":  420, "net_flow": -30, "net_flow_pct": -0.034, "nb_fonds":  64, "score": 68.5 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  64420, "aum_prev":  64100, "weight":  9.64, "weekly_growth": 0.00499, "perf_index": 106.58, "subscriptions":  380, "redemptions":  310, "net_flow":  70, "net_flow_pct": 0.109, "nb_fonds":  78, "score": 69.2 },
+      "contractuel":     { "label": "Contractuels", "aum":   9500, "aum_prev":   9850, "weight":  1.42, "weekly_growth": -0.03553, "perf_index": 100.38, "subscriptions":   40, "redemptions":   50, "net_flow": -10, "net_flow_pct": -0.105, "nb_fonds":  12, "score": 47.8 }
+    },
+    "flows": { "subscriptions": 6030, "redemptions": 5360, "net_flow": 670 },
+    "insights": [
+      "Légère correction sur les fonds Actions cette semaine (-0.46 %).",
+      "Les fonds Monétaires restent en tête des souscriptions nettes.",
+      "Retrait net sur les fonds Contractuels — vigilance recommandée.",
+      "Encours global en progression de +0.24 %."
+    ],
+    "scores": { "monetaire": 62.4, "obligataire_mlt": 66.8, "obligataire_ct": 56.0, "actions": 68.5, "diversifie": 69.2, "contractuel": 47.8 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-02-13",
+    "week_number": 7,
+    "aum_total": 671100,
+    "aum_prev": 668420,
+    "weekly_growth": 0.00401,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 288300, "aum_prev": 286700, "weight": 42.96, "weekly_growth": 0.00558, "perf_index": 102.30, "subscriptions": 3680, "redemptions": 2950, "net_flow": 730, "net_flow_pct": 0.254, "nb_fonds": 228, "score": 65.7 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 138900, "aum_prev": 138200, "weight": 20.70, "weekly_growth": 0.00506, "perf_index": 104.88, "subscriptions": 1200, "redemptions":  910, "net_flow": 290, "net_flow_pct": 0.209, "nb_fonds": 185, "score": 69.3 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  82800, "aum_prev":  82500, "weight": 12.34, "weekly_growth": 0.00364, "perf_index": 101.80, "subscriptions":  680, "redemptions":  570, "net_flow": 110, "net_flow_pct": 0.133, "nb_fonds":  87, "score": 57.7 },
+      "actions":         { "label": "Actions",      "aum":  88400, "aum_prev":  87100, "weight": 13.17, "weekly_growth": 0.01493, "perf_index": 113.24, "subscriptions":  510, "redemptions":  380, "net_flow": 130, "net_flow_pct": 0.147, "nb_fonds":  64, "score": 78.9 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  64800, "aum_prev":  64420, "weight":  9.66, "weekly_growth": 0.00590, "perf_index": 107.10, "subscriptions":  410, "redemptions":  300, "net_flow": 110, "net_flow_pct": 0.170, "nb_fonds":  78, "score": 70.8 },
+      "contractuel":     { "label": "Contractuels", "aum":   9900, "aum_prev":   9500, "weight":  1.47, "weekly_growth": 0.04211, "perf_index": 100.42, "subscriptions":   55, "redemptions":   30, "net_flow":  25, "net_flow_pct": 0.253, "nb_fonds":  12, "score": 55.4 }
+    },
+    "flows": { "subscriptions": 6535, "redemptions": 5140, "net_flow": 1395 },
+    "insights": [
+      "Forte reprise des fonds Actions : +1.49 % sur la semaine.",
+      "Flux nets record cette semaine : +1 395 M MAD au total.",
+      "Les fonds Obligataires MLT captent de nouveaux flux significatifs.",
+      "Momentum haussier généralisé sur l'ensemble des catégories."
+    ],
+    "scores": { "monetaire": 65.7, "obligataire_mlt": 69.3, "obligataire_ct": 57.7, "actions": 78.9, "diversifie": 70.8, "contractuel": 55.4 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-02-20",
+    "week_number": 8,
+    "aum_total": 672800,
+    "aum_prev": 671100,
+    "weekly_growth": 0.00253,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 289600, "aum_prev": 288300, "weight": 43.04, "weekly_growth": 0.00451, "perf_index": 102.37, "subscriptions": 3420, "redemptions": 3100, "net_flow": 320, "net_flow_pct": 0.111, "nb_fonds": 229, "score": 63.2 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 139200, "aum_prev": 138900, "weight": 20.69, "weekly_growth": 0.00216, "perf_index": 105.02, "subscriptions": 1020, "redemptions": 1050, "net_flow": -30, "net_flow_pct": -0.022, "nb_fonds": 185, "score": 63.8 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  83100, "aum_prev":  82800, "weight": 12.35, "weekly_growth": 0.00362, "perf_index": 101.87, "subscriptions":  590, "redemptions":  600, "net_flow": -10, "net_flow_pct": -0.012, "nb_fonds":  87, "score": 54.9 },
+      "actions":         { "label": "Actions",      "aum":  88200, "aum_prev":  88400, "weight": 13.11, "weekly_growth": -0.00226, "perf_index": 112.84, "subscriptions":  450, "redemptions":  490, "net_flow": -40, "net_flow_pct": -0.045, "nb_fonds":  64, "score": 69.4 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  64900, "aum_prev":  64800, "weight":  9.65, "weekly_growth": 0.00154, "perf_index": 107.14, "subscriptions":  360, "redemptions":  340, "net_flow":  20, "net_flow_pct": 0.031, "nb_fonds":  78, "score": 67.3 },
+      "contractuel":     { "label": "Contractuels", "aum":   9800, "aum_prev":   9900, "weight":  1.46, "weekly_growth": -0.01010, "perf_index": 100.40, "subscriptions":   42, "redemptions":   45, "net_flow":  -3, "net_flow_pct": -0.031, "nb_fonds":  12, "score": 49.6 }
+    },
+    "flows": { "subscriptions": 5882, "redemptions": 5625, "net_flow": 257 },
+    "insights": [
+      "Semaine de consolidation : flux nets en forte baisse à +257 M MAD.",
+      "Sorties nettes sur les Actions, Obligataires MLT/CT et Contractuels.",
+      "Les Monétaires restent la seule catégorie avec des flux nets significatifs.",
+      "Momentum global : légère pause après la semaine record du 13 fév."
+    ],
+    "scores": { "monetaire": 63.2, "obligataire_mlt": 63.8, "obligataire_ct": 54.9, "actions": 69.4, "diversifie": 67.3, "contractuel": 49.6 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-02-27",
+    "week_number": 9,
+    "aum_total": 674350,
+    "aum_prev": 672800,
+    "weekly_growth": 0.00230,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 290800, "aum_prev": 289600, "weight": 43.12, "weekly_growth": 0.00414, "perf_index": 102.44, "subscriptions": 3550, "redemptions": 3020, "net_flow": 530, "net_flow_pct": 0.182, "nb_fonds": 229, "score": 64.5 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 139500, "aum_prev": 139200, "weight": 20.69, "weekly_growth": 0.00216, "perf_index": 105.16, "subscriptions": 1140, "redemptions":  970, "net_flow": 170, "net_flow_pct": 0.122, "nb_fonds": 186, "score": 66.7 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  83200, "aum_prev":  83100, "weight": 12.34, "weekly_growth": 0.00120, "perf_index": 101.92, "subscriptions":  610, "redemptions":  570, "net_flow":  40, "net_flow_pct": 0.048, "nb_fonds":  87, "score": 55.9 },
+      "actions":         { "label": "Actions",      "aum":  88600, "aum_prev":  88200, "weight": 13.14, "weekly_growth": 0.00454, "perf_index": 113.62, "subscriptions":  480, "redemptions":  400, "net_flow":  80, "net_flow_pct": 0.090, "nb_fonds":  64, "score": 75.2 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  65250, "aum_prev":  64900, "weight":  9.68, "weekly_growth": 0.00539, "perf_index": 107.48, "subscriptions":  395, "redemptions":  310, "net_flow":  85, "net_flow_pct": 0.130, "nb_fonds":  78, "score": 70.4 },
+      "contractuel":     { "label": "Contractuels", "aum":  10000, "aum_prev":   9800, "weight":  1.48, "weekly_growth": 0.02041, "perf_index": 100.44, "subscriptions":   50, "redemptions":   35, "net_flow":  15, "net_flow_pct": 0.150, "nb_fonds":  12, "score": 53.8 }
+    },
+    "flows": { "subscriptions": 6225, "redemptions": 5305, "net_flow": 920 },
+    "insights": [
+      "Rebond des flux nets : +920 M MAD après la pause de la semaine précédente.",
+      "Les fonds Actions reprennent leur tendance haussière (+0.45 %).",
+      "Les Diversifiés enregistrent une hausse notable de +0.54 %.",
+      "Encours total dépasse 674 Mrd MAD — nouveau sommet historique."
+    ],
+    "scores": { "monetaire": 64.5, "obligataire_mlt": 66.7, "obligataire_ct": 55.9, "actions": 75.2, "diversifie": 70.4, "contractuel": 53.8 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-03-06",
+    "week_number": 10,
+    "aum_total": 675900,
+    "aum_prev": 674350,
+    "weekly_growth": 0.00230,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 291900, "aum_prev": 290800, "weight": 43.20, "weekly_growth": 0.00378, "perf_index": 102.51, "subscriptions": 3640, "redemptions": 3180, "net_flow": 460, "net_flow_pct": 0.158, "nb_fonds": 229, "score": 63.8 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 139800, "aum_prev": 139500, "weight": 20.68, "weekly_growth": 0.00215, "perf_index": 105.28, "subscriptions": 1160, "redemptions":  995, "net_flow": 165, "net_flow_pct": 0.118, "nb_fonds": 186, "score": 66.5 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  83500, "aum_prev":  83200, "weight": 12.35, "weekly_growth": 0.00360, "perf_index": 101.98, "subscriptions":  625, "redemptions":  575, "net_flow":  50, "net_flow_pct": 0.060, "nb_fonds":  87, "score": 56.2 },
+      "actions":         { "label": "Actions",      "aum":  87800, "aum_prev":  88600, "weight": 12.99, "weekly_growth": -0.00903, "perf_index": 112.38, "subscriptions":  420, "redemptions":  490, "net_flow": -70, "net_flow_pct": -0.080, "nb_fonds":  64, "score": 66.1 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  65400, "aum_prev":  65250, "weight":  9.68, "weekly_growth": 0.00230, "perf_index": 107.55, "subscriptions":  375, "redemptions":  330, "net_flow":  45, "net_flow_pct": 0.069, "nb_fonds":  78, "score": 68.0 },
+      "contractuel":     { "label": "Contractuels", "aum":   9500, "aum_prev":  10000, "weight":  1.41, "weekly_growth": -0.05000, "perf_index": 100.42, "subscriptions":   38, "redemptions":   48, "net_flow": -10, "net_flow_pct": -0.105, "nb_fonds":  12, "score": 47.1 }
+    },
+    "flows": { "subscriptions": 6258, "redemptions": 5618, "net_flow": 640 },
+    "insights": [
+      "Correction sur les fonds Actions (-0.90 %) après 3 semaines de hausse.",
+      "Rotation sectorielle détectée : flux sortants sur Actions et Contractuels.",
+      "Les Monétaires et Obligataires absorbent les flux réalloués.",
+      "Encours global stable à 675.9 Mrd MAD."
+    ],
+    "scores": { "monetaire": 63.8, "obligataire_mlt": 66.5, "obligataire_ct": 56.2, "actions": 66.1, "diversifie": 68.0, "contractuel": 47.1 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-03-13",
+    "week_number": 11,
+    "aum_total": 677800,
+    "aum_prev": 675900,
+    "weekly_growth": 0.00281,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 292800, "aum_prev": 291900, "weight": 43.20, "weekly_growth": 0.00308, "perf_index": 102.58, "subscriptions": 3720, "redemptions": 3050, "net_flow": 670, "net_flow_pct": 0.229, "nb_fonds": 230, "score": 66.3 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 140200, "aum_prev": 139800, "weight": 20.69, "weekly_growth": 0.00286, "perf_index": 105.42, "subscriptions": 1220, "redemptions":  960, "net_flow": 260, "net_flow_pct": 0.186, "nb_fonds": 186, "score": 68.4 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  83800, "aum_prev":  83500, "weight": 12.36, "weekly_growth": 0.00359, "perf_index": 102.04, "subscriptions":  650, "redemptions":  560, "net_flow":  90, "net_flow_pct": 0.107, "nb_fonds":  87, "score": 57.3 },
+      "actions":         { "label": "Actions",      "aum":  88500, "aum_prev":  87800, "weight": 13.06, "weekly_growth": 0.00797, "perf_index": 114.08, "subscriptions":  500, "redemptions":  390, "net_flow": 110, "net_flow_pct": 0.124, "nb_fonds":  64, "score": 77.8 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  65800, "aum_prev":  65400, "weight":  9.71, "weekly_growth": 0.00612, "perf_index": 107.88, "subscriptions":  410, "redemptions":  295, "net_flow": 115, "net_flow_pct": 0.175, "nb_fonds":  78, "score": 72.1 },
+      "contractuel":     { "label": "Contractuels", "aum":   9700, "aum_prev":   9500, "weight":  1.43, "weekly_growth": 0.02105, "perf_index": 100.46, "subscriptions":   48, "redemptions":   33, "net_flow":  15, "net_flow_pct": 0.155, "nb_fonds":  12, "score": 55.1 }
+    },
+    "flows": { "subscriptions": 6548, "redemptions": 5288, "net_flow": 1260 },
+    "insights": [
+      "Fort rebond des fonds Actions : +0.80 % — momentum positif renouvelé.",
+      "Flux nets en nette hausse à +1 260 M MAD, deuxième meilleur résultat de l'année.",
+      "Les Diversifiés affichent leur meilleure progression hebdomadaire (+0.61 %).",
+      "Momentum haussier sur toutes les catégories — signal positif pour le marché."
+    ],
+    "scores": { "monetaire": 66.3, "obligataire_mlt": 68.4, "obligataire_ct": 57.3, "actions": 77.8, "diversifie": 72.1, "contractuel": 55.1 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-03-20",
+    "week_number": 12,
+    "aum_total": 679400,
+    "aum_prev": 677800,
+    "weekly_growth": 0.00236,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 293800, "aum_prev": 292800, "weight": 43.24, "weekly_growth": 0.00341, "perf_index": 102.64, "subscriptions": 3580, "redemptions": 3120, "net_flow": 460, "net_flow_pct": 0.157, "nb_fonds": 230, "score": 63.9 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 140500, "aum_prev": 140200, "weight": 20.68, "weekly_growth": 0.00214, "perf_index": 105.55, "subscriptions": 1100, "redemptions": 1020, "net_flow":  80, "net_flow_pct": 0.057, "nb_fonds": 186, "score": 64.8 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  84000, "aum_prev":  83800, "weight": 12.36, "weekly_growth": 0.00239, "perf_index": 102.10, "subscriptions":  630, "redemptions":  585, "net_flow":  45, "net_flow_pct": 0.054, "nb_fonds":  87, "score": 55.8 },
+      "actions":         { "label": "Actions",      "aum":  88700, "aum_prev":  88500, "weight": 13.05, "weekly_growth": 0.00226, "perf_index": 114.54, "subscriptions":  475, "redemptions":  420, "net_flow":  55, "net_flow_pct": 0.062, "nb_fonds":  64, "score": 73.6 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  65900, "aum_prev":  65800, "weight":  9.70, "weekly_growth": 0.00152, "perf_index": 107.97, "subscriptions":  370, "redemptions":  325, "net_flow":  45, "net_flow_pct": 0.068, "nb_fonds":  78, "score": 68.5 },
+      "contractuel":     { "label": "Contractuels", "aum":   9500, "aum_prev":   9700, "weight":  1.40, "weekly_growth": -0.02062, "perf_index": 100.44, "subscriptions":   40, "redemptions":   50, "net_flow": -10, "net_flow_pct": -0.105, "nb_fonds":  12, "score": 47.5 }
+    },
+    "flows": { "subscriptions": 6195, "redemptions": 5520, "net_flow": 675 },
+    "insights": [
+      "Stabilisation du marché OPCVM après deux semaines de forte activité.",
+      "Les Obligataires MLT ralentissent : flux nets limités à +80 M MAD.",
+      "Sorties nettes sur les Contractuels pour la deuxième semaine consécutive.",
+      "Encours total atteint 679.4 Mrd MAD — progression constante en 2026."
+    ],
+    "scores": { "monetaire": 63.9, "obligataire_mlt": 64.8, "obligataire_ct": 55.8, "actions": 73.6, "diversifie": 68.5, "contractuel": 47.5 },
+    "source": "AMMC via data.gov.ma"
+  },
+  {
+    "date": "2026-03-27",
+    "week_number": 13,
+    "aum_total": 681200,
+    "aum_prev": 679400,
+    "weekly_growth": 0.00265,
+    "categories": {
+      "monetaire":       { "label": "Monétaires",   "aum": 295100, "aum_prev": 293800, "weight": 43.32, "weekly_growth": 0.00443, "perf_index": 102.71, "subscriptions": 3750, "redemptions": 3080, "net_flow": 670, "net_flow_pct": 0.227, "nb_fonds": 231, "score": 66.0 },
+      "obligataire_mlt": { "label": "Oblig. MLT",   "aum": 140900, "aum_prev": 140500, "weight": 20.68, "weekly_growth": 0.00285, "perf_index": 105.68, "subscriptions": 1250, "redemptions":  980, "net_flow": 270, "net_flow_pct": 0.192, "nb_fonds": 187, "score": 68.6 },
+      "obligataire_ct":  { "label": "Oblig. CT",    "aum":  84300, "aum_prev":  84000, "weight": 12.38, "weekly_growth": 0.00357, "perf_index": 102.17, "subscriptions":  660, "redemptions":  570, "net_flow":  90, "net_flow_pct": 0.107, "nb_fonds":  88, "score": 57.5 },
+      "actions":         { "label": "Actions",      "aum":  89200, "aum_prev":  88700, "weight": 13.09, "weekly_growth": 0.00564, "perf_index": 115.12, "subscriptions":  520, "redemptions":  410, "net_flow": 110, "net_flow_pct": 0.123, "nb_fonds":  64, "score": 77.4 },
+      "diversifie":      { "label": "Diversifiés",  "aum":  66300, "aum_prev":  65900, "weight":  9.73, "weekly_growth": 0.00607, "perf_index": 108.32, "subscriptions":  420, "redemptions":  310, "net_flow": 110, "net_flow_pct": 0.166, "nb_fonds":  78, "score": 72.3 },
+      "contractuel":     { "label": "Contractuels", "aum":   9400, "aum_prev":   9500, "weight":  1.38, "weekly_growth": -0.01053, "perf_index": 100.45, "subscriptions":   42, "redemptions":   48, "net_flow":  -6, "net_flow_pct": -0.064, "nb_fonds":  12, "score": 48.9 }
+    },
+    "flows": { "subscriptions": 6642, "redemptions": 5398, "net_flow": 1244 },
+    "insights": [
+      "Forte accélération des flux nets : +1 244 M MAD — 2e meilleure semaine de l'année.",
+      "Les fonds Actions franchissent l'indice 115 pour la première fois en 2026.",
+      "Les Diversifiés confirment leur tendance haussière avec +0.61 %.",
+      "Alerte positive : souscriptions nettes élevées sur 3 catégories simultanément.",
+      "Encours total : 681.2 Mrd MAD — record annuel 2026."
+    ],
+    "scores": { "monetaire": 66.0, "obligataire_mlt": 68.6, "obligataire_ct": 57.5, "actions": 77.4, "diversifie": 72.3, "contractuel": 48.9 },
+    "source": "AMMC via data.gov.ma"
+  }
+]

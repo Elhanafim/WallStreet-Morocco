@@ -150,11 +150,20 @@ export default function OpcvmPage() {
               Données éducatives uniquement
             </span>
           </div>
-          <p className="text-slate-400 text-sm mb-6">
+          <p className="text-slate-400 text-sm mb-4">
             Fonds d&apos;investissement collectif · Source :{' '}
             <span className="text-blue-400">{source || 'medias24.com / ASFIM'}</span>
             {dataDate && <> · Données du <span className="text-slate-300">{dataDate}</span></>}
           </p>
+          <Link
+            href="/opcvm/ammc"
+            className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 border mb-6 transition-colors hover:bg-amber-500/10"
+            style={{ borderColor: '#FF8C0066', color: '#FF8C00' }}
+          >
+            <span>◈</span>
+            <span>Statistiques agrégées AMMC — Encours · Flux · Scores</span>
+            <span>→</span>
+          </Link>
 
           {/* KPI strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
