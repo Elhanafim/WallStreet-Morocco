@@ -50,7 +50,7 @@ export default function OpcvmPage() {
           </p>
 
           <Link
-            href="/terminal?tab=OPCVM"
+            href="/opcvm/ammc"
             className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 border mb-6 transition-colors hover:bg-amber-500/10 rounded-lg bg-blue-900/40"
             style={{ borderColor: '#FF8C0066', color: '#FF8C00' }}
           >

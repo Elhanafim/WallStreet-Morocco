@@ -201,16 +201,7 @@ export default function TerminalPage() {
   const [loading, setLoading]  = useState(true);
 
   // ── UI state ─────────────────────────────────────────────────────────────────
-  const [activeTab,       setActiveTab]       = useState<ActiveTab>(() => {
-    if (typeof window !== 'undefined') {
-      const p = new URLSearchParams(window.location.search).get('tab');
-      if (p === 'EQUITIES') return 'EQUITIES';
-      if (p === 'OPCVM') return 'OPCVM';
-      if (p === 'MACRO') return 'MACRO';
-      if (p === 'FINANCIALS') return 'FINANCIALS';
-    }
-    return 'OVERVIEW';
-  });
+  const [activeTab,       setActiveTab]       = useState<ActiveTab>('OVERVIEW');
   const [selectedTicker,  setSelectedTicker]  = useState<BVCPrice | null>(null);
   const [search,          setSearch]          = useState('');
   const [quickFilter,     setQuickFilter]     = useState<QuickFilter>('ALL');
