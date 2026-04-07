@@ -80,7 +80,12 @@ export default function OpcvmPage() {
   };
 
   const sgOptions = useMemo(
-    () => Array.from(new Set(funds.map(f => f.societe_gestion).filter(Boolean))).sort() as string[],
+    () => Object.keys(
+      funds.reduce((acc, f) => {
+        if (f.societe_gestion) acc[f.societe_gestion] = true;
+        return acc;
+      }, {} as Record<string, boolean>)
+    ).sort(),
     [funds],
   );
 

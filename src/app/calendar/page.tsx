@@ -221,7 +221,7 @@ export default function CalendarPage() {
   const sortedFiltered = useMemo(() => sortCalendarEvents([...filtered]), [filtered]);
 
   const availableCategories = useMemo(() => {
-    return Array.from(new Set(events.map((e) => e.category))).sort();
+    return Object.keys(events.reduce((acc, e) => { acc[e.category] = true; return acc; }, {} as Record<string, boolean>)).sort();
   }, [events]);
 
   const upcomingHighImpact = useMemo(

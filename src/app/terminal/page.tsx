@@ -1389,9 +1389,12 @@ export default function TerminalPage() {
   };
 
   const renderOpcvm = () => {
-    const sgOptions = Array.from(
-      new Set(opcvmFunds.map(f => f.societe_gestion).filter(Boolean))
-    ).sort() as string[];
+    const sgOptions = Object.keys(
+      opcvmFunds.reduce((acc, f) => {
+        if (f.societe_gestion) acc[f.societe_gestion] = true;
+        return acc;
+      }, {} as Record<string, boolean>)
+    ).sort();
 
     // Summary stats for the stat bar
     const totalEncours    = opcvmFunds.reduce((s, f) => s + (f.encours ?? 0), 0);
