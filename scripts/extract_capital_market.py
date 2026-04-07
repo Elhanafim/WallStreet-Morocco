@@ -76,25 +76,30 @@ def extract_data_from_pdf(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         full_text = ""
         for page in pdf.pages:
-            full_text += page.extract_text() + "\n"
+            # Use specific layout extraction if possible, otherwise normal text
+            text = page.extract_text(x_tolerance=2, y_tolerance=2) or ""
+            full_text += text + "\n"
         
         # 1. Market Bourse
+        # MASI 13 012,45
         masi_match = re.search(r"MASI\s+([\d\s,.]+)", full_text, re.I)
         if masi_match: data["masi"] = parse_number(masi_match.group(1))
         
-        cap_match = re.search(r"Capitalisation\s*(?:\(MMDhs\))?[\s\n]+([\d\s,]+)", full_text, re.I)
+        # Capitalisation (MMDhs) 674,5
+        cap_match = re.search(r"Capitalisation\s*(?:\(MMDhs\))?[\s\n]+([\d\s,.]+)", full_text, re.I)
         if cap_match: data["market_cap"] = parse_number(cap_match.group(1))
         
+        # Volume (MDhs) 1 234
         vol_match = re.search(r"Volume\s*(?:\(MDhs\))?[\s\n]+([\d\s,]{3,20})", full_text, re.I)
         if vol_match: data["volume"] = parse_number(vol_match.group(1))
 
         # 2. OPCVM Breakdown
-        # Find the table part for OPCVM
+        # Pattern: Category Funds Assets(MMDH) ChangeYTD
         # Actions 116 78,65 1,86%
-        # Diversifiés 134 106,18 3,34%
         categories = ["Actions", "Diversifiés", "Monétaires", "Obligations CT", "Obligations MLT", "Contractuels"]
         for cat in categories:
-            pattern = re.escape(cat) + r"\s+(\d+)\s+([\d\s,.]+)\s+([-\d\s,.]+\%)"
+            # Look for category followed by 3 numbers/values
+            pattern = re.escape(cat) + r"\s+(\d+)\s+([\d\s,.]+)\s+([-]?[\d\s,.]+\%)"
             match = re.search(pattern, full_text)
             if match:
                 data["opcvm"]["categories"].append({
@@ -104,37 +109,52 @@ def extract_data_from_pdf(pdf_path):
                     "change_ytd": match.group(3).strip()
                 })
         
-        total_opcvm = re.search(r"TOTAL\s+(\d+)\s+([\d\s,.]+)\s+([-\d\s,.]+\%)", full_text)
+        total_opcvm = re.search(r"TOTAL\s+(\d+)\s+([\d\s,.]+)\s+([-]?[\d\s,.]+\%)", full_text)
         if total_opcvm:
             data["opcvm"]["total_funds"] = int(total_opcvm.group(1))
             data["opcvm"]["total_assets"] = parse_number(total_opcvm.group(2))
 
-        # 3. Capital Raises (Page 2) - Looking for column 1 (current month)
-        # Émissions de titres de capital(*) 450 -
-        equity_match = re.search(r"Émissions de titres de capital(?:\(\*\))?\s*([\d\s,]{3,10})(?:\s+|-)", full_text)
-        if equity_match: data["capital_raises"]["equity"] = parse_number(equity_match.group(1))
+        # 3. Capital Raises - Typically in a table "Levées de capitaux"
+        # Column 1 = Flux du mois, Column 2 = Cumul annuel
+        # Émissions de titres de capital 450 -
+        equity_match = re.search(r"titres de capital(?:\s*\(.*?\))?\s*([-]|[\d\s]{1,10})(?:\s+|$)", full_text)
+        if equity_match: 
+            val = equity_match.group(1).strip()
+            data["capital_raises"]["equity"] = 0 if val == "-" else parse_number(val)
         
-        # Émissions obligataires(*) (***) - 3 050
-        bond_match = re.search(r"Émissions obligataires.*?\s+(-|[\d\s,]{3,10})\s+(-|[\d\s,]{3,10})", full_text)
+        # Émissions obligataires
+        bond_match = re.search(r"Émissions obligataires(?:\s*\(.*?\))?\s*([-]|[\d\s]{1,10})(?:\s+|$)", full_text)
         if bond_match:
             val = bond_match.group(1).strip()
             data["capital_raises"]["bonds"] = 0 if val == "-" else parse_number(val)
         
-        # Émissions de TCN 6 738 12 078
-        tcn_match = re.search(r"Émissions de TCN\s+([\d\s,]{3,10})\s+([\d\s,]{3,10})", full_text)
-        if tcn_match: data["capital_raises"]["tcn"] = parse_number(tcn_match.group(1))
+        # Émissions de TCN
+        tcn_match = re.search(r"Émissions de TCN\s*([-]|[\d\s]{1,10})(?:\s+|$)", full_text)
+        if tcn_match:
+            val = tcn_match.group(1).strip()
+            data["capital_raises"]["tcn"] = 0 if val == "-" else parse_number(val)
         
+        # Total levées
         # Total 7 188 15 128
-        total_match = re.search(r"Total\s+([\d\s,]{3,10})\s+([\d\s,]{3,10})", full_text)
-        if total_match: data["capital_raises"]["total"] = parse_number(total_match.group(1))
+        total_raises = re.search(r"Total\s*levées.*?\s*([-]|[\d\s]{1,10})(?:\s+|$)", full_text, re.I)
+        if not total_raises:
+            # Look for "Total" followed by numbers in the capital raise section
+            raises_block = full_text[full_text.find("Émissions"):] if "Émissions" in full_text else full_text
+            total_raises = re.search(r"Total\s+([\d\s]{1,10})(?:\s+|$)", raises_block)
+        
+        if total_raises:
+            val = total_raises.group(1).strip()
+            data["capital_raises"]["total"] = parse_number(val)
 
         # 4. Securities Lending
-        # Encours (MMDhs) 38,5 9%
-        lending_outstanding = re.search(r"Encours\s+\(MMDhs\)\s+([\d\s,.]+)\s+[-\d]+", full_text)
+        # Prêt-emprunt de titres
+        # Encours (MMDhs) 38,5
+        sec_lending_section = full_text[full_text.find("Prêt-emprunt"):] if "Prêt-emprunt" in full_text else full_text
+        
+        lending_outstanding = re.search(r"Encours\s*\(MMDhs\)\s*([\d\s,.]+)", sec_lending_section)
         if lending_outstanding: data["securities_lending"]["outstanding"] = parse_number(lending_outstanding.group(1))
         
-        # Volume (MMDhs) 34,6 -48%
-        lending_vol = re.search(r"Volume\s+\(MMDhs\)\s+([\d\s,.]+)\s+[-\d]+", full_text)
+        lending_vol = re.search(r"Volume\s*\(MMDhs\)\s*([\d\s,.]+)", sec_lending_section)
         if lending_vol: data["securities_lending"]["volume"] = parse_number(lending_vol.group(1))
 
     return data

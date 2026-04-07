@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import ValuesFinancials from '@/components/terminal/ValuesFinancials';
 import { Roboto_Mono, Inter } from 'next/font/google';
 import CapitalMarketIndicators from '@/components/terminal/CapitalMarketIndicators';
-import AmmcAnnualReports from '@/components/terminal/AmmcAnnualReports';
 
 import {
   fetchSnapshot,
@@ -45,7 +44,7 @@ const BB_BORDER = '#1E293B';
 const BB_BG     = '#040914';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
-type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS' | 'CAPITAL_MARKET' | 'ANNUAL_REPORTS';
+type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS' | 'CAPITAL_MARKET';
 type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type SortField   = 'TICKER' | 'PRICE' | 'CHANGE' | 'VOLUME';
 type SortDir     = 'ASC' | 'DESC';
@@ -392,7 +391,6 @@ export default function TerminalPage() {
     if (cmd === 'OPCVM') { setActiveTab('OPCVM'); setCmdMsg('→ FONDS OPCVM'); return; }
     if (cmd === 'FIN')   { setActiveTab('FINANCIALS'); setCmdMsg('→ DONNÉES'); return; }
     if (cmd === 'AMMC' || cmd === 'CAP') { setActiveTab('CAPITAL_MARKET'); setCmdMsg('→ MARCHÉ DES CAPITAUX'); return; }
-    if (cmd === 'REP' || cmd === 'REPORT') { setActiveTab('ANNUAL_REPORTS'); setCmdMsg('→ RAPPORTS ANNUELS'); return; }
     if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
 
     const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
@@ -432,7 +430,6 @@ export default function TerminalPage() {
           case '3': e.preventDefault(); setActiveTab('OPCVM'); break;
           case '4': e.preventDefault(); setActiveTab('MACRO'); break;
           case '5': e.preventDefault(); setActiveTab('FINANCIALS'); break;
-          case 'a': case 'A': if (e.altKey) { e.preventDefault(); setActiveTab('ANNUAL_REPORTS'); } break;
         }
         return;
       }
@@ -1493,7 +1490,6 @@ export default function TerminalPage() {
             { id: 'CAPITAL_MARKET', label: 'Indicateurs Marché', shortcut: 'Alt+C' },
             { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
             { id: 'FINANCIALS', label: 'Données', shortcut: 'Alt+5' },
-            { id: 'ANNUAL_REPORTS', label: 'Rapports AMMC', shortcut: 'Alt+A' },
           ] as { id: ActiveTab; label: string; shortcut: string }[]
         ).map(tab => (
           <button
@@ -1518,7 +1514,6 @@ export default function TerminalPage() {
         {activeTab === 'EQUITIES' && renderEquities()}
         {activeTab === 'OPCVM' && renderOpcvm()}
         {activeTab === 'CAPITAL_MARKET' && <CapitalMarketIndicators />}
-        { activeTab === 'ANNUAL_REPORTS' && <AmmcAnnualReports /> }
         {activeTab === 'MACRO' && renderMacro()}
         {activeTab === 'FINANCIALS' && (
           <div className="h-full flex flex-col overflow-hidden">
