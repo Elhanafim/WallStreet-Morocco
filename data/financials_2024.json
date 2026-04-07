@@ -1,0 +1,3614 @@
+[
+  {
+    "company_name": "Addoha",
+    "ticker": "ADH",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ADDOHA/ADDOHA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2.5946887962134135e+22,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 4.931420161438405e+20,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 304.0,
+      "resultat_net_part_groupe": 274.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 864844287.7,
+      "total_passif": 2.0988088138205874e+24,
+      "capitaux_propres": 9.319494058907368e+22,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -950735640.56,
+      "dette_nette": 312024000.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": 0.0
+    },
+    "notes": "Rapport consolidé; Sources: table=2, narrative=2, lines=7"
+  },
+  {
+    "company_name": "Autoroutes du Maroc",
+    "ticker": "ADM",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ADM/ADM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 10.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 678.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 283.0,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 28062019.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 6780.0,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=3, narrative=0, lines=3"
+  },
+  {
+    "company_name": "AFMA",
+    "ticker": "AFM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AFMA/AFMA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 73030892.16,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 65101986.06,
+      "resultat_financier": -8084034.0,
+      "resultat_courant": null,
+      "resultat_net": 72353635.0,
+      "resultat_net_part_groupe": 7.011860741937715e+18,
+      "ebitda": 137.513
+    },
+    "balance_sheet": {
+      "total_actif": 1000000.0,
+      "total_passif": 1143593054.0,
+      "capitaux_propres": 62346851.66,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 3643231.8,
+      "dette_nette": -8779663.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 18030892.16,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -55035401.0
+    },
+    "ratios": {
+      "marge_nette": 99.07,
+      "marge_ebitda": 0.0,
+      "roe": 116.05,
+      "ratio_endettement": -0.14
+    },
+    "notes": "Rapport consolidé; Sources: table=12, narrative=1, lines=8"
+  },
+  {
+    "company_name": "Afric Industries",
+    "ticker": "AFI",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AFRIC_INDUSTRIES_SA/AFRIC_INDUSTRIES_SA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 5951650.72,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 9586718.633,
+      "resultat_financier": null,
+      "resultat_courant": 14638711.21,
+      "resultat_net": 99174457.123,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 0.0,
+      "total_passif": null,
+      "capitaux_propres": 0.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 6538432.38,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 121649.94,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 1666.34,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=6, narrative=0, lines=2"
+  },
+  {
+    "company_name": "ANP",
+    "ticker": "ANP",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AGENCE_NATIONALE_DES_PORTS_ANP/AGENCE_NATIONALE_DES_PORTS_ANP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 648.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 792.0,
+      "resultat_financier": -41193.0,
+      "resultat_courant": 688.0,
+      "resultat_net": 408746390.44,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 21350.0,
+      "total_passif": 21350.0,
+      "capitaux_propres": 322692307.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 80.0,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 0.21,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 63078146.67,
+      "marge_ebitda": null,
+      "roe": 126.67,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=10, narrative=1, lines=7"
+  },
+  {
+    "company_name": "Agma",
+    "ticker": "AGM",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AGMA/AGMA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 0.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 223.4,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 4.5,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 142.3,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=3, narrative=1, lines=0"
+  },
+  {
+    "company_name": "Akdital",
+    "ticker": "AKT",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AKDITAL/AKDITAL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2954038793.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 519258058.0,
+      "resultat_financier": -57610704.0,
+      "resultat_courant": 461647354.0,
+      "resultat_net": 347553992.0,
+      "resultat_net_part_groupe": 315.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1226.635,
+      "total_passif": 6367786756.0,
+      "capitaux_propres": 2583560166.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 306278377.35,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 636542008.0,
+      "investissements_capex": 123.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": -21029311.0
+    },
+    "ratios": {
+      "marge_nette": 11.77,
+      "marge_ebitda": null,
+      "roe": 13.45,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=12, narrative=2, lines=5"
+  },
+  {
+    "company_name": "Alliances Darna",
+    "ticker": "ADI",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ALLIANCES_DARNA/ALLIANCES_DARNA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1979.603,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 0.5380199999999999,
+      "resultat_financier": -0.014113,
+      "resultat_courant": 83619310.25,
+      "resultat_net": 0.47545600000000005,
+      "resultat_net_part_groupe": 0.47395400000000004,
+      "ebitda": 0.106355
+    },
+    "balance_sheet": {
+      "total_actif": 1881883065.0,
+      "total_passif": 5887.729,
+      "capitaux_propres": 2593.696,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 0.5598160000000001,
+      "dette_nette": 94.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 0.512355,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -0.1714
+    },
+    "ratios": {
+      "marge_nette": 0.02,
+      "marge_ebitda": 0.01,
+      "roe": 0.02,
+      "ratio_endettement": 0.04
+    },
+    "notes": "Rapport consolidé; Sources: table=14, narrative=1, lines=8"
+  },
+  {
+    "company_name": "Alliances",
+    "ticker": "ADI",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ALLIANCES_DEVELOPPEMENT_IMMOBILIER_ADI/ALLIANCES_DEVELOPPEMENT_IMMOBILIER_ADI_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2363.364,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 0.445676,
+      "resultat_financier": -0.059402,
+      "resultat_courant": -25551465.0,
+      "resultat_net": 0.30544400000000005,
+      "resultat_net_part_groupe": 0.30191500000000004,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2689267283.0,
+      "total_passif": 9936.604,
+      "capitaux_propres": 3746.2000000000003,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 0.711134,
+      "dette_nette": 1.136,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 0.393401,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -0.066235
+    },
+    "ratios": {
+      "marge_nette": 0.01,
+      "marge_ebitda": null,
+      "roe": 0.01,
+      "ratio_endettement": 0.0
+    },
+    "notes": "Rapport consolidé; Sources: table=13, narrative=1, lines=8"
+  },
+  {
+    "company_name": "Aluminium du Maroc",
+    "ticker": "ALM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ALUMINIUM_DU_MAROC/ALUMINIUM_DU_MAROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 75538856.52,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 54553439.07,
+      "resultat_financier": -18219933.15,
+      "resultat_courant": 76633212.06,
+      "resultat_net": 36.8,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1078099.24,
+      "total_passif": 1078099.24,
+      "capitaux_propres": 270957.05,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 82899464.13,
+      "dette_nette": 428337556.35,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 66.3,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.01,
+      "ratio_endettement": 1580.83
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Aradei Capital",
+    "ticker": "ARD",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ARADEI_CAPITAL/ARADEI_CAPITAL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 373.122,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 138041971.19,
+      "resultat_financier": 134213170.33,
+      "resultat_courant": 154935628.92,
+      "resultat_net": 138041971.19,
+      "resultat_net_part_groupe": null,
+      "ebitda": 449.732
+    },
+    "balance_sheet": {
+      "total_actif": -4.6450000000000005,
+      "total_passif": 9456.115,
+      "capitaux_propres": 2681443537.26,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 812.736,
+      "dette_nette": -128.961,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 20722458.59,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 36996470.64,
+      "marge_ebitda": 120.53,
+      "roe": 5.15,
+      "ratio_endettement": -0.0
+    },
+    "notes": "Rapport consolidé; Sources: table=12, narrative=2, lines=5"
+  },
+  {
+    "company_name": "AtlantaSanad",
+    "ticker": "ATL",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ATLANTASANAD/ATLANTASANAD_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 50535132.7916,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 443456.14310000004,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 0.138774,
+      "total_passif": null,
+      "capitaux_propres": 23677752257.837,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.88,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=0, lines=3"
+  },
+  {
+    "company_name": "Attijariwafa Bank",
+    "ticker": "ATW",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ATTIJARIWAFA_BANK/ATTIJARIWAFA_BANK_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1591.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1.783340313770913e+18,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 312024000.0,
+      "resultat_net_part_groupe": 9.5044867507605e+16,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 7.264929486590058e+20,
+      "total_passif": 7.264929486590058e+20,
+      "capitaux_propres": 12599.132,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 19611816.47,
+      "marge_ebitda": null,
+      "roe": 2476551.56,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=1, lines=7"
+  },
+  {
+    "company_name": "Auto Hall",
+    "ticker": "ATH",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AUTO_HALL/AUTO_HALL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 5022141140.61,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 185155756.7,
+      "resultat_financier": -129248454.44,
+      "resultat_courant": null,
+      "resultat_net": 17.092,
+      "resultat_net_part_groupe": null,
+      "ebitda": 4384410.6
+    },
+    "balance_sheet": {
+      "total_actif": 6313507887.33,
+      "total_passif": 6313507887.33,
+      "capitaux_propres": 502.945,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 432.035,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 1319.513,
+      "investissements_capex": -755.815,
+      "cash_flow_libre": null,
+      "dividendes_verses": -100.589
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": 0.09,
+      "roe": 3.4,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=5"
+  },
+  {
+    "company_name": "Auto Nejma",
+    "ticker": "NEJ",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "AUTO_NEJMA/AUTO_NEJMA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 241865246.78,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 204928694.24,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 0.205383,
+      "resultat_net_part_groupe": 205383157773.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 12.002,
+      "total_passif": 2766.857,
+      "capitaux_propres": 0.102326,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 0.05646,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 241865246.78,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 200.71,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=1, lines=8"
+  },
+  {
+    "company_name": "Balima",
+    "ticker": "BAL",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "BALIMA/BALIMA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 631535161.522,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 17086991.672000002,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 14281889.161,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 155400617.0,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 1123.0,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -9592000.0
+    },
+    "ratios": {
+      "marge_nette": 2.26,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=3, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Bank of Africa",
+    "ticker": "BOA",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "BANK_OF_AFRICA_GROUPE_BMCE_BOA/BANK_OF_AFRICA_GROUPE_BMCE_BOA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 8.3145247188158e+16,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 1.3,
+      "resultat_net_part_groupe": 201.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2.8889168916299143e+66,
+      "total_passif": 4.232788183881845e+20,
+      "capitaux_propres": 4.5003816999740665e+38,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=2, lines=5"
+  },
+  {
+    "company_name": "Banque Centrale Populaire",
+    "ticker": "BCP",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "BANQUE_CENTRALE_POPULAIRE_BCP/BANQUE_CENTRALE_POPULAIRE_BCP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 10018.334,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 6091.161,
+      "resultat_financier": null,
+      "resultat_courant": 4876.294,
+      "resultat_net": 2939.9230000000002,
+      "resultat_net_part_groupe": 2920.40312416311,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 653100.0,
+      "total_passif": 3.180949233538927e+18,
+      "capitaux_propres": 61609000.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 4729.3910000000005,
+      "investissements_capex": 221000.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 29.35,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=7, narrative=2, lines=8"
+  },
+  {
+    "company_name": "BMCI",
+    "ticker": "BCI",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "BMCI/BMCI_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1943015.067,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1543711236000.0,
+      "resultat_financier": null,
+      "resultat_courant": 1462010.205,
+      "resultat_net": -0.582851,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 7807441575201.2705,
+      "total_passif": 7807441575201.2705,
+      "capitaux_propres": 170394.331,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -0.0,
+      "marge_ebitda": null,
+      "roe": -0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Cartier Saada",
+    "ticker": "CRS",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CARTIER_SAADA/CARTIER_SAADA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 5995974.24,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 3.77,
+      "resultat_net_part_groupe": null,
+      "ebitda": 23908304.99
+    },
+    "balance_sheet": {
+      "total_actif": 450000.0,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 0.6,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": 398.74,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=1"
+  },
+  {
+    "company_name": "CDG Capital",
+    "ticker": "CDG",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CDG_CAPITAL/CDG_CAPITAL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=0, lines=0"
+  },
+  {
+    "company_name": "CFG Bank",
+    "ticker": "CFG",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CFG_BANK/CFG_BANK_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 941408657394.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 347035198825.0,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 152.09,
+      "resultat_net_part_groupe": 262.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 30.191,
+      "total_passif": 24292.562,
+      "capitaux_propres": 1860.817,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 622.453,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 8.17,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=1, lines=7"
+  },
+  {
+    "company_name": "CIH Bank",
+    "ticker": "CIH",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CIH_BANK/CIH_BANK_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 627.378,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1.5879491196020107e+29,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 14070000.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2274.0,
+      "total_passif": 3313.373,
+      "capitaux_propres": 31122.023,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 547.892,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 2242667.1,
+      "marge_ebitda": null,
+      "roe": 45209.14,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Ciments du Maroc",
+    "ticker": "CMA",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CIMENTS_DU_MAROC/CIMENTS_DU_MAROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 4387.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 155714289.1,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 914.0,
+      "resultat_net_part_groupe": 914161970195.0,
+      "ebitda": 177916547.6
+    },
+    "balance_sheet": {
+      "total_actif": 803.939,
+      "total_passif": 50696864934708.0,
+      "capitaux_propres": 33294723428715.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 20.83,
+      "marge_ebitda": 4055540.18,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=3, narrative=0, lines=8"
+  },
+  {
+    "company_name": "CMGP Group",
+    "ticker": "CMG",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CMGP_GROUP/CMGP_GROUP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 71.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -8000.0,
+      "resultat_financier": null,
+      "resultat_courant": 314457.0,
+      "resultat_net": 102403753.01,
+      "resultat_net_part_groupe": null,
+      "ebitda": 37531917.3
+    },
+    "balance_sheet": {
+      "total_actif": 2.331327876207804e+19,
+      "total_passif": null,
+      "capitaux_propres": 2229269508.68,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 102809049.17,
+      "investissements_capex": 0.202,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 144230638.04,
+      "marge_ebitda": 52861855.35,
+      "roe": 4.59,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=1, lines=7"
+  },
+  {
+    "company_name": "Colorado",
+    "ticker": "COL",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "COLORADO_SA/COLORADO_SA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 0.605,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 0.0154,
+      "resultat_financier": -0.0097,
+      "resultat_courant": null,
+      "resultat_net": 45.3,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 26732.547000000002,
+      "total_passif": null,
+      "capitaux_propres": 0.2902,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 0.11570000000000001,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 7487.6,
+      "marge_ebitda": null,
+      "roe": 15609.92,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=6, narrative=4, lines=2"
+  },
+  {
+    "company_name": "CMT",
+    "ticker": "CMT",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "COMPAGNIE_MINIERE_DE_TOUISSIT_CMT/COMPAGNIE_MINIERE_DE_TOUISSIT_CMT_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 300000.0,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": -14060337.72,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 378491911.0,
+      "total_passif": 1766450112.0,
+      "capitaux_propres": 731281209.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 219414116.0,
+      "investissements_capex": 5.5,
+      "cash_flow_libre": null,
+      "dividendes_verses": 0.0
+    },
+    "ratios": {
+      "marge_nette": -1406033772.0,
+      "marge_ebitda": null,
+      "roe": -1.92,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=1, lines=7"
+  },
+  {
+    "company_name": "Cosumar",
+    "ticker": "CSR",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "COSUMAR/COSUMAR_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 10238.6,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1340.8,
+      "resultat_financier": -8.8,
+      "resultat_courant": null,
+      "resultat_net": 850.4,
+      "resultat_net_part_groupe": null,
+      "ebitda": 1757.6
+    },
+    "balance_sheet": {
+      "total_actif": 12589.2,
+      "total_passif": 6703.6,
+      "capitaux_propres": 12589.2,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": 556.3,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 1617.9,
+      "investissements_capex": -199.4,
+      "cash_flow_libre": null,
+      "dividendes_verses": -944.9
+    },
+    "ratios": {
+      "marge_nette": 8.31,
+      "marge_ebitda": 17.17,
+      "roe": 6.75,
+      "ratio_endettement": 0.04
+    },
+    "notes": "Rapport consolidé; Sources: table=12, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Crédit Agricole du Maroc",
+    "ticker": "CAM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CREDIT_AGRICOLE_DU_MAROC_CAM/CREDIT_AGRICOLE_DU_MAROC_CAM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 4808.477,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1226.657,
+      "resultat_financier": null,
+      "resultat_courant": 0.091128,
+      "resultat_net": 0.261669,
+      "resultat_net_part_groupe": 21096041591000.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 24.0,
+      "total_passif": -9403.613,
+      "capitaux_propres": 0.03111,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 1006.937,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.01,
+      "marge_ebitda": null,
+      "roe": 841.11,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=1, lines=7"
+  },
+  {
+    "company_name": "Crédit du Maroc",
+    "ticker": "CDM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CREDIT_DU_MAROC_CDM/CREDIT_DU_MAROC_CDM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 69.126,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1299.685,
+      "resultat_financier": null,
+      "resultat_courant": 39.469,
+      "resultat_net": 103.0,
+      "resultat_net_part_groupe": 740949503089000.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 10881214.0,
+      "total_passif": 2511.939,
+      "capitaux_propres": 1088.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 1407.056,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 503.978,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 149.0,
+      "marge_ebitda": null,
+      "roe": 9.47,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=9, narrative=0, lines=7"
+  },
+  {
+    "company_name": "CTM",
+    "ticker": "CTM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "CTM/CTM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 5.409745164402453e+17,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 419504015517954.5,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 6.988856161137273e+16,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 7.082213458243623e+20,
+      "total_passif": 1.0478826471134008e+20,
+      "capitaux_propres": 3.7101031951251497e+18,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 12.92,
+      "marge_ebitda": null,
+      "roe": 1.88,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Dari Couspate",
+    "ticker": "DRI",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "DARI_COUSPATE/DARI_COUSPATE_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Error: Empty PDF - likely scanned image, needs OCR"
+  },
+  {
+    "company_name": "Delta Holding",
+    "ticker": "DHO",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "DELTA_HOLDING_S_A/DELTA_HOLDING_S_A_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 395107197.85,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 341486603.41,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 4483067581.02,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=3, narrative=0, lines=1"
+  },
+  {
+    "company_name": "Disty Technologies",
+    "ticker": "DYT",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "DISTY_TECHNOLOGIES/DISTY_TECHNOLOGIES_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2929158.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 19364056.78,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 14971650.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 6026076.15,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -93268797.68,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 20654167.68,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 511.12,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=2, lines=1"
+  },
+  {
+    "company_name": "Disway",
+    "ticker": "DWY",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "DISWAY/DISWAY_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 8910.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 67189047.79,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 67189047.79,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 130.0,
+      "total_passif": null,
+      "capitaux_propres": 0.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 76456849.53,
+      "investissements_capex": 2024.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 754085.83,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=1, lines=4"
+  },
+  {
+    "company_name": "Ennakl",
+    "ticker": "NKL",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ENNAKL_AUTOMOBILES/ENNAKL_AUTOMOBILES_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 7433557584220027.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 4902409557646268.0,
+      "resultat_financier": null,
+      "resultat_courant": 5517213.0,
+      "resultat_net": 312024.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 7500000.0,
+      "total_passif": null,
+      "capitaux_propres": 3000000030000000.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": 1.320295624293801e+19,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Eqdom",
+    "ticker": "EQD",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "EQDOM/EQDOM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=0, lines=0"
+  },
+  {
+    "company_name": "FEC",
+    "ticker": "FEC",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "FEC/FEC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 0.099,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -0.028,
+      "resultat_financier": null,
+      "resultat_courant": 0.099,
+      "resultat_net": 0.089,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 0.009000000000000001,
+      "total_passif": 0.989,
+      "capitaux_propres": 8.167174128991016e+16,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 0.899,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 89.9,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=8, narrative=0, lines=5"
+  },
+  {
+    "company_name": "Fenie Brossette",
+    "ticker": "FBR",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "FENIE_BROSSETTE/FENIE_BROSSETTE_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 0.1,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 166037.222,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 0.002562,
+      "total_passif": 644467544.85,
+      "capitaux_propres": 0.148527,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 166037222.0,
+      "marge_ebitda": null,
+      "roe": 111789251.79,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=2, narrative=1, lines=3"
+  },
+  {
+    "company_name": "HPS",
+    "ticker": "HPS",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "HPS_SA/HPS_SA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 76.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 0.3,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": 2.21711283916178e+19,
+      "capitaux_propres": 41.804,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 17.3,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.39,
+      "marge_ebitda": null,
+      "roe": 0.72,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=2, lines=5"
+  },
+  {
+    "company_name": "Involys",
+    "ticker": "INV",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "INVOLYS/INVOLYS_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Jaida",
+    "ticker": "JAI",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "JAIDA/JAIDA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 28337179.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 3380712.0,
+      "resultat_financier": null,
+      "resultat_courant": 5273221.0,
+      "resultat_net": 2.22,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 145783308.0,
+      "total_passif": 868687954.0,
+      "capitaux_propres": 328027900.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 9566208.0,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Jet Contractors",
+    "ticker": "JET",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "JET_CONTRACTORS/JET_CONTRACTORS_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 166995122.33,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 76817079.29,
+      "resultat_financier": null,
+      "resultat_courant": 229930873.88,
+      "resultat_net": 259384804.53,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 343531699.21,
+      "total_passif": 32.0,
+      "capitaux_propres": 25974.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": 202220232024.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 301288423.96,
+      "investissements_capex": 75.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 155.32,
+      "marge_ebitda": null,
+      "roe": 998632.5,
+      "ratio_endettement": 7785486.72
+    },
+    "notes": "Rapport consolidé; Sources: table=7, narrative=1, lines=6"
+  },
+  {
+    "company_name": "Label Vie",
+    "ticker": "LBV",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "LABEL_VIE_S_A/LABEL_VIE_S_A_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 8139772618.22,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 306984844.01,
+      "resultat_financier": -89319611.51,
+      "resultat_courant": 157320954.24,
+      "resultat_net": 53.01,
+      "resultat_net_part_groupe": null,
+      "ebitda": 498277109.94
+    },
+    "balance_sheet": {
+      "total_actif": 85404938.78,
+      "total_passif": 31122023.0,
+      "capitaux_propres": 960444080.01,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 1025.71,
+      "dette_nette": 3649.647,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 0.0,
+      "investissements_capex": 9435.484,
+      "cash_flow_libre": null,
+      "dividendes_verses": 107592554.38
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": 6.12,
+      "roe": 0.0,
+      "ratio_endettement": 0.0
+    },
+    "notes": "Rapport consolidé; Sources: table=14, narrative=1, lines=7"
+  },
+  {
+    "company_name": "LafargeHolcim Maroc",
+    "ticker": "LHM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "LAFARGEHOLCIM_MAROC/LAFARGEHOLCIM_MAROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": -1.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 29783294.0,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 1826.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2003862820139795.0,
+      "total_passif": 249036236386.0,
+      "capitaux_propres": 1166512311417059.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 303.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -182600.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=2, lines=7"
+  },
+  {
+    "company_name": "Lesieur Cristal",
+    "ticker": "LES",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "LESIEUR_CRISTAL/LESIEUR_CRISTAL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 7.7,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 334.0,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 379316.0,
+      "resultat_net_part_groupe": 324787.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 5314524035603438.0,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 4926181.82,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=1, lines=5"
+  },
+  {
+    "company_name": "Lydec",
+    "ticker": "LYD",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "LYDEC/LYDEC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 514856621.68,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -129243937.77,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 366791750.48,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1047854057.72,
+      "total_passif": null,
+      "capitaux_propres": 1233.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": -114659816.7,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 71.24,
+      "marge_ebitda": null,
+      "roe": 29747911.64,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=5, narrative=1, lines=0"
+  },
+  {
+    "company_name": "M2M Group",
+    "ticker": "M2M",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "M2M_GROUP/M2M_GROUP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 30.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": 428604.11,
+      "resultat_courant": 7444975.69,
+      "resultat_net": 11640994.51,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": 3.116250692707315e+17,
+      "capitaux_propres": 2001656.21,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 8432581.68,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 38803315.03,
+      "marge_ebitda": null,
+      "roe": 581.57,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=3"
+  },
+  {
+    "company_name": "Maghrebail",
+    "ticker": "MAB",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MAGHREBAIL/MAGHREBAIL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 377617675.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": 230806.0,
+      "resultat_net": 135.63400000000001,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 533381911.0,
+      "total_passif": 1327333012986140.0,
+      "capitaux_propres": 1153.383,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 1000.0,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 11.76,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Maghreb Steel",
+    "ticker": "MGS",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MAGHREB_STEEL/MAGHREB_STEEL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 988.0,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Managem",
+    "ticker": "MNG",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MANAGEM/MANAGEM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 8859.8750818,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 40.7,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 246.5,
+      "resultat_net_part_groupe": 619851441054205.0,
+      "ebitda": 2652.4
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": 31122024.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -558.3,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 7224.3,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 2.78,
+      "marge_ebitda": 29.94,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=4, lines=7"
+  },
+  {
+    "company_name": "Maroc Leasing",
+    "ticker": "MLE",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MAROC_LEASING_SA/MAROC_LEASING_SA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 379.187,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": 183.385,
+      "resultat_net": 2.7768159450236556e+34,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1159493.0,
+      "total_passif": 1325946212995.825,
+      "capitaux_propres": 38.874,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 82.138,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 7.323077914125895e+33,
+      "marge_ebitda": null,
+      "roe": 7.143118652630693e+34,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=6, narrative=0, lines=3"
+  },
+  {
+    "company_name": "Maroc Telecom",
+    "ticker": "IAM",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MAROC_TELECOM/MAROC_TELECOM_RAPPORTS_ANNUELS_2024_PART1.pdf",
+    "income_statement": {
+      "chiffre_affaires": 17.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 51.0,
+      "resultat_financier": 24.0,
+      "resultat_courant": null,
+      "resultat_net": 4358.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": 273.0
+    },
+    "balance_sheet": {
+      "total_actif": 26228.0,
+      "total_passif": 655306554370374.0,
+      "capitaux_propres": -5291.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -16355.0,
+      "dette_nette": 13085.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 16129.0,
+      "investissements_capex": 18.2,
+      "cash_flow_libre": null,
+      "dividendes_verses": 13.0
+    },
+    "ratios": {
+      "marge_nette": 25635.29,
+      "marge_ebitda": 1605.88,
+      "roe": -82.37,
+      "ratio_endettement": -2.47
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=9"
+  },
+  {
+    "company_name": "Maroc Telecom",
+    "ticker": "IAM",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MAROC_TELECOM/MAROC_TELECOM_RAPPORTS_ANNUELS_2024_PART2.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Error: Cannot read PDF: Unexpected EOF"
+  },
+  {
+    "company_name": "Marsa Maroc",
+    "ticker": "MSA",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MARSA_MAROC/MARSA_MAROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2357077912.35,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 1201776367.94,
+      "resultat_financier": 173081579.15,
+      "resultat_courant": 1249186335.65,
+      "resultat_net": 8.5,
+      "resultat_net_part_groupe": 1.2669788522344148e+18,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 531573.0,
+      "total_passif": null,
+      "capitaux_propres": 733956.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 102241554.38,
+      "dette_nette": -79164524383.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 539243605.75,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -623.863
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": -107860.04
+    },
+    "notes": "Rapport consolidé; Sources: table=10, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Med Paper",
+    "ticker": "MDP",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MED_PAPER_EX_PAPELERA_DE_TETUAN/MED_PAPER_EX_PAPELERA_DE_TETUAN_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 11738194.57,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 7985231.64,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 6.345,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -67661098.43,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 6199680.89,
+      "investissements_capex": 2.025,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Microdata",
+    "ticker": "MIC",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MICRODATA/MICRODATA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 12345.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 67814205.42,
+      "resultat_financier": -81297.56,
+      "resultat_courant": 1599978.85,
+      "resultat_net": 57202808.65,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 136196455.66,
+      "total_passif": null,
+      "capitaux_propres": 166393647.01,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -22352045.39,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 11862601.74,
+      "investissements_capex": 0.2024,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 463368.24,
+      "marge_ebitda": null,
+      "roe": 34.38,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=9, narrative=0, lines=3"
+  },
+  {
+    "company_name": "Mutandis",
+    "ticker": "MUT",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "MUTANDIS_SCA/MUTANDIS_SCA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 464.456,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 78.0,
+      "resultat_financier": 3.6830000000000003,
+      "resultat_courant": 115198847.0,
+      "resultat_net": 91.041,
+      "resultat_net_part_groupe": 91.041,
+      "ebitda": 282.894
+    },
+    "balance_sheet": {
+      "total_actif": 264.002,
+      "total_passif": 1987.3990000000001,
+      "capitaux_propres": 1525.1680000000001,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 40.618,
+      "dette_nette": 1019.404,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 295.297,
+      "investissements_capex": 261.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": -68129.0
+    },
+    "ratios": {
+      "marge_nette": 19.6,
+      "marge_ebitda": 60.91,
+      "roe": 5.97,
+      "ratio_endettement": 0.67
+    },
+    "notes": "Rapport consolidé; Sources: table=14, narrative=3, lines=9"
+  },
+  {
+    "company_name": "OCP",
+    "ticker": "OCP",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "OCP/OCP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1116851203.37,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 3176983450.53,
+      "resultat_financier": -3708686387.57,
+      "resultat_courant": -5.317029375243612e+37,
+      "resultat_net": -5318039466.62,
+      "resultat_net_part_groupe": 2046614369.0,
+      "ebitda": 3906829396.0
+    },
+    "balance_sheet": {
+      "total_actif": 59.0,
+      "total_passif": 306133249937.0,
+      "capitaux_propres": -127563117051.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": 15.568,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 20.0,
+      "investissements_capex": 4358826825.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -476.16,
+      "marge_ebitda": 349.81,
+      "roe": 4.17,
+      "ratio_endettement": -0.0
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=0, lines=9"
+  },
+  {
+    "company_name": "ONCF",
+    "ticker": "ONCF",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ONCF/ONCF_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 780.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": -1372913297.3,
+      "resultat_net_part_groupe": null,
+      "ebitda": 1949212023.0
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": 68.648,
+      "capitaux_propres": 22.063,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -1083202571.11,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 2.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -176014525.29,
+      "marge_ebitda": 249898977.31,
+      "roe": -6222695450.75,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=4, narrative=1, lines=5"
+  },
+  {
+    "company_name": "Oulmès",
+    "ticker": "OUL",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "OULMES/OULMES_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2940.5,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 238.8,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 57.9,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 3430.0,
+      "total_passif": 34303063003097.0,
+      "capitaux_propres": 742.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 1.4,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 1.97,
+      "marge_ebitda": null,
+      "roe": 7.8,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=3, lines=5"
+  },
+  {
+    "company_name": "Promopharm",
+    "ticker": "PRO",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "PROMOPHARM/PROMOPHARM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 81038119.18,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 55159969.69,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 106205594.23,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=3, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Rebab Company",
+    "ticker": "REB",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "REBAB_COMPANY/REBAB_COMPANY_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 289972.65,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 591972.65,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 3.986814332255362e+19,
+      "total_passif": 2553625132.0,
+      "capitaux_propres": 2480924218.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": -355279.44,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=3, narrative=0, lines=3"
+  },
+  {
+    "company_name": "Résidences Dar Saada",
+    "ticker": "RDS",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "RESIDENCES_DAR_SAADA_RDS/RESIDENCES_DAR_SAADA_RDS_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 271253937.99,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -54.0,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": -82.807,
+      "resultat_net_part_groupe": -8280767136.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 622.939,
+      "total_passif": 74988797438.269,
+      "capitaux_propres": 4027.582,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": -2.536,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -0.0,
+      "marge_ebitda": null,
+      "roe": -2.06,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=7, narrative=1, lines=6"
+  },
+  {
+    "company_name": "Risma",
+    "ticker": "RIS",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "RISMA/RISMA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1264.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 3.104,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 253318196296.0,
+      "resultat_net_part_groupe": 183.0,
+      "ebitda": 2024461.0
+    },
+    "balance_sheet": {
+      "total_actif": 30892492999747.0,
+      "total_passif": 16750831395690.0,
+      "capitaux_propres": 14786381581198.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": 13275571085743.0,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 20222023.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 20040996542.41,
+      "marge_ebitda": 160163.05,
+      "roe": 1.71,
+      "ratio_endettement": 0.9
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=3, lines=10"
+  },
+  {
+    "company_name": "S2M",
+    "ticker": "S2M",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "S2M/S2M_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 3.084142573127101e+145,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 10.9,
+      "resultat_financier": -1614.0,
+      "resultat_courant": 52035470.85,
+      "resultat_net": 19681045.26,
+      "resultat_net_part_groupe": 2941348021551405.0,
+      "ebitda": 56856.0
+    },
+    "balance_sheet": {
+      "total_actif": 20056767.0,
+      "total_passif": 236962060.0,
+      "capitaux_propres": 2.941348012119451e+23,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 34202.0,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 53649987.34,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": 0.0,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=8"
+  },
+  {
+    "company_name": "Saham Bank",
+    "ticker": "SBK",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SAHAM_BANK/SAHAM_BANK_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Error: Empty PDF - likely scanned image, needs OCR"
+  },
+  {
+    "company_name": "Saham Leasing",
+    "ticker": "SHL",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SAHAM_LEASING/SAHAM_LEASING_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 183315.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": 60935.376000000004,
+      "resultat_net": 7747177.471,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 198100.0,
+      "total_passif": 80255.0,
+      "capitaux_propres": -42.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": -11071.0,
+      "investissements_capex": 2019.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": -46.2
+    },
+    "ratios": {
+      "marge_nette": 4226.16,
+      "marge_ebitda": null,
+      "roe": -18445660.65,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Salafin",
+    "ticker": "SLF",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SALAFIN/SALAFIN_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 378646396169000.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": -9314790577000.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 3.7262793905331e+16,
+      "total_passif": 3.7262793905331e+16,
+      "capitaux_propres": 8.866768843178787e+20,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -2.46,
+      "marge_ebitda": null,
+      "roe": -0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=0, lines=5"
+  },
+  {
+    "company_name": "Sanlam Maroc",
+    "ticker": "SAH",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SANLAM_MAROC_EX_SAHAM_ASSURANCE/SANLAM_MAROC_EX_SAHAM_ASSURANCE_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 6204189.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 0.984401,
+      "resultat_financier": null,
+      "resultat_courant": 953638.0,
+      "resultat_net": 38.784,
+      "resultat_net_part_groupe": 680459.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 758969.0,
+      "total_passif": 25388.401,
+      "capitaux_propres": 278.561,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -0.195796,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": 0.0,
+      "cash_flow_libre": null,
+      "dividendes_verses": -0.317249
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 13.92,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=6"
+  },
+  {
+    "company_name": "SMI",
+    "ticker": "SMI",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SMI/SMI_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 261194413.6,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 279145983.45,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 250199773.1,
+      "investissements_capex": 112.8,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=3, narrative=0, lines=3"
+  },
+  {
+    "company_name": "SNEP",
+    "ticker": "SNP",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SNEP/SNEP_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 633.333,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 26.664,
+      "resultat_financier": -33.464,
+      "resultat_courant": -60.218,
+      "resultat_net": -43.811,
+      "resultat_net_part_groupe": null,
+      "ebitda": 2294.801
+    },
+    "balance_sheet": {
+      "total_actif": 54.389,
+      "total_passif": 1865537.0,
+      "capitaux_propres": 672236.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -490.36400000000003,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 29.965,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -38.4
+    },
+    "ratios": {
+      "marge_nette": -6.92,
+      "marge_ebitda": 362.34,
+      "roe": -0.01,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=12, narrative=0, lines=6"
+  },
+  {
+    "company_name": "SBM",
+    "ticker": "SBM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SOCIETE_DES_BOISSONS_DU_MAROC_SBM/SOCIETE_DES_BOISSONS_DU_MAROC_SBM_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 6.5,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 216250636550.0,
+      "resultat_net_part_groupe": 215357637250.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1.0,
+      "total_passif": null,
+      "capitaux_propres": 15408991779894.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 3326932870000.0,
+      "marge_ebitda": null,
+      "roe": 1.4,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=0, narrative=1, lines=4"
+  },
+  {
+    "company_name": "Sofac",
+    "ticker": "SOF",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SOFAC/SOFAC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 793.1030000000001,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -3.7600000000000002,
+      "resultat_financier": null,
+      "resultat_courant": 264.146,
+      "resultat_net": 0.076,
+      "resultat_net_part_groupe": 2.2365022275815917e+17,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 4852.102,
+      "total_passif": 19270.123,
+      "capitaux_propres": 210450.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -11494.0,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 69.878,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": 99.985
+    },
+    "ratios": {
+      "marge_nette": 0.01,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=10, narrative=0, lines=7"
+  },
+  {
+    "company_name": "Sonasid",
+    "ticker": "SID",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "SONASID/SONASID_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 2023202420232024.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 150864565.87,
+      "resultat_financier": 3.1,
+      "resultat_courant": null,
+      "resultat_net": 141.7,
+      "resultat_net_part_groupe": 141.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 100.0,
+      "total_passif": 34264263066689.0,
+      "capitaux_propres": 2018765561813941.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 179635163.4,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=1, lines=6"
+  },
+  {
+    "company_name": "Stokvis Nord Afrique",
+    "ticker": "SNA",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "STOKVIS_NORD_AFRIQUE/STOKVIS_NORD_AFRIQUE_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": -14241739.09,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -12780957.98,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 20956128199.116,
+      "resultat_net_part_groupe": 20976128158.116,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": 170000000.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": -26017516.64,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": -14241739.09,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -147145.85,
+      "marge_ebitda": null,
+      "roe": 12327.13,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Stroc Industrie",
+    "ticker": "STR",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "STROC/STROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": null,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": null,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Sources: table=0, narrative=0, lines=0"
+  },
+  {
+    "company_name": "Tanger Med",
+    "ticker": "TMP",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "TANGER_MED_PORT_AUTHORITY/TANGER_MED_PORT_AUTHORITY_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 72.386,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 1489348.21155,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2.339,
+      "total_passif": null,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 2057508.65,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=2, narrative=0, lines=1"
+  },
+  {
+    "company_name": "TAQA Morocco",
+    "ticker": "TQM",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "TAQA_MOROCCO_EX_JLEC/TAQA_MOROCCO_EX_JLEC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 24.2,
+      "resultat_financier": -404.0,
+      "resultat_courant": null,
+      "resultat_net": 825598970.0,
+      "resultat_net_part_groupe": 1053.0,
+      "ebitda": 18.79
+    },
+    "balance_sheet": {
+      "total_actif": 2483725199.88,
+      "total_passif": 20920.0,
+      "capitaux_propres": 7369.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 17186219.11,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 15.0,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": 11203677.16,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=7, narrative=1, lines=6"
+  },
+  {
+    "company_name": "TGCC",
+    "ticker": "TGC",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "TGCC_SA/TGCC_SA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": null,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 679165023.53,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 420690302.64,
+      "resultat_net_part_groupe": 521810362576.0,
+      "ebitda": 1177.0
+    },
+    "balance_sheet": {
+      "total_actif": 8.653740693576576e+25,
+      "total_passif": 86537406935765.0,
+      "capitaux_propres": 17612181478181.0,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": null,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=1, narrative=1, lines=5"
+  },
+  {
+    "company_name": "TotalEnergies Marketing Maroc",
+    "ticker": "TMA",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "TOTALENERGIES_MARKETING_MAROC/TOTALENERGIES_MARKETING_MAROC_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1649117943.79,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 844618182.5,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 42292143.32,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2967434198.1,
+      "total_passif": 86263809273203.0,
+      "capitaux_propres": 5.361955345395968e+31,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 1332671876.68,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 2.56,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=6"
+  },
+  {
+    "company_name": "Unimer",
+    "ticker": "UMR",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "UNIMER/UNIMER_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 1259.642,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": -3.278,
+      "resultat_financier": 0.0048,
+      "resultat_courant": -57.6,
+      "resultat_net": -81241.659,
+      "resultat_net_part_groupe": -81.242,
+      "ebitda": 340.321
+    },
+    "balance_sheet": {
+      "total_actif": 129.126,
+      "total_passif": null,
+      "capitaux_propres": 301.538,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": -12.612,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": -11.414
+    },
+    "ratios": {
+      "marge_nette": -6449.58,
+      "marge_ebitda": 27.02,
+      "roe": -26942.43,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=11, narrative=0, lines=4"
+  },
+  {
+    "company_name": "Wafabail",
+    "ticker": "WFB",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "WAFABAIL/WAFABAIL_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 435303160.17,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": 149376185.27,
+      "resultat_net": -2023.0,
+      "resultat_net_part_groupe": null,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 2583716.15,
+      "total_passif": 12479024824.11,
+      "capitaux_propres": null,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 1102011.0,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": -0.0,
+      "marge_ebitda": null,
+      "roe": null,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=6, narrative=0, lines=2"
+  },
+  {
+    "company_name": "Wafasalaf",
+    "ticker": "WFS",
+    "annee": 2024,
+    "type_rapport": "Semestriel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "WAFASALAF/WAFASALAF_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 3.029283553523422e+26,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 578719508473.0,
+      "resultat_financier": null,
+      "resultat_courant": 454575398.84900004,
+      "resultat_net": 263.306,
+      "resultat_net_part_groupe": 343199307333.0,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 270.334,
+      "total_passif": 1999978817895759.0,
+      "capitaux_propres": -2.832,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": null,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.0,
+      "marge_ebitda": null,
+      "roe": -9297.53,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=5, narrative=0, lines=7"
+  },
+  {
+    "company_name": "Wafa Assurance",
+    "ticker": "WAA",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "WAFA_ASSURANCE/WAFA_ASSURANCE_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 11747.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": null,
+      "resultat_financier": null,
+      "resultat_courant": null,
+      "resultat_net": 786.0,
+      "resultat_net_part_groupe": 7.9019920991286135e+59,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": 1.0,
+      "total_passif": 72216.572,
+      "capitaux_propres": 11277.518,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": null,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 785771814.36,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": 490000000.0
+    },
+    "ratios": {
+      "marge_nette": 6.69,
+      "marge_ebitda": null,
+      "roe": 6.97,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=7, narrative=3, lines=6"
+  },
+  {
+    "company_name": "Zellidja",
+    "ticker": "ZDJ",
+    "annee": 2024,
+    "type_rapport": "Annuel",
+    "date_extraction": "2026-04-07",
+    "source_pdf": "ZELLIDJA/ZELLIDJA_RAPPORTS_ANNUELS_2024.pdf",
+    "income_statement": {
+      "chiffre_affaires": 43468.0,
+      "produits_exploitation": null,
+      "charges_exploitation": null,
+      "resultat_exploitation": 6599498.91,
+      "resultat_financier": null,
+      "resultat_courant": 904060.2,
+      "resultat_net": 11.52,
+      "resultat_net_part_groupe": 16.6,
+      "ebitda": null
+    },
+    "balance_sheet": {
+      "total_actif": -315775959.41,
+      "total_passif": 10378595868.0,
+      "capitaux_propres": 70230822.54,
+      "dettes_long_terme": null,
+      "dettes_court_terme": null,
+      "tresorerie_nette": 426436.17,
+      "dette_nette": null,
+      "immobilisations": null
+    },
+    "cash_flow": {
+      "cash_flow_exploitation": 231330.67,
+      "investissements_capex": null,
+      "cash_flow_libre": null,
+      "dividendes_verses": null
+    },
+    "ratios": {
+      "marge_nette": 0.03,
+      "marge_ebitda": null,
+      "roe": 0.0,
+      "ratio_endettement": null
+    },
+    "notes": "Rapport consolidé; Sources: table=8, narrative=2, lines=4"
+  }
+]

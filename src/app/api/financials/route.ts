@@ -14,6 +14,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCompany } from '@/lib/data/bvcCompanies';
 import { DONNEES_BVC } from '@/lib/data/donnees';
+import { ammc_financials_2024 } from '@/lib/data/ammc_financials_2024';
 
 // BVC ticker → donnees entry (handles DWY/DIS alias for Disway)
 const DONNEES_MAP = new Map(
@@ -116,9 +117,9 @@ interface TVSymbolData {
   beta_1_year?: number | null;
 }
 
-/** Prefer the non-null value between TTM and FY variants */
-function tvPick(a: number | null | undefined, b: number | null | undefined): number | null {
-  return a ?? b ?? null;
+/** Prefer the non-null value between multiple fallback options */
+function firstValidValue<T>(...values: (T | null | undefined)[]): T | null {
+  return values.find((v) => v != null && !Number.isNaN(v)) ?? null;
 }
 
 async function fetchTVSymbol(ticker: string): Promise<TVSymbolData | null> {
@@ -250,6 +251,7 @@ export async function GET(req: NextRequest) {
         estimatedNetIncome: dn503D.net_income    ?? null,
         indicators:         [],
         source:             'tradingview-screener',
+        ammcData:           ammc_financials_2024[ticker] ?? null,
       });
     }
     return NextResponse.json(
@@ -300,6 +302,7 @@ export async function GET(req: NextRequest) {
 
   const dn = getDonnees(ticker);
   const dnD = dn?.donnees;
+  const ammc = ammc_financials_2024[ticker] || null;
 
   const response = {
     ticker,
@@ -325,29 +328,33 @@ export async function GET(req: NextRequest) {
                           : tv?.dividends_yield ?? null,
     dividendRate:       tv?.dividends_per_share_fq ?? null,
     sharesOutstanding:  dnD?.shares_outstanding ?? tv?.shares_outstanding ?? null,
-    // Fundamentals: TV FY preferred, donnees as fallback
-    revenue:            tvPick(tv?.total_revenue_fy, tv?.total_revenue) ?? dnD?.revenue ?? null,
-    netIncome:          tvPick(tv?.net_income_fy, tv?.net_income)       ?? dnD?.net_income ?? null,
-    ebitda:             tv?.EBITDA                                       ?? dnD?.ebitda ?? null,
-    grossProfit:        tvPick(tv?.gross_profit_fy, tv?.gross_profit)   ?? null,
-    operatingIncome:    tvPick(tv?.operating_income_fy, tv?.operating_income) ?? null,
-    totalAssets:        tvPick(tv?.total_assets_fy, tv?.total_assets)   ?? null,
-    totalDebt:          tvPick(tv?.total_debt_fy, tv?.total_debt)       ?? null,
-    stockholdersEquity: tvPick(tv?.stockholders_equity_fy, tv?.stockholders_equity) ?? null,
-    freeCashFlow:       tv?.free_cash_flow                              ?? null,
-    cashFromOperations: tvPick(tv?.cash_f_operating_activities_fy, tv?.cash_f_operating_activities) ?? null,
-    cashFromInvesting:  tvPick(tv?.cash_f_investing_activities_fy, tv?.cash_f_investing_activities) ?? null,
-    cashFromFinancing:  tvPick(tv?.cash_f_financing_activities_fy, tv?.cash_f_financing_activities) ?? null,
-    // Margins (TV TTM)
+    
+    // Fundamentals: AMMC 2024 preferred, then TV FY, then donnees fallback
+    revenue:            firstValidValue(ammc?.revenue, tv?.total_revenue_fy, tv?.total_revenue, dnD?.revenue),
+    netIncome:          firstValidValue(ammc?.netIncome, tv?.net_income_fy, tv?.net_income, dnD?.net_income),
+    ebitda:             firstValidValue(ammc?.ebitda, tv?.EBITDA, dnD?.ebitda),
+    grossProfit:        firstValidValue(tv?.gross_profit_fy, tv?.gross_profit),
+    operatingIncome:    firstValidValue(ammc?.operatingIncome, tv?.operating_income_fy, tv?.operating_income),
+    totalAssets:        firstValidValue(ammc?.totalAssets, tv?.total_assets_fy, tv?.total_assets),
+    totalDebt:          firstValidValue(ammc?.totalDebt, tv?.total_debt_fy, tv?.total_debt),
+    stockholdersEquity: firstValidValue(ammc?.stockholdersEquity, tv?.stockholders_equity_fy, tv?.stockholders_equity),
+    freeCashFlow:       firstValidValue(ammc?.freeCashFlow, tv?.free_cash_flow),
+    cashFromOperations: firstValidValue(ammc?.cashFromOperations, tv?.cash_f_operating_activities_fy, tv?.cash_f_operating_activities),
+    cashFromInvesting:  firstValidValue(ammc?.cashFromInvesting, tv?.cash_f_investing_activities_fy, tv?.cash_f_investing_activities),
+    cashFromFinancing:  firstValidValue(tv?.cash_f_financing_activities_fy, tv?.cash_f_financing_activities),
+    
+    // Margins
     grossMarginPct:     tv?.gross_margin_percent_ttm ?? null,
     operatingMarginPct: tv?.operating_margin_ttm     ?? null,
-    netMarginPct:       tv?.net_margin_percent_ttm   ?? null,
+    netMarginPct:       firstValidValue(ammc?.netMarginPct, tv?.net_margin_percent_ttm),
+    
     // Profitability & ratios
-    roe:                tv?.return_on_equity_fq  ?? null,
+    roe:                firstValidValue(ammc?.roe, tv?.return_on_equity_fq),
     roa:                tv?.return_on_assets_fq  ?? null,
-    debtToEquity:       tv?.debt_to_equity_fq    ?? null,
+    debtToEquity:       firstValidValue(ammc?.debtToEquity, tv?.debt_to_equity_fq),
     currentRatio:       tv?.current_ratio_fq     ?? null,
     beta:               tv?.beta_1_year          ?? null,
+    
     // Performance
     perfW:              tv?.['Perf.W']   ?? null,
     perf1M:             tv?.['Perf.1M']  ?? null,
@@ -355,16 +362,19 @@ export async function GET(req: NextRequest) {
     perf6M:             tv?.['Perf.6M']  ?? null,
     perfY:              tv?.['Perf.Y']   ?? null,
     perfYTD:            tv?.['Perf.YTD'] ?? null,
+    
     // Technical indicators
     rsi:                tv?.RSI                  ?? null,
     adx:                tv?.ADX                  ?? null,
     macd:               tv?.['MACD.macd']        ?? null,
     recommendAll:       tv?.['Recommend.All']    ?? null,
+    
     // Legacy compat
-    estimatedRevenue:   tvPick(tv?.total_revenue_fy, tv?.total_revenue) ?? dnD?.revenue ?? null,
-    estimatedNetIncome: tvPick(tv?.net_income_fy, tv?.net_income)       ?? dnD?.net_income ?? null,
+    estimatedRevenue:   firstValidValue(ammc?.revenue, tv?.total_revenue_fy, tv?.total_revenue, dnD?.revenue),
+    estimatedNetIncome: firstValidValue(ammc?.netIncome, tv?.net_income_fy, tv?.net_income, dnD?.net_income),
     indicators,
     source: bvc ? 'casablanca-bourse' : (tv ? 'tradingview' : 'static'),
+    ammcData: ammc,
   };
 
   return NextResponse.json(response, {
