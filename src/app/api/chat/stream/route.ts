@@ -9,9 +9,12 @@ import { NextRequest } from 'next/server';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// ── Groq config ───────────────────────────────────────────────────────────────
+// ── LLM Config ───────────────────────────────────────────────────────────────
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const OLLAMA_URL = 'http://localhost:11434/api/chat';
+
+const OLLAMA_MODELS = ['gemma4:e4b'];
 
 // Models in preference order — updated for Groq free tier March 2025
 const GROQ_MODELS = [
@@ -21,6 +24,8 @@ const GROQ_MODELS = [
   'llama3-70b-8192',           // legacy fallback
   'mixtral-8x7b-32768',        // last resort
 ];
+
+const ALL_MODELS = [...OLLAMA_MODELS, ...GROQ_MODELS];
 
 // ── Rate limiter (in-memory, per IP) ─────────────────────────────────────────
 
@@ -200,20 +205,28 @@ export async function POST(req: NextRequest) {
         try { controller.enqueue(chunk); } catch { /* stream closed */ }
       };
 
-      for (const model of GROQ_MODELS) {
+      for (const model of ALL_MODELS) {
+        const isOllama = OLLAMA_MODELS.includes(model);
         let res: Response;
         try {
-          res = await fetch(GROQ_URL, {
+          res = await fetch(isOllama ? OLLAMA_URL : GROQ_URL, {
             method:  'POST',
-            headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ model, messages: groqMessages, max_tokens: 2048, temperature: 0.4, top_p: 0.9, stream: true }),
-            signal:  AbortSignal.timeout(25_000),
+            headers: isOllama 
+              ? { 'Content-Type': 'application/json' }
+              : { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ 
+              model, 
+              messages: groqMessages, 
+              stream: true, 
+              ...(!isOllama && { max_tokens: 2048, temperature: 0.4, top_p: 0.9 }) 
+            }),
+            signal:  AbortSignal.timeout(isOllama ? 5_000 : 25_000),
           });
         } catch (fetchErr) {
-          // Network error or timeout — skip to next model
+          // Local/Network error or timeout — skip to next model
           const m = String(fetchErr).toLowerCase();
-          if (m.includes('timeout') || m.includes('abort')) continue;
-          send(sseChunk({ type: 'error', content: 'Erreur reseau. Verifiez votre connexion.' }));
+          if (m.includes('timeout') || m.includes('abort') || m.includes('fetch')) continue;
+          send(sseChunk({ type: 'error', content: 'Erreur reseau local. Verifiez Ollama.' }));
           controller.close();
           return;
         }
@@ -262,14 +275,24 @@ export async function POST(req: NextRequest) {
             buffer = lines.pop() ?? '';
 
             for (const line of lines) {
-              if (!line.startsWith('data: ')) continue;
-              const raw = line.slice(6).trim();
-              if (raw === '[DONE]') { streamDone = true; break; }
-              try {
-                const chunk = JSON.parse(raw);
-                const content = chunk.choices?.[0]?.delta?.content;
-                if (content) send(sseChunk({ type: 'token', content }));
-              } catch { /* malformed chunk — skip */ }
+              if (isOllama) {
+                if (!line.trim()) continue;
+                try {
+                  const chunk = JSON.parse(line);
+                  const content = chunk.message?.content;
+                  if (content) send(sseChunk({ type: 'token', content }));
+                  if (chunk.done) { streamDone = true; break; }
+                } catch { /* malformed chunk */ }
+              } else {
+                if (!line.startsWith('data: ')) continue;
+                const raw = line.slice(6).trim();
+                if (raw === '[DONE]') { streamDone = true; break; }
+                try {
+                  const chunk = JSON.parse(raw);
+                  const content = chunk.choices?.[0]?.delta?.content;
+                  if (content) send(sseChunk({ type: 'token', content }));
+                } catch { /* malformed chunk — skip */ }
+              }
             }
           }
 
@@ -299,7 +322,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   const hasKey = Boolean(process.env.GROQ_API_KEY?.trim());
-  return Response.json({ status: hasKey ? 'ok' : 'degraded', provider: 'Groq', model: GROQ_MODELS[0], free: true, hasApiKey: hasKey });
+  return Response.json({ status: hasKey ? 'ok' : 'degraded', providers: ['Ollama (Gemma 4)', 'Groq'], model: ALL_MODELS[0], free: true, hasApiKey: hasKey });
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
