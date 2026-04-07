@@ -67,49 +67,39 @@ export async function getLatestCapitalMarketIndicators(): Promise<CapitalMarketI
 }
 
 /**
- * Generates sophisticated market insights based on the latest indicators
+ * Generates detailed insights based on the enriched indicators
  */
 export function generateMarketInsights(data: CapitalMarketIndicators): string[] {
   const insights: string[] = [];
   
-  // Market Bourse Analysis
-  if (data.masi) {
-    insights.push(`L'indice MASI affiche une performance stable, se situant à ${data.masi.toLocaleString('fr-MA')} points.`);
-  }
-
-  if (data.market_cap) {
-    insights.push(`La capitalisation boursière globale s'établit à ${data.market_cap.toLocaleString('fr-MA')} MMDH.`);
+  // Market Bourse
+  if (data.market_cap && data.market_cap > 1000) {
+    insights.push(`Capitalisation boursière solide à ${data.market_cap.toFixed(2)} MMDH.`);
   }
   
-  // OPCVM Trends
+  // OPCVM
   if (data.opcvm.total_assets) {
-    insights.push(`L'industrie des OPCVM maintient son dynamisme avec un actif net sous gestion de ${data.opcvm.total_assets.toFixed(1)} MMDH.`);
+    insights.push(`L'actif net global des OPCVM s'établit à ${data.opcvm.total_assets.toFixed(2)} MMDH.`);
     
-    const sortedCategories = [...data.opcvm.categories].sort((a,b) => b.assets - a.assets);
-    const topCat = sortedCategories[0];
-    const growingCat = data.opcvm.categories.find(c => !c.change_ytd.includes('-') && parseFloat(c.change_ytd) > 5);
-
-    if (topCat) {
-      insights.push(`La prédominance des ${topCat.category} se confirme (${topCat.assets.toFixed(1)} MMDH).`);
-    }
-    if (growingCat) {
-      insights.push(`Forte progression annuelle sur le segment ${growingCat.category} (+${growingCat.change_ytd}).`);
+    const topCategory = [...data.opcvm.categories].sort((a,b) => b.assets - a.assets)[0];
+    if (topCategory) {
+      insights.push(`La catégorie "${topCategory.category}" reste prédominante avec ${topCategory.assets.toFixed(2)} MMDH.`);
     }
   }
   
-  // Capital Market Funding
-  if (data.capital_raises.total && data.capital_raises.total > 0) {
-    insights.push(`Le marché primaire a canalisé ${data.capital_raises.total.toLocaleString('fr-MA')} MDH de nouvelles levées ce mois.`);
+  // Capital Raises
+  if (data.capital_raises.equity && data.capital_raises.equity > 0) {
+    insights.push(`Activité soutenue sur le marché primaire avec ${data.capital_raises.equity.toFixed(0)} MDH levés en titres de capital.`);
   }
 
   // Securities Lending
   if (data.securities_lending.outstanding) {
-    insights.push(`L'activité de prêt-emprunt de titres affiche un encours de ${data.securities_lending.outstanding.toFixed(1)} MMDH.`);
+    insights.push(`L'encours du prêt-emprunt de titres se maintient à ${data.securities_lending.outstanding.toFixed(1)} MMDH.`);
   }
 
   if (insights.length === 0) {
-    insights.push("Données de marché en cours d'actualisation par l'AMMC.");
+    insights.push("Données en cours de traitement pour les indicateurs mensuels.");
   }
   
-  return insights.slice(0, 5); // Return top 5 most relevant insights
+  return insights;
 }

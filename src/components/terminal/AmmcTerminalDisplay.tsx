@@ -1,28 +1,25 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
-  AreaChart, Area
 } from 'recharts';
-import { Roboto_Mono } from 'next/font/google';
+import type { AmmcSnapshot, AmmcCategory } from '@/app/api/opcvm/ammc/route';
 import { useAmmcData } from '@/hooks/useAmmcData';
 
-const robotoMono = Roboto_Mono({ subsets: ['latin'] });
+// ── Colours ───────────────────────────────────────────────────────────────────
 
-// ── Bloomberg Terminal Aesthetics ───────────────────────────────────────────
-
-const BB_BG      = '#040914';
-const BB_CARD    = '#0B101E';
-const BB_BORDER  = '#1E293B';
-const BB_ORANGE  = '#FF8C00';
-const BB_GREEN   = '#00FF7F';
-const BB_RED     = '#FF4444';
-const BB_CYAN    = '#00BFFF';
-const BB_MUTED   = '#64748B';
-const BB_WHITE   = '#E2E8F0';
-const BB_YELLOW  = '#FFD700';
+const BB_BG     = '#040914';
+const BB_CARD   = '#0B101E';
+const BB_BORDER = '#1E293B';
+const BB_ORANGE = '#FF8C00';
+const BB_GREEN  = '#00FF7F';
+const BB_RED    = '#FF4444';
+const BB_CYAN   = '#00BFFF';
+const BB_MUTED  = '#64748B';
+const BB_WHITE  = '#E2E8F0';
+const BB_YELLOW = '#FFD700';
 
 const CAT_COLORS: Record<string, string> = {
   monetaire:       BB_CYAN,
@@ -30,7 +27,7 @@ const CAT_COLORS: Record<string, string> = {
   obligataire_ct:  '#A855F7',
   actions:         BB_GREEN,
   diversifie:      BB_YELLOW,
-  contractuel:     BB_RED,
+  contractuel:     BB_MUTED,
 };
 
 const CAT_ORDER = [
@@ -38,344 +35,730 @@ const CAT_ORDER = [
   'actions', 'diversifie', 'contractuel',
 ];
 
-// ── Formatters ──────────────────────────────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
-const mrd = (v: number | null | undefined) => {
+function mrd(v: number | null | undefined): string {
   if (v == null) return '—';
-  const val = Math.abs(v);
-  if (val >= 1000) return `${(v / 1000).toFixed(2)} Mrd`;
-  return `${v.toFixed(1)} M`;
-};
+  if (Math.abs(v) >= 1000) return `${(v / 1000).toFixed(1)} Mrd`;
+  return `${v.toFixed(0)} M`;
+}
 
-const pct = (v: number | null | undefined) => {
+function pct(v: number | null | undefined, decimals = 2): string {
   if (v == null) return '—';
-  return `${v >= 0 ? '+' : ''}${(v * 100).toFixed(2)}%`;
-};
+  return `${v >= 0 ? '+' : ''}${(v * 100).toFixed(decimals)}%`;
+}
 
-// ── Components ──────────────────────────────────────────────────────────────
+function pctColor(v: number | null | undefined): string {
+  if (v == null) return BB_MUTED;
+  return v > 0 ? BB_GREEN : v < 0 ? BB_RED : BB_MUTED;
+}
 
-function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+function scoreColor(s: number): string {
+  if (s >= 70) return BB_GREEN;
+  if (s >= 50) return BB_YELLOW;
+  return BB_RED;
+}
+
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+function KpiCard({ label, value, sub, color = BB_ORANGE }: {
+  label: string; value: string; sub: string; color?: string;
+}) {
   return (
-    <div className="flex flex-col mb-4 border-l-2 border-orange-500 pl-3">
-      <h3 className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: BB_ORANGE }}>
-        {title}
-      </h3>
-      {subtitle && <span className="text-[9px] uppercase tracking-wider mt-0.5" style={{ color: BB_MUTED }}>{subtitle}</span>}
+    <div
+      className="flex flex-col gap-1 px-5 py-4 border"
+      style={{ background: BB_CARD, borderColor: `${color}44` }}
+    >
+      <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: BB_MUTED }}>{label}</span>
+      <span className="text-2xl font-black tabular-nums" style={{ color }}>{value}</span>
+      <span className="text-[11px]" style={{ color: BB_MUTED }}>{sub}</span>
     </div>
   );
 }
 
-function KpiBox({ label, value, sub, trend = 0 }: { label: string; value: string; sub: string; trend?: number }) {
+function ScoreBar({ score }: { score: number }) {
+  const color = scoreColor(score);
   return (
-    <div className="p-4 border border-slate-800/50 bg-[#060c18] relative overflow-hidden group">
-      <div className="absolute top-0 right-0 p-2 text-[8px] font-bold opacity-20" style={{ color: BB_ORANGE }}>OPCVM::CORE</div>
-      <p className="text-[9px] uppercase font-bold tracking-widest mb-1" style={{ color: BB_MUTED }}>{label}</p>
-      <p className="text-xl font-black tabular-nums" style={{ color: BB_WHITE }}>{value}</p>
-      <p className="text-[10px] mt-1 flex items-center gap-1.5">
-        <span style={{ color: trend > 0 ? BB_GREEN : trend < 0 ? BB_RED : BB_MUTED }}>
-          {trend !== 0 && (trend > 0 ? '▲' : '▼')}
-        </span>
-        <span style={{ color: BB_MUTED }}>{sub}</span>
-      </p>
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-1.5 rounded-full" style={{ background: BB_BORDER }}>
+        <div
+          className="h-full rounded-full transition-all duration-500"
+          style={{ width: `${score}%`, background: color }}
+        />
+      </div>
+      <span className="text-xs font-bold tabular-nums w-10 text-right" style={{ color }}>{score.toFixed(0)}</span>
     </div>
   );
 }
 
-// ── Main Dashboard ──────────────────────────────────────────────────────────
+function InsightBadge({ text, idx }: { text: string; idx: number }) {
+  const icons = ['◆', '◈', '▶', '●', '◉', '◇'];
+  return (
+    <div className="flex items-start gap-3 py-3 border-b" style={{ borderColor: BB_BORDER }}>
+      <span className="text-base flex-shrink-0 mt-0.5" style={{ color: BB_ORANGE }}>
+        {icons[idx % icons.length]}
+      </span>
+      <p className="text-sm leading-relaxed" style={{ color: BB_WHITE }}>{text}</p>
+    </div>
+  );
+}
+
+// ── Custom tooltip for Recharts ───────────────────────────────────────────────
+
+const ChartTooltip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div
+      className="border px-3 py-2 text-xs"
+      style={{ background: '#0d1626', borderColor: BB_BORDER }}
+    >
+      <p className="font-bold mb-1" style={{ color: BB_ORANGE }}>{label}</p>
+      {payload.map((p: any) => (
+        <p key={p.dataKey} style={{ color: p.color }}>
+          {p.name}: {typeof p.value === 'number' ? mrd(p.value) + ' MAD' : p.value}
+        </p>
+      ))}
+    </div>
+  );
+};
+
+// ── Main component ────────────────────────────────────────────────────────────
 
 export default function AmmcTerminalDisplay() {
-  const { latest, history, loading, error } = useAmmcData();
-  const [ticker, setTicker] = useState('ALL');
+  const { latest, history, loading, error, load } = useAmmcData();
+  const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'insights' | 'simulator'>('overview');
 
-  // Derived Data
-  const chartData = useMemo(() => {
-    return [...history].slice(-12).map(snap => ({
-      date: snap.date.split('-').slice(1).reverse().join('/'),
-      aum: snap.aum_total / 1000,
-      flow: snap.flows.net_flow,
-      subs: snap.flows.subscriptions,
-      reds: -snap.flows.redemptions,
-    }));
-  }, [history]);
+  // ── Derived chart data ──────────────────────────────────────────────────────
 
-  // Simulator State
-  const [simAmount, setSimAmount] = useState(100000);
-  const [simWeeks, setSimWeeks] = useState(4);
-  const [simCat, setSimCat] = useState('actions');
+  const aumChartData = history.map(snap => {
+    const row: Record<string, string | number> = { date: snap.date.slice(5) };
+    for (const key of CAT_ORDER) {
+      const c = snap.categories[key];
+      if (c?.aum) row[key] = c.aum;
+    }
+    return row;
+  });
 
-  const simResult = useMemo(() => {
-    if (!latest?.categories[simCat]) return null;
-    const cat = latest.categories[simCat];
-    const growth = cat.weekly_growth || 0;
-    const final = simAmount * Math.pow(1 + growth, simWeeks);
-    return {
-      final,
-      gain: final - simAmount,
-      pct: (final / simAmount - 1) * 100
-    };
-  }, [latest, simAmount, simWeeks, simCat]);
+  const flowsChartData = history.map(snap => ({
+    date:          snap.date.slice(5),
+    subscriptions: snap.flows.subscriptions,
+    redemptions:   -snap.flows.redemptions,
+    net_flow:      snap.flows.net_flow,
+  }));
 
-  if (loading) return <div className="p-8 text-orange-500 animate-pulse font-mono">INITIALIZING OPCVM_CORE v2.0...</div>;
-  if (error || !latest) return <div className="p-8 text-red-500 font-mono">FATAL: DATA_REFETCH_FAILED</div>;
+  const pieData = latest
+    ? CAT_ORDER
+        .map(k => ({ name: latest.categories[k]?.label ?? k, value: latest.categories[k]?.aum ?? 0, key: k }))
+        .filter(d => d.value > 0)
+    : [];
 
-  const cats = CAT_ORDER.map(id => ({ id, ...latest.categories[id] })).filter(c => c.label);
+  const scoresChartData = history.map(snap => {
+    const row: Record<string, string | number> = { date: snap.date.slice(5) };
+    for (const key of CAT_ORDER) {
+      if (snap.scores[key] != null) row[key] = snap.scores[key];
+    }
+    return row;
+  });
+
+  // ── Simulator state ─────────────────────────────────────────────────────────
+
+  const [simAmount,  setSimAmount]  = useState(100000);
+  const [simCat,     setSimCat]     = useState('actions');
+  const [simWeeks,   setSimWeeks]   = useState(8);
+
+  const simResult = (() => {
+    if (!history.length || !simCat) return null;
+    const recent = history.slice(-simWeeks);
+    let value = simAmount;
+    const series: { date: string; value: number }[] = [{ date: 'Début', value }];
+    for (const snap of recent) {
+      const c = snap.categories[simCat];
+      const g = c?.weekly_growth ?? 0;
+      value *= (1 + g);
+      series.push({ date: snap.date.slice(5), value: Math.round(value) });
+    }
+    const gain = value - simAmount;
+    const gainPct = gain / simAmount;
+    return { finalValue: Math.round(value), gain: Math.round(gain), gainPct, series };
+  })();
+
+  // ── Loading / error ─────────────────────────────────────────────────────────
+
+  if (loading) {
+    return (
+      <div className="h-full flex items-center justify-center" style={{ background: BB_BG }}>
+        <div className="text-center space-y-3">
+          <div className="text-3xl animate-pulse" style={{ color: BB_ORANGE }}>◈</div>
+          <p className="text-sm font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>
+            Chargement des données AMMC…
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !latest) {
+    return (
+      <div className="h-full flex items-center justify-center" style={{ background: BB_BG }}>
+        <div className="text-center space-y-4 max-w-md px-6">
+          <p className="text-lg font-bold" style={{ color: BB_RED }}>Données indisponibles</p>
+          <p className="text-sm" style={{ color: BB_MUTED }}>
+            Impossible de charger les données AMMC. Vérifiez votre connexion ou relancez le pipeline.
+          </p>
+          <button
+            onClick={load}
+            className="px-4 py-2 text-sm font-bold border"
+            style={{ color: BB_ORANGE, borderColor: BB_ORANGE }}
+          >
+            Réessayer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const cats = latest.categories;
+  const catList = CAT_ORDER.map(k => ({ key: k, ...cats[k] })).filter(c => c.aum != null);
+  const sortedByScore = [...catList].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  const prevGrowth = latest.weekly_growth;
 
   return (
-    <div className="flex flex-col h-full overflow-hidden" style={{ background: BB_BG, color: BB_WHITE, ...robotoMono.style }}>
-      
-      {/* ── TOP BANNER ───────────────────────────────────────────────────────── */}
-      <header className="flex items-center justify-between px-6 py-3 border-b border-slate-800 bg-[#050b14]">
-        <div className="flex items-center gap-4">
-          <div className="bg-orange-600/10 border border-orange-500/30 px-2 py-1 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-            <span className="text-[10px] font-black text-orange-500 tracking-tighter uppercase whitespace-nowrap">AMMC LIVE</span>
-          </div>
-          <div>
-            <h1 className="text-sm font-black uppercase tracking-tight">Active Portfolio Analytics</h1>
-            <p className="text-[9px] uppercase tracking-widest" style={{ color: BB_MUTED }}>
-              Reporting Week: {latest.week_number} | Source: {latest.source}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-6 text-right">
-          <div className="hidden md:block">
-            <p className="text-[9px] font-bold" style={{ color: BB_MUTED }}>LAST SYNC</p>
-            <p className="text-xs font-black tabular-nums">{latest.date}</p>
-          </div>
-          <div className="bg-[#1E293B] px-3 py-1 border border-slate-700">
-             <span className="text-[10px] font-black" style={{ color: BB_ORANGE }}>TERM::OPCVM</span>
-          </div>
-        </div>
-      </header>
+    <div className="h-full overflow-y-auto" style={{ background: BB_BG, color: BB_WHITE, fontFamily: 'monospace' }}>
 
-      {/* ── MAIN DASHBOARD GRID ──────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-[800px]">
-          
-          {/* COLUMN 1: VITAL STATS & SENTIMENT (3/12) */}
-          <div className="lg:col-span-3 flex flex-col gap-6">
-            <SectionHeader title="Global Liquidity" subtitle="Institutional AUM Metrics" />
-            
-            <div className="grid grid-cols-1 gap-3">
-              <KpiBox 
-                label="Total Assets (AUM)" 
-                value={`${mrd(latest.aum_total)} MAD`} 
-                sub={`vs ${mrd(latest.aum_prev)} (W-1)`}
-                trend={latest.weekly_growth || 0}
-              />
-              <KpiBox 
-                label="Weekly Net Flow" 
-                value={`${latest.flows.net_flow >= 0 ? '+' : ''}${mrd(latest.flows.net_flow)}`} 
-                sub="Cumulative Sub/Rach"
-                trend={latest.flows.net_flow}
-              />
+      {/* ── Page header ── */}
+      <div
+        className="px-6 py-6 border-b"
+        style={{ background: '#060c18', borderColor: BB_BORDER }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-2xl font-black uppercase tracking-tight" style={{ color: BB_ORANGE }}>
+            ◈ Statistiques Hebdomadaires OPCVM
+          </h1>
+          <p className="text-sm mt-1" style={{ color: BB_MUTED }}>
+            Source : AMMC · data.gov.ma · Mise à jour automatique chaque lundi
+          </p>
+        </div>
+      </div>
+
+      {/* ── KPI Cards ── */}
+      <div className="max-w-7xl mx-auto px-6 pt-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <KpiCard
+            label="Encours Total"
+            value={`${mrd(latest.aum_total)} MAD`}
+            sub={`vs ${mrd(latest.aum_prev)} MAD semaine préc.`}
+            color={BB_ORANGE}
+          />
+          <KpiCard
+            label="Croissance Hebdo"
+            value={pct(prevGrowth)}
+            sub="Variation de l'encours total"
+            color={pctColor(prevGrowth)}
+          />
+          <KpiCard
+            label="Flux Nets"
+            value={`${(latest.flows.net_flow >= 0 ? '+' : '') + mrd(latest.flows.net_flow)} MAD`}
+            sub={`Sub: ${mrd(latest.flows.subscriptions)}  Rach: ${mrd(latest.flows.redemptions)}`}
+            color={latest.flows.net_flow >= 0 ? BB_GREEN : BB_RED}
+          />
+          <KpiCard
+            label="Fonds Actifs"
+            value={String(catList.reduce((s, c) => s + (c.nb_fonds ?? 0), 0))}
+            sub={`Répartis sur ${catList.length} catégories`}
+            color={BB_CYAN}
+          />
+        </div>
+      </div>
+
+      {/* ── Tab navigation ── */}
+      <div className="max-w-7xl mx-auto px-6 pt-6">
+        <div className="flex gap-1 border-b" style={{ borderColor: BB_BORDER }}>
+          {(['overview', 'charts', 'insights', 'simulator'] as const).map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors"
+              style={{
+                color: activeTab === tab ? BB_ORANGE : BB_MUTED,
+                borderBottom: activeTab === tab ? `2px solid ${BB_ORANGE}` : '2px solid transparent',
+                marginBottom: '-1px',
+              }}
+            >
+              {tab === 'overview'   ? 'Vue d\'ensemble' :
+               tab === 'charts'    ? 'Graphiques' :
+               tab === 'insights'  ? 'Insights' :
+               'Simulateur'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+
+        {/* ══ TAB: OVERVIEW ══════════════════════════════════════════════════════ */}
+        {activeTab === 'overview' && (
+          <>
+            {/* Category breakdown table */}
+            <div className="border overflow-x-auto" style={{ borderColor: BB_BORDER, background: BB_CARD }}>
+              <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: BB_BORDER }}>
+                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                  Répartition par Catégorie
+                </span>
+                <span className="text-xs" style={{ color: BB_MUTED }}>
+                  Encours en M MAD · Semaine {latest.week_number ?? '—'} · {latest.date}
+                </span>
+              </div>
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b" style={{ borderColor: BB_BORDER, color: BB_MUTED }}>
+                    {['Catégorie', 'Fonds', 'Encours', 'Poids', 'Δ Hebdo', 'Idx Perf.', 'Souscriptions', 'Rachats', 'Flux Nets', 'Score'].map(h => (
+                      <th key={h} className="px-4 py-2 text-left font-bold uppercase tracking-wider">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {catList.map(c => {
+                    const color = CAT_COLORS[c.key] ?? BB_MUTED;
+                    return (
+                      <tr
+                        key={c.key}
+                        className="border-b transition-colors hover:bg-white/5"
+                        style={{ borderColor: BB_BORDER }}
+                      >
+                        <td className="px-4 py-3 font-bold" style={{ color }}>{c.label}</td>
+                        <td className="px-4 py-3" style={{ color: BB_MUTED }}>{c.nb_fonds ?? '—'}</td>
+                        <td className="px-4 py-3 font-bold tabular-nums" style={{ color: BB_CYAN }}>
+                          {mrd(c.aum)} MAD
+                        </td>
+                        <td className="px-4 py-3 tabular-nums" style={{ color: BB_MUTED }}>
+                          {c.weight?.toFixed(1)}%
+                        </td>
+                        <td className="px-4 py-3 font-bold tabular-nums" style={{ color: pctColor(c.weekly_growth) }}>
+                          {pct(c.weekly_growth)}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums" style={{ color: BB_YELLOW }}>
+                          {c.perf_index?.toFixed(2) ?? '—'}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums" style={{ color: BB_GREEN }}>
+                          +{mrd(c.subscriptions)}
+                        </td>
+                        <td className="px-4 py-3 tabular-nums" style={{ color: BB_RED }}>
+                          -{mrd(c.redemptions)}
+                        </td>
+                        <td
+                          className="px-4 py-3 font-bold tabular-nums"
+                          style={{ color: (c.net_flow ?? 0) >= 0 ? BB_GREEN : BB_RED }}
+                        >
+                          {(c.net_flow ?? 0) >= 0 ? '+' : ''}{mrd(c.net_flow)}
+                        </td>
+                        <td className="px-4 py-3 w-36">
+                          <ScoreBar score={c.score ?? 50} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {/* Totals row */}
+                  <tr style={{ background: '#0d1626' }}>
+                    <td className="px-4 py-3 font-black uppercase text-[10px] tracking-widest" style={{ color: BB_ORANGE }}>Total</td>
+                    <td className="px-4 py-3 font-bold" style={{ color: BB_WHITE }}>
+                      {catList.reduce((s, c) => s + (c.nb_fonds ?? 0), 0)}
+                    </td>
+                    <td className="px-4 py-3 font-black tabular-nums" style={{ color: BB_CYAN }}>
+                      {mrd(latest.aum_total)} MAD
+                    </td>
+                    <td className="px-4 py-3 font-bold" style={{ color: BB_WHITE }}>100%</td>
+                    <td className="px-4 py-3 font-bold tabular-nums" style={{ color: pctColor(latest.weekly_growth) }}>
+                      {pct(latest.weekly_growth)}
+                    </td>
+                    <td colSpan={2} />
+                    <td />
+                    <td className="px-4 py-3 font-black tabular-nums" style={{ color: latest.flows.net_flow >= 0 ? BB_GREEN : BB_RED }}>
+                      {latest.flows.net_flow >= 0 ? '+' : ''}{mrd(latest.flows.net_flow)}
+                    </td>
+                    <td />
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <div className="flex-1 border border-slate-800 bg-[#060c18] p-4">
-              <SectionHeader title="Category Momentum" />
-              <div className="space-y-4">
-                {cats.sort((a,b) => (b.score || 0) - (a.score || 0)).slice(0, 4).map((c, i) => (
-                  <div key={c.id} className="flex flex-col gap-1.5">
-                    <div className="flex justify-between items-end">
-                      <span className="text-[10px] font-bold uppercase truncate max-w-[120px]" style={{ color: CAT_COLORS[c.id] }}>
-                        {i+1}. {c.label}
+            {/* Score ranking */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {sortedByScore.map((c, i) => {
+                const color = CAT_COLORS[c.key] ?? BB_MUTED;
+                const medals = ['🥇', '🥈', '🥉'];
+                return (
+                  <div
+                    key={c.key}
+                    className="border p-4 space-y-3"
+                    style={{ background: BB_CARD, borderColor: `${color}44`, borderLeft: `3px solid ${color}` }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-black" style={{ color }}>
+                        {medals[i] ? medals[i] + ' ' : ''}{c.label}
                       </span>
-                      <span className="text-[10px] font-black tabular-nums" style={{ color: BB_CYAN }}>
-                        {c.score?.toFixed(0)}
-                      </span>
+                      <span className="text-xs" style={{ color: BB_MUTED }}>{c.nb_fonds} fonds</span>
                     </div>
-                    <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
-                      <div className="h-full transition-all duration-1000" style={{ width: `${c.score}%`, background: CAT_COLORS[c.id] }} />
+                    <ScoreBar score={c.score ?? 50} />
+                    <div className="grid grid-cols-2 gap-x-4 text-xs">
+                      <div>
+                        <span style={{ color: BB_MUTED }}>Encours</span>
+                        <div className="font-bold" style={{ color: BB_CYAN }}>{mrd(c.aum)} MAD</div>
+                      </div>
+                      <div>
+                        <span style={{ color: BB_MUTED }}>Flux nets</span>
+                        <div className="font-bold" style={{ color: (c.net_flow ?? 0) >= 0 ? BB_GREEN : BB_RED }}>
+                          {(c.net_flow ?? 0) >= 0 ? '+' : ''}{mrd(c.net_flow)}
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <span style={{ color: BB_MUTED }}>Perf. index</span>
+                        <div className="font-bold" style={{ color: BB_YELLOW }}>
+                          {c.perf_index?.toFixed(2) ?? '—'}
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <span style={{ color: BB_MUTED }}>Δ Hebdo</span>
+                        <div className="font-bold" style={{ color: pctColor(c.weekly_growth) }}>
+                          {pct(c.weekly_growth)}
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* ══ TAB: CHARTS ════════════════════════════════════════════════════════ */}
+        {activeTab === 'charts' && (
+          <div className="space-y-8">
+
+            {/* AUM Line Chart */}
+            <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                Évolution de l'Encours par Catégorie (M MAD)
+              </h3>
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={aumChartData}>
+                  <CartesianGrid stroke={BB_BORDER} strokeDasharray="3 3" />
+                  <XAxis dataKey="date" tick={{ fill: BB_MUTED, fontSize: 11 }} />
+                  <YAxis tick={{ fill: BB_MUTED, fontSize: 11 }} tickFormatter={v => mrd(v)} width={70} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Legend wrapperStyle={{ color: BB_MUTED, fontSize: 11 }} />
+                  {CAT_ORDER.map(key => {
+                    const label = latest.categories[key]?.label ?? key;
+                    return (
+                      <Line
+                        key={key}
+                        type="monotone"
+                        dataKey={key}
+                        name={label}
+                        stroke={CAT_COLORS[key]}
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 4 }}
+                      />
+                    );
+                  })}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Pie + Flows side by side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+              {/* Pie Chart — category allocation */}
+              <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+                <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                  Répartition de l'Encours (Semaine {latest.week_number})
+                </h3>
+                <ResponsiveContainer width="100%" height={240}>
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={90}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {pieData.map(entry => (
+                        <Cell key={entry.key} fill={CAT_COLORS[entry.key] ?? BB_MUTED} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v: number) => [mrd(v) + ' MAD', '']}
+                      contentStyle={{ background: '#0d1626', border: `1px solid ${BB_BORDER}`, fontSize: 11 }}
+                      labelStyle={{ color: BB_ORANGE }}
+                    />
+                    <Legend
+                      formatter={(value, entry: any) => {
+                        const c = latest.categories[entry.payload.key];
+                        return `${value} ${c?.weight?.toFixed(1)}%`;
+                      }}
+                      wrapperStyle={{ color: BB_MUTED, fontSize: 11 }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Bar Chart — weekly flows */}
+              <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+                <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                  Flux Hebdomadaires (M MAD)
+                </h3>
+                <ResponsiveContainer width="100%" height={240}>
+                  <BarChart data={flowsChartData} barGap={2}>
+                    <CartesianGrid stroke={BB_BORDER} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" tick={{ fill: BB_MUTED, fontSize: 10 }} />
+                    <YAxis tick={{ fill: BB_MUTED, fontSize: 10 }} tickFormatter={v => mrd(Math.abs(v))} />
+                    <Tooltip content={<ChartTooltip />} />
+                    <Legend wrapperStyle={{ color: BB_MUTED, fontSize: 11 }} />
+                    <Bar dataKey="subscriptions" name="Souscriptions" fill={BB_GREEN} radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="redemptions"   name="Rachats"        fill={BB_RED}   radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="net_flow"      name="Flux nets"      fill={BB_ORANGE} radius={[2, 2, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Score evolution line chart */}
+            <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                Évolution des Scores OPCVM (0–100)
+              </h3>
+              <ResponsiveContainer width="100%" height={240}>
+                <LineChart data={scoresChartData}>
+                  <CartesianGrid stroke={BB_BORDER} strokeDasharray="3 3" />
+                  <XAxis dataKey="date" tick={{ fill: BB_MUTED, fontSize: 11 }} />
+                  <YAxis domain={[40, 90]} tick={{ fill: BB_MUTED, fontSize: 11 }} />
+                  <Tooltip contentStyle={{ background: '#0d1626', border: `1px solid ${BB_BORDER}`, fontSize: 11 }} />
+                  <Legend wrapperStyle={{ color: BB_MUTED, fontSize: 11 }} />
+                  {CAT_ORDER.map(key => (
+                    <Line
+                      key={key}
+                      type="monotone"
+                      dataKey={key}
+                      name={latest.categories[key]?.label ?? key}
+                      stroke={CAT_COLORS[key]}
+                      strokeWidth={2}
+                      dot={{ r: 3, fill: CAT_COLORS[key] }}
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* ══ TAB: INSIGHTS ══════════════════════════════════════════════════════ */}
+        {activeTab === 'insights' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {/* Auto-generated insights */}
+            <div className="border" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
+                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                  ◈ Insights Automatisés — {latest.date}
+                </span>
+              </div>
+              <div className="px-4 py-2">
+                {latest.insights.map((text, i) => (
+                  <InsightBadge key={i} text={text} idx={i} />
+                ))}
+              </div>
+            </div>
+
+            {/* Historical insights */}
+            <div className="border" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
+                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                  ◈ Historique des Signaux
+                </span>
+              </div>
+              <div className="overflow-y-auto" style={{ maxHeight: 420 }}>
+                {[...history].reverse().slice(0, 3).map(snap => (
+                  <div key={snap.date} className="border-b px-4 py-3" style={{ borderColor: BB_BORDER }}>
+                    <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: BB_CYAN }}>
+                      Semaine {snap.week_number} · {snap.date}
+                    </p>
+                    {snap.insights.slice(0, 2).map((txt, i) => (
+                      <p key={i} className="text-xs mb-1.5" style={{ color: BB_MUTED }}>
+                        <span style={{ color: BB_ORANGE }}>◆ </span>{txt}
+                      </p>
+                    ))}
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-4 border-t border-slate-800">
-                 <p className="text-[9px] uppercase tracking-widest mb-3" style={{ color: BB_MUTED }}>Sentiment Logic</p>
-                 <div className="space-y-2">
-                    {latest.insights.slice(0, 2).map((ins, i) => (
-                      <p key={i} className="text-[10px] leading-relaxed italic" style={{ color: BB_YELLOW }}>
-                        // {ins}
+            </div>
+
+            {/* Market metrics */}
+            <div className="border md:col-span-2" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
+                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                  ◈ Métriques de Marché — Momentum & Tendances
+                </span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-x divide-slate-800">
+                {catList.map(c => {
+                  const color = CAT_COLORS[c.key] ?? BB_MUTED;
+                  const weeks3 = history.slice(-3).map(s => s.categories[c.key]?.weekly_growth ?? null);
+                  const momentum = weeks3.filter(g => g !== null && g > 0).length;
+                  return (
+                    <div key={c.key} className="px-4 py-4 text-center">
+                      <p className="text-[10px] uppercase font-bold tracking-wider mb-2" style={{ color }}>{c.label}</p>
+                      <p className="text-lg font-black" style={{ color: scoreColor(c.score ?? 50) }}>
+                        {c.score?.toFixed(0) ?? '—'}
                       </p>
-                    ))}
-                 </div>
+                      <p className="text-[10px] mt-1" style={{ color: BB_MUTED }}>score</p>
+                      <div className="flex justify-center gap-1 mt-2">
+                        {weeks3.map((g, i) => (
+                          <span key={i} style={{ color: g === null ? BB_MUTED : g > 0 ? BB_GREEN : BB_RED, fontSize: 14 }}>
+                            {g === null ? '○' : g > 0 ? '▲' : '▼'}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-[10px] mt-1" style={{ color: BB_MUTED }}>
+                        {momentum}/3 sem. haussières
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
+        )}
 
-          {/* COLUMN 2: INTELLIGENCE ENGINE (5/12) */}
-          <div className="lg:col-span-6 flex flex-col gap-6">
-            <SectionHeader title="Category Intelligence" subtitle="Deep Dive Performance Matrix" />
-            
-            <div className="flex-1 bg-[#060c18] border border-slate-800 relative overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="border-b border-slate-800">
-                      <th className="px-4 py-3 text-[9px] font-black uppercase tracking-widest" style={{ color: BB_MUTED }}>Category</th>
-                      <th className="px-4 py-3 text-[9px] font-black uppercase tracking-widest text-right" style={{ color: BB_MUTED }}>AUM</th>
-                      <th className="px-4 py-3 text-[9px] font-black uppercase tracking-widest text-right" style={{ color: BB_MUTED }}>Weight</th>
-                      <th className="px-4 py-3 text-[9px] font-black uppercase tracking-widest text-right" style={{ color: BB_MUTED }}>Δ Weekly</th>
-                      <th className="px-4 py-3 text-[9px] font-black uppercase tracking-widest text-right" style={{ color: BB_MUTED }}>Net Flow</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cats.map(c => (
-                      <tr key={c.id} className="border-b border-slate-800/30 hover:bg-white/[0.02] group transition-colors cursor-pointer" onClick={() => setTicker(c.id)}>
-                        <td className="px-4 py-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-1.5 h-3" style={{ background: CAT_COLORS[c.id] }} />
-                            <span className="text-[11px] font-bold uppercase" style={{ color: BB_WHITE }}>{c.label}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-4 text-right tabular-nums text-[11px] font-black" style={{ color: BB_CYAN }}>{mrd(c.aum)}</td>
-                        <td className="px-4 py-4 text-right tabular-nums text-[10px]" style={{ color: BB_MUTED }}>{c.weight?.toFixed(1)}%</td>
-                        <td className="px-4 py-4 text-right tabular-nums text-[11px] font-bold" style={{ color: (c.weekly_growth || 0) >= 0 ? BB_GREEN : BB_RED }}>
-                          {pct(c.weekly_growth)}
-                        </td>
-                        <td className="px-4 py-4 text-right tabular-nums text-[11px] font-bold" style={{ color: (c.net_flow || 0) >= 0 ? BB_GREEN : BB_RED }}>
-                          {mrd(c.net_flow)}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        {/* ══ TAB: SIMULATOR ═════════════════════════════════════════════════════ */}
+        {activeTab === 'simulator' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {/* Controls */}
+            <div className="border p-5 space-y-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <h3 className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                ◈ Paramètres du Simulateur
+              </h3>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                  Montant initial (MAD)
+                </label>
+                <input
+                  type="number"
+                  value={simAmount}
+                  onChange={e => setSimAmount(Number(e.target.value))}
+                  className="w-full bg-transparent border px-3 py-2 text-sm font-bold outline-none"
+                  style={{ borderColor: BB_BORDER, color: BB_WHITE }}
+                  min={1000}
+                  step={10000}
+                />
               </div>
-              
-              <div className="p-4 bg-[#0a1120] border-t border-slate-800">
-                <SectionHeader title="Historical Context" />
-                <div className="h-[200px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={chartData}>
-                      <defs>
-                        <linearGradient id="colorAum" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={BB_CYAN} stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor={BB_CYAN} stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                      <XAxis dataKey="date" hide />
-                      <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
-                      <Tooltip 
-                        contentStyle={{ background: '#0d1626', border: '1px solid #1e293b', padding: '6px' }}
-                        labelStyle={{ fontSize: '9px', color: BB_MUTED }}
-                        itemStyle={{ fontSize: '10px', color: BB_CYAN }}
-                      />
-                      <Area type="monotone" dataKey="aum" name="Total AUM (Mrd)" stroke={BB_CYAN} fillOpacity={1} fill="url(#colorAum)" strokeWidth={2} />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                  Catégorie OPCVM
+                </label>
+                <select
+                  value={simCat}
+                  onChange={e => setSimCat(e.target.value)}
+                  className="w-full bg-transparent border px-3 py-2 text-sm font-bold outline-none"
+                  style={{ background: BB_CARD, borderColor: BB_BORDER, color: BB_WHITE }}
+                >
+                  {catList.map(c => (
+                    <option key={c.key} value={c.key} style={{ background: BB_CARD }}>{c.label}</option>
+                  ))}
+                </select>
               </div>
-            </div>
-          </div>
 
-          {/* COLUMN 3: FLOW ANALYTICS & SIMULATOR (4/12) */}
-          <div className="lg:col-span-3 flex flex-col gap-6">
-            <SectionHeader title="Asset Flow Dynamics" subtitle="Weekly Subscription Velocity" />
-            
-            <div className="h-[200px] bg-[#060c18] border border-slate-800 p-4">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-                  <XAxis dataKey="date" hide />
-                  <Tooltip 
-                    contentStyle={{ background: '#0d1626', border: '1px solid #1e293b', padding: '6px' }}
-                    labelStyle={{ fontSize: '9px', color: BB_MUTED }}
-                    itemStyle={{ fontSize: '10px' }}
-                  />
-                  <Bar dataKey="subs" name="Inflow" fill={BB_GREEN} radius={[2, 2, 0, 0]} />
-                  <Bar dataKey="reds" name="Outflow" fill={BB_RED} radius={[0, 0, 2, 2]} />
-                </BarChart>
-              </ResponsiveContainer>
-              <div className="flex justify-between mt-3 px-2">
-                 <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2" style={{ background: BB_GREEN }} />
-                    <span className="text-[9px] uppercase font-bold" style={{ color: BB_MUTED }}>Subscriptions</span>
-                 </div>
-                 <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2" style={{ background: BB_RED }} />
-                    <span className="text-[9px] uppercase font-bold" style={{ color: BB_MUTED }}>Redemptions</span>
-                 </div>
-              </div>
-            </div>
-
-            <div className="flex-1 bg-[#060c18] border border-slate-800 p-5 space-y-6">
-              <SectionHeader title="Investment Simulator" subtitle="Quick Yield Projection" />
-              
-              <div className="space-y-4">
-                <div className="space-y-1.5">
-                  <label className="text-[9px] uppercase font-black tracking-widest" style={{ color: BB_MUTED }}>Principal (MAD)</label>
-                  <input 
-                    type="number" 
-                    value={simAmount} 
-                    onChange={e => setSimAmount(Number(e.target.value))}
-                    className="w-full bg-[#0d1626] border border-slate-800 px-3 py-2 text-xs font-bold focus:border-orange-500 outline-none tabular-nums"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[9px] uppercase font-black tracking-widest" style={{ color: BB_MUTED }}>Category Strategy</label>
-                  <select 
-                    value={simCat} 
-                    onChange={e => setSimCat(e.target.value)}
-                    className="w-full bg-[#0d1626] border border-slate-800 px-3 py-2 text-xs font-bold focus:border-orange-500 outline-none"
-                  >
-                    {cats.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-                  </select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <div className="flex justify-between">
-                    <label className="text-[9px] uppercase font-black tracking-widest" style={{ color: BB_MUTED }}>Horizon (Weeks)</label>
-                    <span className="text-[10px] font-black" style={{ color: BB_ORANGE }}>{simWeeks}W</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="1" max="52" 
-                    value={simWeeks} 
-                    onChange={e => setSimWeeks(Number(e.target.value))}
-                    className="w-full accent-orange-500"
-                  />
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                  Durée : {simWeeks} semaine{simWeeks > 1 ? 's' : ''}
+                </label>
+                <input
+                  type="range"
+                  value={simWeeks}
+                  onChange={e => setSimWeeks(Number(e.target.value))}
+                  min={1}
+                  max={Math.min(history.length, 9)}
+                  className="w-full accent-orange-500"
+                />
+                <div className="flex justify-between text-[10px]" style={{ color: BB_MUTED }}>
+                  <span>1 sem.</span>
+                  <span>{Math.min(history.length, 9)} sem.</span>
                 </div>
               </div>
 
               {simResult && (
-                <div className="pt-6 border-t border-slate-800 space-y-4">
-                  <div className="flex justify-between items-end">
-                    <span className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Target Value</span>
-                    <span className="text-lg font-black tabular-nums" style={{ color: BB_CYAN }}>
-                      {simResult.final.toLocaleString('fr-MA', { maximumFractionDigits: 0 })}
-                    </span>
+                <div className="pt-4 border-t space-y-3" style={{ borderColor: BB_BORDER }}>
+                  <div>
+                    <p className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Valeur finale</p>
+                    <p className="text-xl font-black tabular-nums" style={{ color: BB_CYAN }}>
+                      {simResult.finalValue.toLocaleString('fr-MA')} MAD
+                    </p>
                   </div>
-                  <div className="flex justify-between items-end">
-                    <span className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Net Profit</span>
-                    <div className="text-right">
-                      <p className="text-sm font-black tabular-nums" style={{ color: simResult.gain >= 0 ? BB_GREEN : BB_RED }}>
-                        {simResult.gain >= 0 ? '+' : ''}{simResult.gain.toLocaleString('fr-MA', { maximumFractionDigits: 0 })}
-                      </p>
-                      <p className="text-[10px] font-bold" style={{ color: simResult.pct >= 0 ? BB_GREEN : BB_RED }}>
-                        {simResult.pct >= 0 ? '+' : ''}{simResult.pct.toFixed(2)}%
-                      </p>
-                    </div>
+                  <div>
+                    <p className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Gain / Perte</p>
+                    <p className="text-lg font-black tabular-nums" style={{ color: simResult.gain >= 0 ? BB_GREEN : BB_RED }}>
+                      {simResult.gain >= 0 ? '+' : ''}{simResult.gain.toLocaleString('fr-MA')} MAD
+                    </p>
+                    <p className="text-sm" style={{ color: pctColor(simResult.gainPct) }}>
+                      {pct(simResult.gainPct, 3)}
+                    </p>
                   </div>
                 </div>
               )}
             </div>
 
+            {/* Simulation chart */}
+            <div className="border p-5 md:col-span-2" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
+              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                Simulation : {catList.find(c => c.key === simCat)?.label} · {simWeeks} semaine{simWeeks > 1 ? 's' : ''}
+              </h3>
+              {simResult && (
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={simResult.series}>
+                    <CartesianGrid stroke={BB_BORDER} strokeDasharray="3 3" />
+                    <XAxis dataKey="date" tick={{ fill: BB_MUTED, fontSize: 11 }} />
+                    <YAxis
+                      tick={{ fill: BB_MUTED, fontSize: 11 }}
+                      tickFormatter={v => `${(v / 1000).toFixed(0)}k`}
+                    />
+                    <Tooltip
+                      formatter={(v: number) => [v.toLocaleString('fr-MA') + ' MAD', 'Valeur']}
+                      contentStyle={{ background: '#0d1626', border: `1px solid ${BB_BORDER}`, fontSize: 11 }}
+                      labelStyle={{ color: BB_ORANGE }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={CAT_COLORS[simCat] ?? BB_ORANGE}
+                      strokeWidth={3}
+                      dot={{ r: 4, fill: CAT_COLORS[simCat] ?? BB_ORANGE }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+              <p className="text-[10px] mt-3" style={{ color: BB_MUTED }}>
+                ⚠️ Simulation basée sur les performances passées des fonds AMMC.
+                La performance passée ne préjuge pas des performances futures.
+                Usage éducatif uniquement.
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+
       </div>
 
-      {/* ── FOOTER BAR ───────────────────────────────────────────────────────── */}
-      <footer className="px-6 py-2 border-t border-slate-800 bg-[#050b14] flex justify-between items-center">
-        <div className="flex gap-4">
-          <span className="text-[9px] font-bold" style={{ color: BB_MUTED }}>BVC::LIVE_QUERY_STABLE</span>
-          <span className="text-[9px] font-bold" style={{ color: BB_ORANGE }}>SYSTEM_ENCRYPTED</span>
-        </div>
-        <div className="text-[10px] font-black italic" style={{ color: BB_MUTED }}>
-           WALLSTREET MOROCCO v3.2.0 • TERMINAL_CORE
-        </div>
-      </footer>
+      {/* ── Footer ── */}
+      <div
+        className="border-t px-6 py-4 text-[10px] flex items-center justify-between"
+        style={{ borderColor: BB_BORDER, background: '#050b14', color: BB_MUTED }}
+      >
+        <span>WallStreet Morocco · Données AMMC · data.gov.ma</span>
+        <span>Mise à jour auto chaque lundi · {latest.source}</span>
+      </div>
     </div>
   );
 }
