@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'react-i18next';
 import ValuesFinancials from '@/components/terminal/ValuesFinancials';
 import { Roboto_Mono, Inter } from 'next/font/google';
+import CapitalMarketIndicators from '@/components/terminal/CapitalMarketIndicators';
 
 import {
   fetchSnapshot,
@@ -43,7 +44,7 @@ const BB_BORDER = '#1E293B';
 const BB_BG     = '#040914';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
-type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS';
+type ActiveTab   = 'OVERVIEW' | 'EQUITIES' | 'OPCVM' | 'MACRO' | 'FINANCIALS' | 'CAPITAL_MARKET';
 type QuickFilter = 'ALL' | 'TOP' | 'PIRES' | 'VOLUME';
 type SortField   = 'TICKER' | 'PRICE' | 'CHANGE' | 'VOLUME';
 type SortDir     = 'ASC' | 'DESC';
@@ -389,6 +390,7 @@ export default function TerminalPage() {
     if (cmd === 'MACRO') { setActiveTab('MACRO'); setCmdMsg('→ MACRO & FX'); return; }
     if (cmd === 'OPCVM') { setActiveTab('OPCVM'); setCmdMsg('→ FONDS OPCVM'); return; }
     if (cmd === 'FIN')   { setActiveTab('FINANCIALS'); setCmdMsg('→ DONNÉES'); return; }
+    if (cmd === 'AMMC' || cmd === 'CAP') { setActiveTab('CAPITAL_MARKET'); setCmdMsg('→ MARCHÉ DES CAPITAUX'); return; }
     if (cmd === 'H' || cmd === 'HELP') { setShowHelp(true); return; }
 
     const found = stocks.find(s => s.ticker.toUpperCase() === cmd);
@@ -1485,6 +1487,7 @@ export default function TerminalPage() {
             { id: 'OVERVIEW', label: 'Aperçu de marché', shortcut: 'Alt+1' },
             { id: 'EQUITIES', label: 'Valeurs BVC', shortcut: 'Alt+2' },
             { id: 'OPCVM', label: 'Fonds OPCVM', shortcut: 'Alt+3' },
+            { id: 'CAPITAL_MARKET', label: 'Marché Capitaux', shortcut: 'Alt+C' },
             { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
             { id: 'FINANCIALS', label: 'Données', shortcut: 'Alt+5' },
           ] as { id: ActiveTab; label: string; shortcut: string }[]
@@ -1510,6 +1513,7 @@ export default function TerminalPage() {
         {activeTab === 'OVERVIEW' && renderOverview()}
         {activeTab === 'EQUITIES' && renderEquities()}
         {activeTab === 'OPCVM' && renderOpcvm()}
+        {activeTab === 'CAPITAL_MARKET' && <CapitalMarketIndicators />}
         {activeTab === 'MACRO' && renderMacro()}
         {activeTab === 'FINANCIALS' && (
           <div className="h-full flex flex-col overflow-hidden">
