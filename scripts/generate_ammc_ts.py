@@ -8,7 +8,7 @@ TS_OUTPUT_PATH = PROJECT_ROOT / "src" / "lib" / "data" / "ammc_financials_2024.t
 with open(JSON_PATH, "r", encoding="utf-8") as f:
     data = json.load(f)
 
-filtered_data = []
+filtered_data = {}
 
 for company in data:
     valid_count = 0
@@ -26,7 +26,7 @@ for company in data:
                 company["ratios"][k] = None
                 
     if valid_count >= 3:
-        filtered_data.append(company)
+        filtered_data[company["ticker"]] = company
 
 ts_content = f"""// AUTO-GENERATED AMMC FINANCIAL DATA 2024
 // Extracted from official AMMC annual reports
@@ -37,8 +37,7 @@ import type {{ FinancialsData }} from "@/components/terminal/ValuesFinancials/fi
 export const ammc_financials_2024: Record<string, Partial<FinancialsData>> = {{
 """
 
-for c in filtered_data:
-    ticker = c["ticker"]
+for ticker, c in filtered_data.items():
     inc = c["income_statement"]
     bal = c["balance_sheet"]
     cf = c["cash_flow"]
