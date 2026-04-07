@@ -7,6 +7,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts';
 import type { AmmcSnapshot, AmmcCategory } from '@/app/api/opcvm/ammc/route';
+import { useAmmcData } from '@/hooks/useAmmcData';
 
 // ── Colours ───────────────────────────────────────────────────────────────────
 
@@ -125,35 +126,8 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 export default function OpcvmAmmcPage() {
-  const [latest,   setLatest]   = useState<AmmcSnapshot | null>(null);
-  const [history,  setHistory]  = useState<AmmcSnapshot[]>([]);
-  const [loading,  setLoading]  = useState(true);
-  const [error,    setError]    = useState(false);
+  const { latest, history, loading, error, load } = useAmmcData();
   const [activeTab, setActiveTab] = useState<'overview' | 'charts' | 'insights' | 'simulator'>('overview');
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    setError(false);
-    try {
-      const [latestRes, histRes] = await Promise.all([
-        fetch('/api/opcvm/ammc'),
-        fetch('/api/opcvm/ammc?_path=history'),
-      ]);
-      if (!latestRes.ok) throw new Error('latest failed');
-      const latestData = await latestRes.json() as AmmcSnapshot;
-      setLatest(latestData);
-      if (histRes.ok) {
-        const histData = await histRes.json();
-        setHistory(histData.history ?? []);
-      }
-    } catch {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { load(); }, [load]);
 
   // ── Derived chart data ──────────────────────────────────────────────────────
 
