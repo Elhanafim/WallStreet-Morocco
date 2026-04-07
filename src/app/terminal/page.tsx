@@ -1487,7 +1487,7 @@ export default function TerminalPage() {
             { id: 'OVERVIEW', label: 'Aperçu de marché', shortcut: 'Alt+1' },
             { id: 'EQUITIES', label: 'Valeurs BVC', shortcut: 'Alt+2' },
             { id: 'OPCVM', label: 'Fonds OPCVM', shortcut: 'Alt+3' },
-            { id: 'CAPITAL_MARKET', label: 'Marché Capitaux', shortcut: 'Alt+C' },
+            { id: 'CAPITAL_MARKET', label: 'Indicateurs Marché', shortcut: 'Alt+C' },
             { id: 'MACRO', label: 'Macro & Devises', shortcut: 'Alt+4' },
             { id: 'FINANCIALS', label: 'Données', shortcut: 'Alt+5' },
           ] as { id: ActiveTab; label: string; shortcut: string }[]

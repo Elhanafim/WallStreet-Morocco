@@ -2,10 +2,61 @@
   "title": "Indicateurs mensuels - Janvier 2026_0.pdf",
   "date": "Janvier 2026",
   "url": "https://www.ammc.ma/sites/default/files/Indicateurs%20mensuels%20-%20Janvier%202026_0.pdf",
-  "scraped_at": "2026-04-07T21:55:07.974786",
+  "scraped_at": "2026-04-07T22:33:20.446307",
   "market_cap": 1041.59,
   "masi": 18666.95,
   "volume": 8623.0,
   "transactions": null,
-  "other_indicators": {}
+  "opcvm": {
+    "total_assets": 787.58,
+    "total_funds": 609,
+    "categories": [
+      {
+        "category": "Actions",
+        "funds": 116,
+        "assets": 78.65,
+        "change_ytd": "1,86%"
+      },
+      {
+        "category": "Diversifiés",
+        "funds": 134,
+        "assets": 106.18,
+        "change_ytd": "3,34%"
+      },
+      {
+        "category": "Monétaires",
+        "funds": 70,
+        "assets": 108.02,
+        "change_ytd": "-1,89%"
+      },
+      {
+        "category": "Obligations CT",
+        "funds": 72,
+        "assets": 125.59,
+        "change_ytd": "10,93%"
+      },
+      {
+        "category": "Obligations MLT",
+        "funds": 211,
+        "assets": 359.67,
+        "change_ytd": "-3,57%"
+      },
+      {
+        "category": "Contractuels",
+        "funds": 6,
+        "assets": 9.46,
+        "change_ytd": "7,52%"
+      }
+    ]
+  },
+  "capital_raises": {
+    "total": 718815.0,
+    "equity": 450.0,
+    "bonds": 0,
+    "tcn": 673812.0
+  },
+  "securities_lending": {
+    "volume": 34.6,
+    "outstanding": 38.5
+  }
 }
