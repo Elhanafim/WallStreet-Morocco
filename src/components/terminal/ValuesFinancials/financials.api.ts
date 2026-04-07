@@ -70,6 +70,7 @@ export interface FinancialsData {
   estimatedRevenue: number | null;
   estimatedNetIncome: number | null;
   indicators: FinancialIndicator[];
+  ammcData?: any;
 }
 
 export async function fetchFinancials(ticker: string): Promise<FinancialsData> {

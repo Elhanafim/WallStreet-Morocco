@@ -216,33 +216,48 @@ function MarginsBlock({ d }: { d: FinancialsData }) {
 }
 
 // ── Financial statement helpers ───────────────────────────────────────────────
-function SectionHeader({ title }: { title: string }) {
+function SectionHeader({ title, source }: { title: string; source?: string }) {
   return (
-    <div className="px-4 py-2 border-b text-[10px] font-bold uppercase tracking-widest" style={{
-      borderColor: BB_BORDER, background: '#050b14', color: BB_ORANGE,
+    <div className="flex items-center justify-between px-4 py-2.5 border-b border-t shadow-sm mt-4 first:mt-0" style={{
+      borderColor: '#1E293B', background: 'linear-gradient(90deg, #050b14 0%, #0B101E 100%)',
     }}>
-      {title}
+      <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: BB_WHITE }}>
+        <span style={{ color: BB_ORANGE, marginRight: 8 }}>■</span>{title}
+      </span>
+      {source && (
+        <span className="text-[9px] font-mono tracking-wider px-2 py-0.5 rounded flex items-center gap-1" style={{ color: BB_MUTED, background: '#111827' }}>
+          • {source}
+        </span>
+      )}
     </div>
   );
 }
 
-function MetricRow({ label, value, highlight = false, indent = false, valueColor }: {
+function MetricRow({ label, value, subtext, highlight = false, indent = 0, valueColor, format = 'number' }: {
   label: string;
   value: string;
+  subtext?: string;
   highlight?: boolean;
-  indent?: boolean;
+  indent?: 0 | 1 | 2;
   valueColor?: string;
+  format?: 'number' | 'bold' | 'pct';
 }) {
+  const pl = indent === 1 ? 'pl-8' : indent === 2 ? 'pl-[52px] relative before:content-[""] before:absolute before:left-8 before:top-1/2 before:w-3 before:h-px before:bg-[#334155]' : 'pl-4';
+  
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b hover:bg-[#0A0F1D]"
-      style={{ borderColor: BB_BORDER, background: highlight ? '#0A0F1D' : 'transparent' }}>
-      <span
-        className={`text-xs font-bold ${indent ? 'pl-4' : ''} ${highlight ? 'uppercase tracking-wide' : ''}`}
-        style={{ color: highlight ? BB_ORANGE : BB_MUTED }}
-      >
-        {label}
-      </span>
-      <span className="text-sm font-black tabular-nums" style={{ color: valueColor ?? (highlight ? BB_WHITE : BB_WHITE) }}>
+    <div className="flex items-end justify-between py-2 hover:bg-[#0F172A] group relative transition-colors"
+      style={{ background: highlight ? '#0B101E' : 'transparent' }}>
+      <div className={`flex items-baseline gap-2 ${pl}`}>
+        <span
+          className={`text-[11px] ${highlight ? 'font-bold uppercase tracking-wider' : ''}`}
+          style={{ color: highlight ? BB_ORANGE : BB_MUTED }}
+        >
+          {label}
+        </span>
+        {subtext && <span className="text-[9px] font-mono opacity-60" style={{ color: BB_MUTED }}>{subtext}</span>}
+      </div>
+      <div className="flex-1 border-b border-dotted border-[#334155] mx-4 mb-2 opacity-30 group-hover:opacity-100 hidden sm:block transition-opacity" />
+      <span className={`text-[12px] pr-4 tabular-nums ${format === 'bold' || highlight ? 'font-black' : 'font-medium'}`} style={{ color: valueColor ?? (highlight ? BB_WHITE : '#E2E8F0') }}>
         {value}
       </span>
     </div>
@@ -251,8 +266,10 @@ function MetricRow({ label, value, highlight = false, indent = false, valueColor
 
 function NoData() {
   return (
-    <div className="flex items-center justify-center h-40 text-xs" style={{ color: BB_MUTED, ...robotoMono.style }}>
-      Données non disponibles pour cette valeur
+    <div className="flex flex-col items-center justify-center p-12 text-center" style={robotoMono.style}>
+      <span className="text-2xl mb-2 opacity-50" style={{ color: BB_MUTED }}>Ø</span>
+      <span className="text-[11px] uppercase tracking-widest font-bold" style={{ color: BB_MUTED }}>Données non disponibles</span>
+      <span className="text-[9px] mt-1 opacity-70" style={{ color: BB_MUTED }}>Les états financiers pour cette période ne sont pas publiés complets.</span>
     </div>
   );
 }
@@ -261,24 +278,28 @@ function NoData() {
 function IncomeStatementTab({ d }: { d: FinancialsData }) {
   const hasData = d.revenue != null || d.netIncome != null || d.grossProfit != null;
   if (!hasData) return <NoData />;
+  const source = d.ammcData ? 'AMMC Officiel (2024)' : 'TradingView (FY/TTM)';
 
   return (
-    <div style={robotoMono.style}>
-      <SectionHeader title={`■ COMPTE DE RÉSULTAT — ${d.ticker}   Exercice annuel · Source: TradingView`} />
-      {d.revenue      != null && <MetricRow label="Chiffre d'affaires"      value={fmtMAD(d.revenue)}       highlight />}
-      {d.grossProfit  != null && <MetricRow label="Marge brute"             value={fmtMAD(d.grossProfit)}   indent />}
-      {d.grossMarginPct != null && <MetricRow label="Marge brute %"         value={`${d.grossMarginPct.toFixed(1)}%`} indent />}
-      {d.operatingIncome != null && <MetricRow label="Résultat d'exploitation" value={fmtMAD(d.operatingIncome)} highlight />}
-      {d.operatingMarginPct != null && <MetricRow label="Marge opérationnelle %"  value={`${d.operatingMarginPct.toFixed(1)}%`} indent />}
-      {d.ebitda       != null && <MetricRow label="EBITDA"                  value={fmtMAD(d.ebitda)}        />}
-      {d.netIncome    != null && <MetricRow label="RÉSULTAT NET"            value={fmtMAD(d.netIncome)}     highlight />}
-      {d.netMarginPct != null && <MetricRow label="Marge nette %"           value={`${d.netMarginPct.toFixed(1)}%`} indent />}
-      {d.eps          != null && <MetricRow label="BPA (bénéfice / action)" value={`${d.eps.toFixed(4)} MAD`} />}
-      <div className="mt-4 border-t" style={{ borderColor: BB_BORDER }}>
-        <SectionHeader title="■ RENTABILITÉ" />
-        {d.roe != null && <MetricRow label="ROE (Rentab. capitaux propres)" value={`${d.roe.toFixed(1)}%`} />}
-        {d.roa != null && <MetricRow label="ROA (Rentab. actifs)"           value={`${d.roa.toFixed(1)}%`} />}
-      </div>
+    <div style={robotoMono.style} className="pb-8">
+      <SectionHeader title="Activités & Ventes" source={source} />
+      {d.revenue      != null && <MetricRow label="Chiffre d'affaires" subtext="TOTAL REVENUE" value={fmtMAD(d.revenue)} highlight />}
+      {d.grossProfit  != null && <MetricRow label="Marge brute" subtext="GROSS PROFIT" value={fmtMAD(d.grossProfit)} indent={1} />}
+      {d.grossMarginPct != null && <MetricRow label="Marge brute %" value={`${d.grossMarginPct.toFixed(1)}%`} indent={2} />}
+      
+      <SectionHeader title="Performances Opérationnelles" />
+      {d.ebitda       != null && <MetricRow label="EBITDA" subtext="Rép. avant impôts & amort." value={fmtMAD(d.ebitda)} highlight />}
+      {d.operatingIncome != null && <MetricRow label="Résultat d'exploitation" subtext="OPERATING INCOME" value={fmtMAD(d.operatingIncome)} highlight />}
+      {d.operatingMarginPct != null && <MetricRow label="Marge opérationnelle %"  value={`${d.operatingMarginPct.toFixed(1)}%`} indent={1} />}
+      
+      <SectionHeader title="Bottom Line" />
+      {d.netIncome    != null && <MetricRow label="Résultat Net" subtext="NET INCOME" value={fmtMAD(d.netIncome)} highlight valueColor={d.netIncome >= 0 ? BB_GREEN : BB_RED} />}
+      {d.netMarginPct != null && <MetricRow label="Marge nette %" value={`${d.netMarginPct.toFixed(1)}%`} indent={1} />}
+      {d.eps          != null && <MetricRow label="Bénéfice par action (BPA)" subtext="MAD/action" value={`${d.eps.toFixed(4)}`} indent={1} />}
+
+      <SectionHeader title="Ratios de Rentabilité" />
+      {d.roe != null && <MetricRow label="Rentabilité des capitaux propres" subtext="ROE" value={`${d.roe.toFixed(1)}%`} />}
+      {d.roa != null && <MetricRow label="Rentabilité des actifs" subtext="ROA" value={`${d.roa.toFixed(1)}%`} />}
     </div>
   );
 }
@@ -286,19 +307,25 @@ function IncomeStatementTab({ d }: { d: FinancialsData }) {
 function BalanceSheetTab({ d }: { d: FinancialsData }) {
   const hasData = d.totalAssets != null || d.totalDebt != null;
   if (!hasData) return <NoData />;
+  const source = d.ammcData ? 'AMMC Officiel (2024)' : 'TradingView (FY)';
 
   return (
-    <div style={robotoMono.style}>
-      <SectionHeader title={`■ BILAN — ${d.ticker}   Exercice annuel · Source: TradingView`} />
-      {d.totalAssets        != null && <MetricRow label="TOTAL ACTIF"                value={fmtMAD(d.totalAssets)}        highlight />}
-      {d.totalDebt          != null && <MetricRow label="Dettes totales"             value={fmtMAD(d.totalDebt)}          indent />}
-      {d.stockholdersEquity != null && <MetricRow label="Capitaux propres"           value={fmtMAD(d.stockholdersEquity)} indent />}
-      {d.debtToEquity       != null && <MetricRow label="Ratio dette / capitaux"     value={`${d.debtToEquity.toFixed(2)}x`} />}
-      {d.currentRatio       != null && <MetricRow label="Ratio de liquidité courante" value={`${d.currentRatio.toFixed(2)}x`} />}
-      {d.priceToBook        != null && <MetricRow label="Prix / Valeur comptable"    value={`${d.priceToBook.toFixed(2)}x`} />}
-      {d.sharesOutstanding  != null && (
-        <MetricRow label="Nombre d'actions" value={d.sharesOutstanding.toLocaleString('fr-MA')} />
-      )}
+    <div style={robotoMono.style} className="pb-8">
+      <SectionHeader title="Actifs (Assets)" source={source} />
+      {d.totalAssets != null && <MetricRow label="Total Actif" subtext="TOTAL ASSETS" value={fmtMAD(d.totalAssets)} highlight />}
+      {d.cashFromOperations != null /* Using as proxy if strictly missing pure cash equivalents in DB */ && <div className="h-2" />}
+
+      <SectionHeader title="Passifs & Dettes (Liabilities)" />
+      {d.totalDebt != null && <MetricRow label="Dettes totales" subtext="TOTAL DEBT" value={fmtMAD(d.totalDebt)} highlight valueColor={BB_RED} />}
+      {d.currentRatio != null && <MetricRow label="Ratio de liquidité courante" value={`${d.currentRatio.toFixed(2)}x`} indent={1} />}
+
+      <SectionHeader title="Capitaux Engagés (Equity)" />
+      {d.stockholdersEquity != null && <MetricRow label="Capitaux propres" subtext="STOCKHOLDERS EQUITY" value={fmtMAD(d.stockholdersEquity)} highlight />}
+      {d.debtToEquity       != null && <MetricRow label="Ratio dette / capitaux" subtext="GEARING" value={`${d.debtToEquity.toFixed(2)}x`} indent={1} />}
+      
+      <SectionHeader title="Valorisation & Capital" />
+      {d.priceToBook        != null && <MetricRow label="Prix / Valeur comptable" subtext="P/B RATIO" value={`${d.priceToBook.toFixed(2)}x`} />}
+      {d.sharesOutstanding  != null && <MetricRow label="Nombre d'actions" value={d.sharesOutstanding.toLocaleString('fr-MA')} />}
     </div>
   );
 }
@@ -306,19 +333,22 @@ function BalanceSheetTab({ d }: { d: FinancialsData }) {
 function CashFlowTab({ d }: { d: FinancialsData }) {
   const hasData = d.cashFromOperations != null || d.freeCashFlow != null;
   if (!hasData) return <NoData />;
+  const source = d.ammcData ? 'AMMC Officiel (2024)' : 'TradingView (FY)';
 
   const fcfYield = (d.freeCashFlow != null && d.marketCap != null && d.marketCap > 0)
     ? (d.freeCashFlow / d.marketCap) * 100
     : null;
 
   return (
-    <div style={robotoMono.style}>
-      <SectionHeader title={`■ FLUX DE TRÉSORERIE — ${d.ticker}   Exercice annuel · Source: TradingView`} />
-      {d.cashFromOperations != null && <MetricRow label="Flux d'exploitation"    value={fmtMAD(d.cashFromOperations)} highlight valueColor={d.cashFromOperations >= 0 ? BB_GREEN : BB_RED} />}
-      {d.cashFromInvesting  != null && <MetricRow label="Flux d'investissement"  value={fmtMAD(d.cashFromInvesting)}  highlight valueColor={d.cashFromInvesting  >= 0 ? BB_GREEN : BB_RED} />}
-      {d.cashFromFinancing  != null && <MetricRow label="Flux de financement"    value={fmtMAD(d.cashFromFinancing)}  highlight valueColor={d.cashFromFinancing  >= 0 ? BB_GREEN : BB_RED} />}
-      {d.freeCashFlow       != null && <MetricRow label="FREE CASH FLOW (FCF)"   value={fmtMAD(d.freeCashFlow)}       highlight valueColor={d.freeCashFlow       >= 0 ? BB_GREEN : BB_RED} />}
-      {fcfYield             != null && <MetricRow label="Rendement FCF"          value={`${fcfYield.toFixed(1)}%`}    indent />}
+    <div style={robotoMono.style} className="pb-8">
+      <SectionHeader title="Analyse des Flux" source={source} />
+      {d.cashFromOperations != null && <MetricRow label="Flux d'exploitation" subtext="OPERATING CASH" value={fmtMAD(d.cashFromOperations)} valueColor={d.cashFromOperations >= 0 ? BB_GREEN : BB_RED} />}
+      {d.cashFromInvesting  != null && <MetricRow label="Flux d'investissement" subtext="CAPEX / INVESTMENTS" value={fmtMAD(d.cashFromInvesting)} valueColor={d.cashFromInvesting  >= 0 ? BB_GREEN : BB_RED} />}
+      {d.cashFromFinancing  != null && <MetricRow label="Flux de financement" subtext="DEBT & EQUITY FINANCING" value={fmtMAD(d.cashFromFinancing)} valueColor={d.cashFromFinancing  >= 0 ? BB_GREEN : BB_RED} />}
+      
+      <SectionHeader title="Trésorerie Disponible" />
+      {d.freeCashFlow       != null && <MetricRow label="Free Cash Flow" subtext="FCF" value={fmtMAD(d.freeCashFlow)} highlight valueColor={d.freeCashFlow >= 0 ? BB_GREEN : BB_RED} />}
+      {fcfYield             != null && <MetricRow label="Rendement FCF" subtext="FCF YIELD" value={`${fcfYield.toFixed(1)}%`} indent={1} />}
     </div>
   );
 }
