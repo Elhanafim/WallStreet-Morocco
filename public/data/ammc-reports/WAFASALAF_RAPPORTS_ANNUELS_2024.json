@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "company_name": "Wafasalaf",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": "Commissaires aux Comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Directoire",
+      "Conseil de Surveillance",
+      "Comit\u00e9 de Gouvernance",
+      "Comit\u00e9 de Nomination et de R\u00e9mun\u00e9rations des Dirigeants",
+      "Comit\u00e9 d\u2019Audit et des Risques"
+    ],
+    "executive_team": [
+      "Direction du Contr\u00f4le des Risques et de la Conformit\u00e9"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

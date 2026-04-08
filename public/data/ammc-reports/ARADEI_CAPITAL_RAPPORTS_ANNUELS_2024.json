@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "company_name": "Aradei Capital",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "metric": "Chiffre d'affaires",
+        "2024": 605747,
+        "2023": 583181
+      },
+      {
+        "metric": "Charges d'exploitation",
+        "2024": 156015,
+        "2023": 142278
+      },
+      {
+        "metric": "EBITDA",
+        "2024": 449732,
+        "2023": 440903
+      },
+      {
+        "metric": "FFO \u2013 Part Groupe",
+        "2024": 305088,
+        "2023": 270002
+      },
+      {
+        "metric": "R\u00e9sultat net de la p\u00e9riode",
+        "2024": 297453,
+        "2023": 262132
+      }
+    ],
+    "balance_sheet": [
+      {
+        "metric": "Tr\u00e9sorerie et \u00e9quivalent",
+        "2024": 813652,
+        "2023": 682328
+      },
+      {
+        "metric": "Immeubles de placement",
+        "2024": 7897651,
+        "2023": 7630606
+      },
+      {
+        "metric": "Capitaux propres",
+        "2024": 5191827,
+        "2023": 4565434
+      },
+      {
+        "metric": "Dettes financi\u00e8res brutes",
+        "2024": 3342624,
+        "2023": 3352048
+      }
+    ],
+    "cash_flow_statement": [
+      {
+        "metric": "Flux net de tr\u00e9sorerie g\u00e9n\u00e9r\u00e9s par l'activit\u00e9 (A)",
+        "2024": 470342,
+        "2023": 496085
+      },
+      {
+        "metric": "Flux net de tr\u00e9sorerie li\u00e9s aux op\u00e9rations d'investissement (B)",
+        "2024": 583862,
+        "2023": 369162
+      },
+      {
+        "metric": "Flux net de tr\u00e9sorerie li\u00e9s aux op\u00e9rations de financement (C)",
+        "2024": 25645,
+        "2023": 1
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": 22.0,
+        "unit": "MAD",
+        "period": "2024"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Nawfal Bendefa - Pr\u00e9sident du Conseil d\u2019Administration Aradei Capital"
+    ],
+    "executive_team": [
+      "Nasser Benjelloun - Directeur G\u00e9n\u00e9ral de Aradei Capital"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

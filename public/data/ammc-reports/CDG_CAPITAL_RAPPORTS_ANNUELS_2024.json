@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "company_name": "CDG Capital",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "label": "b\u00e9n\u00e9fice net consolid\u00e9",
+        "value": "291585"
+      }
+    ],
+    "balance_sheet": [
+      {
+        "label": "capitaux propres consolid\u00e9s",
+        "value": "1929031"
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "type": "declared",
+        "value": "5.25"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Khalid SAFIR",
+      "Latifa ECHIHABI",
+      "Hamid TAWFIKI",
+      "Mohamed SULAIMANI",
+      "Khaoula LACHGUAR",
+      "Nouaman AL AISSAMI",
+      "Thierry Jean-Philippe SCIARD",
+      "Ghislane GUEDIRA BENNOUNA"
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

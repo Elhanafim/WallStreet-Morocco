@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "company_name": "Soci\u00e9t\u00e9 Maghr\u00e9bine de Mon\u00e9tique",
+    "ticker": "S2M",
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MMAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "results": [
+      {
+        "key": "total_revenue",
+        "value": 119800000
+      },
+      {
+        "key": "operating_expenses",
+        "value": 85000000
+      },
+      {
+        "key": "net_profit",
+        "value": 30000000
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "capital_social": 40603500.0,
+      "capital_appele": 40603500.0
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Nomination de Madame Lamia CHADDANI en tant que membre du Conseil de Surveillance et du Comit\u00e9 d\u2019Audit et Risques",
+      "Renouvellement du mandat de Monsieur Omar MASNAOUI en tant que membre de Directoire",
+      "Monsieur Rachid ABOU EL BAL, Pr\u00e9sident du Directoire (nomm\u00e9 le 27/06/2022 pour 3 ans)",
+      "Monsieur Mohamed AMARTI-RIFFI, Executive Vice-pr\u00e9sident (nomm\u00e9 le 22/06/2023 pour 3 ans)",
+      "Monsieur Mohamed CHAMI KHAZRAJI, membre du Directoire (nomm\u00e9 le 27/06/2022 pour 3 ans)"
+    ],
+    "executive_team": [
+      "Recrutement pr\u00e9vu de plusieurs cadres dirigeants et commerciaux (am\u00e9lioration des ressources humaines)"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

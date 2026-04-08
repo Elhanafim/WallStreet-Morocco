@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "company_name": "JAIDA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "amount": "328027900"
+    },
+    "shareholding_structure": [
+      {
+        "investor_name": "Caisse de D\u00e9p\u00f4t et de Gestion (CDG)",
+        "percentage": "32.01%"
+      },
+      {
+        "investor_name": "Kreditanstalt Fuer Wiederaufbau (KFW)",
+        "percentage": "31.41%"
+      },
+      {
+        "investor_name": "Caisse des D\u00e9p\u00f4ts et Consignations (CDC)",
+        "percentage": "18.29%"
+      },
+      {
+        "investor_name": "POSTE MAROC",
+        "percentage": "9.15%"
+      },
+      {
+        "investor_name": "Agence Fran\u00e7aise de D\u00e9veloppement (AFD)",
+        "percentage": "9.15%"
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "MEMBRES DU CONSEIL D\u2019ADMINISTRATION"
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

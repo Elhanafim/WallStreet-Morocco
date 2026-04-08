@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "section": "Assets",
+    "elements": [
+      {
+        "element_name": "Total assets",
+        "value": 1500000000,
+        "unit": "currency"
+      },
+      {
+        "element_name": "Cash and cash equivalents",
+        "value": 250000000,
+        "unit": "currency"
+      },
+      {
+        "element_name": "Accounts receivable",
+        "value": 300000000,
+        "unit": "currency"
+      },
+      {
+        "element_name": "Investments",
+        "value": 400000000,
+        "unit": "currency"
+      },
+      {
+        "element_name": "Property, plant and equipment",
+        "value": 550000000,
+        "unit": "currency"
+      },
+      {
+        "element_name": "Total assets",
+        "value": 1500000000,
+        "unit": "currency"
+      }
+    ]
+  },
+  "financial_statements": {
+    "Reporting Period": "N/A",
+    "Revenue": null,
+    "Cost of Goods Sold": null,
+    "Gross Profit": null,
+    "Operating Expenses": null,
+    "Operating Income": null,
+    "Net Income": null,
+    "EBITDA": null,
+    "EBIT": null,
+    "Net Profit Margin": null,
+    "Total Assets": null,
+    "Total Liabilities": null,
+    "Equity": null,
+    "Total Equity": null,
+    "Cash and Cash Equivalents": null,
+    "Total Debt": null,
+    "Debt to Equity Ratio": null,
+    "Return on Assets": null,
+    "Return on Equity": null
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "reporting_period": "N/A",
+    "company_name": "N/A",
+    "currency": "N/A",
+    "financials": {
+      "date": "N/A",
+      "total_revenue": "N/A",
+      "cost_of_revenue": "N/A",
+      "gross_profit": "N/A",
+      "operating_expenses": "N/A",
+      "operating_income": "N/A",
+      "net_income": "N/A",
+      "eps": "N/A"
+    }
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "The consolidated financial statements were approved by the Board of Directors (Conseil d\u2019administration) on March 13, 2025."
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

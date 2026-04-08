@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "company_name": "OCP Group",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "label": "Produits des activit\u00e9s ordinaires",
+        "2024": 9698991,
+        "2023": 277
+      },
+      {
+        "label": "R\u00e9sultats des co-entreprises",
+        "2024": 700774,
+        "2023": 0
+      },
+      {
+        "label": "EBITDA",
+        "2024": 39068,
+        "2023": 29396
+      },
+      {
+        "label": "R\u00e9sultat op\u00e9rationnel r\u00e9current",
+        "2024": 29395,
+        "2023": 21002
+      },
+      {
+        "label": "R\u00e9sultat net de la p\u00e9riode - part du Groupe",
+        "2024": 20466,
+        "2023": 14369
+      },
+      {
+        "label": "Produits stock\u00e9e",
+        "2024": 2171,
+        "2023": -6993
+      },
+      {
+        "label": "Achats consomm\u00e9s",
+        "2024": -36476,
+        "2023": -33750
+      },
+      {
+        "label": "Charges externes",
+        "2024": -11399,
+        "2023": -9671
+      },
+      {
+        "label": "Charges de personnel",
+        "2024": -13059,
+        "2023": -11518
+      },
+      {
+        "label": "Imp\u00f4ts et taxes",
+        "2024": -407,
+        "2023": -313
+      },
+      {
+        "label": "R\u00e9sultat de change sur dettes et cr\u00e9ances op\u00e9rationnelles",
+        "2024": 119,
+        "2023": -697
+      },
+      {
+        "label": "Autres produits et charges r\u00e9currents",
+        "2024": 432287,
+        "2023": 2
+      },
+      {
+        "label": "Autres produits et charges non r\u00e9currents",
+        "2024": 72,
+        "2023": -1564
+      },
+      {
+        "label": "R\u00e9sultat op\u00e9rationnel",
+        "2024": 27831,
+        "2023": 18866
+      },
+      {
+        "label": "Co\u00fbt d'endettement financier net",
+        "2024": -3082,
+        "2023": -2615
+      },
+      {
+        "label": "Autres produits et charges financiers",
+        "2024": 1089,
+        "2023": 713
+      },
+      {
+        "label": "R\u00e9sultat financier",
+        "2024": -2063,
+        "2023": -2465
+      },
+      {
+        "label": "R\u00e9sultat avant imp\u00f4t",
+        "2024": 25768,
+        "2023": 16401
+      },
+      {
+        "label": "Imp\u00f4ts sur r\u00e9sultat",
+        "2024": -4863,
+        "2023": -2105
+      },
+      {
+        "label": "R\u00e9sultat net de la p\u00e9riode",
+        "2024": 20906,
+        "2023": 14296
+      },
+      {
+        "label": "R\u00e9sultat net part du Groupe",
+        "2024": 20466,
+        "2023": 14369
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "capital_social": 8288,
+      "primes_liees_au_capital": 18698
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "date": "2024",
+        "amount": 7186
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "The Board of Directors ensures strategic direction and monitors compliance."
+    ],
+    "executive_team": [
+      "The Audit, Risk and ESG Committee helps control operations and reviews financial and non-financial (ESG) data, including climate-related risks. The Board and Committees supervise the risk management team in understanding key risks, including environmental and climate-related risks. The Group OCP's Sustainability Strategy 'Towards 2040' integrates climate into the commercial strategy and is continuously supervised by the Board and Committees. Responsibility and accountability for risk management are integrated at all levels of the organization."
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

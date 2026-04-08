@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "company_name": "AtlantaSanad Assurance",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "DH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": null,
+    "balance_sheet": {
+      "assets": {
+        "current_assets": {
+          "total": null
+        },
+        "non_current_assets": {
+          "total": null
+        }
+      },
+      "liabilities": {
+        "total": null
+      },
+      "equity": {
+        "total": null
+      }
+    }
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "exercice": 602835950.0,
+      "exercice_precedent": 602835950.0
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "date": "2025",
+        "amount": 5.8,
+        "currency": "DH"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Mohamed Hassan BENSALAH",
+        "role": "President",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Latifa BENSALAH",
+        "role": "Administrateur",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Fatima-Zahra BENSALAH",
+        "role": "Vice-Pr\u00e9sidente",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Karim CHIOUAR",
+        "role": "Administrateur",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Sellam SEKKAT",
+        "role": "Administrateur",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Lotfi SEKKAT",
+        "role": "Administrateur",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Hamid TAWFIKI",
+        "role": "Administrateur",
+        "board_date": "21/05/2024",
+        "end_date": "31/12/2026"
+      },
+      {
+        "name": "Hind LFAL",
+        "role": "Administrateur",
+        "board_date": "25/05/2023",
+        "end_date": "31/12/2025"
+      },
+      {
+        "name": "Adama NDIAYE",
+        "role": "Ind\u00e9pendant",
+        "board_date": "25/05/2023",
+        "end_date": "31/12/2025"
+      },
+      {
+        "name": "Elif ATES \u00d6ZPAK",
+        "role": "Administrateur",
+        "board_date": "17 mai 2022",
+        "end_date": "31/12/2024"
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

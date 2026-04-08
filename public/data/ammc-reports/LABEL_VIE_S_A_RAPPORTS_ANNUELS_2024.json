@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "company_name": "Groupe LabelVie",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": "Commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [
+      {
+        "name": "Retail Holding",
+        "percentage": 51.06
+      },
+      {
+        "name": "Sanlam",
+        "percentage": 6.55
+      },
+      {
+        "name": "Aljia Holding",
+        "percentage": 3.11
+      },
+      {
+        "name": "Salari\u00e9s",
+        "percentage": 1.9
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "President of the Board of Directors"
+    ],
+    "executive_team": [
+      "CEO"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

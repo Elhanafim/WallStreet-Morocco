@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "company_name": null,
+    "ticker": null,
+    "isin": null,
+    "report_type": null,
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "metric": "Net Consolidated Income",
+        "2024": 966.0,
+        "2023": 777.0
+      },
+      {
+        "metric": "Consolidated Net Bank Income",
+        "2024": 4468.2,
+        "2023": 4739.5
+      },
+      {
+        "metric": "Group Net Income",
+        "2024": 875.9,
+        "2023": 710.4
+      },
+      {
+        "metric": "Consolidated Net Bank Income",
+        "2024": 3822.7,
+        "2023": 3822.7
+      }
+    ],
+    "balance_sheet": [
+      {
+        "metric": "Total Consolidated Assets",
+        "2024": 141.0
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

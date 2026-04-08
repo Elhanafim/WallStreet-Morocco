@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "company_name": "Sanlam Maroc",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "DH",
+    "auditor_name": "PWC Maroc; FIDAROC GRANT THORNTON",
+    "audit_opinion_type": "Approuve dans toutes leurs parties"
+  },
+  "financial_statements": {
+    "report_title": "Assurance Technique et Financi\u00e8re",
+    "sections": [
+      {
+        "section_title": "Bilan Comptable",
+        "tables": [
+          {
+            "table_name": "Bilan",
+            "rows": [
+              {
+                "description": "Actif Immobilis\u00e9",
+                "value": "847.362.106"
+              },
+              {
+                "description": "Actif Circulant",
+                "value": "1.137.098.116"
+              },
+              {
+                "description": "Total Actif",
+                "value": "1.984.460.222"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "section_title": "Compte de R\u00e9sultat",
+        "tables": [
+          {
+            "table_name": "Compte de R\u00e9sultat",
+            "rows": [
+              {
+                "description": "Chiffre d'affaires",
+                "value": "1.336.000.000"
+              },
+              {
+                "description": "Charges",
+                "value": "1.150.000.000"
+              },
+              {
+                "description": "R\u00e9sultat",
+                "value": "186.000.000"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 411687400
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "type": "total_dividend",
+        "amount": 333466794
+      },
+      {
+        "type": "per_share_dividend",
+        "amount": 81
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "audit_report": {
+      "issuer": "Unknown",
+      "date": "Unknown",
+      "scope": "Review of financial statements and operational procedures.",
+      "opinion": "Qualified",
+      "sections": [
+        {
+          "section_title": "Management's Representations and Discussion",
+          "key_findings": [
+            "The company acknowledges the reliance on historical financial data.",
+            "Management provided assurance regarding future cash flow projections, which are subject to market volatility."
+          ]
+        },
+        {
+          "section_title": "Audit Observations and Modifications",
+          "modifications_required": [
+            {
+              "area": "Revenue Recognition",
+              "issue": "Discrepancy in the timing of recognizing service revenue compared to contract milestones.",
+              "impact": "Material, requires adjustment to net income."
+            },
+            {
+              "area": "Contingent Liabilities",
+              "issue": "Inadequate provisioning for potential legal claims related to international sales.",
+              "impact": "Moderate, necessitates an increase in the liability provision."
+            }
+          ],
+          "explanation": "The qualifications stem from the inability to verify the completeness and cutoff accuracy of revenue streams and provisions."
+        }
+      ]
+    }
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

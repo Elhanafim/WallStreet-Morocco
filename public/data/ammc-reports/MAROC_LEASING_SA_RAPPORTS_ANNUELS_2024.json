@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "company_name": "Maroc Leasing",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 277676800
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "Banque Centrale Populaire",
+        "percentage": 53.11
+      },
+      {
+        "shareholder": "Holdparts -Groupe BCP",
+        "percentage": 34.01
+      },
+      {
+        "shareholder": "The Arab Investment Company",
+        "percentage": 5.74
+      },
+      {
+        "shareholder": "Flottant en bourse",
+        "percentage": 7.14
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Naziha BELKEZIZ",
+        "role": "President of the Board of Directors",
+        "details": "Nomination le 10 D\u00e9cembre 2024 en tant que pr\u00e9sidente du Conseil d\u2019Administration de Maroc Leasing",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Mohammed Kamal MOKDAD",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Jalil SEBTI",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Abdeslam BENNANI",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Hassan DEBBAGH",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Hassan MOURAD",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      },
+      {
+        "name": "Zaied ARFAOUI",
+        "role": "Board Member",
+        "mandate_expiry": "2027"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Aziz BOUTALEB",
+        "role": "General Director",
+        "details": "Nomination le 16 Mai 2024 en tant que Directeur G\u00e9n\u00e9ral de Maroc Leasing."
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

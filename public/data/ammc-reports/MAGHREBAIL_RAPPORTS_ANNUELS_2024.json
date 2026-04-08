@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "company_name": "Maghrebail",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": 53,
+        "currency": "dirhams"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Azeddine Guessous",
+      "Othman Benjelloun",
+      "Khalid Nasr",
+      "Samir Drissi Oudghiri",
+      "Mounir Kabbaj",
+      "Brahim Benjelloun-Touimi",
+      "Hicham Belmrah",
+      "Ilham Oughla",
+      "Amal Elouazzani"
+    ],
+    "executive_team": [
+      "Azeddine Guessous",
+      "Othman Benjelloun",
+      "Ilham Oughla"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

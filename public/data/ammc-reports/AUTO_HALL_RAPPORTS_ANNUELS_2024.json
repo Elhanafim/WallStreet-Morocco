@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "company_name": "AUTO HALL",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": "commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "date": "2024",
+        "revenue": 1414,
+        "expenses": 4914,
+        "net_profit": 17092
+      }
+    ],
+    "balance_sheet": [
+      {
+        "date": "2024",
+        "capital_permanent": 1542,
+        "retained_earnings": 154805162.29,
+        "total_assets": 255394218.29
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "M. EDDOUHBANI Jamal",
+        "title": "Directeur G\u00e9n\u00e9ral"
+      },
+      {
+        "name": "M. ATMANI Badrane",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. BAAOMAR Rachid",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. BACHIR Abdelwahed",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. BACHIRI Abderrahim",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. BEN EL HARCHA Hamid",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. ACHOUR Saad",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. BENMASSI Yassine",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. ENNACIRI Abdelouahab",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "Mme LAHKIM Nawal",
+        "title": "Directrice P\u00f4le"
+      },
+      {
+        "name": "Hakam Abdellatif",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. MAALMI Abdelaziz",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "Mme ZAGOURI Sanaa",
+        "title": "Directrice P\u00f4le"
+      },
+      {
+        "name": "M. ZIZI Mohamed",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "M. EL MOUDDEN Abdellah",
+        "title": "Directeur P\u00f4le"
+      },
+      {
+        "name": "Mme GHARIBI Samia",
+        "title": "Directrice P\u00f4le"
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

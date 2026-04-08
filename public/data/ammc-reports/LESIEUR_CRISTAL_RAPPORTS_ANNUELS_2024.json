@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "company_name": "Lesieur Cristal",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": [
+      {
+        "name": "M. Peter Tagge",
+        "title": "Directeur G\u00e9n\u00e9ral"
+      },
+      {
+        "name": "M. Baligh Ghedira",
+        "title": "Directeur G\u00e9n\u00e9ral Adjoint"
+      },
+      {
+        "name": "Mme Nadia Moukafie",
+        "title": "Directrice Administrative et Financi\u00e8re"
+      },
+      {
+        "name": "M. Sa\u00efd Dahbani",
+        "title": "Directeur des Op\u00e9rations Industrielles"
+      },
+      {
+        "name": "M. Adil Ousti",
+        "title": "Directeur Transformation et Syst\u00e8mes d\u2019Information"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

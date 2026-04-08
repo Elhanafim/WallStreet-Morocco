@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "company_name": "AUTO NEJMA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "annual_financial_report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": "CAC",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [
+      {
+        "act_total_2024": "2616",
+        "act_total_2023": "2070"
+      },
+      {
+        "immobilisations_2024": "715",
+        "immobilisations_2023": "434"
+      },
+      {
+        "stocks_2024": "1017",
+        "stocks_2023": "863"
+      },
+      {
+        "creances_actif_circulant_2024": "741",
+        "creances_actif_circulant_2023": "757"
+      },
+      {
+        "titres_placement_2024": "97",
+        "titres_placement_2023": "88"
+      },
+      {
+        "tresorerie_actif_2024": "46",
+        "tresorerie_actif_2023": "40"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 1023264,
+      "currency": "actions",
+      "description": "Nombre d'actions"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "HAKAM ABDELLATIF FINANCE",
+        "percentage": 31.44,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "MAD INVEST",
+        "percentage": 19.35,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "FINAM",
+        "percentage": 14.32,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "HAKAM EL ABBES PARTICIPATIONS",
+        "percentage": 9.67,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "BISMILAH HOLDING",
+        "percentage": 8.5,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "ZAK FINANCES",
+        "percentage": 8.9,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "LOUKSSOS HOLDING",
+        "percentage": 4.57,
+        "notes": "100%"
+      },
+      {
+        "shareholder": "DIVERS",
+        "percentage": 3.23,
+        "notes": "100%"
+      }
+    ],
+    "dividends": [
+      {
+        "amount_per_share": 120,
+        "currency": "Dhs",
+        "description": "Dividende ordinaire par action"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Abdellatif HAKAM",
+        "role": "President",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "Naoual HAKAM",
+        "role": "Administrator",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "Hamza HAKAM",
+        "role": "Administrator",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "Abdelkrim HAKAM",
+        "role": "Administrator",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "El Abb\u00e8s HAKAM",
+        "role": "Administrator",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "Janie Carmen Madeleine LETROT",
+        "role": "Independent Administrator",
+        "mandate_status": "Non-executive"
+      },
+      {
+        "name": "Adil BENNANI",
+        "role": "Invited Executive",
+        "mandate_status": "Executive"
+      },
+      {
+        "name": "Youssef EL IRAKI",
+        "role": "Invited Executive",
+        "mandate_status": "Executive"
+      },
+      {
+        "name": "Aziz RAOUDA",
+        "role": "Invited Executive",
+        "mandate_status": "Executive"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Adil BENNANI",
+        "role": "Invited Executive"
+      },
+      {
+        "name": "Youssef EL IRAKI",
+        "role": "Invited Executive"
+      },
+      {
+        "name": "Aziz RAOUDA",
+        "role": "Invited Executive"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

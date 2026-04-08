@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "company_name": "Sogelease Maroc",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": 2024,
+    "currency": "DH",
+    "auditor_name": "Forvis Mazars and PWC",
+    "audit_opinion_type": "Unqualified"
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "label": "PRODUITS D'EXPLOITATION BANCAIRE",
+        "2024": 2413342,
+        "2023": 2412822
+      },
+      {
+        "label": "PRODUIT NET BANCAIRE",
+        "2024": 183315197066,
+        "2023": 183315197066
+      },
+      {
+        "label": "R\u00c9SULTAT BRUT D'EXPLOITATION",
+        "2024": 120598136891,
+        "2023": null
+      },
+      {
+        "label": "R\u00c9SULTAT COURANT",
+        "2024": 60935123836,
+        "2023": null
+      },
+      {
+        "label": "R\u00c9SULTAT NET DE L'EXERCICE",
+        "2024": 26407,
+        "2023": 65622
+      }
+    ],
+    "balance_sheet": [
+      {
+        "label": "TOTAL ACTIF",
+        "2024": 7260438,
+        "2023": 7243459
+      },
+      {
+        "label": "TOTAL PASSIF",
+        "2024": 7260438,
+        "2023": 7243459
+      }
+    ],
+    "cash_flow_statement": [
+      {
+        "label": "PRODUIT NET BANCAIRE",
+        "2024": 183315197066,
+        "2023": null
+      },
+      {
+        "label": "R\u00c9SULTAT NET DE L'EXERCICE",
+        "2024": 26407,
+        "2023": 65622
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

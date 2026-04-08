@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "company_name": "Alliances Darna",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "label": "Chiffre d'affaires",
+        "value_2024": 1979603,
+        "value_2023": 1653105
+      },
+      {
+        "label": "Autres produits d\u2019exploitation",
+        "value_2024": 31302,
+        "value_2023": 25389
+      },
+      {
+        "label": "Reprises d\u2019exploitation",
+        "value_2024": 12591,
+        "value_2023": 220673
+      },
+      {
+        "label": "Achats consomm\u00e9s de mati\u00e8res et fournitures",
+        "value_2024": 558375,
+        "value_2023": 931480
+      },
+      {
+        "label": "Autres charges externes",
+        "value_2024": 50882,
+        "value_2023": 47801
+      },
+      {
+        "label": "Imp\u00f4ts et taxes",
+        "value_2024": 77135,
+        "value_2023": 37400
+      },
+      {
+        "label": "Charges de personnel",
+        "value_2024": 47400,
+        "value_2023": 48429
+      },
+      {
+        "label": "Dotations d\u2019exploitation",
+        "value_2024": 17295,
+        "value_2023": 26762
+      },
+      {
+        "label": "Produits financiers",
+        "value_2024": 7293,
+        "value_2023": 2033
+      },
+      {
+        "label": "Charges financi\u00e8res",
+        "value_2024": 21407,
+        "value_2023": 18011
+      },
+      {
+        "label": "Produits non courants",
+        "value_2024": 24284,
+        "value_2023": 26953
+      },
+      {
+        "label": "Charges non courantes",
+        "value": "N/A"
+      },
+      {
+        "label": "R\u00e9sultat net",
+        "value": "N/A"
+      }
+    ],
+    "Notes": "Values are in millions of Dirham."
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "Capital social": "857000000"
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": "171625"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

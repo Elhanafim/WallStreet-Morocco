@@ -1,0 +1,56 @@
+{
+  "meta": {
+    "company_name": "Marsa Maroc",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": "Commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "31/12/2024": 733956,
+      "31/12/2023": 733956
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "date": "2023",
+        "amount": 80,
+        "currency": "Mad"
+      },
+      {
+        "date": "2024",
+        "amount": 9.5,
+        "currency": "Mad"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "R\u00e9unions des instances de gouvernance"
+    ],
+    "executive_team": [
+      "Transparence de la gouvernance",
+      "Dialogue social"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

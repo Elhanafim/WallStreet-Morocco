@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "company_name": "Autoro",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "data": [
+      {
+        "date": "2024-05-13",
+        "Revenue": 1812,
+        "Expenses": 124,
+        "Profit": 1688
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "committee": "Comit\u00e9 de la Strat\u00e9gie et de l\u2019Investissement",
+        "chair": "Monsieur Abdelfetah SAHIBI, Secr\u00e9taire G\u00e9n\u00e9ral du Minist\u00e8re de l\u2019\u00c9quipement et de l\u2019Eau",
+        "members": [
+          "Monsieur KHALID EL HATTAB, Agence Nationale de Gestion Strat\u00e9gique des Participations de l\u2019Etat et de Suivi des Performances des Etablissements et Entreprises Publics",
+          "Madame Dounia TAARJI, Pr\u00e9sidente du Directoire du Fonds Hassan II",
+          "Madame Dayae OUDGHIRI, Administrateur ind\u00e9pendant",
+          "Monsieur Ahmed SKIM, Directeur de la Strat\u00e9gie et du Financement - Minist\u00e8re De l\u2019Equipement Et De l\u2019Eau",
+          "Monsieur Abdeslam JORIO, Chef de la Division des Secteurs de l\u2019Infrastructure - Minist\u00e8re d\u00e9l\u00e9gu\u00e9 aupr\u00e8s du Ministre de l\u2019Economie et des Finances Charg\u00e9 du Budget",
+          "Monsieur Yassine HILILE, Commissaire du Gouvernement aupr\u00e8s d\u2019ADM"
+        ]
+      },
+      {
+        "committee": "Comit\u00e9 d\u2019Audit",
+        "chair": "Madame Dayae OUDGHIRI, Administrateur Ind\u00e9pendant d\u2019ADM",
+        "members": [
+          "Monsieur KHALID EL HATTAB, Agence Nationale de Gestion Strat\u00e9gique des Participations de l\u2019Etat et de Suivi des Performances des Etablissements et Entreprises Publics",
+          "Madame Myriam BRAHIMI, Chef de service Infrastructures et Financier, Fonds Hassan II pour le D\u00e9veloppement Economique et Social",
+          "Monsieur Yassine HILILE, Commissaire du Gouvernement aupr\u00e8s d\u2019ADM",
+          "Monsieur Mhamed BEN HAMICH, Directeur de la Caisse pour le financement routier",
+          "Monsieur Abdeslam JORIO, Chef de la Division des Secteurs de l\u2019Infrastructure - Minist\u00e8re D\u00e9l\u00e9gu\u00e9 aupr\u00e8s du Ministre de l\u2019Economie et des Finances, charg\u00e9 du Budget"
+        ]
+      },
+      {
+        "committee": "Comit\u00e9 de Gouvernance",
+        "chair": "Monsieur Mustapha FARES, Directeur G\u00e9n\u00e9ral de l\u2019Agence Nationale des Ports, repr\u00e9sentante de l\u2019Agence Nationale des Ports",
+        "members": [
+          "Monsieur Ahmed BELFAHMI, Agence Nationale de Gestion Strat\u00e9gique des Participations de l\u2019Etat et de Suivi des Performances des Etablissements et Entreprises Publics",
+          "Repr\u00e9sentant de CDG D\u00e9veloppement",
+          "Monsieur Ahmed SKIM, Directeur de la Strat\u00e9gie et du Financement - Minist\u00e8re De l\u2019Equipement Et De l\u2019Eau",
+          "Monsieur Yassine HILILE, Commissaire du Gouvernement aupr\u00e8s d\u2019ADM"
+        ]
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

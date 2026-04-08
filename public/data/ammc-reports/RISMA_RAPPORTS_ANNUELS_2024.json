@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "company_name": "RISMA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [
+      {
+        "owner": "GROUPE RMA WATANYA",
+        "percentage": 0.1232
+      },
+      {
+        "owner": "MUTRIS",
+        "percentage": 0.1194
+      },
+      {
+        "owner": "CIMR",
+        "percentage": 0.0599
+      },
+      {
+        "owner": "FLOTTANT",
+        "percentage": 0.3334
+      },
+      {
+        "owner": "MCMA-MAMDA",
+        "percentage": 0.3674
+      }
+    ],
+    "dividends": [
+      {
+        "date": 2024,
+        "amount": 7.0,
+        "unit": "DH"
+      },
+      {
+        "date": 2024,
+        "amount": 86,
+        "unit": "Mdh"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Le Conseil de Surveillance assure non et diversifi\u00e9e.",
+      "La pr\u00e9sence de membres ind\u00e9pendants au sein du Conseil de Surveillance garantit \u00e0 l\u2019actionnaires une analyse, un jetons de jugement, une prise de d\u00e9cision et des actions empreintes d'une r\u00e9elle ind\u00e9pendance, au service de l\u2019int\u00e9r\u00eat de l'entreprise.",
+      "En 2024, le Conseil de Surveillance a tenu 6 r\u00e9unions, avec un taux de pr\u00e9sence de 100%."
+    ],
+    "executive_team": [
+      "RISMA est une soci\u00e9t\u00e9 anonyme \u00e0 Directoire et Conseil de Surveillance. Cette structure duale permet de s\u00e9parer clairement les responsabilit\u00e9s : le Directoire assure les fonctions de direction et de gestion, tandis que le Conseil de Surveillance se concentre sur le contr\u00f4le et la prise de d\u00e9cisions par des politiques transparentes. Directoire en fixant les lignes directrices pour le d\u00e9veloppement de l'entreprise."
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

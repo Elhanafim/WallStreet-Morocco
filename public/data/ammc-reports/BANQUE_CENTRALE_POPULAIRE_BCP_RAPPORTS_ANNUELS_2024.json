@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "company_name": "Groupe BCP",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "year": 2023,
+        "figure": 22.8
+      },
+      {
+        "year": 2024,
+        "figure": 25.6
+      }
+    ],
+    "balance_sheet": [
+      {
+        "year": 2023,
+        "figure": 520.2
+      },
+      {
+        "year": 2024,
+        "figure": 542.3
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

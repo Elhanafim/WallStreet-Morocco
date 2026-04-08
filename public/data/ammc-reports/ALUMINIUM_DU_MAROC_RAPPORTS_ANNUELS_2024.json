@@ -1,0 +1,168 @@
+{
+  "meta": {
+    "company_name": null,
+    "ticker": null,
+    "isin": null,
+    "report_type": "annual",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [
+      {
+        "period": "2024",
+        "category": "Non-Current Assets",
+        "details": [
+          {
+            "name": "Non-Current Assets",
+            "gross_ats": 2314664.0,
+            "net_ats": 491731.2
+          },
+          {
+            "name": "Intangible Assets",
+            "gross_ats": 34813021.39,
+            "net_ats": 10009275.3
+          },
+          {
+            "name": "Property, Plant, and Equipment",
+            "gross_ats": 662116483.64,
+            "net_ats": 203406085.92
+          }
+        ],
+        "sub_details": [
+          {
+            "name": "Preliminary expenses",
+            "gross_ats": null,
+            "net_ats": null
+          },
+          {
+            "name": "Charges to be distributed over several years",
+            "gross_ats": 2314664.0,
+            "net_ats": 491731.2
+          },
+          {
+            "name": "Reimbursement premiums on bonds",
+            "gross_ats": null,
+            "net_ats": null
+          },
+          {
+            "name": "Intangible assets",
+            "gross_ats": 34813021.39,
+            "net_ats": 10009275.3
+          },
+          {
+            "name": "Research and development assets",
+            "gross_ats": null,
+            "net_ats": null
+          },
+          {
+            "name": "Patents, trademarks, rights and similar assets",
+            "gross_ats": 1998828.0,
+            "net_ats": 0.0
+          },
+          {
+            "name": "Goodwill",
+            "gross_ats": 1290000.0,
+            "net_ats": 290000.0
+          },
+          {
+            "name": "Other intangible assets",
+            "gross_ats": 31524193.39,
+            "net_ats": 8719275.3
+          },
+          {
+            "name": "Property, Plant, and Equipment",
+            "gross_ats": 662116483.64,
+            "net_ats": 203406085.92
+          },
+          {
+            "name": "Land",
+            "gross_ats": 40200502.0,
+            "net_ats": 2620502.0
+          },
+          {
+            "name": "Buildings",
+            "gross_ats": 167703105.05,
+            "net_ats": 68215419.38
+          },
+          {
+            "name": "Technical installations, equipment and tools",
+            "gross_ats": 415145442.51,
+            "net_ats": 89904736.54
+          }
+        ]
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "amount": "46595400",
+      "currency_code": "DH"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "HOLDING S. A",
+        "percentage": "38%"
+      },
+      {
+        "shareholder": "SOPINORD",
+        "percentage": "19%"
+      },
+      {
+        "shareholder": "COFINORD",
+        "percentage": "4%"
+      },
+      {
+        "shareholder": "HOLDING DE PARTICIPATION ET D'INVESTISSEMENT DU NORD",
+        "percentage": "3%"
+      },
+      {
+        "shareholder": "FETTOUMA SEBTI",
+        "percentage": "1%"
+      },
+      {
+        "shareholder": "HAMZA AYOUBI",
+        "percentage": "5%"
+      },
+      {
+        "shareholder": "ALUCOIL SAU",
+        "percentage": "4%"
+      },
+      {
+        "shareholder": "DIVERS ACTIONNAIRES",
+        "percentage": "26%"
+      }
+    ],
+    "dividends": [
+      {
+        "amount": "46595400",
+        "currency_code": "dhs",
+        "year": "2024"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "The Board of Directors was marked by the passing of Sidi Mohamed EL ALAMI, Chairman of the Board of Directors and majority shareholder of the Aluminium du Maroc Group.",
+      "The Board of Directors reports on its functioning, committees, and general meetings."
+    ],
+    "executive_team": [
+      "The General Management (Direction G\u00e9n\u00e9rale) and all teams of Aluminium du Maroc."
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

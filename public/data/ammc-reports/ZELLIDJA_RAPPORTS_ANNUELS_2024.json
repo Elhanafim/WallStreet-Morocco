@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "company_name": "Zellidja, SA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "total_share_capital": 3980000
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "description": "R\u00e9sultat net de l'exercice",
+        "amount": 4779018.85
+      },
+      {
+        "description": "Dividendes",
+        "amount": null
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Abdelmjid TAZLAOUI",
+        "role": "Pr\u00e9sident Directeur G\u00e9n\u00e9ral",
+        "status": "Administrateur"
+      },
+      {
+        "name": "SOMED",
+        "role": "Administrateur",
+        "status": "Administrateur"
+      },
+      {
+        "name": "AXA Assurance Maroc",
+        "role": "Administrateur",
+        "status": "Administrateur"
+      },
+      {
+        "name": "Rebab",
+        "role": "Administrateur",
+        "status": "Administrateur"
+      },
+      {
+        "name": "Somed D\u00e9veloppement",
+        "role": "Administrateur",
+        "status": "Administrateur"
+      },
+      {
+        "name": "Bouchra BENZEKRI",
+        "role": "Administrateur",
+        "status": "Administrateur ind\u00e9pendant"
+      },
+      {
+        "name": "Ismail AKALAY",
+        "role": "Administrateur",
+        "status": "Administrateur ind\u00e9pendant"
+      }
+    ],
+    "executive_team": [
+      {
+        "role": "N/A",
+        "details": "REMUNERATION DES DIRIGEANTS: N/A"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

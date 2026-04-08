@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "company_name": "COLORADO",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "DH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "year": 2024,
+        "revenue": 605.0,
+        "cost_of_goods_sold": 237.3,
+        "gross_profit": 367.7,
+        "gross_profit_rate": 60.7,
+        "operating_result": 93.1,
+        "net_income": 45.3
+      },
+      {
+        "year": 2023,
+        "revenue": 611.4,
+        "cost_of_goods_sold": 208.8,
+        "gross_profit": 402.6,
+        "gross_profit_rate": 65.9,
+        "operating_result": null,
+        "net_income": null
+      }
+    ],
+    "balance_sheet": [
+      {
+        "year": 2024,
+        "capital_own_excluding_result": 290.2,
+        "debt_financing": 7.5,
+        "total_equity_and_debt": 297.7,
+        "fixed_assets_net_total": 122.8,
+        "fixed_assets_tangible_value": 326.5,
+        "amortization_tangible_assets": 209.9,
+        "intangible_assets_net_total": 7.1,
+        "fixed_assets_financial_net": 0.9
+      },
+      {
+        "year": 2023,
+        "capital_own_excluding_result": 287.8,
+        "debt_financing": 8.7,
+        "total_equity_and_debt": 296.5,
+        "fixed_assets_net_total": 130.5,
+        "fixed_assets_tangible_value": 320.8,
+        "amortization_tangible_assets": 197.5,
+        "intangible_assets_net_total": 7.2,
+        "fixed_assets_financial_net": 1.2
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "capital_social": "161176110"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "COLBERT FINANCES",
+        "percentage": "67.94%"
+      },
+      {
+        "shareholder": "DIVERS ACTIONNAIRES",
+        "percentage": "23.61%"
+      },
+      {
+        "shareholder": "YAN SASU",
+        "percentage": "4.00%"
+      },
+      {
+        "shareholder": "Soleiman BERRADA",
+        "percentage": "2.09%"
+      },
+      {
+        "shareholder": "Abed CHAGAR",
+        "percentage": "1.99%"
+      },
+      {
+        "shareholder": "Josette DUCASTEL",
+        "percentage": "0.35%"
+      },
+      {
+        "shareholder": "Sophia BERRADA",
+        "percentage": "0.02%"
+      }
+    ],
+    "dividends": [
+      {
+        "period": "2024",
+        "amount": "36264624.75"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

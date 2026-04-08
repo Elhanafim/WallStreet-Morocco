@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "company_name": "Disway",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": 2024,
+    "currency": "MDH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "amount": 188576200
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "year": 2024,
+        "amount": 66001670
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

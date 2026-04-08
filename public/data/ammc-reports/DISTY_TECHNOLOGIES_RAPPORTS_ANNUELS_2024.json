@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "company_name": "Disty Technologies",
+    "ticker": "N/A",
+    "isin": "N/A",
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": "N/A",
+    "audit_opinion_type": "N/A"
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 657000000
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": 14468815
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

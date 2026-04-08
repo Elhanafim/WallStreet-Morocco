@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "company_name": "Addoha",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "company_name": "N/A",
+    "section": "Statement of Cash Flows",
+    "period": "N/A",
+    "accounts": [
+      {
+        "account_name": "Cash flows from operating activities",
+        "amount": "N/A"
+      },
+      {
+        "account_name": "Cash flows from investing activities",
+        "amount": "N/A"
+      },
+      {
+        "account_name": "Cash flows from financing activities",
+        "amount": "N/A"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "share_capital": 4025512540.0
+    },
+    "shareholding_structure": [
+      {
+        "holder_name": "SEFRIOUI ANAS",
+        "shares": 2580666650.0
+      },
+      {
+        "holder_name": "CASA BENZEKRI",
+        "shares": 66620.0
+      },
+      {
+        "holder_name": "MOUNIA EL FARISSI CASA",
+        "shares": 66620.0
+      },
+      {
+        "holder_name": "EL FARISSI CASA",
+        "shares": 66620.0
+      },
+      {
+        "holder_name": "SEFRIOUI MALIK",
+        "shares": 66620.0
+      },
+      {
+        "holder_name": "FLOTTANT EN BOURSE",
+        "shares": 1444579410.0
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "role": "Pr\u00e9sident du Conseil d\u2019Administration",
+        "name": "Anas SEFRIOUI",
+        "period": "27/06/2023-2028"
+      },
+      {
+        "role": "Vice-pr\u00e9sident",
+        "name": "Kenza SEFRIOUI",
+        "period": "27/06/2023-2028"
+      },
+      {
+        "role": "Directeur G\u00e9n\u00e9ral",
+        "name": "Anas BERRADA SOUNNI",
+        "period": "27/06/2023-2028"
+      },
+      {
+        "role": "Administrateur",
+        "name": "Philippe FAURE",
+        "period": "27/06/2019-2024"
+      },
+      {
+        "role": "Administrateur",
+        "name": "Jean-Ren\u00e9 FOURTOU",
+        "period": "27/06/2019-2024"
+      },
+      {
+        "role": "Administrateur",
+        "name": "Azzedine KETTANI",
+        "period": "22/06/2021-2026"
+      }
+    ],
+    "executive_team": [
+      {
+        "role": "Enveloppe annuelle nette des salaires vers\u00e9s aux principaux directeurs",
+        "value": "15017"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

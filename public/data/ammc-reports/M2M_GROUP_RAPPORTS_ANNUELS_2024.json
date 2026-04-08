@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "company_name": "M2M Group",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "M2M GROUP SA": {
+        "exercice": 64777700.0,
+        "pr\u00e9c\u00e9dent": 64777700.0
+      }
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "type": "Dividendes vers\u00e9s aux actionnaires de la soci\u00e9t\u00e9 m\u00e8re",
+        "value": 0.0,
+        "period": "31/12/2024"
+      },
+      {
+        "type": "Dividendes vers\u00e9s aux minoritaires des soci\u00e9t\u00e9s int\u00e9gr\u00e9s",
+        "value": 0.0,
+        "period": "31/12/2023"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Redouan BAYED (Chairman)",
+      "Abdelkrim MATROUF (Director)",
+      "Mohamed MAIZI (Director)",
+      "Mohamed MOUKHLIS (Director)",
+      "Mostafa HABLI (Director)",
+      "Rachid HANANE (Director)",
+      "Mustapha Asmoun (Independent Director)",
+      "Sofian BAYED (Director)",
+      "RMK SA (Director represented by M. Redouan BAYED)",
+      "The Board of Directors (10 members)"
+    ],
+    "executive_team": [
+      "Direction G\u00e9n\u00e9rale",
+      "Comit\u00e9 de Direction",
+      "Comit\u00e9 Ex\u00e9cutif",
+      "Pr\u00e9sident Directeur g\u00e9n\u00e9ral (Redouan BAYED)",
+      "Directeur G\u00e9n\u00e9ral D\u00e9l\u00e9gu\u00e9 (Mohamed MOUKHLIS)",
+      "Directeur G\u00e9n\u00e9ral D\u00e9l\u00e9gu\u00e9 groupe (Karim MATROUF)",
+      "Comit\u00e9 de nomination et de r\u00e9mun\u00e9ration",
+      "Comit\u00e9 RH",
+      "Comit\u00e9 Innovation",
+      "Comit\u00e9 d\u2019audit et du risque"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

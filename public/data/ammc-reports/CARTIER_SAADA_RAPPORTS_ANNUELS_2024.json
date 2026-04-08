@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "company_name": "CARTIER SAADA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2025",
+    "currency": "unknown",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": "5265000",
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "13 administrateurs",
+      "Le Pr\u00e9sident",
+      "Le Directeur G\u00e9n\u00e9ral",
+      "Le Directeur G\u00e9n\u00e9ral Adjoint",
+      "1 membre du comit\u00e9 de direction",
+      "2 administrateurs ind\u00e9pendants",
+      "3 administrateurs repr\u00e9sentants les actionnaires partenaires commerciaux",
+      "4 administrateurs repr\u00e9sentants les autres actionnaires"
+    ],
+    "executive_team": [
+      "Monsieur Moulay Hassan DEBBARH",
+      "Directeur G\u00e9n\u00e9ral",
+      "Monsieur Pierre CARTIER",
+      "Pr\u00e9sident du conseil d\u2019administration"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

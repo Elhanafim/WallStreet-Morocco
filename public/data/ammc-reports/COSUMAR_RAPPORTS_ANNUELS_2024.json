@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "company_name": "COSUMAR",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": "Commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "M. Hicham BELMRAH",
+      "M. Hassan BOULAKNADAL",
+      "M. Serge VARSANO",
+      "Wafa Assurance",
+      "R\u00e9gime Collectif d\u2019Allocation de Retraite \u00ab RCAR \u00bb",
+      "Mutuelle Agricole Marocaine d\u2019Assurance",
+      "Mme Naima SAIGH",
+      "M. Mohammed Hicham CHEBIHI HASSANI",
+      "Mme Lalla Abla KERDOUDI KOLALI",
+      "Caisse Interprofessionnelle Marocaine de Retraite \u00ab CIMR \u00bb",
+      "M. Mohamed Aboumejd",
+      "Mme Lalla Abla KERDOUDI KOLALI",
+      "CELACO",
+      "MAMDA/MCMA",
+      "RAFFINERIE",
+      "AXA ASSURANCE",
+      "SAHAM ASSURANCE",
+      "SUCDEN MAROC",
+      "WAFA ASSURANCE",
+      "CIMR",
+      "COSUMAR"
+    ],
+    "executive_team": [
+      "Samira ABARAGH"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

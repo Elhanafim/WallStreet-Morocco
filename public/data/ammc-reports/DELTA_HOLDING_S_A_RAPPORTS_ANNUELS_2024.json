@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "company_name": "Delta holding",
+    "ticker": null,
+    "isin": null,
+    "report_type": "annual",
+    "fiscal_year": 2024,
+    "currency": "DH",
+    "auditor_name": "WORLD CONSEIL ET AUDIT, H2B EXPERTS",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "section": "Cash Flow Statement",
+    "items": [
+      {
+        "line": "Cash flow from operating activities",
+        "2022": "164770250",
+        "2021": "127901300"
+      },
+      {
+        "line": "Cash flow from investing activities",
+        "2022": "-135000000",
+        "2021": "-98000000"
+      },
+      {
+        "line": "Cash flow from financing activities",
+        "2022": "50000000",
+        "2021": "25000000"
+      },
+      {
+        "line": "Net change in cash and cash equivalents",
+        "2022": "297702500",
+        "2021": "54101300"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "current_value": 876000000
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "date": "31-d\u00e9c.-23",
+        "value": 12264000000
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

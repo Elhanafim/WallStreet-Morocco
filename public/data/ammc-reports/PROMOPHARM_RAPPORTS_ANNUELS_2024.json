@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "company_name": "Promopharm S.A",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "report_name": "Compte de r\u00e9sultat",
+    "period_end": "N/A",
+    "currency": "N/A",
+    "sections": [
+      {
+        "section_name": "R\u00e9sultat d'exploitation",
+        "subsections": [
+          {
+            "subsection_name": "R\u00e9sultat net",
+            "items": [
+              {
+                "item_name": "R\u00e9sultat avant imp\u00f4t",
+                "value": "N/A"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "2024": "100000000.00",
+      "2023": "100000000.00"
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "M. Eyad K. Abuawad, PR\u00c9SIDENT DU CONSEIL D\u2019ADMINISTRATION DE PROMOPHARM S.A"
+    ],
+    "executive_team": [
+      "M. Mohamed Alalami, Directeur G\u00e9n\u00e9ral"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

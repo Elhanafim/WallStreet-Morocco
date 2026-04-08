@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "company_name": "ENNAKL AUTOMOBILES S.A",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": 2024,
+    "currency": "TND",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "date": "31 d\u00e9cembre 2024",
+        "revenue": 594989200,
+        "net_profit": 44218473
+      }
+    ],
+    "balance_sheet": [
+      {
+        "date": "31 d\u00e9cembre 2024",
+        "total_assets": 380946396,
+        "equity": 197047584,
+        "investment_securities": 72087348
+      }
+    ],
+    "cash_flow_statement": [
+      {
+        "date": "31 d\u00e9cembre 2024",
+        "revenue": null,
+        "net_profit": null
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 30000000
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "board of directors",
+      "administrators",
+      "administrateur repr\u00e9sentant les actionnaires minoritaires Tunisiens"
+    ],
+    "executive_team": [
+      "direction",
+      "comit\u00e9 permanent d\u2019audit"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

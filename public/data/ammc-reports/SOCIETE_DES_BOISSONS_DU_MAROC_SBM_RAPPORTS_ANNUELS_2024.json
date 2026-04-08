@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "company_name": "Soci\u00e9t\u00e9 des Boissons du Maroc",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [
+      {
+        "owner": "Holding majoritairement d\u00e9tenue par Caisse Interprofessionnelle Marocaine de Retraite (CIMR)",
+        "percentage": 69.3,
+        "type": "actionnaires"
+      },
+      {
+        "owner": "Groupe Castel",
+        "percentage": 11.5,
+        "type": "actionnaires"
+      },
+      {
+        "owner": "AUTRES",
+        "percentage": 3.8,
+        "type": "actionnaires"
+      }
+    ],
+    "dividends": [
+      {
+        "year": 2024,
+        "amount_mdh": 3.11
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "90% part des administrateurs non-ex\u00e9cutifs dans le Conseil d\u2019Administration"
+    ],
+    "executive_team": [
+      "M. S\u00c9BASTIEN YVES-MENAGER Directeur G\u00e9n\u00e9ral",
+      "M. PHILIPPE CORBIN",
+      "M. NABIL EL OUADI Directeur Financier & Syst\u00e8mes",
+      "MME MOUNIA ALAMI Directrice de la Qualit\u00e9",
+      "MME NAWAL TAHIRI Directrice Juridique, Gouvernance & RSE",
+      "M. ANIS CHAOUI Directeur Industriel",
+      "M. MOHAMED TADILI Directeur des Ressources Humaines",
+      "M. IMAD GUESSOUS Directeur Commercial & Marketing",
+      "M. IMAD-EDDINE GROUH Directeur des Achats"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

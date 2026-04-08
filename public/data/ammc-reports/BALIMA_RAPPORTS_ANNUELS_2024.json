@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "company_name": "Soci\u00e9t\u00e9 Immobili\u00e8re Balima",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Communication",
+    "fiscal_year": 2024,
+    "currency": "KDH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "label": "Revenue",
+        "period_2024": 63153,
+        "period_2023": 51615,
+        "change_percentage": 22
+      },
+      {
+        "label": "Operating Income",
+        "period_2024": 17086,
+        "period_2023": 9916,
+        "change_percentage": 72
+      },
+      {
+        "label": "Operating Income",
+        "period_2024": 15183,
+        "period_2023": 10601,
+        "change_percentage": 43
+      },
+      {
+        "label": "Revenue",
+        "period_2024": 49149,
+        "period_2023": 48489,
+        "change_percentage": 1
+      },
+      {
+        "label": "Net Income",
+        "period_2024": 14281,
+        "period_2023": 8891,
+        "change_percentage": 61
+      },
+      {
+        "label": "Net Income",
+        "period_2024": 13495,
+        "period_2023": 9971,
+        "change_percentage": 35
+      }
+    ],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 34880000
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "period": "2023",
+        "amount": 9592000.0
+      },
+      {
+        "period": "2024",
+        "amount": 9592000.0
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Jacqueline Mathias",
+        "role": "Pr\u00e9sident Directeur G\u00e9n\u00e9ral",
+        "type": "Ex\u00e9cutif",
+        "mandate_end": "2027"
+      },
+      {
+        "name": "Philip van der Heijden",
+        "role": "Membre",
+        "type": "Non ex\u00e9cutif",
+        "mandate_end": "2029"
+      },
+      {
+        "name": "Louis-Bernard Multitec",
+        "role": "Membre",
+        "type": "Ex\u00e9cutif",
+        "mandate_end": "2028"
+      },
+      {
+        "name": "Yann Lechartier",
+        "role": "Membre",
+        "type": "Ex\u00e9cutif",
+        "mandate_end": "2025"
+      },
+      {
+        "name": "Samir Agoumi",
+        "role": "Membre",
+        "type": "Ind\u00e9pendant",
+        "mandate_end": "2026"
+      },
+      {
+        "name": "Rachid Belkahia",
+        "role": "Membre",
+        "type": "Ind\u00e9pendant",
+        "mandate_end": "2026"
+      },
+      {
+        "name": "Karim Benjelloun",
+        "role": "Membre",
+        "type": "Ind\u00e9pendant",
+        "mandate_end": "2026"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Jacqueline Mathias",
+        "title": "Pr\u00e9sident Directeur G\u00e9n\u00e9ral"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

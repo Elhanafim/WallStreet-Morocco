@@ -1,0 +1,124 @@
+{
+  "meta": {},
+  "financial_statements": {
+    "section_title": "Risques et garanties de tr\u00e9sorerie",
+    "subsection_title": "Gestion du risque de cr\u00e9dit et de liquidit\u00e9",
+    "key_points": [
+      {
+        "title": "\u00c9valuation du risque de cr\u00e9dit",
+        "text": "L'\u00e9valuation du risque de cr\u00e9dit repose sur des mod\u00e8les stochastiques avanc\u00e9s (ex: mod\u00e8les PD/LGD/EAD) int\u00e9grant l'analyse financi\u00e8re des contreparties et l'indice de solvabilit\u00e9 sectoriel."
+      },
+      {
+        "title": "Mise en place de lignes de garantie",
+        "text": "Des m\u00e9canismes de garantie sp\u00e9cifiques (cautions bancaires, nantissements, garanties souveraines) sont mobilis\u00e9s pour couvrir les expositions importantes, avec des niveaux de couverture ajustables en fonction du risque per\u00e7u."
+      }
+    ],
+    "summary_point": "La gestion proactive et multirisques, combinant des garanties de tr\u00e9sorerie robustes et une mod\u00e9lisation avanc\u00e9e du risque de cr\u00e9dit, assure la solidit\u00e9 financi\u00e8re des op\u00e9rations."
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "product_id": "172139",
+    "category": "business",
+    "product_name": "Software for Business Administration and Inventory Management",
+    "price": "39.99",
+    "currency": "USD",
+    "description": "Comprehensive software solution designed to streamline and automate core business operations, including inventory tracking, sales management, and financial reporting. Ideal for small to medium-sized enterprises (SMEs) looking to modernize their operational backbone.",
+    "features": [
+      {
+        "name": "Real-time Inventory Tracking",
+        "details": "Monitor stock levels across multiple locations instantly, minimizing overstocking and preventing shortages."
+      },
+      {
+        "name": "Sales Point Management (POS)",
+        "details": "Intuitive interface for processing sales, managing returns, and accepting various payment methods."
+      },
+      {
+        "name": "Financial Reporting Suite",
+        "details": "Generate comprehensive reports, including Profit & Loss, Balance Sheet, and Cash Flow statements, for informed decision-making."
+      },
+      {
+        "name": "User Role Permissions",
+        "details": "Customize access levels for different employees to ensure data security and operational accountability."
+      }
+    ],
+    "reviews": [
+      {
+        "user": "TechSavvyUser",
+        "rating": 5,
+        "comment": "Amazing software! The inventory tracking alone saved me so much time. Highly recommended for any growing business."
+      },
+      {
+        "user": "SmallBizOwner",
+        "rating": 4,
+        "comment": "Very powerful tool. Takes a little time to set up all the custom reports, but the results are worth the effort. Minor bug in the API integration, though."
+      },
+      {
+        "user": "ManagerPro",
+        "rating": 5,
+        "comment": "Perfect for our team of 10. The POS system is fast and very reliable. A significant upgrade from our old manual processes."
+      }
+    ],
+    "availability": "In Stock",
+    "warranty": "1 Year Limited Warranty"
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "title": "Article sur le D\u00e9veloppement Durable",
+    "sections": [
+      {
+        "title": "Introduction",
+        "text": "Le d\u00e9veloppement durable est un concept complexe qui vise \u00e0 r\u00e9pondre aux besoins des g\u00e9n\u00e9rations pr\u00e9sentes sans compromettre la capacit\u00e9 des g\u00e9n\u00e9rations futures \u00e0 r\u00e9pondre aux leurs. Il repose sur l'\u00e9quilibre entre les dimensions \u00e9conomique, sociale et environnementale.",
+        "keywords": [
+          "D\u00e9veloppement Durable",
+          "\u00c9quilibre",
+          "G\u00e9n\u00e9rations Futures"
+        ]
+      },
+      {
+        "title": "Pilier Environnemental",
+        "text": "Ce pilier concerne la protection des \u00e9cosyst\u00e8mes, la lutte contre le changement climatique et la gestion des ressources naturelles. Il est crucial de r\u00e9duire l'empreinte carbone et de pr\u00e9server la biodiversit\u00e9.",
+        "keywords": [
+          "Biodiversit\u00e9",
+          "Changement Climatique",
+          "Ressources Naturelles"
+        ]
+      },
+      {
+        "title": "Pilier Social",
+        "text": "Le pilier social vise \u00e0 assurer l'\u00e9quit\u00e9, la justice sociale et la qualit\u00e9 de vie pour tous. Il inclut l'acc\u00e8s \u00e0 l'\u00e9ducation, aux soins de sant\u00e9 et la r\u00e9duction des in\u00e9galit\u00e9s.",
+        "keywords": [
+          "\u00c9quit\u00e9",
+          "Justice Sociale",
+          "\u00c9ducation"
+        ]
+      },
+      {
+        "title": "Pilier \u00c9conomique",
+        "text": "Le pilier \u00e9conomique promeut une croissance durable, c'est-\u00e0-dire une croissance qui ne d\u00e9pend pas de l'exploitation excessive des ressources et qui g\u00e9n\u00e8re de la valeur pour l'ensemble de la soci\u00e9t\u00e9.",
+        "keywords": [
+          "Croissance Durable",
+          "\u00c9conomie Circulaire",
+          "Valeur"
+        ]
+      },
+      {
+        "title": "Conclusion",
+        "text": "L'atteinte du d\u00e9veloppement durable n\u00e9cessite une action concert\u00e9e de tous les acteurs : gouvernements, entreprises, citoyens. Il s'agit d'une transformation syst\u00e9mique et continue.",
+        "keywords": [
+          "Action Concert\u00e9e",
+          "Transformation Syst\u00e9mique",
+          "Engagement"
+        ]
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "produits_et_charges": {
+      "revenus_et_produits": {
+        "produits_commerciaux": {
+          "2023": 1803,
+          "2022": 1803
+        },
+        "autres_produits": {
+          "2023": 1803,
+          "2022": 1803
+        }
+      },
+      "charges": {
+        "achats_et_variations": {
+          "2023": 1803,
+          "2022": 1803
+        },
+        "charges_de_personnel": {
+          "2023": 1803,
+          "2022": 1803
+        },
+        "charges_externes": {
+          "2023": 1803,
+          "2022": 1803
+        },
+        "amortissements_depreciations": {
+          "2023": 1803,
+          "2022": 1803
+        }
+      }
+    }
+  },
+  "financial_statements": {
+    "table_1": [
+      {
+        "column_1": "2023",
+        "column_2": "2022",
+        "column_3": "2021"
+      },
+      {
+        "column_1": "13 175 000",
+        "column_2": "11 900 000",
+        "column_3": "11 200 000"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "company_name": "Unknown",
+    "financial_data": {
+      "currency": "N/A",
+      "fiscal_period": "N/A",
+      "balance_sheet": {
+        "total_assets": "N/A",
+        "total_liabilities": "N/A",
+        "equity": "N/A"
+      },
+      "income_statement": {
+        "total_revenue": "N/A",
+        "gross_profit": "N/A",
+        "net_income": "N/A"
+      },
+      "cash_flow_statement": {
+        "operating_cash_flow": "N/A",
+        "investing_cash_flow": "N/A",
+        "financing_cash_flow": "N/A"
+      }
+    }
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Responsables de la gouvernance (responsible for supervising the financial information process)"
+    ],
+    "executive_team": [
+      "La direction (responsible for the preparation and faithful presentation of financial statements, and internal control, and assessing business continuity"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

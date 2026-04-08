@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "company_name": "HPS",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": "4202"
+    },
+    "shareholding_structure": [
+      {
+        "type": "investisseurs internationaux",
+        "percentage": "10,60%"
+      },
+      {
+        "type": "investisseurs internationaux",
+        "percentage": "8,40%"
+      },
+      {
+        "type": "fonds propres",
+        "percentage": "41,80%"
+      },
+      {
+        "type": "collaboreur",
+        "percentage": "78%"
+      },
+      {
+        "type": "partenaires",
+        "percentage": "16,50%"
+      },
+      {
+        "type": "partenaires",
+        "percentage": "100%"
+      }
+    ],
+    "dividends": [
+      {
+        "description": "Dividende par action",
+        "value": "7 MAD"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": [
+      "CEO DU GROUPE HPS",
+      "DIRECTEUR G\u00c9N\u00c9RAL"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

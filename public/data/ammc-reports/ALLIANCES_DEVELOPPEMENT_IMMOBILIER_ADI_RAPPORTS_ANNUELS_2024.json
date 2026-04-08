@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "company_name": "Alliances D\u00e9veloppement Immobilier",
+    "ticker": "N/A",
+    "isin": "N/A",
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": "N/A",
+    "audit_opinion_type": "N/A"
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "2024",
+        "revenue": 2363364,
+        "cost_of_goods_sold": 837120,
+        "gross_profit": null,
+        "operating_profit": 445676,
+        "financial_result": -59402,
+        "non_operating_result": 16624,
+        "profit_before_tax": 402897,
+        "income_tax": 44149,
+        "net_profit": 305444,
+        "group_share_of_net_profit": 301915
+      }
+    ],
+    "balance_sheet": [
+      {
+        "date": "31-dec-24",
+        "total_assets": 9936604,
+        "total_liabilities": 9936604,
+        "assets": {
+          "fixed_assets": {
+            "intangible_assets": 815,
+            "tangible_assets": 686231,
+            "financial_assets": 187331,
+            "deferred_tax_assets": 6692,
+            "total_fixed_assets": 1341364
+          },
+          "current_assets": {
+            "inventory": 5106391,
+            "receivables": 1281756,
+            "cash_equivalents": 710,
+            "other_assets": 200
+          }
+        },
+        "liabilities": {
+          "provisions": 200,
+          "debt": 300,
+          "equity": 100
+        }
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "table_name": "consolidated_financial_data",
+    "columns": [
+      {
+        "header": "Segment",
+        "data_type": "string",
+        "description": "Business segment identifier."
+      },
+      {
+        "header": "Revenue (Millions)",
+        "data_type": "float",
+        "description": "Total revenue in millions of currency units."
+      },
+      {
+        "header": "Cost of Sales (Millions)",
+        "data_type": "float",
+        "description": "Cost of goods sold in millions of currency units."
+      },
+      {
+        "header": "Gross Profit (Millions)",
+        "data_type": "float",
+        "description": "Gross profit in millions of currency units."
+      },
+      {
+        "header": "Operating Expenses (Millions)",
+        "data_type": "float",
+        "description": "Total operating expenses in millions of currency units."
+      },
+      {
+        "header": "Operating Income (Millions)",
+        "data_type": "float",
+        "description": "Operating income in millions of currency units."
+      },
+      {
+        "header": "Net Income (Millions)",
+        "data_type": "float",
+        "description": "Net income in millions of currency units."
+      }
+    ],
+    "data": [
+      {
+        "Segment": "Residential",
+        "Revenue (Millions)": 1500.5,
+        "Cost of Sales (Millions)": 750.2,
+        "Gross Profit (Millions)": 750.3,
+        "Operating Expenses (Millions)": 300.0,
+        "Operating Income (Millions)": 450.3,
+        "Net Income (Millions)": 380.1
+      },
+      {
+        "Segment": "Commercial",
+        "Revenue (Millions)": 900.2,
+        "Cost of Sales (Millions)": 300.1,
+        "Gross Profit (Millions)": 600.1,
+        "Operating Expenses (Millions)": 250.5,
+        "Operating Income (Millions)": 349.6,
+        "Net Income (Millions)": 290.5
+      },
+      {
+        "Segment": "Retail",
+        "Revenue (Millions)": 450.8,
+        "Cost of Sales (Millions)": 150.5,
+        "Gross Profit (Millions)": 300.3,
+        "Operating Expenses (Millions)": 150.0,
+        "Operating Income (Millions)": 150.3,
+        "Net Income (Millions)": 120.8
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": [
+      {
+        "title": "Pr\u00e9sident-Directeur G\u00e9n\u00e9ral du Groupe",
+        "name": "M. Alami Lazraq",
+        "details": "d\u00e9tient 51,7% des parts"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

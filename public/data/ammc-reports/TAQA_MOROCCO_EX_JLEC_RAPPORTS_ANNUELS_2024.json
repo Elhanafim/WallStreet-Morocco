@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "company_name": "TAQA Morocco",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "amount": 2358854200,
+      "currency": "MAD",
+      "type": "floatating"
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": 1231,
+        "currency": "MAD",
+        "notes": "Baisse des dividendes \u00e0 distribuer par la filiale JLEC 5&6"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Pr\u00e9sident du Directoire"
+    ],
+    "executive_team": [
+      "Pr\u00e9sident du Directoire"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

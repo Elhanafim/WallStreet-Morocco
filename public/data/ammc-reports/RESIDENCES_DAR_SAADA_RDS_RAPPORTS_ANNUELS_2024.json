@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "company_name": "R\u00e9sidences Dar Saada",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "DH",
+    "auditor_name": "Commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "EXERCICE",
+        "label": "Chiffres d'affaires",
+        "value": 75142631.06
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL I",
+        "value": 76644577.2
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL II",
+        "value": 132476921.98
+      },
+      {
+        "period": "EXERCICE",
+        "label": "RESULTAT D'EXPLOITATION",
+        "value": -55832344.78
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL IV",
+        "value": 84394095.29
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL V",
+        "value": 101388664.56
+      },
+      {
+        "period": "EXERCICE",
+        "label": "RESULTAT FINANCIER",
+        "value": -16994569.27
+      },
+      {
+        "period": "EXERCICE",
+        "label": "RESULTAT COURANT",
+        "value": -72826914.05
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL VIII",
+        "value": 145110.81
+      },
+      {
+        "period": "EXERCICE",
+        "label": "TOTAL IX",
+        "value": 15056749.77
+      },
+      {
+        "period": "EXERCICE",
+        "label": "RESULTAT NON COURANT",
+        "value": -14911638.96
+      },
+      {
+        "period": "EXERCICE",
+        "label": "RESULTAT AVANT IMPOTS",
+        "value": -87738553.01
+      },
+      {
+        "period": "EXERCICE",
+        "label": "IMPOTS SUR LES RESULTATS",
+        "value": 195828.0
+      }
+    ],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "exercice_2024": "1310442500.00",
+      "exercice_2023": "1310442500.00"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "Groupe Palmeraie D\u00e9veloppement",
+        "percentage": "46%"
+      },
+      {
+        "shareholder": "Autres actionnaires",
+        "percentage": "44%"
+      },
+      {
+        "shareholder": "B-Participation",
+        "percentage": "10%"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "M. Hicham Berrada",
+      "M. Abdelali Berrada",
+      "M. Majid Benmlih",
+      "M. Hassan El Basri",
+      "Tariq Mohamed",
+      "Youssef Abdulsalam",
+      "M. Idriss Benismail",
+      "Mme Badia Benbadri",
+      "Mme Amina Menjra"
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

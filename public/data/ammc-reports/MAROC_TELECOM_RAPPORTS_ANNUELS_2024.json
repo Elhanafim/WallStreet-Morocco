@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "company_name": "Maroc Telecom",
+    "ticker": "Maroc Telecom",
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD/EUR",
+    "auditor_name": "commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": "5275"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "Etisalat",
+        "percentage": "53%"
+      },
+      {
+        "shareholder": "Royaume du Maroc",
+        "percentage": "22%"
+      },
+      {
+        "shareholder": "Autres",
+        "percentage": "25%"
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

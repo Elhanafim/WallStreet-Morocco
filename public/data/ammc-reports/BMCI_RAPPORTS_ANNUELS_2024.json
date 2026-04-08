@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "company_name": "BMCI",
+    "ticker": "N/A",
+    "isin": "N/A",
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": "N/A",
+    "audit_opinion_type": "N/A"
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": "18",
+        "per_share": "yes",
+        "type": "ordinary"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Jaouad HAMRI",
+        "role": "Pr\u00e9sident du Conseil de Surveillance",
+        "period": "28-mai-15"
+      },
+      {
+        "name": "Fran\u00e7ois BENAROYA",
+        "role": "Vice-Pr\u00e9sident - Responsable Territoire Europe - AGO statuant sur les comptes de M\u00e9diterran\u00e9e au sein de BNP Paribas",
+        "period": "22-f\u00e9v-22"
+      },
+      {
+        "name": "Janie LETROT",
+        "role": "Pr\u00e9sidente du Comit\u00e9 d\u2019Audit",
+        "period": "28-mai-15"
+      },
+      {
+        "name": "Dounia TAARJI",
+        "role": "Pr\u00e9sidente du Comit\u00e9 des Risques",
+        "period": "28-mai-15"
+      },
+      {
+        "name": "Yves MARTRENCHAR",
+        "role": "Pr\u00e9sident du CNRG",
+        "period": "28-mai-15"
+      },
+      {
+        "name": "Soumaya TAZI",
+        "role": "Membre ind\u00e9pendant",
+        "period": "08-mars-23"
+      },
+      {
+        "name": "Christian DE CHAISEMARTIN",
+        "role": "Membre",
+        "period": "21-juin-18"
+      },
+      {
+        "name": "Gilbert COULOMBEL",
+        "role": "Membre",
+        "period": "16-d\u00e9c-22"
+      },
+      {
+        "name": "Philippe DUMEL",
+        "role": "Membre",
+        "period": "26-juin-23"
+      },
+      {
+        "name": "Abdelmajid FASSI-FIHRI",
+        "role": "Membre",
+        "period": "28-juin-24"
+      },
+      {
+        "name": "Meryem CHAMI",
+        "role": "Membre",
+        "period": "19 octobre 2020"
+      },
+      {
+        "name": "Seyf ISMAIL",
+        "role": "Membre",
+        "period": "28 juin 2024"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Sebastien ROLLET",
+        "role": "Chief Transformation Officer",
+        "details": "Nomm\u00e9 au poste de Chief Transformation Officer et membre du Directoire de la BMCI."
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

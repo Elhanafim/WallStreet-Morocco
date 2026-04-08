@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "company_name": "Wafabail",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": "CAC",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "description": "Total Operating Bank Income",
+        "2024": "4546898098.57",
+        "2023": "4431796964.06"
+      },
+      {
+        "description": "Total Operating Bank Charges",
+        "2024": "4111594938.40",
+        "2023": "4040815857.97"
+      },
+      {
+        "description": "Net Bank Income",
+        "2024": "435303160.17",
+        "2023": "390981106.09"
+      },
+      {
+        "description": "Total General Operating Expenses",
+        "2024": "92178982.74",
+        "2023": "89181357.56"
+      },
+      {
+        "description": "Provisions for liabilities and losses on receivables",
+        "2024": "166760331.88",
+        "2023": "196106081.53"
+      },
+      {
+        "description": "Gross Profit",
+        "2024": "4614127115.40",
+        "2023": "4513206922.52"
+      },
+      {
+        "description": "Result before taxes",
+        "2024": "229678967",
+        "2023": "202391496"
+      },
+      {
+        "description": "Total Net Income",
+        "2024": "120000000",
+        "2023": "110000000"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "total_capital_amount": 150000000
+    },
+    "shareholding_structure": [
+      {
+        "shareholder_name": "ATTIJARIWAFA BANK",
+        "shares_held": 883542,
+        "percentage_held": 58.9
+      },
+      {
+        "shareholder_name": "BCM Corporation",
+        "shares_held": 599997,
+        "percentage_held": 40.0
+      },
+      {
+        "shareholder_name": "HERITIERS BOUTALEB FEU ABOU ABDELHAY",
+        "shares_held": 16454,
+        "percentage_held": 1.1
+      },
+      {
+        "shareholder_name": "ISMAIL DOUIRI",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "ADEL BARAKAT",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "HASSAN BERTAL",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "Radia CHMANTI HOUARI",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "OTMANE BOUDHAIMI",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "SAHAR TAZI",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      },
+      {
+        "shareholder_name": "BOUCHRA HAMDOUCH",
+        "shares_held": 1,
+        "percentage_held": 0.0
+      }
+    ],
+    "dividends": [
+      {
+        "details": "Dividendes",
+        "amount": 75000000.0
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {},
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

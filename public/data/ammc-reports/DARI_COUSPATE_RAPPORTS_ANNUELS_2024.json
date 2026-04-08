@@ -1,0 +1,26 @@
+{
+  "meta": {
+    "company_name": null,
+    "ticker": null,
+    "isin": null,
+    "report_type": null,
+    "fiscal_year": null,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {},
+  "risks_and_compliance": {},
+  "governance_and_management": {},
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

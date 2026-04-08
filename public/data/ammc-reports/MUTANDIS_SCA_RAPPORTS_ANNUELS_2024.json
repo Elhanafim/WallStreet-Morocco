@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "company_name": "Mutandis",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "metric": "Chiffre d'affaires",
+        "2023": 2166550,
+        "2024": 2116550
+      },
+      {
+        "metric": "Marge Brute",
+        "2023": 804096,
+        "2024": 926748
+      },
+      {
+        "metric": "R\u00e9sultat op\u00e9rationnel courant",
+        "2023": 193937223,
+        "2024": 223096
+      },
+      {
+        "metric": "R\u00e9sultat op\u00e9rationnel",
+        "2023": 185297260,
+        "2024": 397
+      },
+      {
+        "metric": "R\u00e9sultat avant imp\u00f4t",
+        "2023": 132826212,
+        "2024": 469
+      },
+      {
+        "metric": "R\u00e9sultat apr\u00e8s imp\u00f4t",
+        "2023": 92958158,
+        "2024": 648
+      },
+      {
+        "metric": "R\u00e9sultat net total",
+        "2023": 92958158,
+        "2024": 158
+      },
+      {
+        "metric": "R\u00e9sultat net courant",
+        "2023": 102498128,
+        "2024": 158
+      }
+    ],
+    "balance_sheet": [
+      {
+        "metric": "Total Passif",
+        "2023": 3429150,
+        "2024": 3702790
+      },
+      {
+        "metric": "Total Actif",
+        "2023": 3429150,
+        "2024": 3702790
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 924673700
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "year": 2024,
+        "value": 78
+      },
+      {
+        "year": 2023,
+        "value": 36
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

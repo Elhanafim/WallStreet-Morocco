@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "company_name": "STROC Industrie",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": "Commissaire aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {},
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Nabil ZIATT",
+        "role": "Pr\u00e9sident",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 6 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour Conseil statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "AL ISTIMRAR",
+        "role": "Administrateur",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 6 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour HOLDING SA ateur statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "Ronan Cyril LE GUELLEC",
+        "role": "Administrateur",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 6 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour LE GUELLEC ateur statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "Abdelhadi NINIA",
+        "role": "Administrateur",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 4 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour NINIA ateur statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "Laurent SABLE",
+        "role": "Administrateur",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 4 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour SABLE ateur statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "Majid BENMLIH",
+        "role": "Administrateur",
+        "term_end": "2025",
+        "observations": "Dur\u00e9e de 3 ans qui prendra fin \u00e0 l'AGO \u00e0 tenir en 2026 pour BENMLIH ateur statuer sur les comptes de l'exercice clos au 31/12/2025"
+      },
+      {
+        "name": "Anass",
+        "role": "Administrateur",
+        "term_end": null,
+        "observations": "Mandat pour quatre ann\u00e9es"
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

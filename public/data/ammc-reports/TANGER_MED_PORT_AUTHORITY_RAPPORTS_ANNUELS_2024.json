@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "company_name": "TANGER MED PORT AUTHORITY",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "report_date": "N/A",
+    "company_name": "N/A",
+    "financial_statement_type": "Income Statement",
+    "currency": "N/A",
+    "report_period": "N/A",
+    "revenue": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "cost_of_goods_sold": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "gross_profit": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "operating_expenses": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "operating_income": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "interest_income": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "interest_expense": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "earnings_before_tax": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "income_tax_expense": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ],
+    "net_income": [
+      {
+        "period": "Current Year",
+        "amount": "N/A"
+      },
+      {
+        "period": "Prior Year",
+        "amount": "N/A"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "amount": 1131904640.78,
+        "description": "total dividend"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "TMSA participations",
+      "M. Mohamed Arjouan"
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "company_name": "CTM",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": "Commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "metric": "Revenue",
+        "2024": 540974516,
+        "2023": 516440
+      },
+      {
+        "metric": "Other Operating Income",
+        "2024": 3117,
+        "2023": 2998
+      },
+      {
+        "metric": "Operating Reversals",
+        "2024": 2925,
+        "2023": 2219
+      },
+      {
+        "metric": "Charge Transfers",
+        "2024": 12511,
+        "2023": 5561
+      },
+      {
+        "metric": "Total Operating Income",
+        "2024": 559527,
+        "2023": 527219
+      },
+      {
+        "metric": "Cost of Goods Sold",
+        "2024": 174581,
+        "2023": 171309
+      },
+      {
+        "metric": "Other External Charges",
+        "2024": 103652,
+        "2023": 95087
+      },
+      {
+        "metric": "Taxes and Duties",
+        "2024": 8442,
+        "2023": 7444
+      },
+      {
+        "metric": "Staff Costs",
+        "2024": 146904,
+        "2023": 150
+      },
+      {
+        "metric": "Net Income",
+        "2024": 2023,
+        "2023": 2023
+      }
+    ],
+    "Note": "Data extracted from the main body text. Note: Some values for the final year are incomplete or unclear in the provided text."
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 122598
+    },
+    "shareholding_structure": [
+      {
+        "entity": "Groupe",
+        "percentage": 51
+      },
+      {
+        "entity": "M.Othmane Benjelloun",
+        "percentage": 29
+      },
+      {
+        "entity": "Flottant",
+        "percentage": 15
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Ezzoubeir ERRHAIMINI",
+        "role": "President",
+        "is_independent": false
+      },
+      {
+        "name": "Myriem BOUAZZAOUI",
+        "role": "Director General",
+        "is_independent": false
+      },
+      {
+        "name": "RMA",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Samir BAALI",
+        "role": "President",
+        "is_independent": false
+      },
+      {
+        "name": "Hicham ELAMRANI",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Jamil SAKOUT",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Ilham SALAMA",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Ibtissam ELBOUKHARI",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Kenza BENNANI DAKHAMA",
+        "role": "Member",
+        "is_independent": false
+      },
+      {
+        "name": "Hassan LAAZIRI",
+        "role": "President",
+        "is_independent": false
+      },
+      {
+        "name": "Mustapha ELOUAFI",
+        "role": "Member",
+        "is_independent": true
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Myriem BOUAZZAOUI",
+        "title": "Directeur G\u00e9n\u00e9ral",
+        "notes": "The global gross amount allocated to the Executive Committee for the year 2024 amounts to 5.88 MMAD (excluding bonus)."
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

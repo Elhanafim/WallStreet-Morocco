@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "company_name": "SOCIETE D\u2019EQUIPEMENT DOMESTIQUE ET MENAGER",
+    "ticker": "EQDOM",
+    "isin": null,
+    "report_type": "annual_financial_report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "amount": "167025000",
+      "shares": "1670250",
+      "currency": "dirhams",
+      "date": "31/12/2023"
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "year": 2024,
+        "amount": "18000000",
+        "description": "Contribution de LOSTE aux produits d\u2019exploitation bancaire d\u2019EQDOM au titre de l\u2019exercice 2024"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Le conseil d\u2019administration a pour mission principale de s\u2019assurer que la marche de la soci\u00e9t\u00e9 s\u2019exerce conform\u00e9ment \u00e0 la r\u00e9glementation et \u00e0 la strat\u00e9gie arr\u00eat\u00e9e. Il est le responsable en dernier ressort de la solidit\u00e9 financi\u00e8re de l\u2019\u00e9tablissement et op\u00e8re, \u00e0 cet effet, \u00e0 toute \u00e9poque de l'ann\u00e9e, les v\u00e9rifications et contr\u00f4les qu'il juge opportun. Dans le cadre de sa mission, le Conseil d\u2019administration s\u2019appuie sur les travaux des comit\u00e9s sp\u00e9cialis\u00e9s dont les conclusions ou recommandations peuvent donner lieu \u00e0 d\u00e9lib\u00e9ration."
+    ],
+    "executive_team": [
+      "Respectant les principes g\u00e9n\u00e9raux du gouvernement d\u2019entreprise, le syst\u00e8me de gouvernance d\u2019Eqdom se compose d\u2019une Direction g\u00e9n\u00e9rale qui assure ses fonctions de gestion sous le contr\u00f4le permanent du Conseil d\u2019administration. La gouvernance du contr\u00f4le interne est partag\u00e9e entre le conseil d\u2019administration et les dirigeants effectifs. La Direction g\u00e9n\u00e9rale d\u00e9finit et pr\u00e9sente au Conseil d\u2019administration les dispositifs et les processus de contr\u00f4le adapt\u00e9s \u00e0 la strat\u00e9gie de risque approuv\u00e9e par celui-ci, il en supervise la mise en \u0153uvre et l\u2019efficacit\u00e9."
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

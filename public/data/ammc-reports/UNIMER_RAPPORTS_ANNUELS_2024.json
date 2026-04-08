@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "company_name": "Unimer Group",
+    "ticker": "N/A",
+    "isin": "N/A",
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "N/A",
+    "auditor_name": "N/A",
+    "audit_opinion_type": "N/A"
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": {
+      "actif": {
+        "immobilisations_en_non_valeur": {
+          "exercice": 142563466,
+          "periode_precedente": 109665376
+        },
+        "immobilisations_incorporelles": {
+          "exercice": 25070710887,
+          "periode_precedente": 25039502504
+        },
+        "immobilisations_corporelles": {
+          "exercice": 14787093792,
+          "periode_precedente": 15698809821
+        },
+        "immobilisations_financi\u00e8res": {
+          "exercice": 70165212960,
+          "periode_precedente": 70156088664
+        }
+      }
+    },
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "latest_year": 114138800.0
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "details": "La situation des mandats des Administrateurs de la soci\u00e9t\u00e9 demeure inchang\u00e9e par rapport \u00e0 l'exercice pr\u00e9c\u00e9dent.",
+        "date_mentioned": null
+      },
+      {
+        "details": "Aucune modification n'a \u00e9t\u00e9 apport\u00e9e \u00e0 la composition du Conseil d'Administration.",
+        "date_mentioned": null
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "SANAM AGRO",
+        "title": "Pr\u00e9sident Directeur G\u00e9n\u00e9ral"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "company_name": "Maghreb Steel",
+    "ticker": null,
+    "isin": null,
+    "report_type": "ESG",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {},
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {},
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Mohammed Yahia",
+      "Fouad SEKKAT",
+      "Abdellah SAMIR",
+      "Amine BENHALIMA",
+      "Chadia SEKKAT",
+      "Hasnaa SEKKAT",
+      "Youssef SEKKAT",
+      "Rachid SEKKAT",
+      "Leila SEKKAT",
+      "Saad BENWAHOUD"
+    ],
+    "executive_team": [
+      "Directeur G\u00e9n\u00e9ral",
+      "Directeur G\u00e9n\u00e9ral D\u00e9l\u00e9gu\u00e9",
+      "Directeurs"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

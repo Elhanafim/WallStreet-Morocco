@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "company_name": "AKDITAL",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "metric": "Chiffre d\u2019affaires consolid\u00e9",
+        "year_2024": 2954,
+        "year_2023": 190777,
+        "variation_percent": null
+      },
+      {
+        "metric": "Charges d\u2019exploitation consolid\u00e9es",
+        "year_2024": 2435,
+        "year_2023": 1579,
+        "variation_percent": null
+      },
+      {
+        "metric": "EBITDA",
+        "year_2024": 839511,
+        "year_2023": null,
+        "variation_percent": 64
+      },
+      {
+        "metric": "R\u00e9sultat net",
+        "year_2024": 348,
+        "year_2023": 198,
+        "variation_percent": 76
+      }
+    ],
+    "balance_sheet": [
+      {
+        "metric": "TOTAL ACTIF",
+        "year_2024": 3040436931,
+        "year_2023": 1575740570
+      },
+      {
+        "metric": "TOTAL PASSIF",
+        "year_2024": 3040436931,
+        "year_2023": 1575740570
+      },
+      {
+        "metric": "Capitaux propres",
+        "year_2024": 2298712215,
+        "year_2023": 1208706186,
+        "variation_percent": 90.18
+      },
+      {
+        "metric": "Dettes de financement",
+        "year_2024": 90489320,
+        "year_2023": 82513842,
+        "variation_percent": 9.67
+      },
+      {
+        "metric": "Dettes du Passif circulant",
+        "year_2024": 651235395,
+        "year_2023": 234520541,
+        "variation_percent": 177.7
+      },
+      {
+        "metric": "Fonds de roulement permanent",
+        "year_2024": 693806143,
+        "year_2023": 208875374,
+        "variation_percent": 232.16
+      },
+      {
+        "metric": "Ratio Fonds de roulement permanent",
+        "year_2024": 1.41,
+        "year_2023": 1.19,
+        "variation_percent": 18.49
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [
+      {
+        "group": "Groupement d\u2019actionnaires stables",
+        "percentage": 38.8,
+        "details": "historiques"
+      },
+      {
+        "group": "Flottant",
+        "percentage": 51.8,
+        "details": ""
+      },
+      {
+        "group": "MCIII Al Razi",
+        "percentage": 9.4,
+        "details": ""
+      }
+    ],
+    "dividends": [
+      {
+        "type": "total",
+        "amount": 141592070.0,
+        "period": "2024"
+      },
+      {
+        "type": "per_share",
+        "amount": 10,
+        "period": "2024"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

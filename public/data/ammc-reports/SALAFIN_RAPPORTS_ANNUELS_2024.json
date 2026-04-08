@@ -1,0 +1,123 @@
+{
+  "meta": {
+    "company_name": "SALAFIN",
+    "ticker": null,
+    "isin": null,
+    "report_type": "annual_financial_report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "resultat_avant_impot": 156144149310,
+        "resultat_net_exercice": 9314790577,
+        "produit_net_bancaire": 378646396169,
+        "charges_generales_exploitation": 140202147898,
+        "total_actif": 3726279,
+        "total_passif": 3726279
+      },
+      {
+        "resultat_avant_impot": 156144149310,
+        "resultat_net_exercice": 9314790577,
+        "produit_net_bancaire": 378646396169,
+        "charges_generales_exploitation": 140202147898,
+        "total_actif": 3726279,
+        "total_passif": 3726279
+      }
+    ],
+    "balance_sheet": [
+      {
+        "total_actif": 3726279,
+        "total_passif": 3726279,
+        "creances_clientele": 2144585,
+        "credits_de_tresorerie_et_a_la_consommation": 1994630,
+        "total_creances": 3726279,
+        "deposits_de_la_clientele": 146035,
+        "titres_de_creance_emis": 1334375,
+        "capital": 312412,
+        "resultat_net_exercice": 9314790577
+      },
+      {
+        "total_actif": 3726279,
+        "total_passif": 3726279,
+        "creances_clientele": 2144585,
+        "credits_de_tresorerie_et_a_la_consommation": 1994630,
+        "total_creances": 3726279,
+        "deposits_de_la_clientele": 146035,
+        "titres_de_creance_emis": 1334375,
+        "capital": 312412,
+        "resultat_net_exercice": 9314790577
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "value": 312411900.0
+    },
+    "shareholding_structure": [
+      {
+        "shareholder_name": "BMCE BANK",
+        "shares_held": 1935692,
+        "percentage": 61.96
+      },
+      {
+        "shareholder_name": "SAHAM Assurance",
+        "shares_held": 442061,
+        "percentage": 14.15
+      },
+      {
+        "shareholder_name": "Autres",
+        "shares_held": 746366,
+        "percentage": 23.89
+      }
+    ],
+    "dividends": [
+      {
+        "dividend_type": "ordinaire",
+        "amount_total": 46080755.0,
+        "amount_per_share": 14.75
+      },
+      {
+        "dividend_type": "exceptionnel",
+        "amount_total": 46080755.0,
+        "amount_per_share": 14.75
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Aziz CHERKAOUI",
+        "role": "Pr\u00e9sident du Directoire"
+      },
+      {
+        "name": "Mohamed ERRAOUI",
+        "role": "Membre du Directoire - Directeur G\u00e9n\u00e9ral Adjoint en charge du P\u00f4le Commercial, Marketing et Digital"
+      },
+      {
+        "name": "Mohamed SBIHI",
+        "role": "Membre du Directoire - Directeur G\u00e9n\u00e9ral Adjoint en charge du P\u00f4le Support et Op\u00e9rations"
+      },
+      {
+        "name": "Mehdi MRANI",
+        "role": "Membre du Directoire - Directeur P\u00f4le Transformation, Projets et Organisation"
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "company_name": "REBAB COMPANY SA LIMITED",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": {
+      "net_result_current_period": [
+        591972.65
+      ],
+      "net_result_previous_period": [
+        217734.04
+      ]
+    },
+    "balance_sheet": {
+      "total_assets": [
+        [
+          39868540.18
+        ],
+        [
+          25536514.38
+        ]
+      ],
+      "total_liabilities": [
+        [
+          25536514.38
+        ],
+        [
+          25131996.89
+        ]
+      ],
+      "assets": {
+        "fixed_assets": {
+          "total": [
+            [
+              17072256.89
+            ],
+            [
+              14093230.8
+            ]
+          ],
+          "components": {
+            "intangible_assets": {
+              "total": [
+                [
+                  15600.0
+                ],
+                [
+                  15600.0
+                ]
+              ],
+              "components": {
+                "preliminary_expenses": [
+                  [
+                    15600.0
+                  ],
+                  [
+                    15600.0
+                  ]
+                ]
+              }
+            },
+            "fixed_asset_property": {
+              "total": [
+                [
+                  0
+                ],
+                [
+                  0
+                ]
+              ],
+              "components": {}
+            },
+            "financial_assets": {
+              "total": [
+                [
+                  17056656.89
+                ],
+                [
+                  14077630.8
+                ]
+              ],
+              "components": {
+                "participation_titles": [
+                  [
+                    17056656.89
+                  ],
+                  [
+                    14077630.8
+                  ]
+                ],
+                "other_financial_assets": [
+                  [
+                    0
+                  ],
+                  [
+                    0
+                  ]
+                ]
+              }
+            },
+            "current_assets": {
+              "total": [
+                [
+                  22710233.85
+                ],
+                [
+                  22222222.0
+                ]
+              ],
+              "components": {}
+            },
+            "liabilities": {
+              "total": [
+                22222222.0
+              ],
+              "components": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "share_capital": "17645600"
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Khaleefa ALMHEIRI",
+        "quality": "Pr\u00e9sident",
+        "independent": false,
+        "expiration": "24/03/2027"
+      },
+      {
+        "name": "Abdelmjid TAZLAOUI",
+        "quality": "Directeur G\u00e9n\u00e9ral",
+        "independent": false,
+        "expiration": "29/06/2027"
+      },
+      {
+        "name": "Abdellah AL MANSOORI",
+        "quality": "Administrateur",
+        "independent": true,
+        "expiration": "25/03/2025"
+      },
+      {
+        "name": "Ameera AL ALI",
+        "quality": "Administrateur",
+        "independent": true,
+        "expiration": "25/03/2025"
+      },
+      {
+        "name": "Zainab ALDHANHANI",
+        "quality": "Administrateur",
+        "independent": true,
+        "expiration": "24/03/2027"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Abdelmjid TAZLAOUI",
+        "title": "Directeur G\u00e9n\u00e9ral"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

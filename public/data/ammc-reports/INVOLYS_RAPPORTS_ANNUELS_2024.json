@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "company_name": "INVOLYS",
+    "ticker": null,
+    "isin": null,
+    "report_type": "annual",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {},
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "M. Mountasser FASSI FIHRI",
+      "Mourad MEKOUAR",
+      "Mohammed Karim MOUNIR",
+      "Omar BENNANI",
+      "AM Invest Morocco",
+      "Ilham TAHRI JOUTEI"
+    ],
+    "executive_team": [
+      "M. Mountasser FASSI FIHRI"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

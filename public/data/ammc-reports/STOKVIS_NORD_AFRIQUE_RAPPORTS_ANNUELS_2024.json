@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "company_name": "Stokvis Nord Afrique",
+    "ticker": null,
+    "isin": null,
+    "report_type": null,
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "sections": [
+      {
+        "title": "Bilan et Comptes de R\u00e9sultat (Synth\u00e8se)",
+        "data": {
+          "total_assets": "N/A",
+          "total_liabilities": "N/A",
+          "net_profit": "N/A"
+        }
+      },
+      {
+        "title": "Bilan d\u00e9taill\u00e9",
+        "data": {
+          "immobilisations": {
+            "immobilisations_corporelles": "N/A",
+            "immobilisations_incorporelles": "N/A",
+            "immobilisations_financi\u00e8res": "N/A",
+            "total_immobilisations": "N/A"
+          },
+          "stocks": "N/A",
+          "cr\u00e9ances_clients": "N/A",
+          "autres_actifs": "N/A",
+          "total_actifs": "N/A",
+          "provisions_pour_risques": "N/A",
+          "capitaux_propres": "N/A",
+          "dettes_fournisseurs": "N/A",
+          "dettes_fiscales": "N/A",
+          "total_passifs": "N/A"
+        }
+      },
+      {
+        "title": "Compte de R\u00e9sultat (Chiffre d'affaires et Charges)",
+        "data": {
+          "chiffre_affaires": "N/A",
+          "achats_merci": "N/A",
+          "charges_personnel": "N/A",
+          "autres_charges": "N/A",
+          "charges_totales": "N/A",
+          "resultat_exploitation": "N/A",
+          "produits_financiers": "N/A",
+          "charges_financi\u00e8res": "N/A",
+          "resultat_net": "N/A"
+        }
+      },
+      {
+        "title": "Analyse des Flux",
+        "data": {
+          "flux_operationnels": "N/A",
+          "flux_investissement": "N/A",
+          "flux_financement": "N/A",
+          "flux_de_tr\u00e9sorerie_total": "N/A"
+        }
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "recruitment of a female director to its Board of Directors in 2024"
+    ],
+    "executive_team": [
+      "The Group implements initiatives to enhance talent and promote professional development for employees (developing individual plans, identifying high potentials, regular performance evaluation, continuous training, internal mobility, and ensuring effective performance and succession management)"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

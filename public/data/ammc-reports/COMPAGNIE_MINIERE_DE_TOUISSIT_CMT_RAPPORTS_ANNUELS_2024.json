@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "company_name": "La Compagnie Mini\u00e8re de Touissit",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": "CAC",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "table_name": "Compte de R\u00e9sultat",
+    "columns": [
+      {
+        "column_name": "Description",
+        "data_type": "string"
+      },
+      {
+        "column_name": "Montant",
+        "data_type": "float"
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "financial_statement_data": [
+      {
+        "date": "2024",
+        "data_type": "Equity/Reserves",
+        "line_items": [
+          {
+            "line_item": "R\u00e9serves",
+            "value": 12000000,
+            "period_type": "current"
+          },
+          {
+            "line_item": "Reported Net Income",
+            "value": 3500000,
+            "period_type": "current"
+          }
+        ]
+      },
+      {
+        "date": "2023",
+        "data_type": "Equity/Reserves",
+        "line_items": [
+          {
+            "line_item": "R\u00e9serves",
+            "value": 10000000,
+            "period_type": "current"
+          },
+          {
+            "line_item": "Reported Net Income",
+            "value": 2500000,
+            "period_type": "current"
+          }
+        ]
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": [
+      {
+        "title": "Directeur G\u00e9n\u00e9ral",
+        "name": "M. Abdellah"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

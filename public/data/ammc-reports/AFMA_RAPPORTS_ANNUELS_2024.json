@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "company_name": "AFMA",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "resultat_net_de_l'exercice": "65102"
+      },
+      {
+        "capital_social": "10000"
+      },
+      {
+        "reserves_legales": "1000"
+      },
+      {
+        "reports_a_nouveau": "2887"
+      }
+    ],
+    "balance_sheet": [
+      {
+        "immobilisations_incorporelles": "17802"
+      },
+      {
+        "immobilisations_corporelles": "20159"
+      },
+      {
+        "immobilisations_financieres": "80785"
+      },
+      {
+        "capital_social": "10000"
+      },
+      {
+        "reserves_legales": "1000"
+      },
+      {
+        "reports_a_nouveau": "2887"
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "3.7 GOUVERNANCE"
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "company_name": "Jet Contractors",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [
+      {
+        "year": "2024",
+        "total_assets": 3921073795.93,
+        "total_liabilities": 3921073795.93,
+        "current_assets": 3454810281.11,
+        "non_current_assets": 438099550.65,
+        "assets_details": [
+          {
+            "item": "immobilisations_en_non_valeur",
+            "2024": 7699294.15,
+            "2023": 9705876.55
+          },
+          {
+            "item": "immobilisations_incorporelles",
+            "2024": 7264643.63,
+            "2023": 7088567.03
+          },
+          {
+            "item": "immobilisations_corporelles",
+            "2024": 225389543.01,
+            "2023": 168884914.09
+          },
+          {
+            "item": "immobilisations_financieres",
+            "2024": 282250213.14,
+            "2023": 225704276.11
+          },
+          {
+            "item": "ecarts_de_conversion_actif",
+            "2024": 422270.39,
+            "2023": -118850.07
+          }
+        ],
+        "liabilities_details": [
+          {
+            "item": "financement_permanent",
+            "2024": 1248521557.54,
+            "2023": 3307205042.88
+          },
+          {
+            "item": "passif_circulant",
+            "2024": 2187724319.51,
+            "2023": null
+          }
+        ]
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      3025253
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

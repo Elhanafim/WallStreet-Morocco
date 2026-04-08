@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "company_name": "TGCC",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": "Commissaires aux Comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "2024",
+        "total_operating_produce": 6986145794.46,
+        "period_comparison": "6239182904.30",
+        "total_operating_charges": 6307253663.11,
+        "period_comparison_charges": "5808088048.58",
+        "operating_result": 678892131.35,
+        "period_comparison_result": "431094855.72",
+        "financial_result": -23501776.27,
+        "period_comparison_financial_result": null,
+        "current_result_before_tax": 655390355.08,
+        "period_comparison_current_result": "413425525.24",
+        "net_profit": 420690302.64,
+        "period_comparison_net_profit": "309343636.47"
+      }
+    ],
+    "balance_sheet": [
+      {
+        "date": "2024",
+        "total_balance": 6658560361.81,
+        "previous_date": "5271172361.30"
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      []
+    ],
+    "executive_team": [
+      "management engag\u00e9 pour porter la croissance"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "company_name": "CMGP Group",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": null,
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "year": 2024,
+        "product_exploitation": 2034709423,
+        "charge_exploitation": 2042993339,
+        "result_exploitation": -8283916,
+        "result_financier": 10280904917,
+        "result_courant_avant_imp\u00f4t": 10272621001,
+        "benefice_net_comptable": 10240375301
+      }
+    ],
+    "balance_sheet": [
+      {
+        "year": 2024,
+        "total_assets": 227431705808
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {},
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "value": 107,
+        "unit": "Mn MAD"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "JACQUES ALL\u00c9ON",
+      "YOUNES AL ABADAN"
+    ],
+    "executive_team": [
+      "Directeur G\u00e9n\u00e9ral",
+      "DIRECTEUR G\u00c9N\u00c9RAL D\u00c9L\u00c9GU\u00c9 FINANCE",
+      "DIRECTEUR G\u00c9N\u00c9RAL D\u00c9L\u00c9GU\u00c9 EN CHARGE DES CORPORATE DEVELOPMENT OP\u00c9RATIONS"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

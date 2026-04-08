@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "company_name": "Office National des Chemins de Fer",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": "CAC",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "Produits et Services": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 498471
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 230
+      }
+    ],
+    "Achats de Mati\u00e8res Premi\u00e8res": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 1250
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 979
+      }
+    ],
+    "Charges de Personnel": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 2000
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 1500
+      }
+    ],
+    "Autres Charges d'Exploitation": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 500
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 300
+      }
+    ],
+    "Chiffre d'Affaires HT": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 498471
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 230
+      }
+    ],
+    "Co\u00fbt des Marchandises Vendues": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 1250
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 979
+      }
+    ],
+    "R\u00e9sultat Brut d'Exploitation": [
+      {
+        "Ann\u00e9e": 2023,
+        "Montant": 373471
+      },
+      {
+        "Ann\u00e9e": 2022,
+        "Montant": 251
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": "4395543289",
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {},
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "company_name": "Sonasid",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "Longometal Armatures": 60.346
+    },
+    "shareholding_structure": [
+      {
+        "entity": "AttijariWafa Bank",
+        "percentage": 0.25
+      },
+      {
+        "entity": "Sonasid MCMA",
+        "percentage": 0.23
+      },
+      {
+        "entity": "MAMDA",
+        "percentage": 0.82
+      },
+      {
+        "entity": "Wafa Assurance marocains",
+        "percentage": 0.48
+      },
+      {
+        "entity": "ArcelorMittal",
+        "percentage": 64.86
+      },
+      {
+        "entity": "Nouvelles Sid\u00e9rurgies Industrielles",
+        "percentage": 5.12
+      },
+      {
+        "entity": "RCAR Sid\u00e9rurgies Industrielles",
+        "percentage": 96.93
+      },
+      {
+        "entity": "Longometal Armatures",
+        "percentage": 27.56
+      }
+    ],
+    "dividends": [
+      {
+        "amount": 152100000.0,
+        "unit": "Dirhams",
+        "type": "Proposed"
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "role": "President",
+        "name": "Sa\u00efd Elhadi"
+      },
+      {
+        "role": "Independent Director",
+        "name": "Khalida Azbane"
+      },
+      {
+        "role": "Independent Director",
+        "name": "Dayae Oudghiri"
+      },
+      {
+        "role": "Director",
+        "name": "Sanaa Bakkal"
+      },
+      {
+        "role": "Director",
+        "name": "C\u00e9dric Bouzar"
+      },
+      {
+        "role": "Director",
+        "name": "Val\u00e9rie Massin"
+      },
+      {
+        "role": "Director",
+        "name": "Tariq Makram"
+      },
+      {
+        "role": "Director",
+        "name": "Alain Legrix De La Salle"
+      },
+      {
+        "role": "Director",
+        "name": "Matthias Guenther"
+      },
+      {
+        "role": "Director",
+        "name": "Jana Meisser"
+      },
+      {
+        "role": "Director",
+        "name": "Nico Dewachtere"
+      },
+      {
+        "role": "Director",
+        "name": "Larbi Lahlou"
+      },
+      {
+        "role": "Director",
+        "name": "Azeddine Guessous"
+      },
+      {
+        "role": "Director",
+        "name": "Aida Alami Mejjati"
+      }
+    ],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

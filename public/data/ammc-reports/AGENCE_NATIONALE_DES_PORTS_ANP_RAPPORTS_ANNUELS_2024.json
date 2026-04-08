@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "company_name": "Agence Nationale des Ports (ANP)",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "MDH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [
+      {
+        "actif": {
+          "total_actif": [],
+          "immobilisations": {
+            "incorporelles": [],
+            "corporelles": [],
+            "financi\u00e8res": [],
+            "totaux": []
+          },
+          "circulant": {
+            "creances_exploitation": [],
+            "creances_diverses": [],
+            "titres_placement": [],
+            "tresorerie": [],
+            "total": []
+          }
+        },
+        "passif": {
+          "capitaux_propres": {
+            "total_capitaux_propres": [
+              10209,
+              9859
+            ],
+            "elements": []
+          },
+          "dettes_financieres": [
+            6260,
+            6869
+          ],
+          "immobilise": {
+            "total": [],
+            "elements": []
+          },
+          "circulant": {
+            "total": [],
+            "elements": []
+          },
+          "total_passif": []
+        }
+      }
+    ]
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "share_capital": 9062846045.75
+    },
+    "shareholding_structure": [
+      {
+        "entity": "ANP",
+        "percentage": 78.8
+      },
+      {
+        "entity": "Marsa Maroc",
+        "percentage": 5.3
+      },
+      {
+        "entity": "Autres",
+        "percentage": 15.9
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "Le Conseil d\u2019Administration est pr\u00e9sid\u00e9 par le Ministre de l\u2019Equipement et de l\u2019Eau",
+      "Il comprend, en plus du repr\u00e9sentant de l\u2019ANGSPE",
+      "Des repr\u00e9sentants de l\u2019Administration",
+      "Le Pr\u00e9sident de la f\u00e9d\u00e9ration des chambres de commerce, d\u2019industrie et de services, ou son repr\u00e9sentant",
+      "Le Pr\u00e9sident"
+    ],
+    "executive_team": [
+      "L\u2019Agence est administr\u00e9e par un Conseil d\u2019Administration et g\u00e9r\u00e9e par un Directeur."
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

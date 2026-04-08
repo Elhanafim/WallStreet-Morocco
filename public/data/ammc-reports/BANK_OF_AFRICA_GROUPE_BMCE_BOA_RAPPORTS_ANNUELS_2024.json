@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "company_name": "Bank of Africa",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "DH",
+    "auditor_name": null,
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "2024",
+        "product_net": "142000000000",
+        "net_result": "16000000000",
+        "other_items": null
+      }
+    ],
+    "balance_sheet": [
+      {
+        "period": "2024",
+        "total_assets": null,
+        "total_liabilities": null,
+        "client_deposits": "256000000000"
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "bank_al_karam": "550000000"
+    },
+    "shareholding_structure": [
+      {
+        "shareholder": "RMA",
+        "percentage": "35.51%"
+      },
+      {
+        "shareholder": "BFCM - GROUPE BRITISH",
+        "percentage": "3.93%"
+      },
+      {
+        "shareholder": "CR\u00c9DIT MUTUEL- INTERNATIONAL",
+        "percentage": "8.13%"
+      },
+      {
+        "shareholder": "O CAPITAL GROUP",
+        "percentage": "7.16%"
+      },
+      {
+        "shareholder": "SFCM",
+        "percentage": "17.32%"
+      },
+      {
+        "shareholder": "O CAPITAL PLC",
+        "percentage": "27.41%"
+      },
+      {
+        "shareholder": "ET DIVERS",
+        "percentage": "0.94%"
+      },
+      {
+        "shareholder": "GROUPE CDG",
+        "percentage": "1.07%"
+      }
+    ],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": []
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

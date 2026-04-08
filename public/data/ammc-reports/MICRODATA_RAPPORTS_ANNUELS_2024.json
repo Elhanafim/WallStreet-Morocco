@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "company_name": "Microdata",
+    "ticker": null,
+    "isin": null,
+    "report_type": "ANNUAL",
+    "fiscal_year": "2024",
+    "currency": "MAD",
+    "auditor_name": "commissaires aux comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "2024",
+        "products_of_exploitation": 903614170.23,
+        "charges_of_exploitation": 807087107.49,
+        "operating_result": 96527062.74,
+        "financial_result": -2062337.23,
+        "current_result": 94464725.51,
+        "non_current_result": -2509432.09,
+        "corporate_tax": 24141088.0,
+        "net_result": 67814205.42
+      },
+      {
+        "period": "2023",
+        "products_of_exploitation": 753999214.01,
+        "charges_of_exploitation": 663567115.03,
+        "operating_result": 90432098.98,
+        "financial_result": -4122253.33,
+        "current_result": 86309845.65,
+        "non_current_result": -5834874.0,
+        "corporate_tax": 23272163.0,
+        "net_result": 57202808.65
+      },
+      {
+        "period": "DGSM_2024",
+        "products_of_exploitation": 1994106.41,
+        "charges_of_exploitation": 312830.0,
+        "operating_result": 1681276.41,
+        "financial_result": -81297.56,
+        "current_result": 1599978.85,
+        "non_current_result": -23892.48,
+        "result_before_taxes": 1576086.37,
+        "corporate_tax": 409467.0,
+        "net_result": 1166619.37
+      }
+    ],
+    "balance_sheet": [
+      {
+        "period": "2024",
+        "total_assets": null,
+        "current_assets": null,
+        "non_current_assets": null,
+        "total_equity_and_liabilities": null,
+        "capital_own": null,
+        "current_liabilities": null
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "share_capital": 100000
+    },
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      {
+        "name": "Hassane AMOR",
+        "role": "President and CEO",
+        "type": "Executive Administrator"
+      },
+      {
+        "name": "Mounia BENADOU IDRISSI",
+        "role": "Administrator",
+        "type": "Non-executive Administrator"
+      },
+      {
+        "name": "Jaouad SQALLI-HOUSSAINI",
+        "role": "Administrator",
+        "type": "Independent Administrator"
+      },
+      {
+        "name": "Rachid AMOR",
+        "role": "Administrator",
+        "type": "Administrator"
+      },
+      {
+        "name": "Zineb ALAMI",
+        "role": "Administrator",
+        "type": "Salaried Administrator"
+      }
+    ],
+    "executive_team": [
+      {
+        "name": "Hassane AMOR",
+        "role": "President and CEO",
+        "details": "Represents the Board and assumes exclusive responsibility for General Management."
+      },
+      {
+        "name": "Mohammed Alnakeeb",
+        "role": "Deputy CEO",
+        "details": "Assists the General Directorate of Microdata."
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

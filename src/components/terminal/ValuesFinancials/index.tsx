@@ -7,7 +7,9 @@ import { fetchFinancials, fmtMAD, fmtPct, fmtPrice } from './financials.api';
 import SummaryCards from './SummaryCards';
 import IndicatorsTable from './IndicatorsTable';
 import AmmcDonneesPanel from './AmmcDonneesPanel';
+import RawDataPanel from './RawDataPanel';
 import type { AmmcCompanyData } from '@/types/ammc';
+import { useCompanyFinancials } from '@/hooks/useCompanyFinancials';
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500', '700'] });
 const inter      = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
@@ -471,6 +473,9 @@ export default function ValuesFinancials({ ticker }: Props) {
   const [errorMsg, setErrorMsg] = useState('');
   const [finTab,   setFinTab]   = useState<FinTab>('APERCU');
 
+  // Raw AMMC report data (served from public/data/ammc-reports/)
+  const rawAmmc = useCompanyFinancials(ticker);
+
   const load = useCallback(async (t: string) => {
     setState('loading');
     setErrorMsg('');
@@ -636,21 +641,56 @@ export default function ValuesFinancials({ ticker }: Props) {
             {finTab === 'CASHFLOW' && <CashFlowTab        d={d} />}
 
             {/* ─ DONNÉES AMMC ─ */}
-            {finTab === 'DONNEES' && (
-              d.ammcData
-                ? <AmmcDonneesPanel ammcData={d.ammcData as AmmcCompanyData} />
-                : (
+            {finTab === 'DONNEES' && (() => {
+              // Loading state
+              if (rawAmmc.status === 'loading') {
+                return (
                   <div className="flex flex-col items-center justify-center h-64 gap-3" style={robotoMono.style}>
-                    <span className="text-2xl opacity-30" style={{ color: BB_MUTED }}>◈</span>
-                    <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>
-                      Données AMMC non disponibles pour {ticker}
-                    </p>
-                    <p className="text-[9px] uppercase tracking-wider" style={{ color: BB_MUTED }}>
-                      Rapport annuel non extrait ou société hors périmètre
-                    </p>
+                    <span className="text-[10px] font-bold uppercase tracking-widest animate-pulse" style={{ color: BB_ORANGE }}>
+                      ● CHARGEMENT RAPPORT AMMC...
+                    </span>
                   </div>
-                )
-            )}
+                );
+              }
+
+              // Raw JSON loaded — show RawDataPanel (primary source)
+              if (rawAmmc.status === 'success' && rawAmmc.report) {
+                return (
+                  <div>
+                    {/* Optionally stack the legacy normalized panel above if available */}
+                    {d.ammcData && (
+                      <AmmcDonneesPanel ammcData={d.ammcData as AmmcCompanyData} />
+                    )}
+                    <div className="flex items-center gap-3 px-4 py-2 border-y" style={{ borderColor: BB_BORDER, background: '#050b14' }}>
+                      <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>■ DONNÉES BRUTES — RAPPORT ANNUEL AMMC 2024</span>
+                      <div className="flex-1 h-px" style={{ background: BB_BORDER }} />
+                      <span className="text-[9px] uppercase tracking-widest px-2 py-0.5 border" style={{ color: '#C9A84C', borderColor: '#C9A84C55' }}>
+                        {rawAmmc.report.meta.companyName ?? ticker}
+                      </span>
+                    </div>
+                    <RawDataPanel report={rawAmmc.report} />
+                  </div>
+                );
+              }
+
+              // Fallback to legacy normalized panel
+              if (d.ammcData) {
+                return <AmmcDonneesPanel ammcData={d.ammcData as AmmcCompanyData} />;
+              }
+
+              // Nothing available
+              return (
+                <div className="flex flex-col items-center justify-center h-64 gap-3" style={robotoMono.style}>
+                  <span className="text-2xl opacity-30" style={{ color: BB_MUTED }}>◈</span>
+                  <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>
+                    Données AMMC non disponibles pour {ticker}
+                  </p>
+                  <p className="text-[9px] uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                    Rapport annuel non extrait ou société hors périmètre
+                  </p>
+                </div>
+              );
+            })()}
           </>
         )}
       </div>

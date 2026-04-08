@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "company_name": "Managem",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Financial Report",
+    "fiscal_year": "2024",
+    "currency": "dirhams",
+    "auditor_name": "CAC",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [],
+    "balance_sheet": [
+      {
+        "date": "31/12/2024",
+        "item": "Capitaux propres au 31/12/2024",
+        "value": "30225.2"
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": null,
+    "shareholding_structure": [],
+    "dividends": []
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [],
+    "executive_team": [
+      {
+        "title": "Pr\u00e9sident Directeur G\u00e9n\u00e9ral",
+        "name": "Imad TOUMI"
+      }
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}

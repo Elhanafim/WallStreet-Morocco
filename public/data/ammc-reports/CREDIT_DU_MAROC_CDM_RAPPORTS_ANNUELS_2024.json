@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "company_name": "Cr\u00e9dit du Maroc",
+    "ticker": null,
+    "isin": null,
+    "report_type": "Annual Report",
+    "fiscal_year": 2024,
+    "currency": "MAD",
+    "auditor_name": "Commissaires aux Comptes",
+    "audit_opinion_type": null
+  },
+  "financial_statements": {
+    "income_statement": [
+      {
+        "period": "2024",
+        "value": 3303
+      },
+      {
+        "period": "2023",
+        "value": 1599
+      }
+    ],
+    "balance_sheet": [
+      {
+        "period": "2024",
+        "value": 56622
+      },
+      {
+        "period": "2023",
+        "value": 51062
+      }
+    ],
+    "cash_flow_statement": []
+  },
+  "ratios_and_metrics": {},
+  "segments_and_breakdowns": {},
+  "capital_and_shareholders": {
+    "share_capital": {
+      "capital_apres_op\u00e9rations_au_31_decembre_2024": 1088121
+    },
+    "shareholding_structure": [],
+    "dividends": [
+      {
+        "period": "2024",
+        "value": 3013979
+      },
+      {
+        "period": "2023",
+        "value": 372138
+      }
+    ]
+  },
+  "risks_and_compliance": {},
+  "governance_and_management": {
+    "board_of_directors": [
+      "REPORT DE GESTION DU DIRECTOIRE",
+      "Conseil d'Administration"
+    ],
+    "executive_team": [
+      "\u00c9QUIPE EX\u00c9CUTIVE"
+    ]
+  },
+  "esg_and_sustainability": {},
+  "other_important_tables": [],
+  "narrative_summaries": {},
+  "extraction_quality": {
+    "overall_confidence": "medium",
+    "missing_sections": [],
+    "notes": ""
+  }
+}
