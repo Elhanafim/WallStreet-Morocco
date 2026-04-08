@@ -21,15 +21,15 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: 'bg-surface-100 text-primary/70',
-  primary: 'bg-primary/10 text-primary',
-  secondary: 'bg-secondary/10 text-secondary',
-  success: 'bg-success/10 text-success',
-  danger: 'bg-danger/10 text-danger',
-  warning: 'bg-warning/10 text-warning',
-  gold: 'bg-accent/15 text-accent-600 border border-accent/30',
-  outline: 'bg-transparent border border-current text-primary/60',
-  premium: 'bg-gradient-gold text-primary font-bold border border-accent/40',
+  default: 'bg-surface-50 text-primary-600 border border-surface-200',
+  primary: 'bg-primary-900/8 text-primary-800 border border-primary-900/10',
+  secondary: 'bg-secondary/8 text-secondary-700 border border-secondary/15',
+  success: 'bg-success/8 text-emerald-700 border border-success/15',
+  danger: 'bg-danger/8 text-red-700 border border-danger/15',
+  warning: 'bg-warning/8 text-amber-700 border border-warning/15',
+  gold: 'bg-accent/10 text-accent-600 border border-accent/20',
+  outline: 'bg-transparent border border-primary-200 text-primary-500',
+  premium: 'bg-gradient-gold text-white font-bold border border-accent/30 shadow-sm',
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
@@ -82,7 +82,7 @@ export const Badge = ({
             variant === 'danger' && 'bg-danger',
             variant === 'warning' && 'bg-warning',
             variant === 'secondary' && 'bg-secondary',
-            variant === 'primary' && 'bg-primary',
+            variant === 'primary' && 'bg-primary-900',
             variant === 'gold' && 'bg-accent',
             !['success', 'danger', 'warning', 'secondary', 'primary', 'gold'].includes(variant) && 'bg-current'
           )}

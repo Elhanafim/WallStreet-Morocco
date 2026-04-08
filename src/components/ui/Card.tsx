@@ -8,11 +8,11 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantClasses = {
-  default: 'bg-white border border-surface-200 shadow-card',
-  dark: 'bg-gradient-card text-white border border-secondary/20',
+  default: 'bg-white border border-surface-100 shadow-card',
+  dark: 'bg-gradient-card text-white border border-white/[0.06]',
   glass: 'glass-card text-white',
-  bordered: 'bg-white border-2 border-primary/10',
-  elevated: 'bg-white shadow-card-hover',
+  bordered: 'bg-white border-2 border-surface-200',
+  elevated: 'bg-white shadow-card-hover border border-surface-50',
 };
 
 const paddingClasses = {
@@ -41,7 +41,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           'rounded-2xl overflow-hidden',
           variantClasses[variant],
           paddingClasses[padding],
-          hover && 'transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover cursor-pointer',
+          hover && 'transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card-hover cursor-pointer',
           className
         )}
         {...props}
@@ -78,7 +78,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ as: Tag = 'h3', className, children, ...props }, ref) => (
     <Tag
       ref={ref as any}
-      className={cn('text-lg font-bold text-primary', className)}
+      className={cn('text-lg font-bold text-primary font-display', className)}
       {...props}
     >
       {children}
@@ -107,7 +107,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
     <div
       ref={ref}
       className={cn(
-        'mt-4 pt-4 border-t border-surface-200 flex items-center justify-between',
+        'mt-4 pt-4 border-t border-surface-100 flex items-center justify-between',
         className
       )}
       {...props}

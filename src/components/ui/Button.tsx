@@ -15,17 +15,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-secondary text-white hover:bg-secondary-600 shadow-sm hover:shadow-glow-blue active:bg-secondary-700',
+    'bg-secondary text-white hover:bg-secondary-800 shadow-sm hover:shadow-glow-blue active:bg-secondary-900',
   secondary:
-    'bg-primary text-white hover:bg-primary-600 shadow-sm active:bg-primary-700',
+    'bg-primary-900 text-white hover:bg-primary-800 shadow-sm active:bg-primary-900',
   outline:
-    'border-2 border-secondary text-secondary hover:bg-secondary hover:text-white bg-transparent',
+    'border border-primary-200 text-primary-700 hover:border-primary-400 hover:bg-surface-50 bg-transparent',
   ghost:
-    'bg-transparent text-primary hover:bg-surface-100 active:bg-surface-200',
+    'bg-transparent text-primary-600 hover:bg-surface-50 hover:text-primary-900 active:bg-surface-100',
   danger:
-    'bg-danger text-white hover:bg-red-600 shadow-sm active:bg-red-700',
+    'bg-danger text-white hover:bg-red-700 shadow-sm active:bg-red-800',
   gold:
-    'bg-accent text-primary font-bold hover:bg-accent-600 shadow-sm hover:shadow-glow-gold active:bg-accent-700',
+    'bg-accent text-white font-bold hover:bg-accent-600 shadow-sm hover:shadow-glow-gold active:bg-accent-700',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -59,7 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled}
         className={cn(
-          'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 select-none',
+          'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:ring-offset-2 select-none tracking-tight',
           variantClasses[variant],
           sizeClasses[size],
           fullWidth && 'w-full',
