@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCompany } from '@/lib/data/bvcCompanies';
 import { DONNEES_BVC } from '@/lib/data/donnees';
 import { ammc_financials_2024 } from '@/lib/data/ammc_financials_2024';
+import { ammc_rich_2024 } from '@/lib/data/ammc_rich_2024';
 
 // BVC ticker → donnees entry (handles DWY/DIS alias for Disway)
 const DONNEES_MAP = new Map(
@@ -251,7 +252,7 @@ export async function GET(req: NextRequest) {
         estimatedNetIncome: dn503D.net_income    ?? null,
         indicators:         [],
         source:             'tradingview-screener',
-        ammcData:           ammc_financials_2024[ticker] ?? null,
+        ammcData:           ammc_rich_2024[ticker] ?? ammc_financials_2024[ticker] ?? null,
       });
     }
     return NextResponse.json(
@@ -303,6 +304,7 @@ export async function GET(req: NextRequest) {
   const dn = getDonnees(ticker);
   const dnD = dn?.donnees;
   const ammc = ammc_financials_2024[ticker] || null;
+  const ammcRich = ammc_rich_2024[ticker] || null;
 
   const response = {
     ticker,
@@ -374,7 +376,7 @@ export async function GET(req: NextRequest) {
     estimatedNetIncome: firstValidValue(ammc?.netIncome, tv?.net_income_fy, tv?.net_income, dnD?.net_income),
     indicators,
     source: bvc ? 'casablanca-bourse' : (tv ? 'tradingview' : 'static'),
-    ammcData: ammc,
+    ammcData: ammcRich ?? ammc,
   };
 
   return NextResponse.json(response, {

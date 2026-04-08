@@ -6,6 +6,8 @@ import type { FinancialsData } from './financials.api';
 import { fetchFinancials, fmtMAD, fmtPct, fmtPrice } from './financials.api';
 import SummaryCards from './SummaryCards';
 import IndicatorsTable from './IndicatorsTable';
+import AmmcDonneesPanel from './AmmcDonneesPanel';
+import type { AmmcCompanyData } from '@/types/ammc';
 
 const robotoMono = Roboto_Mono({ subsets: ['latin'], weight: ['400', '500', '700'] });
 const inter      = Inter({ subsets: ['latin'], weight: ['400', '500', '700'] });
@@ -21,14 +23,15 @@ const BB_BG     = '#040914';
 const BB_WHITE  = '#FFFFFF';
 const BB_YELLOW = '#FFD700';
 
-type FinTab = 'APERCU' | 'INCOME' | 'BALANCE' | 'CASHFLOW' | 'PROFIL';
+type FinTab = 'APERCU' | 'INCOME' | 'BALANCE' | 'CASHFLOW' | 'PROFIL' | 'DONNEES';
 
-const FIN_TABS: { id: FinTab; label: string }[] = [
+const FIN_TABS: { id: FinTab; label: string; ammc?: boolean }[] = [
   { id: 'APERCU',   label: 'APERÇU'             },
   { id: 'PROFIL',   label: 'PROFIL'             },
   { id: 'INCOME',   label: 'COMPTE DE RÉSULTAT' },
   { id: 'BALANCE',  label: 'BILAN'              },
   { id: 'CASHFLOW', label: 'FLUX DE TRÉSORERIE' },
+  { id: 'DONNEES',  label: '★ DONNÉES AMMC', ammc: true },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -538,8 +541,12 @@ export default function ValuesFinancials({ ticker }: Props) {
               onClick={() => setFinTab(tab.id)}
               className="px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide whitespace-nowrap transition-colors"
               style={{
-                color: finTab === tab.id ? BB_ORANGE : BB_MUTED,
-                borderBottom: finTab === tab.id ? `2px solid ${BB_ORANGE}` : '2px solid transparent',
+                color: finTab === tab.id
+                  ? (tab.ammc ? '#C9A84C' : BB_ORANGE)
+                  : tab.ammc ? '#C9A84C88' : BB_MUTED,
+                borderBottom: finTab === tab.id
+                  ? `2px solid ${tab.ammc ? '#C9A84C' : BB_ORANGE}`
+                  : '2px solid transparent',
                 background: 'transparent',
                 ...robotoMono.style,
               }}
@@ -627,6 +634,23 @@ export default function ValuesFinancials({ ticker }: Props) {
             {finTab === 'INCOME'   && <IncomeStatementTab d={d} />}
             {finTab === 'BALANCE'  && <BalanceSheetTab    d={d} />}
             {finTab === 'CASHFLOW' && <CashFlowTab        d={d} />}
+
+            {/* ─ DONNÉES AMMC ─ */}
+            {finTab === 'DONNEES' && (
+              d.ammcData
+                ? <AmmcDonneesPanel ammcData={d.ammcData as AmmcCompanyData} />
+                : (
+                  <div className="flex flex-col items-center justify-center h-64 gap-3" style={robotoMono.style}>
+                    <span className="text-2xl opacity-30" style={{ color: BB_MUTED }}>◈</span>
+                    <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>
+                      Données AMMC non disponibles pour {ticker}
+                    </p>
+                    <p className="text-[9px] uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                      Rapport annuel non extrait ou société hors périmètre
+                    </p>
+                  </div>
+                )
+            )}
           </>
         )}
       </div>
