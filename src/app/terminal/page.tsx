@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 import { useTranslation } from 'react-i18next';
 import ValuesFinancials from '@/components/terminal/ValuesFinancials';
 import { Roboto_Mono, Inter } from 'next/font/google';
-import CapitalMarketIndicators from '@/components/terminal/CapitalMarketIndicators';
+import MarketIndicators from '@/components/terminal/MarketIndicators';
 
 import {
   fetchSnapshot,
@@ -1513,7 +1513,7 @@ export default function TerminalPage() {
         {activeTab === 'OVERVIEW' && renderOverview()}
         {activeTab === 'EQUITIES' && renderEquities()}
         {activeTab === 'OPCVM' && renderOpcvm()}
-        {activeTab === 'CAPITAL_MARKET' && <CapitalMarketIndicators />}
+        {activeTab === 'CAPITAL_MARKET' && <MarketIndicators />}
         {activeTab === 'MACRO' && renderMacro()}
         {activeTab === 'FINANCIALS' && (
           <div className="h-full flex flex-col overflow-hidden">
