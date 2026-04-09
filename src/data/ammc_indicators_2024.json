@@ -1,0 +1,382 @@
+{
+  "metadata": {
+    "report_title": "Rapport Annuel 2024 - AMMC",
+    "report_year": 2024,
+    "source": "AMMC",
+    "default_currency": "MAD",
+    "extraction_date": "2026-04-08"
+  },
+  "indicators": [
+    {
+      "indicator_id": "masi_annual_performance",
+      "label_fr": "Performance annuelle du MASI",
+      "label_en": "MASI annual performance",
+      "category": "Marche boursier",
+      "subcategory": "Indices",
+      "unit": "%",
+      "frequency": "annual",
+      "description": "Indice de référence de la Bourse de Casablanca.",
+      "source_chapter": "II",
+      "source_pages": [
+        54
+      ]
+    },
+    {
+      "indicator_id": "total_market_cap",
+      "label_fr": "Capitalisation boursière totale",
+      "label_en": "Total Market Capitalization",
+      "category": "Marche boursier",
+      "subcategory": "Capitalisation",
+      "unit": "MDH",
+      "frequency": "annual",
+      "description": "Valeur totale des actions cotées à la Bourse de Casablanca.",
+      "source_chapter": "II",
+      "source_pages": [
+        55
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "label_fr": "Volume transactionnel global",
+      "label_en": "Total Trading Volume",
+      "category": "Marche boursier",
+      "subcategory": "Volumes",
+      "unit": "MMDH",
+      "frequency": "annual",
+      "description": "Volume global des échanges sur l'année.",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "opcvm_total_aum",
+      "label_fr": "Actif net global des OPCVM",
+      "label_en": "Total UCITS AUM",
+      "category": "Gestion collective",
+      "subcategory": "OPCVM",
+      "unit": "MMDH",
+      "frequency": "annual",
+      "description": "Montant total des actifs sous gestion des OPCVM.",
+      "source_chapter": "II",
+      "source_pages": [
+        71
+      ]
+    },
+    {
+      "indicator_id": "opci_total_aum",
+      "label_fr": "Actif net des OPCI",
+      "label_en": "Total REITs AUM",
+      "category": "Gestion collective",
+      "subcategory": "OPCI",
+      "unit": "MMDH",
+      "frequency": "annual",
+      "description": "Encours total sous gestion des OPCI.",
+      "source_chapter": "II",
+      "source_pages": [
+        75
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "indicator_id": "masi_annual_performance",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 22.16,
+      "unit": "%",
+      "currency": null,
+      "source_chapter": "II",
+      "source_pages": [
+        54
+      ]
+    },
+    {
+      "indicator_id": "masi_usd_performance",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 19.62,
+      "unit": "%",
+      "currency": "USD",
+      "source_chapter": "II",
+      "source_pages": [
+        54
+      ]
+    },
+    {
+      "indicator_id": "total_market_cap",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 752.44,
+      "unit": "MDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        55
+      ]
+    },
+    {
+      "indicator_id": "total_market_cap",
+      "year": 2023,
+      "period": "FY",
+      "date": "2023-12-31",
+      "value": 626.08,
+      "unit": "MDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        55
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 99.057,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "central_market_volume",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 60.765,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "block_market_volume",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 28.711,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "liquidity_ratio",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 12.45,
+      "unit": "%",
+      "currency": null,
+      "source_chapter": "II",
+      "source_pages": [
+        57
+      ]
+    },
+    {
+      "indicator_id": "securities_lending_volume",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 347.47,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        60
+      ]
+    },
+    {
+      "indicator_id": "securities_lending_outstanding",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 36.3,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        60
+      ]
+    },
+    {
+      "indicator_id": "opcvm_total_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 653.23,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        71
+      ]
+    },
+    {
+      "indicator_id": "opcvm_funds_count",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 589,
+      "unit": "nombre",
+      "currency": null,
+      "source_chapter": "II",
+      "source_pages": [
+        66
+      ]
+    },
+    {
+      "indicator_id": "opcvm_actions_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 53.56,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        66
+      ]
+    },
+    {
+      "indicator_id": "opcvm_diversifies_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 76.47,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        66
+      ]
+    },
+    {
+      "indicator_id": "fpct_total_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 17.43,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        72
+      ]
+    },
+    {
+      "indicator_id": "opcc_total_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 3.1383,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        74
+      ]
+    },
+    {
+      "indicator_id": "opci_total_aum",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 109.34,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        75
+      ]
+    },
+    {
+      "indicator_id": "opci_count",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 55,
+      "unit": "nombre",
+      "currency": null,
+      "source_chapter": "II",
+      "source_pages": [
+        75
+      ]
+    },
+    {
+      "indicator_id": "agreements_granted_count",
+      "year": 2024,
+      "period": "FY",
+      "date": "2024-12-31",
+      "value": 3,
+      "unit": "nombre",
+      "currency": null,
+      "source_chapter": "III",
+      "source_pages": [
+        94
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "year": 2020,
+      "period": "FY",
+      "date": "2020-12-31",
+      "value": 55.777,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "year": 2021,
+      "period": "FY",
+      "date": "2021-12-31",
+      "value": 74.743,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "year": 2022,
+      "period": "FY",
+      "date": "2022-12-31",
+      "value": 57.679,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    },
+    {
+      "indicator_id": "total_transaction_volume",
+      "year": 2023,
+      "period": "FY",
+      "date": "2023-12-31",
+      "value": 65.046,
+      "unit": "MMDH",
+      "currency": "MAD",
+      "source_chapter": "II",
+      "source_pages": [
+        56
+      ]
+    }
+  ]
+}

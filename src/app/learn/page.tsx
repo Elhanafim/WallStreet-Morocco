@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, BookOpen, TrendingUp, BarChart2, Lightbulb } from 'lucide-react';
+import { Search, BookOpen, TrendingUp, BarChart2, Lightbulb, Gamepad2 } from 'lucide-react';
 import ArticleCard from '@/components/learn/ArticleCard';
+import GamesHub from '@/components/games/GamesHub';
 import { articles } from '@/lib/data/articles';
 import { Article } from '@/types';
 import ChatHint from '@/components/chat/ChatHint';
@@ -10,14 +11,15 @@ import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 import EduBannerInline from '@/components/legal/EduBannerInline';
 import { useDebounce } from '@/hooks/useDebounce';
 
-type Category = 'Tous' | Article['category'];
+type Category = 'Tous' | Article['category'] | 'Jeux';
 
-const categories: { id: Category; label: string; icon: React.ComponentType<{className?: string}>; count: number }[] = [
+const categories: { id: Category; label: string; icon: React.ComponentType<{className?: string}>; count: number | null }[] = [
   { id: 'Tous', label: 'Tous les articles', icon: BookOpen, count: articles.length },
   { id: 'Bases', label: 'Les Bases', icon: BookOpen, count: articles.filter((a) => a.category === 'Bases').length },
   { id: 'Actions', label: 'Actions', icon: TrendingUp, count: articles.filter((a) => a.category === 'Actions').length },
   { id: 'OPCVM', label: 'OPCVM', icon: BarChart2, count: articles.filter((a) => a.category === 'OPCVM').length },
   { id: 'Stratégie', label: 'Stratégie', icon: Lightbulb, count: articles.filter((a) => a.category === 'Stratégie').length },
+  { id: 'Jeux', label: 'Mini-jeux', icon: Gamepad2, count: 3 },
 ];
 
 export default function LearnPage() {
@@ -106,43 +108,50 @@ export default function LearnPage() {
           ))}
         </div>
 
-        {/* Featured Article Hero */}
-        {activeCategory === 'Tous' && !searchQuery && featuredArticle && (
-          <div className="mb-12">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="w-1.5 h-6 bg-accent rounded-full" />
-              <h2 className="text-lg font-bold text-primary">Article à la une</h2>
-            </div>
-            <ArticleCard article={featuredArticle} variant="featured" />
-          </div>
-        )}
-
-        {/* Results count */}
-        {debouncedSearch && (
-          <div className="mb-6">
-            <p className="text-primary/60 text-sm">
-              {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''} pour &ldquo;{debouncedSearch}&rdquo;
-            </p>
-          </div>
-        )}
-
-        <EduBannerInline />
-
-        {/* Articles Grid */}
-        {filteredArticles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredArticles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
+        {/* Games Hub */}
+        {activeCategory === 'Jeux' ? (
+          <GamesHub />
         ) : (
-          <div className="text-center py-20">
-            <BookOpen className="w-12 h-12 text-primary/20 mx-auto mb-4" />
-            <h3 className="text-primary font-bold text-lg mb-2">Aucun article trouvé</h3>
-            <p className="text-primary/50 text-sm">
-              Essayez une autre recherche ou sélectionnez une autre catégorie
-            </p>
-          </div>
+          <>
+            {/* Featured Article Hero */}
+            {activeCategory === 'Tous' && !searchQuery && featuredArticle && (
+              <div className="mb-12">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="w-1.5 h-6 bg-accent rounded-full" />
+                  <h2 className="text-lg font-bold text-primary">Article à la une</h2>
+                </div>
+                <ArticleCard article={featuredArticle} variant="featured" />
+              </div>
+            )}
+
+            {/* Results count */}
+            {debouncedSearch && (
+              <div className="mb-6">
+                <p className="text-primary/60 text-sm">
+                  {filteredArticles.length} résultat{filteredArticles.length > 1 ? 's' : ''} pour &ldquo;{debouncedSearch}&rdquo;
+                </p>
+              </div>
+            )}
+
+            <EduBannerInline />
+
+            {/* Articles Grid */}
+            {filteredArticles.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredArticles.map((article) => (
+                  <ArticleCard key={article.id} article={article} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <BookOpen className="w-12 h-12 text-primary/20 mx-auto mb-4" />
+                <h3 className="text-primary font-bold text-lg mb-2">Aucun article trouvé</h3>
+                <p className="text-primary/50 text-sm">
+                  Essayez une autre recherche ou sélectionnez une autre catégorie
+                </p>
+              </div>
+            )}
+          </>
         )}
 
       </div>
