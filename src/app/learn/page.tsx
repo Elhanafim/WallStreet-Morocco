@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, BookOpen, TrendingUp, BarChart2, Lightbulb, Gamepad2 } from 'lucide-react';
+import { Search, BookOpen, TrendingUp, BarChart2, Lightbulb, Gamepad2, GraduationCap } from 'lucide-react';
 import ArticleCard from '@/components/learn/ArticleCard';
 import GamesHub from '@/components/games/GamesHub';
 import { articles } from '@/lib/data/articles';
@@ -10,8 +10,14 @@ import ChatHint from '@/components/chat/ChatHint';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 import EduBannerInline from '@/components/legal/EduBannerInline';
 import { useDebounce } from '@/hooks/useDebounce';
+import dynamic from 'next/dynamic';
 
-type Category = 'Tous' | Article['category'] | 'Jeux';
+const FinanceStudentsHub = dynamic(
+  () => import('@/components/games/finance-students/FinanceStudentsHub'),
+  { ssr: false }
+);
+
+type Category = 'Tous' | Article['category'] | 'Jeux' | 'Jeux Étudiants';
 
 const categories: { id: Category; label: string; icon: React.ComponentType<{className?: string}>; count: number | null }[] = [
   { id: 'Tous', label: 'Tous les articles', icon: BookOpen, count: articles.length },
@@ -20,6 +26,7 @@ const categories: { id: Category; label: string; icon: React.ComponentType<{clas
   { id: 'OPCVM', label: 'OPCVM', icon: BarChart2, count: articles.filter((a) => a.category === 'OPCVM').length },
   { id: 'Stratégie', label: 'Stratégie', icon: Lightbulb, count: articles.filter((a) => a.category === 'Stratégie').length },
   { id: 'Jeux', label: 'Mini-jeux', icon: Gamepad2, count: 3 },
+  { id: 'Jeux Étudiants', label: 'Jeux Étudiants', icon: GraduationCap, count: 5 },
 ];
 
 export default function LearnPage() {
@@ -111,6 +118,8 @@ export default function LearnPage() {
         {/* Games Hub */}
         {activeCategory === 'Jeux' ? (
           <GamesHub />
+        ) : activeCategory === 'Jeux Étudiants' ? (
+          <FinanceStudentsHub />
         ) : (
           <>
             {/* Featured Article Hero */}
