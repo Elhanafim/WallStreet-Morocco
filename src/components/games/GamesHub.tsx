@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { ChevronRight, Trophy, Clock } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
+import { useEffect, useState } from 'react';
+import { getAllHighScores, GameScore, GameId } from '@/lib/gameScores';
 
 const GAMES = [
   {
@@ -47,6 +49,14 @@ const GAMES = [
 ] as const;
 
 export default function GamesHub() {
+  const [scores, setScores] = useState<Record<GameId, GameScore | null>>(
+    { 'souk-day': null, 'riads-and-rials': null, 'casablanca-capital': null }
+  );
+
+  useEffect(() => {
+    setScores(getAllHighScores());
+  }, []);
+
   return (
     <div>
       {/* Section header */}
@@ -112,6 +122,15 @@ export default function GamesHub() {
                 Jouer <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
+
+            {/* High score */}
+            {scores[game.id as GameId] && (
+              <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-surface-100/60">
+                <Trophy className="w-3.5 h-3.5 text-accent" />
+                <span className="text-xs text-primary/50">Meilleur score :</span>
+                <span className="text-xs font-bold text-accent">{scores[game.id as GameId]!.label}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>

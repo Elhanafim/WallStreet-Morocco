@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import { saveHighScore } from '@/lib/gameScores';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -36,6 +37,12 @@ export interface QuarterResult {
   weights: Record<string, number>;         // weights used this quarter
 }
 
+export interface BenchmarkState {
+  weights: Record<string, number>;
+  value: number;
+  history: { quarter: number; value: number; return_pct: number }[];
+}
+
 export interface CasablancaState {
   phase: GamePhase;
   quarter: number;
@@ -46,6 +53,7 @@ export interface CasablancaState {
   pendingEvent: MacroEvent | null;
   history: QuarterResult[];
   assets: Asset[];
+  benchmark: BenchmarkState;
 }
 
 // ─── Asset universe ────────────────────────────────────────────────────────────
@@ -186,6 +194,29 @@ function makeInitialWeights(): Record<string, number> {
   return defaultWeights;
 }
 
+// ─── Benchmark weights — simplified MASI-like index ──────────────────────────
+
+const BENCHMARK_WEIGHTS: Record<string, number> = {
+  atlasbank: 20,
+  maroctelecom: 15,
+  consocasa: 15,
+  riadimmo: 10,
+  btpatlas: 10,
+  indunord: 10,
+  soleil: 8,
+  mineatlas: 7,
+  solaireplus: 5,
+  cash: 0,
+};
+
+function makeInitialBenchmark(): BenchmarkState {
+  return {
+    weights: { ...BENCHMARK_WEIGHTS },
+    value: 100_000,
+    history: [],
+  };
+}
+
 function makeInitialState(): CasablancaState {
   return {
     phase: 'intro',
@@ -197,6 +228,7 @@ function makeInitialState(): CasablancaState {
     pendingEvent: null,
     history: [],
     assets: ASSETS,
+    benchmark: makeInitialBenchmark(),
   };
 }
 
@@ -245,6 +277,13 @@ export function useCasablanca() {
 
       const portfolioValue = prev.portfolioValue * (1 + portfolioReturn / 100);
 
+      // Benchmark return (same asset returns, fixed weights)
+      const benchmarkReturn = ASSETS.reduce((sum, a) => {
+        const w = (prev.benchmark.weights[a.id] ?? 0) / 100;
+        return sum + w * (assetReturns[a.id] ?? 0);
+      }, 0);
+      const benchmarkValue = prev.benchmark.value * (1 + benchmarkReturn / 100);
+
       const result: QuarterResult = {
         quarter: prev.quarter,
         event,
@@ -258,6 +297,19 @@ export function useCasablanca() {
       const usedIds = new Set([...prev.history.map((r) => r.event.id), event.id]);
       const nextEvent = isLast ? null : pickEvent(usedIds);
 
+      // Save high score on last quarter
+      if (isLast) {
+        const finalReturn = parseFloat(
+          (((portfolioValue - prev.startingValue) / prev.startingValue) * 100).toFixed(2)
+        );
+        saveHighScore({
+          game: 'casablanca-capital',
+          score: finalReturn,
+          date: new Date().toISOString(),
+          label: `${finalReturn >= 0 ? '+' : ''}${finalReturn.toFixed(1)}%`,
+        });
+      }
+
       return {
         ...prev,
         phase: isLast ? 'summary' : 'quarterly',
@@ -265,6 +317,15 @@ export function useCasablanca() {
         portfolioValue,
         pendingEvent: nextEvent,
         history: [...prev.history, result],
+        benchmark: {
+          ...prev.benchmark,
+          value: benchmarkValue,
+          history: [...prev.benchmark.history, {
+            quarter: prev.quarter,
+            value: parseFloat(benchmarkValue.toFixed(0)),
+            return_pct: parseFloat(benchmarkReturn.toFixed(2)),
+          }],
+        },
       };
     });
   }, []);
@@ -286,6 +347,23 @@ export function useCasablanca() {
     (((state.portfolioValue - state.startingValue) / state.startingValue) * 100).toFixed(2)
   );
   const weightSum = Object.values(state.weights).reduce((s, w) => s + w, 0);
+
+  // Benchmark return
+  const benchmarkReturn = parseFloat(
+    (((state.benchmark.value - state.startingValue) / state.startingValue) * 100).toFixed(2)
+  );
+
+  // Excess return vs benchmark
+  const excessReturn = parseFloat((totalReturn - benchmarkReturn).toFixed(2));
+
+  // Annualized return (CAGR): (finalValue / startValue)^(4/totalQuarters) - 1
+  const annualizedReturn = useMemo(() => {
+    if (state.history.length === 0) return 0;
+    const years = state.history.length / 4;
+    if (years <= 0) return 0;
+    const ratio = state.portfolioValue / state.startingValue;
+    return parseFloat(((Math.pow(ratio, 1 / years) - 1) * 100).toFixed(2));
+  }, [state.portfolioValue, state.startingValue, state.history.length]);
 
   const maxDrawdown = (() => {
     let peak = state.startingValue;
@@ -315,6 +393,9 @@ export function useCasablanca() {
     nextQuarter,
     resetGame,
     totalReturn,
+    benchmarkReturn,
+    excessReturn,
+    annualizedReturn,
     weightSum,
     maxDrawdown,
     sectorExposure,

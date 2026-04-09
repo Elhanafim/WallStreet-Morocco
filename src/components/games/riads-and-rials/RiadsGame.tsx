@@ -108,7 +108,7 @@ const MARKET_OPTIONS: OptionGroup<MarketingLevel>[] = [
 // ─── Component ─────────────────────────────────────────────────────────────────
 
 export default function RiadsGame() {
-  const { state, startGame, setDecision, confirmMonth, nextMonth, resetGame, totalProfit, lastMonth } =
+  const { state, startGame, setDecision, confirmMonth, nextMonth, resetGame, totalProfit, lastMonth, expensePreview } =
     useRiads();
 
   const { phase, month, totalMonths, rooms, priceLevel, maintenanceLevel, marketingLevel,
@@ -117,7 +117,7 @@ export default function RiadsGame() {
   // ── Intro ──────────────────────────────────────────────────────────────────
   if (phase === 'intro') {
     return (
-      <div className="max-w-xl mx-auto text-center py-12 px-4">
+      <div className="max-w-xl mx-auto text-center py-12 px-4 animate-fade-in">
         <div className="text-6xl mb-4">🏡</div>
         <h1 className="text-3xl font-black text-primary font-display mb-3">Riads & Rials</h1>
         <p className="text-primary/60 mb-3 leading-relaxed">
@@ -156,7 +156,7 @@ export default function RiadsGame() {
   // ── Decision ───────────────────────────────────────────────────────────────
   if (phase === 'decision' && currentEvent) {
     return (
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="max-w-2xl mx-auto px-4 animate-fade-in">
         {/* Progress */}
         <div className="mb-5">
           <div className="flex justify-between text-xs text-primary/50 mb-1">
@@ -234,6 +234,23 @@ export default function RiadsGame() {
           onChange={(v) => setDecision('marketingLevel', v)}
         />
 
+        {/* Expense preview */}
+        <div className="bg-surface-50 border border-surface-100 rounded-xl p-4 mb-5">
+          <div className="text-xs font-semibold text-primary/50 uppercase tracking-wide mb-2">Charges estimées ce mois</div>
+          <div className="space-y-1.5 text-sm">
+            <div className="flex justify-between"><span className="text-primary/60">Personnel</span><span className="font-semibold text-primary">{formatMAD(expensePreview.staff)}</span></div>
+            <div className="flex justify-between"><span className="text-primary/60">Services (eau, élec.)</span><span className="font-semibold text-primary">{formatMAD(expensePreview.utilities)}</span></div>
+            <div className="flex justify-between"><span className="text-primary/60">Maintenance</span><span className="font-semibold text-primary">{formatMAD(expensePreview.maintenance)}</span></div>
+            {expensePreview.marketingFixed > 0 && (
+              <div className="flex justify-between"><span className="text-primary/60">Marketing (fixe)</span><span className="font-semibold text-primary">{formatMAD(expensePreview.marketingFixed)}</span></div>
+            )}
+            {expensePreview.marketingCommission > 0 && (
+              <div className="flex justify-between"><span className="text-primary/60">Commissions (~18%)</span><span className="font-semibold text-primary">~{formatMAD(expensePreview.marketingCommission)}</span></div>
+            )}
+            <div className="flex justify-between pt-2 border-t border-surface-200"><span className="font-bold text-primary">Total estimé</span><span className="font-black text-primary">{formatMAD(expensePreview.total)}</span></div>
+          </div>
+        </div>
+
         <button
           onClick={confirmMonth}
           className="w-full bg-accent text-white font-bold py-3.5 rounded-xl hover:bg-accent/90 transition-colors shadow-md mt-2"
@@ -249,7 +266,7 @@ export default function RiadsGame() {
     const r = lastMonth;
     const isProfit = r.profit >= 0;
     return (
-      <div className="max-w-md mx-auto px-4 py-8 text-center">
+      <div className="max-w-md mx-auto px-4 py-8 text-center animate-fade-in">
         <div className="text-4xl mb-2">{r.event.emoji}</div>
         <h2 className="text-xl font-bold text-primary mb-1">{r.monthName} — résultats</h2>
         <p className="text-primary/50 text-sm mb-6">{r.event.title}</p>
@@ -271,6 +288,19 @@ export default function RiadsGame() {
           <div className="bg-surface-50 border border-surface-100 rounded-xl p-3">
             <div className="text-xs text-primary/50 mb-0.5">Charges</div>
             <div className="text-xl font-black text-primary">{formatMAD(r.expenses)}</div>
+          </div>
+        </div>
+
+        {/* Expense breakdown */}
+        <div className="bg-surface-50 border border-surface-100 rounded-xl p-3 mb-4 text-left">
+          <div className="text-xs font-semibold text-primary/50 mb-2">Détail des charges</div>
+          <div className="space-y-1 text-xs">
+            <div className="flex justify-between"><span className="text-primary/60">Personnel</span><span className="font-semibold text-primary">{formatMAD(r.expenseBreakdown.staff)}</span></div>
+            <div className="flex justify-between"><span className="text-primary/60">Services</span><span className="font-semibold text-primary">{formatMAD(r.expenseBreakdown.utilities)}</span></div>
+            <div className="flex justify-between"><span className="text-primary/60">Maintenance</span><span className="font-semibold text-primary">{formatMAD(r.expenseBreakdown.maintenance)}</span></div>
+            {(r.expenseBreakdown.marketingFixed > 0 || r.expenseBreakdown.marketingCommission > 0) && (
+              <div className="flex justify-between"><span className="text-primary/60">Marketing</span><span className="font-semibold text-primary">{formatMAD(r.expenseBreakdown.marketingFixed + r.expenseBreakdown.marketingCommission)}</span></div>
+            )}
           </div>
         </div>
 
@@ -327,7 +357,7 @@ export default function RiadsGame() {
     })();
 
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">🏆</div>
           <h2 className="text-3xl font-black text-primary font-display">Bilan annuel</h2>

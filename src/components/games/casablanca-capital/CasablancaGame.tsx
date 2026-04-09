@@ -81,6 +81,9 @@ export default function CasablancaGame() {
     nextQuarter,
     resetGame,
     totalReturn,
+    benchmarkReturn,
+    excessReturn,
+    annualizedReturn,
     weightSum,
     maxDrawdown,
     sectorExposure,
@@ -93,7 +96,7 @@ export default function CasablancaGame() {
   // ── Intro ──────────────────────────────────────────────────────────────────
   if (phase === 'intro') {
     return (
-      <div className="max-w-xl mx-auto text-center py-12 px-4">
+      <div className="max-w-xl mx-auto text-center py-12 px-4 animate-fade-in">
         <div className="text-6xl mb-4">📈</div>
         <h1 className="text-3xl font-black text-primary font-display mb-3">Casablanca Capital</h1>
         <p className="text-primary/60 mb-3 leading-relaxed">
@@ -130,7 +133,7 @@ export default function CasablancaGame() {
   if (phase === 'news' && pendingEvent) {
     const impactedSectors = Object.entries(pendingEvent.impact) as [Sector, number][];
     return (
-      <div className="max-w-lg mx-auto px-4 py-8">
+      <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in">
         {/* Progress */}
         <div className="mb-5">
           <div className="flex justify-between text-xs text-primary/50 mb-1">
@@ -184,7 +187,7 @@ export default function CasablancaGame() {
     const gap = 100 - weightSum;
 
     return (
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-6 animate-fade-in">
         <h2 className="text-xl font-bold text-primary mb-1">Allocation du portefeuille</h2>
         <p className="text-sm text-primary/50 mb-4">Trimestre {quarter} — Ajustez les pondérations. Total doit être 100%.</p>
 
@@ -254,7 +257,7 @@ export default function CasablancaGame() {
     })).filter((d) => d.weight > 0);
 
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
         <div className="text-center mb-6">
           <div className="text-3xl mb-2">{r.event.emoji}</div>
           <h2 className="text-xl font-bold text-primary mb-1">T{r.quarter} — Résultats</h2>
@@ -297,22 +300,34 @@ export default function CasablancaGame() {
           </ResponsiveContainer>
         </div>
 
-        {/* Cumulative chart */}
+        {/* Cumulative chart with benchmark */}
         {history.length > 1 && (
           <div className="bg-white border border-surface-100 rounded-2xl p-4 mb-5">
-            <h3 className="text-sm font-bold text-primary/70 mb-3">Valeur du fonds (MAD)</h3>
+            <h3 className="text-sm font-bold text-primary/70 mb-3">Valeur du fonds vs. MASI simplifié (MAD)</h3>
             <ResponsiveContainer width="100%" height={120}>
-              <LineChart data={[{ q: 'Départ', v: startingValue }, ...history.map((h) => ({ q: `T${h.quarter}`, v: h.portfolioValue }))]}>
+              <LineChart data={[
+                { q: 'Départ', v: startingValue, b: startingValue },
+                ...history.map((h, i) => ({
+                  q: `T${h.quarter}`,
+                  v: h.portfolioValue,
+                  b: state.benchmark.history[i]?.value ?? startingValue,
+                }))
+              ]}>
                 <XAxis dataKey="q" tick={{ fontSize: 10, fill: '#374151' }} axisLine={false} tickLine={false} />
                 <YAxis hide domain={['auto', 'auto']} />
                 <Tooltip
                   contentStyle={{ borderRadius: 8, fontSize: 12, border: '1px solid #e5e7eb' }}
-                  formatter={(v: number) => [formatMAD(v), 'Valeur']}
+                  formatter={(v: number) => [formatMAD(v)]}
                 />
                 <ReferenceLine y={startingValue} stroke="#e5e7eb" strokeDasharray="4 4" />
-                <Line type="monotone" dataKey="v" stroke="#C8962E" strokeWidth={2} dot={{ r: 3 }} name="Valeur" />
+                <Line type="monotone" dataKey="v" stroke="#C8962E" strokeWidth={2} dot={{ r: 3 }} name="Votre fonds" />
+                <Line type="monotone" dataKey="b" stroke="#6B7280" strokeWidth={1.5} dot={false} strokeDasharray="5 3" name="MASI simpl." />
               </LineChart>
             </ResponsiveContainer>
+            <div className="flex gap-4 justify-center mt-2">
+              <span className="flex items-center gap-1.5 text-xs text-primary/50"><span className="w-4 h-0.5 bg-accent inline-block rounded" />Votre fonds</span>
+              <span className="flex items-center gap-1.5 text-xs text-primary/50"><span className="w-4 h-0.5 bg-primary/40 inline-block rounded" style={{ borderTop: '1px dashed' }} />MASI simpl.</span>
+            </div>
           </div>
         )}
 
@@ -329,8 +344,12 @@ export default function CasablancaGame() {
   // ── Summary ────────────────────────────────────────────────────────────────
   if (phase === 'summary') {
     const chartData = [
-      { q: 'Départ', v: startingValue },
-      ...history.map((h) => ({ q: `T${h.quarter}`, v: h.portfolioValue })),
+      { q: 'Départ', v: startingValue, b: startingValue },
+      ...history.map((h, i) => ({
+        q: `T${h.quarter}`,
+        v: h.portfolioValue,
+        b: state.benchmark.history[i]?.value ?? startingValue,
+      })),
     ];
 
     const style = (() => {
@@ -342,7 +361,7 @@ export default function CasablancaGame() {
     })();
 
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
         <div className="text-center mb-8">
           <div className="text-5xl mb-3">🏆</div>
           <h2 className="text-3xl font-black text-primary font-display">Bilan du fonds</h2>
@@ -362,6 +381,12 @@ export default function CasablancaGame() {
             <div className="text-xl font-black text-primary">{formatMAD(portfolioValue)}</div>
           </div>
           <div className="bg-surface-50 border border-surface-100 rounded-xl p-4 text-center">
+            <div className="text-xs text-primary/50 mb-1">Rendement annualisé</div>
+            <div className={cn('text-xl font-black', annualizedReturn >= 0 ? 'text-success' : 'text-danger')}>
+              {pct(annualizedReturn)}
+            </div>
+          </div>
+          <div className="bg-surface-50 border border-surface-100 rounded-xl p-4 text-center">
             <div className="text-xs text-primary/50 mb-1">Drawdown max</div>
             <div className="text-xl font-black text-danger">-{maxDrawdown}%</div>
           </div>
@@ -373,21 +398,42 @@ export default function CasablancaGame() {
           </div>
         </div>
 
+        {/* Benchmark comparison */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className={cn('rounded-xl border p-4 text-center', benchmarkReturn >= 0 ? 'bg-surface-50 border-surface-100' : 'bg-surface-50 border-surface-100')}>
+            <div className="text-xs text-primary/50 mb-1">MASI simplifié</div>
+            <div className={cn('text-lg font-black', benchmarkReturn >= 0 ? 'text-primary' : 'text-danger')}>
+              {pct(benchmarkReturn)}
+            </div>
+          </div>
+          <div className={cn('rounded-xl border p-4 text-center', excessReturn >= 0 ? 'bg-success/10 border-success/20' : 'bg-danger/10 border-danger/20')}>
+            <div className="text-xs text-primary/50 mb-1">Excès vs. benchmark</div>
+            <div className={cn('text-lg font-black', excessReturn >= 0 ? 'text-success' : 'text-danger')}>
+              {pct(excessReturn)}
+            </div>
+          </div>
+        </div>
+
         {/* Value chart */}
         <div className="bg-white border border-surface-100 rounded-2xl p-4 mb-5">
-          <h3 className="text-sm font-bold text-primary/70 mb-3">Évolution de la valeur du fonds</h3>
+          <h3 className="text-sm font-bold text-primary/70 mb-3">Évolution du fonds vs. MASI simplifié</h3>
           <ResponsiveContainer width="100%" height={170}>
             <LineChart data={chartData}>
               <XAxis dataKey="q" tick={{ fontSize: 10, fill: '#374151' }} axisLine={false} tickLine={false} />
               <YAxis hide domain={['auto', 'auto']} />
               <Tooltip
                 contentStyle={{ borderRadius: 8, fontSize: 12, border: '1px solid #e5e7eb' }}
-                formatter={(v: number) => [formatMAD(v), 'Valeur']}
+                formatter={(v: number) => [formatMAD(v)]}
               />
               <ReferenceLine y={startingValue} stroke="#e5e7eb" strokeDasharray="4 4" />
-              <Line type="monotone" dataKey="v" stroke="#1D4ED8" strokeWidth={2.5} dot={{ r: 3 }} name="Valeur" />
+              <Line type="monotone" dataKey="v" stroke="#1D4ED8" strokeWidth={2.5} dot={{ r: 3 }} name="Votre fonds" />
+              <Line type="monotone" dataKey="b" stroke="#6B7280" strokeWidth={1.5} dot={false} strokeDasharray="5 3" name="MASI simpl." />
             </LineChart>
           </ResponsiveContainer>
+          <div className="flex gap-4 justify-center mt-2">
+            <span className="flex items-center gap-1.5 text-xs text-primary/50"><span className="w-4 h-0.5 bg-secondary inline-block rounded" />Votre fonds</span>
+            <span className="flex items-center gap-1.5 text-xs text-primary/50"><span className="w-4 h-0.5 bg-primary/40 inline-block rounded" />MASI simpl.</span>
+          </div>
         </div>
 
         {/* Quarterly returns table */}

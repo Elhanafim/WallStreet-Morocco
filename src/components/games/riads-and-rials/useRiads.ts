@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import { saveHighScore } from '@/lib/gameScores';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -16,6 +17,15 @@ export interface SeasonEvent {
   adrlDelta: number;        // % change to ADR willingness
 }
 
+export interface ExpenseBreakdown {
+  staff: number;
+  utilities: number;
+  maintenance: number;
+  marketingFixed: number;
+  marketingCommission: number;
+  total: number;
+}
+
 export interface MonthResult {
   month: number;
   monthName: string;
@@ -25,6 +35,7 @@ export interface MonthResult {
   roomNights: number;
   revenue: number;
   expenses: number;
+  expenseBreakdown: ExpenseBreakdown;
   profit: number;
   guestRating: number;     // 1-5
   cumulativeProfit: number;
@@ -206,13 +217,17 @@ export function useRiads() {
       const roomNights = Math.round(rooms * occupancy * days);
       const revenue    = roomNights * adrFinal;
 
-      const commissions = Math.round(revenue * mktConfig.revenueCommission);
-      const expenses =
-        FIXED_MONTHLY_COSTS.staff +
-        FIXED_MONTHLY_COSTS.utilities +
-        MAINTENANCE_COST[maintenanceLevel] +
-        mktConfig.fixedCost +
-        commissions;
+      const marketingCommission = Math.round(revenue * mktConfig.revenueCommission);
+      const expenseBreakdown: ExpenseBreakdown = {
+        staff: FIXED_MONTHLY_COSTS.staff,
+        utilities: FIXED_MONTHLY_COSTS.utilities,
+        maintenance: MAINTENANCE_COST[maintenanceLevel],
+        marketingFixed: mktConfig.fixedCost,
+        marketingCommission,
+        total: FIXED_MONTHLY_COSTS.staff + FIXED_MONTHLY_COSTS.utilities +
+               MAINTENANCE_COST[maintenanceLevel] + mktConfig.fixedCost + marketingCommission,
+      };
+      const expenses = expenseBreakdown.total;
 
       const profit = revenue - expenses;
       const cumulativeProfit = (monthHistory[monthHistory.length - 1]?.cumulativeProfit ?? 0) + profit;
@@ -228,6 +243,7 @@ export function useRiads() {
         roomNights,
         revenue,
         expenses,
+        expenseBreakdown,
         profit,
         guestRating: newGuestRating,
         cumulativeProfit,
@@ -237,6 +253,17 @@ export function useRiads() {
       const usedIds = new Set(monthHistory.map((r) => r.event.id));
       usedIds.add(event.id);
       const nextEvent = isLast ? null : pickEvent(usedIds);
+
+      // Save high score on last month
+      if (isLast) {
+        const finalProfit = prev.cash + profit - prev.startingCash;
+        saveHighScore({
+          game: 'riads-and-rials',
+          score: finalProfit,
+          date: new Date().toISOString(),
+          label: `${finalProfit >= 0 ? '+' : ''}${Math.round(finalProfit).toLocaleString('fr-MA')} MAD`,
+        });
+      }
 
       return {
         ...prev,
@@ -265,6 +292,27 @@ export function useRiads() {
   const totalProfit = state.cash - state.startingCash;
   const lastMonth   = state.monthHistory[state.monthHistory.length - 1] ?? null;
 
+  // Expense preview: estimated costs before confirming
+  const expensePreview = useMemo((): ExpenseBreakdown => {
+    const mktConfig = MARKETING_CONFIG[state.marketingLevel];
+    // Estimate revenue for commission calculation (use a rough occupancy estimate)
+    const estOccupancy = 0.65;
+    const adr = ADR_BY_PRICE[state.priceLevel];
+    const days = DAYS_IN_MONTH[(state.month - 1) % 12];
+    const estRevenue = Math.round(state.rooms * estOccupancy * days * adr);
+    const marketingCommission = Math.round(estRevenue * mktConfig.revenueCommission);
+    const total = FIXED_MONTHLY_COSTS.staff + FIXED_MONTHLY_COSTS.utilities +
+                  MAINTENANCE_COST[state.maintenanceLevel] + mktConfig.fixedCost + marketingCommission;
+    return {
+      staff: FIXED_MONTHLY_COSTS.staff,
+      utilities: FIXED_MONTHLY_COSTS.utilities,
+      maintenance: MAINTENANCE_COST[state.maintenanceLevel],
+      marketingFixed: mktConfig.fixedCost,
+      marketingCommission,
+      total,
+    };
+  }, [state.priceLevel, state.maintenanceLevel, state.marketingLevel, state.month, state.rooms]);
+
   return {
     state,
     startGame,
@@ -274,5 +322,6 @@ export function useRiads() {
     resetGame,
     totalProfit,
     lastMonth,
+    expensePreview,
   };
 }
