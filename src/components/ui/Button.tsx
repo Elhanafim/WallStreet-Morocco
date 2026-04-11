@@ -15,17 +15,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-secondary text-white hover:bg-secondary-800 shadow-sm hover:shadow-glow-blue active:bg-secondary-900',
+    'bg-[#C9A84C] text-[#0A1628] hover:bg-[#E8C45A] shadow-sm hover:shadow-glow-gold active:bg-[#A88A3A] font-bold',
   secondary:
-    'bg-primary-900 text-white hover:bg-primary-800 shadow-sm active:bg-primary-900',
+    'bg-[#112240] text-white hover:bg-[#1A3050] shadow-sm border border-[#C9A84C]/20 active:bg-[#0A1628]',
   outline:
-    'border border-primary-200 text-primary-700 hover:border-primary-400 hover:bg-surface-50 bg-transparent',
+    'border border-[#C9A84C]/50 text-[#C9A84C] hover:border-[#C9A84C] hover:bg-[#C9A84C]/10 bg-transparent',
   ghost:
-    'bg-transparent text-primary-600 hover:bg-surface-50 hover:text-primary-900 active:bg-surface-100',
+    'bg-transparent text-[#A8B4C8] hover:bg-white/5 hover:text-white active:bg-white/10',
   danger:
-    'bg-danger text-white hover:bg-red-700 shadow-sm active:bg-red-800',
+    'bg-danger text-white hover:bg-red-600 shadow-sm active:bg-red-700',
   gold:
-    'bg-accent text-white font-bold hover:bg-accent-600 shadow-sm hover:shadow-glow-gold active:bg-accent-700',
+    'bg-[#C9A84C] text-[#0A1628] font-bold hover:bg-[#E8C45A] shadow-sm hover:shadow-glow-gold active:bg-[#A88A3A]',
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -59,7 +59,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled}
         className={cn(
-          'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:ring-offset-2 select-none tracking-tight',
+          'inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]/40 focus:ring-offset-2 focus:ring-offset-[#0A1628] select-none tracking-tight',
           variantClasses[variant],
           sizeClasses[size],
           fullWidth && 'w-full',

@@ -12,7 +12,7 @@ const TradingViewChart = dynamic(() => import('@/components/market/TradingViewCh
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-      <div className="w-8 h-8 border-2 border-accent/40 border-t-accent rounded-full animate-spin" />
+      <div className="w-8 h-8 border-2 border-[#C9A84C]/40 border-t-[#C9A84C] rounded-full animate-spin" />
     </div>
   ),
 });
@@ -21,19 +21,31 @@ export default function Hero() {
   const { t } = useTranslation('home');
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-gradient-hero pt-16">
-      {/* Background */}
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#0A1628] pt-16">
+
+      {/* Background atmosphere */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Subtle grid — Moroccan-inspired geometry */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: `linear-gradient(#3A86FF 1px, transparent 1px), linear-gradient(90deg, #3A86FF 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
+            backgroundImage: `linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)`,
+            backgroundSize: '80px 80px',
           }}
         />
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-3xl" />
+        {/* Diagonal offset accent grid */}
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)`,
+            backgroundSize: '80px 80px',
+            backgroundPosition: '40px 40px',
+          }}
+        />
+        {/* Ambient glow blobs */}
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#C9A84C]/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#C9A84C]/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#112240]/80 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-16">
@@ -41,22 +53,25 @@ export default function Hero() {
 
           {/* ── LEFT: Copy & CTAs ───────────────────────────────────── */}
           <div className="text-center lg:text-left animate-fade-in">
+            {/* Moroccan gold bar */}
+            <div className="gold-bar hidden lg:block" />
+
             {/* Educational badge */}
-            <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/30 rounded-full px-3 py-1.5 mb-4 sm:mb-6 max-w-full">
-              <BookOpen className="w-3.5 h-3.5 text-secondary flex-shrink-0" />
-              <span className="text-secondary text-xs sm:text-sm font-medium truncate">
+            <div className="inline-flex items-center gap-2 bg-[#C9A84C]/12 border border-[#C9A84C]/25 rounded-full px-3 py-1.5 mb-4 sm:mb-6 max-w-full">
+              <BookOpen className="w-3.5 h-3.5 text-[#C9A84C] flex-shrink-0" />
+              <span className="text-[#C9A84C] text-xs sm:text-sm font-medium truncate font-sans">
                 {t('hero.badge')}
               </span>
             </div>
 
-            <h1 className="text-[2rem] sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-3 sm:mb-4">
+            <h1 className="text-[2rem] sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-3 sm:mb-4 font-display">
               {t('hero.headline1')}{' '}
               <span className="gradient-text-gold">{t('hero.headline2')}</span>
               <br />
               {t('hero.headline3')}
             </h1>
 
-            <p className="text-white/70 text-sm sm:text-lg leading-relaxed mb-5 sm:mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className="text-[#A8B4C8] text-sm sm:text-lg leading-relaxed mb-5 sm:mb-8 max-w-xl mx-auto lg:mx-0 font-sans">
               {t('hero.subtitle')}
             </p>
 
@@ -69,7 +84,7 @@ export default function Hero() {
                 </Button>
               </Link>
               <Link href="/learn" className="w-full sm:w-auto">
-                <Button size="lg" variant="gold" className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto">
                   {t('hero.cta2')}
                 </Button>
               </Link>
@@ -77,7 +92,7 @@ export default function Hero() {
 
             {/* Permanent disclaimer strip */}
             <div className="mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-xl">
-              <p className="text-[10px] sm:text-[11px] text-white/40 leading-relaxed text-center lg:text-left">
+              <p className="text-[10px] sm:text-[11px] text-white/30 leading-relaxed text-center lg:text-left font-sans">
                 {t('hero.eduNote')}
               </p>
             </div>
@@ -92,10 +107,10 @@ export default function Hero() {
               ].map((stat) => (
                 <div
                   key={stat.value}
-                  className="bg-white/5 border border-white/10 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-center"
+                  className="bg-[#C9A84C]/5 border border-[#C9A84C]/12 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-center"
                 >
                   <span className="text-sm sm:text-base">{stat.icon}</span>
-                  <p className="text-white/60 text-[10px] sm:text-[11px] font-medium mt-0.5 sm:mt-1 leading-tight">{stat.value}</p>
+                  <p className="text-[#A8B4C8] text-[10px] sm:text-[11px] font-medium mt-0.5 sm:mt-1 leading-tight font-sans">{stat.value}</p>
                 </div>
               ))}
             </div>
@@ -106,29 +121,29 @@ export default function Hero() {
             {/* Chart header */}
             <div className="flex items-center justify-between px-1">
               <div>
-                <p className="text-white/50 text-xs uppercase tracking-widest">{t('hero.chartLabel')}</p>
-                <p className="text-white font-bold text-lg">{t('hero.chartTitle')}</p>
+                <p className="text-[#A8B4C8] text-xs uppercase tracking-widest font-sans">{t('hero.chartLabel')}</p>
+                <p className="text-white font-bold text-lg font-display">{t('hero.chartTitle')}</p>
               </div>
-              <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-500/30 rounded-full px-3 py-1">
-                <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
-                <span className="text-amber-300 text-xs font-semibold">{t('hero.chartLive')}</span>
+              <div className="flex items-center gap-2 bg-[#C9A84C]/12 border border-[#C9A84C]/25 rounded-full px-3 py-1">
+                <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full animate-pulse" />
+                <span className="text-[#C9A84C] text-xs font-semibold font-sans">{t('hero.chartLive')}</span>
               </div>
             </div>
 
             {/* Chart container */}
             <div
-              className="relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
+              className="relative bg-[#112240] border border-[#C9A84C]/15 rounded-2xl overflow-hidden shadow-2xl geo-corner"
               style={{ height: '400px' }}
             >
               <TradingViewChart
                 symbol="CSEMA:MASI"
                 height={400}
-                theme="light"
+                theme="dark"
                 interval="D"
                 showToolbar={false}
               />
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-empty:opacity-100">
-                <p className="text-white/30 text-sm">{t('hero.chartUnavailable')}</p>
+                <p className="text-[#A8B4C8] text-sm font-sans">{t('hero.chartUnavailable')}</p>
               </div>
             </div>
 
@@ -141,10 +156,10 @@ export default function Hero() {
               ].map((s) => (
                 <div
                   key={s.symbol}
-                  className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-center hover:bg-white/10 transition-colors"
+                  className="bg-[#112240] border border-[#C9A84C]/12 rounded-xl px-3 py-2.5 text-center hover:border-[#C9A84C]/30 hover:bg-[#C9A84C]/5 transition-all duration-200"
                 >
-                  <p className="text-accent font-black text-sm">{s.symbol}</p>
-                  <p className="text-white/40 text-xs truncate">{s.name}</p>
+                  <p className="text-[#C9A84C] font-black text-sm font-mono">{s.symbol}</p>
+                  <p className="text-[#A8B4C8] text-xs truncate font-sans">{s.name}</p>
                 </div>
               ))}
             </div>
@@ -159,8 +174,8 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
-        <div className="w-5 h-8 rounded-full border-2 border-white/30 flex items-start justify-center pt-1.5">
-          <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse" />
+        <div className="w-5 h-8 rounded-full border-2 border-[#C9A84C]/30 flex items-start justify-center pt-1.5">
+          <div className="w-1 h-2 bg-[#C9A84C]/60 rounded-full animate-pulse" />
         </div>
       </div>
     </section>

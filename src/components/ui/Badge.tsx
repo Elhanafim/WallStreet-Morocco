@@ -21,15 +21,15 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: 'bg-surface-50 text-primary-600 border border-surface-200',
-  primary: 'bg-primary-900/8 text-primary-800 border border-primary-900/10',
-  secondary: 'bg-secondary/8 text-secondary-700 border border-secondary/15',
-  success: 'bg-success/8 text-emerald-700 border border-success/15',
-  danger: 'bg-danger/8 text-red-700 border border-danger/15',
-  warning: 'bg-warning/8 text-amber-700 border border-warning/15',
-  gold: 'bg-accent/10 text-accent-600 border border-accent/20',
-  outline: 'bg-transparent border border-primary-200 text-primary-500',
-  premium: 'bg-gradient-gold text-white font-bold border border-accent/30 shadow-sm',
+  default:   'bg-white/8 text-[#A8B4C8] border border-white/10',
+  primary:   'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
+  secondary: 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
+  success:   'bg-[#2ECC71]/10 text-[#2ECC71] border border-[#2ECC71]/20',
+  danger:    'bg-[#E74C3C]/10 text-[#E74C3C] border border-[#E74C3C]/20',
+  warning:   'bg-[#F0A500]/10 text-[#F0A500] border border-[#F0A500]/20',
+  gold:      'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
+  outline:   'bg-transparent border border-[#C9A84C]/30 text-[#A8B4C8]',
+  premium:   'bg-gradient-gold text-[#0A1628] font-bold border border-[#C9A84C]/30 shadow-sm',
 };
 
 const sizeClasses: Record<BadgeSize, string> = {

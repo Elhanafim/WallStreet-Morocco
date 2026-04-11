@@ -111,59 +111,60 @@ function LoginForm() {
   }, [email, password, router, searchParams, t]);
 
   return (
-    <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-4 py-20 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0A1628] flex items-center justify-center px-4 py-20 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.025]"
           style={{
-            backgroundImage: `linear-gradient(#3A86FF 1px, transparent 1px), linear-gradient(90deg, #3A86FF 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
+            backgroundImage: `linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)`,
+            backgroundSize: '80px 80px',
           }}
         />
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#C9A84C]/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#C9A84C]/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-accent" />
+            <div className="w-10 h-10 bg-[#C9A84C]/15 border border-[#C9A84C]/30 rounded-xl flex items-center justify-center">
+              <TrendingUp className="w-5 h-5 text-[#C9A84C]" />
             </div>
-            <span className="font-black text-2xl text-white">
-              WallStreet <span className="text-accent">Morocco</span>
+            <span className="font-black text-2xl text-white font-sans">
+              WallStreet <span className="text-[#C9A84C]">Morocco</span>
             </span>
           </Link>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8">
+        <div className="bg-[#112240] rounded-3xl shadow-2xl border border-[#C9A84C]/12 p-8 geo-corner">
           <div className="mb-8">
-            <h1 className="text-2xl font-black text-primary mb-2">
+            <div className="gold-bar" />
+            <h1 className="text-2xl font-black text-white mb-2 font-display">
               {t('auth.loginTitle')}
             </h1>
-            <p className="text-primary/60 text-sm">
+            <p className="text-[#A8B4C8] text-sm font-sans">
               {t('auth.loginSubtitle')}
             </p>
           </div>
 
           {error && (
-            <div className="mb-5 flex items-center gap-3 bg-red-50 border border-red-200 rounded-xl p-3.5">
-              <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
-              <p className="text-sm text-red-600">{error}</p>
+            <div className="mb-5 flex items-center gap-3 bg-[#E74C3C]/10 border border-[#E74C3C]/30 rounded-xl p-3.5">
+              <AlertCircle className="w-4 h-4 text-[#E74C3C] flex-shrink-0" />
+              <p className="text-sm text-[#E74C3C] font-sans">{error}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-primary mb-1.5">
+              <label htmlFor="email" className="block text-sm font-semibold text-white mb-1.5 font-sans">
                 {t('auth.email')}
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8B4C8]/50" />
                 <input
                   id="email"
                   type="email"
@@ -171,7 +172,7 @@ function LoginForm() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('footer.emailPlaceholder')}
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 bg-white text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all text-sm"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-[#1A3050] bg-[#0A1628] text-white placeholder-[#A8B4C8]/40 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]/40 focus:border-[#C9A84C]/50 transition-all text-sm font-sans"
                 />
               </div>
             </div>
@@ -179,18 +180,18 @@ function LoginForm() {
             {/* Password */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label htmlFor="password" className="block text-sm font-semibold text-primary">
+                <label htmlFor="password" className="block text-sm font-semibold text-white font-sans">
                   {t('auth.password')}
                 </label>
                 <Link
                   href="/auth/forgot-password"
-                  className="text-xs text-secondary hover:text-secondary-600 font-medium transition-colors"
+                  className="text-xs text-[#C9A84C] hover:text-[#E8C45A] font-medium transition-colors font-sans"
                 >
                   {t('auth.forgotPassword')}
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8B4C8]/50" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -199,12 +200,12 @@ function LoginForm() {
                   placeholder="••••••••"
                   required
                   autoComplete="current-password"
-                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-surface-200 bg-white text-primary placeholder-primary/30 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all text-sm"
+                  className="w-full pl-10 pr-11 py-3 rounded-xl border border-[#1A3050] bg-[#0A1628] text-white placeholder-[#A8B4C8]/40 focus:outline-none focus:ring-2 focus:ring-[#C9A84C]/40 focus:border-[#C9A84C]/50 transition-all text-sm font-sans"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-primary/40 hover:text-primary transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A8B4C8]/50 hover:text-[#A8B4C8] transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -216,9 +217,9 @@ function LoginForm() {
               <input
                 type="checkbox"
                 id="remember"
-                className="w-4 h-4 rounded border-surface-300 text-secondary focus:ring-secondary"
+                className="w-4 h-4 rounded border-[#1A3050] bg-[#0A1628] text-[#C9A84C] focus:ring-[#C9A84C]/40"
               />
-              <label htmlFor="remember" className="text-sm text-primary/60">
+              <label htmlFor="remember" className="text-sm text-[#A8B4C8] font-sans">
                 {t('auth.rememberMe')}
               </label>
             </div>
@@ -227,7 +228,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-primary text-white font-bold py-3.5 rounded-xl hover:bg-secondary transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-[#C9A84C] text-[#0A1628] font-bold py-3.5 rounded-xl hover:bg-[#E8C45A] transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-sans"
             >
               {isLoading ? (
                 <>
@@ -249,10 +250,10 @@ function LoginForm() {
           {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-surface-200" />
+              <div className="w-full border-t border-[#1A3050]" />
             </div>
-            <div className="relative flex justify-center text-xs text-primary/40">
-              <span className="bg-white px-3">{t('auth.orContinueWith')}</span>
+            <div className="relative flex justify-center text-xs text-[#A8B4C8]/40">
+              <span className="bg-[#112240] px-3 font-sans">{t('auth.orContinueWith')}</span>
             </div>
           </div>
 
@@ -260,7 +261,7 @@ function LoginForm() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              className="flex items-center justify-center gap-2 border border-surface-200 rounded-xl py-3 text-sm font-medium text-primary hover:bg-surface-50 transition-colors"
+              className="flex items-center justify-center gap-2 border border-[#1A3050] rounded-xl py-3 text-sm font-medium text-[#A8B4C8] hover:bg-white/5 hover:border-[#C9A84C]/20 transition-all font-sans"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -272,7 +273,7 @@ function LoginForm() {
             </button>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 border border-surface-200 rounded-xl py-3 text-sm font-medium text-primary hover:bg-surface-50 transition-colors"
+              className="flex items-center justify-center gap-2 border border-[#1A3050] rounded-xl py-3 text-sm font-medium text-[#A8B4C8] hover:bg-white/5 hover:border-[#C9A84C]/20 transition-all font-sans"
             >
               <svg className="w-4 h-4 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -282,9 +283,9 @@ function LoginForm() {
           </div>
 
           {/* Signup Link */}
-          <p className="text-center text-sm text-primary/60 mt-6">
+          <p className="text-center text-sm text-[#A8B4C8] mt-6 font-sans">
             {t('auth.noAccount')}{' '}
-            <Link href="/auth/signup" className="text-secondary font-semibold hover:text-secondary-600 transition-colors">
+            <Link href="/auth/signup" className="text-[#C9A84C] font-semibold hover:text-[#E8C45A] transition-colors">
               {t('nav.registerFree')}
             </Link>
           </p>

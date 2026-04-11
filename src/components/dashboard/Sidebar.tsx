@@ -38,31 +38,36 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
   };
 
   return (
-    <aside className="w-64 h-full bg-[#0A2540] flex flex-col">
+    <aside className="w-64 h-full bg-[#0A1628] flex flex-col border-r border-[#C9A84C]/10">
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-accent/20 border border-accent/30 rounded-lg flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-accent" />
+      <div className="flex items-center justify-between px-6 py-5 border-b border-[#C9A84C]/10">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 bg-[#C9A84C]/15 border border-[#C9A84C]/30 rounded-lg flex items-center justify-center">
+            <TrendingUp className="w-4 h-4 text-[#C9A84C]" />
           </div>
-          <span className="font-black text-sm text-white leading-tight">
+          <span className="font-black text-sm text-white leading-tight font-sans">
             WallStreet<br />
-            <span className="text-accent">Morocco</span>
+            <span className="text-[#C9A84C]">Morocco</span>
           </span>
         </Link>
         {mobile && (
           <button
             onClick={onClose}
-            className="text-white/60 hover:text-white transition-colors p-1"
+            className="text-[#A8B4C8] hover:text-white transition-colors p-1"
           >
             <X className="w-5 h-5" />
           </button>
         )}
       </div>
 
+      {/* Moroccan geometry accent */}
+      <div className="px-6 py-3">
+        <div className="h-px bg-gradient-to-r from-transparent via-[#C9A84C]/20 to-transparent" />
+      </div>
+
       {/* Nav */}
-      <nav className="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
-        <p className="text-white/30 text-2xs font-semibold uppercase tracking-widest px-3 mb-3">
+      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
+        <p className="text-[#A8B4C8]/40 text-2xs font-semibold uppercase tracking-widest px-3 mb-3 font-sans">
           Menu
         </p>
         {navItems.map(({ href, label, icon: Icon }) => (
@@ -70,32 +75,32 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
             key={href}
             href={href}
             onClick={onClose}
-            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group ${
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
               isActive(href)
-                ? 'bg-secondary/20 text-white border border-secondary/30'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-[#C9A84C]/12 text-white border border-[#C9A84C]/25'
+                : 'text-[#A8B4C8] hover:text-white hover:bg-white/5 border border-transparent'
             }`}
           >
             <Icon
               className={`w-4 h-4 flex-shrink-0 transition-colors ${
-                isActive(href) ? 'text-secondary' : 'text-white/40 group-hover:text-white/70'
+                isActive(href) ? 'text-[#C9A84C]' : 'text-[#A8B4C8]/50 group-hover:text-[#A8B4C8]'
               }`}
             />
             {label}
             {isActive(href) && (
-              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-secondary" />
+              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
             )}
           </Link>
         ))}
       </nav>
 
       {/* Footer */}
-      <div className="px-3 pb-6 border-t border-white/10 pt-4">
+      <div className="px-3 pb-6 pt-4 border-t border-[#1A3050]">
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-white/60 hover:text-white hover:bg-red-500/10 hover:border-red-500/20 border border-transparent transition-all group"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-[#A8B4C8] hover:text-[#E74C3C] hover:bg-[#E74C3C]/8 border border-transparent hover:border-[#E74C3C]/15 transition-all duration-200 group"
         >
-          <LogOut className="w-4 h-4 text-white/40 group-hover:text-red-400 transition-colors" />
+          <LogOut className="w-4 h-4 text-[#A8B4C8]/50 group-hover:text-[#E74C3C] transition-colors" />
           Se déconnecter
         </button>
       </div>

@@ -23,7 +23,7 @@ const TradingViewMarketOverview = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full rounded-2xl bg-surface-50 border border-surface-200 animate-pulse"
+      <div className="w-full rounded-2xl bg-[#112240] border border-[#C9A84C]/12 animate-pulse"
            style={{ minHeight: '660px' }} />
     ),
   }
@@ -45,51 +45,53 @@ export default function HomePage() {
     <Hero key="hero" />,
 
     // ── Live Ticker Tape ──────────────────────────────────────────────────
-    <div key="ticker" className="bg-primary">
+    <div key="ticker" className="bg-[#061020] border-y border-[#C9A84C]/10">
       <TradingViewTicker />
     </div>,
 
     // ── Live Market Overview ───────────────────────────────────────────────
-    <section key="market" className="py-20 bg-white">
+    <section key="market" className="py-20 bg-[#0A1628]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 mb-3">
-              <span className="w-1.5 h-1.5 bg-success rounded-full animate-pulse" />
-              <span className="text-success text-xs font-semibold uppercase tracking-wide">{t('markets.badge')}</span>
+            <div className="gold-bar" />
+            <div className="inline-flex items-center gap-2 bg-[#2ECC71]/10 border border-[#2ECC71]/20 rounded-full px-3 py-1 mb-3">
+              <span className="w-1.5 h-1.5 bg-[#2ECC71] rounded-full animate-pulse" />
+              <span className="text-[#2ECC71] text-xs font-semibold uppercase tracking-wide font-sans">{t('markets.badge')}</span>
             </div>
-            <h2 className="text-3xl font-black text-primary mb-1">
+            <h2 className="text-3xl font-black text-white mb-1 font-display">
               {t('markets.title')}
             </h2>
-            <p className="text-primary/60 text-sm">
+            <p className="text-[#A8B4C8] text-sm font-sans">
               {t('markets.subtitle')}
             </p>
           </div>
           <Link
             href="/market"
-            className="inline-flex items-center gap-2 bg-secondary text-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-secondary-600 transition-all whitespace-nowrap"
+            className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#0A1628] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#E8C45A] transition-all whitespace-nowrap font-sans"
           >
             <BarChart2 className="w-4 h-4" />
             {t('markets.cta')}
           </Link>
         </div>
-        <div className="rounded-2xl overflow-hidden border border-surface-200 shadow-card w-full" style={{ maxWidth: '100%' }}>
+        <div className="rounded-2xl overflow-hidden border border-[#C9A84C]/12 shadow-card w-full" style={{ maxWidth: '100%' }}>
           <TradingViewMarketOverview />
         </div>
-        <p className="text-center text-xs text-primary/30 mt-3">
+        <p className="text-center text-xs text-[#A8B4C8]/40 mt-3 font-sans">
           {t('markets.source')}
         </p>
       </div>
     </section>,
 
     // ── Forex Section ─────────────────────────────────────────────────────
-    <section key="forex" className="py-16 bg-surface-50">
+    <section key="forex" className="py-16 bg-[#112240]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h2 className="text-2xl font-black text-primary mb-1">
+          <div className="gold-bar" />
+          <h2 className="text-2xl font-black text-white mb-1 font-display">
             {t('forex.title')}
           </h2>
-          <p className="text-primary/60 text-sm">
+          <p className="text-[#A8B4C8] text-sm font-sans">
             {t('forex.subtitle')}
           </p>
         </div>
@@ -97,13 +99,13 @@ export default function HomePage() {
           <ForexWidget symbol="FX_IDC:EURMAD" name="EUR / MAD" />
           <ForexWidget symbol="FX_IDC:USDMAD" name="USD / MAD" />
         </div>
-        <div className="bg-white border border-surface-200 rounded-2xl px-5 py-4 text-xs text-primary/50 leading-relaxed">
+        <div className="bg-[#0A1628] border border-[#C9A84C]/12 rounded-2xl px-5 py-4 text-xs text-[#A8B4C8]/60 leading-relaxed font-sans">
           {t('forex.disclaimer')}{' '}
           <a
             href="https://www.bkam.ma"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-primary"
+            className="underline hover:text-[#C9A84C] transition-colors"
           >
             {t('forex.bamLink')}
           </a>.
@@ -120,18 +122,19 @@ export default function HomePage() {
     </div>,
 
     // ── Featured Articles ──────────────────────────────────────────────────
-    <section key="articles" className="py-20 bg-white">
+    <section key="articles" className="py-20 bg-[#0A1628]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-black text-primary mb-2">
+            <div className="gold-bar" />
+            <h2 className="text-3xl font-black text-white mb-2 font-display">
               {t('articles.title')}
             </h2>
-            <p className="text-primary/60">{t('articles.subtitle')}</p>
+            <p className="text-[#A8B4C8] font-sans">{t('articles.subtitle')}</p>
           </div>
           <Link
             href="/learn"
-            className="hidden sm:flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all"
+            className="hidden sm:flex items-center gap-2 text-[#C9A84C] font-semibold text-sm hover:gap-3 transition-all font-sans"
           >
             {t('articles.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
@@ -143,7 +146,7 @@ export default function HomePage() {
         </div>
         <div className="mt-8 text-center sm:hidden">
           <Link href="/learn">
-            <button className="inline-flex items-center gap-2 text-secondary font-semibold border border-secondary rounded-xl px-6 py-3 hover:bg-secondary hover:text-white transition-colors">
+            <button className="inline-flex items-center gap-2 text-[#C9A84C] font-semibold border border-[#C9A84C]/40 rounded-xl px-6 py-3 hover:bg-[#C9A84C]/10 transition-colors font-sans">
               {t('articles.cta')} <ArrowRight className="w-4 h-4" />
             </button>
           </Link>
@@ -152,18 +155,19 @@ export default function HomePage() {
     </section>,
 
     // ── OPCVM Preview ──────────────────────────────────────────────────────
-    <section key="opcvm" className="py-20 bg-surface-50">
+    <section key="opcvm" className="py-20 bg-[#112240]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-black text-primary mb-2">
+            <div className="gold-bar" />
+            <h2 className="text-3xl font-black text-white mb-2 font-display">
               {t('opcvm.title')}
             </h2>
-            <p className="text-primary/60">{t('opcvm.subtitle')}</p>
+            <p className="text-[#A8B4C8] font-sans">{t('opcvm.subtitle')}</p>
           </div>
           <Link
             href="/opcvm"
-            className="hidden sm:flex items-center gap-2 text-secondary font-semibold text-sm hover:gap-3 transition-all"
+            className="hidden sm:flex items-center gap-2 text-[#C9A84C] font-semibold text-sm hover:gap-3 transition-all font-sans"
           >
             {t('opcvm.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
@@ -173,39 +177,39 @@ export default function HomePage() {
             <table className="w-full border-separate border-spacing-y-2">
               <thead>
                 <tr>
-                  <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">{t('opcvm.headers.fund')}</th>
-                  <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">{t('opcvm.headers.bank')}</th>
-                  <th className="text-left text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">{t('opcvm.headers.type')}</th>
-                  <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">{t('opcvm.headers.perf1y')}</th>
-                  <th className="text-right text-xs font-semibold text-primary/50 uppercase tracking-wider px-5 py-3">{t('opcvm.headers.risk')}</th>
+                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.fund')}</th>
+                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.bank')}</th>
+                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.type')}</th>
+                  <th className="text-right text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.perf1y')}</th>
+                  <th className="text-right text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.risk')}</th>
                 </tr>
               </thead>
               <tbody>
                 {featuredFunds.map((fund) => (
                   <tr
                     key={fund.id}
-                    className="bg-white border border-surface-200 rounded-xl hover:border-secondary/30 hover:shadow-sm transition-all duration-200"
+                    className="bg-[#0A1628] border border-[#C9A84C]/12 rounded-xl hover:border-[#C9A84C]/30 hover:bg-[#C9A84C]/4 transition-all duration-200"
                   >
                     <td className="px-5 py-4 rounded-l-xl">
-                      <p className="font-semibold text-primary text-sm">{fund.name}</p>
+                      <p className="font-semibold text-white text-sm font-sans">{fund.name}</p>
                     </td>
                     <td className="px-5 py-4">
-                      <span className="text-xs font-bold bg-primary/5 text-primary px-2.5 py-1 rounded-lg">
+                      <span className="text-xs font-bold bg-[#C9A84C]/10 text-[#C9A84C] px-2.5 py-1 rounded-lg font-sans">
                         {fund.bankCode}
                       </span>
                     </td>
                     <td className="px-5 py-4">
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                        fund.type === 'Actions'     ? 'bg-success/10 text-success'   :
-                        fund.type === 'Obligataire' ? 'bg-secondary/10 text-secondary' :
-                        fund.type === 'Monétaire'   ? 'bg-surface-200 text-primary/60' :
-                        'bg-accent/10 text-accent-600'
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full font-sans ${
+                        fund.type === 'Actions'     ? 'bg-[#2ECC71]/12 text-[#2ECC71]'  :
+                        fund.type === 'Obligataire' ? 'bg-[#7C9EBF]/12 text-[#7C9EBF]' :
+                        fund.type === 'Monétaire'   ? 'bg-white/8 text-[#A8B4C8]'        :
+                        'bg-[#C9A84C]/12 text-[#C9A84C]'
                       }`}>
                         {fund.type}
                       </span>
                     </td>
                     <td className="px-5 py-4 text-right">
-                      <span className={`font-bold text-sm ${fund.performance1Y >= 0 ? 'text-success' : 'text-danger'}`}>
+                      <span className={`font-bold text-sm font-mono ${fund.performance1Y >= 0 ? 'text-[#2ECC71]' : 'text-[#E74C3C]'}`}>
                         {formatPercent(fund.performance1Y)}
                       </span>
                     </td>
@@ -214,7 +218,7 @@ export default function HomePage() {
                         {Array.from({ length: 7 }, (_, j) => (
                           <div
                             key={j}
-                            className={`w-2 h-2 rounded-full ${j < fund.risk ? 'bg-accent' : 'bg-surface-200'}`}
+                            className={`w-2 h-2 rounded-full ${j < fund.risk ? 'bg-[#C9A84C]' : 'bg-[#1A3050]'}`}
                           />
                         ))}
                       </div>
@@ -227,7 +231,7 @@ export default function HomePage() {
         </div>
         <div className="mt-6 text-center sm:hidden">
           <Link href="/opcvm">
-            <button className="inline-flex items-center gap-2 text-secondary font-semibold border border-secondary rounded-xl px-6 py-3 hover:bg-secondary hover:text-white transition-colors">
+            <button className="inline-flex items-center gap-2 text-[#C9A84C] font-semibold border border-[#C9A84C]/40 rounded-xl px-6 py-3 hover:bg-[#C9A84C]/10 transition-colors font-sans">
               {t('opcvm.cta')} <ArrowRight className="w-4 h-4" />
             </button>
           </Link>

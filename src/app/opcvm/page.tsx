@@ -4,12 +4,12 @@ import { useAmmcData } from '@/hooks/useAmmcData';
 import Link from 'next/link';
 
 const FUND_TYPES = [
-  { key: 'monetaire', label: 'Monétaire', color: 'bg-amber-50 text-amber-700 border-amber-200' },
-  { key: 'obligataire_mlt', label: 'Oblig. MLT', color: 'bg-purple-50 text-purple-700 border-purple-200' },
-  { key: 'obligataire_ct', label: 'Oblig. CT', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
-  { key: 'actions', label: 'Actions', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
-  { key: 'diversifie', label: 'Diversifié', color: 'bg-cyan-50 text-cyan-700 border-cyan-200' },
-  { key: 'contractuel', label: 'Contractuel', color: 'bg-rose-50 text-rose-700 border-rose-200' },
+  { key: 'monetaire',      label: 'Monétaire',   accent: '#C9A84C' },
+  { key: 'obligataire_mlt',label: 'Oblig. MLT',  accent: '#7C9EBF' },
+  { key: 'obligataire_ct', label: 'Oblig. CT',   accent: '#8B8BCA' },
+  { key: 'actions',        label: 'Actions',      accent: '#2ECC71' },
+  { key: 'diversifie',     label: 'Diversifié',   accent: '#5BC8CF' },
+  { key: 'contractuel',    label: 'Contractuel',  accent: '#E07878' },
 ];
 
 function formatEncours(val: number | null | undefined): string {
@@ -27,32 +27,38 @@ function formatPerf(val: number | null | undefined, decimals = 2): string {
 export default function OpcvmPage() {
   const { latest, loading, error, load } = useAmmcData();
 
-  const totalFunds = latest ? Object.values(latest.categories).reduce((acc, c) => acc + (c.nb_fonds || 0), 0) : 0;
+  const totalFunds   = latest ? Object.values(latest.categories).reduce((acc, c) => acc + (c.nb_fonds || 0), 0) : 0;
   const totalEncours = latest?.aum_total ?? 0;
-  
+
   return (
-    <div className="pt-16 min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div className="pt-16 min-h-screen bg-[#0A1628]">
+
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-14 px-4">
+      <div className="bg-[#0A1628] border-b border-[#C9A84C]/10 py-14 px-4">
         <div className="max-w-6xl mx-auto">
+
+          {/* Moroccan gold bar accent */}
+          <div className="gold-bar mb-3" />
+
           <div className="flex flex-wrap items-center gap-3 mb-3">
-            <span className="text-2xl">📊</span>
-            <h1 className="text-3xl sm:text-4xl font-black text-white">
+            <h1 className="text-3xl sm:text-4xl font-black text-white font-display">
               Marché des OPCVM
             </h1>
-            <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-full font-semibold">
+            <span className="text-xs bg-[#C9A84C]/15 text-[#C9A84C] border border-[#C9A84C]/30 px-2.5 py-1 rounded-full font-semibold font-sans">
               Source AMMC Officielle
             </span>
           </div>
-          <p className="text-slate-400 text-sm mb-4">
+
+          <p className="text-[#A8B4C8] text-sm mb-5 font-sans">
             Aperçu global et statistiques hebdomadaires du marché marocain des OPCVM.
-            {latest?.date && <> · <span className="text-blue-400">Semaine {latest.week_number} ({latest.date})</span></>}
+            {latest?.date && (
+              <> · <span className="text-[#C9A84C]">Semaine {latest.week_number} ({latest.date})</span></>
+            )}
           </p>
 
           <Link
             href="/opcvm/ammc"
-            className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 border mb-6 transition-colors hover:bg-amber-500/10 rounded-lg bg-blue-900/40"
-            style={{ borderColor: '#FF8C0066', color: '#FF8C00' }}
+            className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 border border-[#C9A84C]/30 text-[#C9A84C] mb-8 transition-all hover:bg-[#C9A84C]/10 rounded-lg bg-[#C9A84C]/5 font-sans"
           >
             <span>◈</span>
             <span>Voir le tableau de bord détaillé analytique</span>
@@ -62,32 +68,37 @@ export default function OpcvmPage() {
           {/* KPI strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Fonds Actifs', value: totalFunds > 0 ? String(totalFunds) : '—', sub: 'Toutes les catégories' },
-              { label: 'Flux Net Hebdo', value: latest ? formatEncours(latest.flows.net_flow) : '—', sub: 'Souscriptions - Rachats' },
-              { label: 'Encours Global', value: totalEncours > 0 ? formatEncours(totalEncours) : '—', sub: 'Actifs sous gestion' },
-              { label: 'Mise à jour', value: latest ? latest.date : '—', sub: 'Fréquence hebdomadaire' },
+              { label: 'Fonds Actifs',    value: totalFunds > 0 ? String(totalFunds) : '—',             sub: 'Toutes les catégories'   },
+              { label: 'Flux Net Hebdo',  value: latest ? formatEncours(latest.flows.net_flow) : '—',    sub: 'Souscriptions - Rachats'  },
+              { label: 'Encours Global',  value: totalEncours > 0 ? formatEncours(totalEncours) : '—',  sub: 'Actifs sous gestion'      },
+              { label: 'Mise à jour',     value: latest ? latest.date : '—',                            sub: 'Fréquence hebdomadaire'   },
             ].map(kpi => (
-              <div key={kpi.label} className="bg-white/10 border border-white/15 rounded-xl px-4 py-3">
-                <p className="text-blue-300 font-black text-lg sm:text-xl mb-0.5">{kpi.value}</p>
-                <p className="text-white/80 text-xs font-semibold">{kpi.label}</p>
-                <p className="text-white/40 text-[10px] mt-0.5 truncate">{kpi.sub}</p>
+              <div key={kpi.label} className="bg-[#112240] border border-[#C9A84C]/12 rounded-xl px-4 py-3 geo-corner">
+                <p className="text-[#C9A84C] font-black text-lg sm:text-xl mb-0.5 font-mono">{kpi.value}</p>
+                <p className="text-white text-xs font-semibold font-sans">{kpi.label}</p>
+                <p className="text-[#A8B4C8] text-[10px] mt-0.5 truncate font-sans">{kpi.sub}</p>
               </div>
             ))}
           </div>
         </div>
       </div>
 
+      {/* ── Content ──────────────────────────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
         {loading ? (
-          <div className="py-20 text-center text-slate-500">
-             <div className="text-3xl mb-3 animate-pulse">📊</div>
-             <p className="font-semibold">Chargement des statistiques AMMC…</p>
+          <div className="py-20 text-center text-[#A8B4C8]">
+            <div className="text-3xl mb-3 animate-pulse">📊</div>
+            <p className="font-semibold font-sans">Chargement des statistiques AMMC…</p>
           </div>
         ) : error || !latest ? (
-          <div className="py-16 text-center text-slate-500">
+          <div className="py-16 text-center text-[#A8B4C8]">
             <div className="text-3xl mb-3">⚠️</div>
-            <p className="font-semibold text-red-600 dark:text-red-400">Données indisponibles</p>
-            <button onClick={load} className="mt-4 text-sm text-blue-600 border border-blue-200 rounded-lg px-4 py-2 hover:bg-blue-50 transition-colors">
+            <p className="font-semibold text-[#E74C3C] font-sans">Données indisponibles</p>
+            <button
+              onClick={load}
+              className="mt-4 text-sm text-[#C9A84C] border border-[#C9A84C]/30 rounded-lg px-4 py-2 hover:bg-[#C9A84C]/10 transition-colors font-sans"
+            >
               ↻ Réessayer
             </button>
           </div>
@@ -95,79 +106,86 @@ export default function OpcvmPage() {
           <>
             {/* Summary cards by category */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              {FUND_TYPES.map(({ key, label, color }) => {
+              {FUND_TYPES.map(({ key, label, accent }) => {
                 const s = latest.categories[key];
                 if (!s || s.aum == null) return null;
                 return (
-                  <div key={key} className={`rounded-xl border p-4 ${color} bg-opacity-60`}>
-                    <p className="font-black text-sm mb-2">{label}</p>
-                    <p className="text-xl font-black">{formatEncours(s.aum)}</p>
-                    <p className="text-xs opacity-70 mb-2">Encours</p>
+                  <div
+                    key={key}
+                    className="rounded-xl border border-[#1A3050] bg-[#112240] p-4 hover:border-[#C9A84C]/25 transition-colors"
+                    style={{ borderTopColor: accent, borderTopWidth: 2 }}
+                  >
+                    <p className="font-bold text-xs text-[#A8B4C8] mb-2 font-sans uppercase tracking-wide" style={{ color: accent }}>{label}</p>
+                    <p className="text-lg font-black text-white font-mono">{formatEncours(s.aum)}</p>
+                    <p className="text-[10px] text-[#A8B4C8] mb-1 font-sans">Encours</p>
                     {s.weekly_growth !== null && (
-                      <p className="text-[11px] font-semibold mt-1">
-                        Var: <span className={s.weekly_growth >= 0 ? 'text-emerald-700' : 'text-red-700'}>{formatPerf(s.weekly_growth)}</span>
+                      <p className="text-[11px] font-semibold mt-1 font-mono">
+                        <span className={s.weekly_growth >= 0 ? 'text-[#2ECC71]' : 'text-[#E74C3C]'}>
+                          {formatPerf(s.weekly_growth)}
+                        </span>
                       </p>
                     )}
-                    <p className="text-[11px] opacity-80 mt-1">
-                      Fonds: {s.nb_fonds || '—'}
+                    <p className="text-[10px] text-[#A8B4C8] mt-1 font-sans">
+                      {s.nb_fonds || '—'} fonds
                     </p>
                   </div>
                 );
               })}
             </div>
 
-            {/* Simplifed Category Table */}
-            <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-              <div className="px-5 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 flex items-center justify-between">
-                <h2 className="font-black text-slate-800 dark:text-white text-base">
+            {/* Category Table */}
+            <div className="bg-[#112240] rounded-2xl border border-[#C9A84C]/12 overflow-hidden">
+              <div className="px-5 py-4 border-b border-[#1A3050] flex items-center justify-between">
+                <h2 className="font-black text-white text-base font-display">
                   Répartition de l'Encours et Flux
                 </h2>
                 <button
                   onClick={load}
-                  className="text-xs text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg px-3 py-1.5 transition-colors"
+                  className="text-xs text-[#C9A84C] border border-[#C9A84C]/30 hover:bg-[#C9A84C]/10 rounded-lg px-3 py-1.5 transition-colors font-sans"
                 >
                   ↻ Actualiser
                 </button>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left whitespace-nowrap">
-                  <thead className="bg-slate-50 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 text-xs text-slate-500 font-semibold uppercase tracking-wider">
+                  <thead className="border-b border-[#1A3050]">
                     <tr>
-                      <th className="px-5 py-3">Catégorie</th>
-                      <th className="px-5 py-3 text-right">Fonds</th>
-                      <th className="px-5 py-3 text-right">Encours total</th>
-                      <th className="px-5 py-3 text-right">Variation hebdo</th>
-                      <th className="px-5 py-3 text-right">Souscriptions</th>
-                      <th className="px-5 py-3 text-right">Rachats</th>
-                      <th className="px-5 py-3 text-right font-bold">Flux net</th>
+                      {['Catégorie','Fonds','Encours total','Variation hebdo','Souscriptions','Rachats','Flux net'].map((h, i) => (
+                        <th
+                          key={h}
+                          className={`px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#C9A84C] bg-[#0A1628] font-sans ${i > 0 ? 'text-right' : ''}`}
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                  <tbody>
                     {FUND_TYPES.map(({ key, label }) => {
                       const c = latest.categories[key];
                       if (!c || c.aum == null) return null;
                       return (
-                        <tr key={key} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                          <td className="px-5 py-3 font-semibold text-slate-800 dark:text-slate-200">{label}</td>
-                          <td className="px-5 py-3 text-right text-slate-500">{c.nb_fonds || '—'}</td>
-                          <td className="px-5 py-3 text-right font-mono font-medium text-slate-700 dark:text-slate-300">
+                        <tr key={key} className="border-b border-[#1A3050]/60 hover:bg-[#C9A84C]/4 transition-colors">
+                          <td className="px-5 py-3 font-semibold text-white font-sans">{label}</td>
+                          <td className="px-5 py-3 text-right text-[#A8B4C8] font-mono">{c.nb_fonds || '—'}</td>
+                          <td className="px-5 py-3 text-right font-mono font-medium text-white">
                             {formatEncours(c.aum)}
                           </td>
                           <td className="px-5 py-3 text-right font-mono">
-                            <span className={(c.weekly_growth ?? 0) >= 0 ? "text-emerald-600" : "text-red-600"}>
+                            <span className={(c.weekly_growth ?? 0) >= 0 ? 'text-[#2ECC71]' : 'text-[#E74C3C]'}>
                               {formatPerf(c.weekly_growth)}
                             </span>
                           </td>
-                          <td className="px-5 py-3 text-right font-mono text-emerald-600 dark:text-emerald-400">
-                             +{formatEncours(c.subscriptions)}
+                          <td className="px-5 py-3 text-right font-mono text-[#2ECC71]">
+                            +{formatEncours(c.subscriptions)}
                           </td>
-                          <td className="px-5 py-3 text-right font-mono text-red-600 dark:text-red-400">
-                             -{formatEncours(c.redemptions)}
+                          <td className="px-5 py-3 text-right font-mono text-[#E74C3C]">
+                            -{formatEncours(c.redemptions)}
                           </td>
                           <td className="px-5 py-3 text-right font-mono font-bold">
-                             <span className={(c.net_flow ?? 0) >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}>
-                               {(c.net_flow ?? 0) >= 0 ? '+' : ''}{formatEncours(c.net_flow)}
-                             </span>
+                            <span className={(c.net_flow ?? 0) >= 0 ? 'text-[#2ECC71]' : 'text-[#E74C3C]'}>
+                              {(c.net_flow ?? 0) >= 0 ? '+' : ''}{formatEncours(c.net_flow)}
+                            </span>
                           </td>
                         </tr>
                       );
@@ -178,14 +196,14 @@ export default function OpcvmPage() {
             </div>
 
             {/* Source block */}
-            <div className="rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-900/20 px-5 py-4 text-sm space-y-1">
-              <p className="text-slate-600 dark:text-slate-300 text-xs">
-                Source : <span className="font-semibold">{latest.source || 'AMMC'}</span>
+            <div className="rounded-xl border border-[#C9A84C]/20 bg-[#C9A84C]/5 px-5 py-4 text-sm space-y-1">
+              <p className="text-[#A8B4C8] text-xs font-sans">
+                Source : <span className="font-semibold text-white">{latest.source || 'AMMC'}</span>
               </p>
-              <p className="text-amber-800 dark:text-amber-300 font-medium">
+              <p className="text-[#C9A84C] font-medium font-sans">
                 ⚠️ Les statistiques sont mises à jour de manière hebdomadaire.
               </p>
-              <p className="text-amber-700 dark:text-amber-400 text-xs">
+              <p className="text-[#A8B4C8] text-xs font-sans">
                 Ces informations macro-économiques agrégées sont fournies à des fins éducatives uniquement.
               </p>
             </div>

@@ -8,11 +8,11 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantClasses = {
-  default: 'bg-white border border-surface-100 shadow-card',
-  dark: 'bg-gradient-card text-white border border-white/[0.06]',
-  glass: 'glass-card text-white',
-  bordered: 'bg-white border-2 border-surface-200',
-  elevated: 'bg-white shadow-card-hover border border-surface-50',
+  default:  'bg-[#112240] border border-[#C9A84C]/12 shadow-card',
+  dark:     'bg-[#0A1628] text-white border border-[#C9A84C]/10',
+  glass:    'glass-card text-white',
+  bordered: 'bg-[#112240] border border-[#C9A84C]/25',
+  elevated: 'bg-[#112240] shadow-card-hover border border-[#C9A84C]/15',
 };
 
 const paddingClasses = {
@@ -78,7 +78,7 @@ export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   ({ as: Tag = 'h3', className, children, ...props }, ref) => (
     <Tag
       ref={ref as any}
-      className={cn('text-lg font-bold text-primary font-display', className)}
+      className={cn('text-lg font-bold text-white font-display', className)}
       {...props}
     >
       {children}
@@ -107,7 +107,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
     <div
       ref={ref}
       className={cn(
-        'mt-4 pt-4 border-t border-surface-100 flex items-center justify-between',
+        'mt-4 pt-4 border-t border-[#1A3050] flex items-center justify-between',
         className
       )}
       {...props}

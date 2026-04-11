@@ -115,22 +115,23 @@ export const metadata = {
 
 export default function MarketPage() {
   return (
-    <div className="min-h-screen bg-surface-50">
+    <div className="min-h-screen bg-[#0A1628]">
       {/* Ticker tape */}
-      <div className="bg-primary">
+      <div className="bg-[#061020] border-b border-[#C9A84C]/10">
         <TradingViewTicker />
       </div>
 
       {/* Page header */}
-      <div className="bg-primary text-white py-10 px-4">
+      <div className="bg-[#0A1628] border-b border-[#C9A84C]/10 py-10 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
-              <BarChart2 className="w-5 h-5 text-accent" />
+          <div className="gold-bar mb-3" />
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#C9A84C]/12 border border-[#C9A84C]/25 rounded-xl flex items-center justify-center">
+              <BarChart2 className="w-5 h-5 text-[#C9A84C]" />
             </div>
             <div>
-              <h1 className="text-2xl font-black">Marchés Marocains</h1>
-              <p className="text-white/60 text-sm">Données en temps réel · Bourse de Casablanca · 77 valeurs</p>
+              <h1 className="text-2xl font-black text-white font-display">Marchés Marocains</h1>
+              <p className="text-[#A8B4C8] text-sm font-sans">Données en temps réel · Bourse de Casablanca · 77 valeurs</p>
             </div>
           </div>
         </div>
@@ -152,19 +153,19 @@ export default function MarketPage() {
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Left: Main content (3 cols) */}
           <div className="xl:col-span-3 space-y-6">
-            {/* MASI Advanced Chart — unchanged */}
-            <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
-              <div className="px-5 py-4 border-b border-surface-100 flex items-center justify-between">
+            {/* MASI Advanced Chart */}
+            <div className="bg-[#112240] rounded-2xl border border-[#C9A84C]/12 shadow-card overflow-hidden">
+              <div className="px-5 py-4 border-b border-[#1A3050] flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Globe2 className="w-5 h-5 text-secondary" />
+                  <Globe2 className="w-5 h-5 text-[#C9A84C]" />
                   <div>
-                    <h2 className="font-bold text-primary">MASI — Graphique Avancé</h2>
-                    <p className="text-xs text-primary/50">Indice Marocain de toutes les valeurs</p>
+                    <h2 className="font-bold text-white font-display">MASI — Graphique Avancé</h2>
+                    <p className="text-xs text-[#A8B4C8] font-sans">Indice Marocain de toutes les valeurs</p>
                   </div>
                 </div>
-                <span className="text-xs bg-success/10 text-success font-semibold px-2 py-1 rounded-full">Live</span>
+                <span className="text-xs bg-[#2ECC71]/10 text-[#2ECC71] font-semibold px-2.5 py-1 rounded-full border border-[#2ECC71]/20 font-sans">Live</span>
               </div>
-              <TradingViewChart symbol="CSEMA:MASI" height={450} theme="light" interval="D" showToolbar={true} />
+              <TradingViewChart symbol="CSEMA:MASI" height={450} theme="dark" interval="D" showToolbar={true} />
             </div>
 
             {/* Market Summary — unchanged */}
