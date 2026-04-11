@@ -7,31 +7,34 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import { Menu, Bell } from 'lucide-react';
 
 const pageTitles: Record<string, string> = {
-  '/dashboard': 'Vue d\'ensemble',
+  '/dashboard':           'Vue d\'ensemble',
   '/dashboard/portfolio': 'Mon Portfolio',
-  '/dashboard/profile': 'Mon Profil',
+  '/dashboard/profile':   'Mon Profil',
 };
 
 function roleBadge(role: string) {
-  const map: Record<string, { label: string; className: string }> = {
-    FREE:    { label: 'Gratuit', className: 'bg-[#A8B4C8]/15 text-[#A8B4C8]' },
-    PREMIUM: { label: 'Premium', className: 'bg-[#C9A84C]/15 text-[#C9A84C]' },
-    ADMIN:   { label: 'Admin',   className: 'bg-purple-500/15 text-purple-300' },
+  const map: Record<string, { label: string; color: string; bg: string }> = {
+    FREE:    { label: 'Gratuit', color: 'var(--text-muted)',    bg: 'var(--bg-elevated)' },
+    PREMIUM: { label: 'Premium', color: 'var(--gold)',          bg: 'rgba(184,151,74,0.08)' },
+    ADMIN:   { label: 'Admin',   color: 'var(--text-secondary)', bg: 'var(--bg-elevated)' },
   };
   return map[role] ?? map['FREE'];
 }
 
 function DashboardInner({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
-  const pathname = usePathname();
+  const pathname          = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const title = pageTitles[pathname] ?? 'Dashboard';
-  const role = (session?.user as any)?.role ?? 'FREE';
+  const role  = (session?.user as any)?.role ?? 'FREE';
   const badge = roleBadge(role);
 
   return (
-    <div className="flex h-screen bg-[#0A1628] overflow-hidden">
+    <div
+      className="flex h-screen overflow-hidden"
+      style={{ backgroundColor: 'var(--bg-base)' }}
+    >
       {/* Desktop Sidebar */}
       <div className="hidden lg:flex flex-shrink-0">
         <Sidebar />
@@ -41,7 +44,8 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
       {sidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-40 flex">
           <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(8,15,30,0.7)' }}
             onClick={() => setSidebarOpen(false)}
           />
           <div className="relative z-50">
@@ -53,30 +57,76 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
-        <header className="flex-shrink-0 h-16 bg-[#0A1628] border-b border-[#C9A84C]/10 flex items-center justify-between px-4 lg:px-6">
+        <header
+          className="flex-shrink-0 h-14 flex items-center justify-between px-4 lg:px-5"
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            borderBottom: '1px solid var(--border)',
+          }}
+        >
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl text-[#A8B4C8] hover:text-white hover:bg-white/5 transition-colors"
+              className="lg:hidden w-8 h-8 flex items-center justify-center transition-colors"
+              style={{ color: 'var(--text-muted)', borderRadius: '6px' }}
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-4 h-4" />
             </button>
-            <h1 className="text-lg font-black text-white font-display">{title}</h1>
+            <h1
+              className="text-base font-medium"
+              style={{
+                color: 'var(--text-primary)',
+                fontFamily: 'var(--font-display)',
+                fontWeight: 500,
+              }}
+            >
+              {title}
+            </h1>
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="w-9 h-9 flex items-center justify-center rounded-xl text-[#A8B4C8] hover:text-white hover:bg-white/5 transition-colors relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-[#C9A84C] rounded-full" />
+            <button
+              className="w-8 h-8 flex items-center justify-center relative transition-colors"
+              style={{ color: 'var(--text-muted)', borderRadius: '6px' }}
+            >
+              <Bell className="w-4 h-4" />
+              <span
+                className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: 'var(--text-secondary)' }}
+              />
             </button>
+
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#C9A84C]/15 border border-[#C9A84C]/30 flex items-center justify-center text-[#C9A84C] text-xs font-bold">
+              <div
+                className="w-7 h-7 flex items-center justify-center text-xs font-medium"
+                style={{
+                  backgroundColor: 'var(--bg-elevated)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '6px',
+                  color: 'var(--text-secondary)',
+                  fontFamily: 'var(--font-sans)',
+                }}
+              >
                 {session?.user?.name?.[0]?.toUpperCase() ?? 'U'}
               </div>
               <div className="hidden sm:block">
-                <p className="text-sm font-semibold text-white leading-none">{session?.user?.name ?? 'Utilisateur'}</p>
-                <div className="flex items-center gap-1 mt-0.5">
-                  <span className={`text-2xs font-semibold px-1.5 py-0.5 rounded-full ${badge.className}`}>
+                <p
+                  className="text-xs font-medium leading-none"
+                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+                >
+                  {session?.user?.name ?? 'Utilisateur'}
+                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <span
+                    className="text-2xs px-1.5 py-0.5"
+                    style={{
+                      color: badge.color,
+                      backgroundColor: badge.bg,
+                      border: '1px solid var(--border)',
+                      borderRadius: '3px',
+                      fontFamily: 'var(--font-sans)',
+                    }}
+                  >
                     {badge.label}
                   </span>
                 </div>
@@ -86,7 +136,10 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6 bg-[#0A1628]">
+        <main
+          className="flex-1 overflow-y-auto p-4 lg:p-6"
+          style={{ backgroundColor: 'var(--bg-base)' }}
+        >
           {children}
         </main>
       </div>

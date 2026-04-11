@@ -1,11 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Keyframes ─────────────────────────────────────────────────────────────── */
+/* ── Design Tokens ───────────────────────────────────────────────────────── */
+:root {
+  --bg-base:        #080F1E;
+  --bg-surface:     #0E1A2E;
+  --bg-elevated:    #14243D;
+  --gold:           #B8974A;
+  --text-primary:   #E8EAF0;
+  --text-secondary: #7A8BA0;
+  --text-muted:     #3D4F65;
+  --gain:           #3DAB6E;
+  --loss:           #D95B5B;
+  --border:         #1C2B40;
+  --font-display:   'Cormorant Garamond', Georgia, serif;
+  --font-sans:      'Inter', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', Menlo, monospace;
+}
 
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -30,65 +46,40 @@
   animation: slide-in-left 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @keyframes shimmer {
   0%   { background-position: -800px 0; }
   100% { background-position:  800px 0; }
 }
 
-/* ── Design tokens ─────────────────────────────────────────────────────────── */
-
+/* ── Base ────────────────────────────────────────────────────────────────── */
 @layer base {
-  :root {
-    /* Dark palette */
-    --color-bg:          #0A1628;
-    --color-panel:       #112240;
-    --color-border:      #1A3050;
-    --color-gold:        #C9A84C;
-    --color-gold-light:  #E8C45A;
-    --color-gold-dim:    rgba(201,168,76,0.15);
-    --color-text:        #FFFFFF;
-    --color-muted:       #A8B4C8;
-    --color-success:     #2ECC71;
-    --color-danger:      #E74C3C;
-    --color-warning:     #F0A500;
-
-    /* Font families */
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-sans:    'DM Sans', system-ui, sans-serif;
-    --font-mono:    'JetBrains Mono', Menlo, monospace;
-  }
-
   * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
 
-  html,
-  body {
+  html, body {
     max-width: 100vw;
     overflow-x: hidden;
     font-family: var(--font-sans);
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--bg-base);
+    color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.01em;
-    color: #FFFFFF;
-  }
-
-  /* Numbers and financial data use mono font */
-  .font-data,
-  [data-financial],
-  .tabular-nums {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
   }
 
   a {
@@ -96,83 +87,26 @@
     text-decoration: none;
   }
 
-  /* Custom dark scrollbar */
-  ::-webkit-scrollbar       { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: #0A1628; }
-  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(201,168,76,0.5); }
-  * { scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) #0A1628; }
+  ::-webkit-scrollbar         { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track   { background: transparent; }
+  ::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  *                           { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+  .font-data, [data-financial], .tabular-nums {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-/* ── Component classes ─────────────────────────────────────────────────────── */
-
+/* ── Components ──────────────────────────────────────────────────────────── */
 @layer components {
-
-  /* Gradient text */
-  .gradient-text {
-    background: linear-gradient(135deg, #C9A84C, #E8C45A);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .gradient-text-gold {
-    background: linear-gradient(135deg, #C9A84C, #E8C45A, #C9A84C);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Glass card — dark */
-  .glass-card {
-    background: rgba(17, 34, 64, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(201, 168, 76, 0.12);
-  }
-
-  .dark-card {
-    background: #112240;
-    border: 1px solid rgba(201, 168, 76, 0.1);
-  }
-
-  /* Legacy warm-card → dark panel */
-  .warm-card {
-    background: #112240;
-    border: 1px solid rgba(201, 168, 76, 0.12);
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
-  }
-
-  .section-padding  { @apply px-4 sm:px-6 lg:px-8; }
-  .container-max    { @apply max-w-7xl mx-auto; }
-
-  /* Buttons — gold primary */
-  .btn-primary {
-    @apply bg-secondary text-primary font-semibold px-6 py-3 rounded-xl
-           hover:bg-secondary-400 transition-all duration-200 shadow-sm hover:shadow-glow-gold;
-  }
-
-  .btn-outline {
-    @apply border border-secondary text-secondary font-semibold px-6 py-3 rounded-xl
-           hover:bg-secondary/10 transition-all duration-200;
-  }
-
-  .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card-hover cursor-pointer;
-  }
-
-  /* Input — dark with gold focus */
-  .input-field {
-    @apply w-full px-4 py-3 rounded-xl
-           border border-surface-200
-           bg-surface-100
-           text-white placeholder-primary-200
-           focus:outline-none focus:ring-2 focus:ring-secondary/40 focus:border-secondary
-           transition-all duration-200 font-sans;
-  }
+  .section-padding { @apply px-4 sm:px-6 lg:px-8; }
+  .container-max   { @apply max-w-7xl mx-auto; }
 
   .heading-display {
     font-family: var(--font-display);
+    font-weight: 500;
     letter-spacing: -0.02em;
   }
 
@@ -182,65 +116,54 @@
     letter-spacing: -0.02em;
   }
 
-  /* ── Moroccan geometry — zellige-inspired divider ─────────────────────────── */
-  .moroccan-divider {
-    position: relative;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
-    margin: 0;
-    overflow: visible;
+  /* Table — dark editorial */
+  .table-fintech { @apply w-full border-collapse; }
+
+  .table-fintech th {
+    text-align: left;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    background-color: var(--bg-elevated);
   }
 
-  .moroccan-divider::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    width: 8px;
-    height: 8px;
-    border: 1px solid rgba(201,168,76,0.5);
-    background: var(--color-bg);
+  .table-fintech td {
+    padding: 12px 16px;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
   }
 
-  /* Gold geometric corner accent */
-  .geo-corner {
-    position: relative;
-  }
-  .geo-corner::before,
-  .geo-corner::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: rgba(201,168,76,0.4);
-    border-style: solid;
-  }
-  .geo-corner::before {
-    top: 0; left: 0;
-    border-width: 1px 0 0 1px;
-  }
-  .geo-corner::after {
-    bottom: 0; right: 0;
-    border-width: 0 1px 1px 0;
+  .table-fintech td.numeric,
+  .table-fintech td[data-type="number"] {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
   }
 
-  /* Gold border accent stripe for section headers */
-  .gold-bar {
-    display: inline-block;
-    width: 32px;
-    height: 2px;
-    background: linear-gradient(90deg, #C9A84C, #E8C45A);
-    border-radius: 2px;
-    margin-bottom: 0.5rem;
+  .table-fintech tr:hover td {
+    background-color: var(--bg-elevated);
+  }
+
+  .custom-tooltip {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-family: var(--font-sans);
+    border: 1px solid var(--border);
   }
 }
 
-/* ── Utility classes ───────────────────────────────────────────────────────── */
-
+/* ── Utilities ───────────────────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance { text-wrap: balance; }
-
+  .text-balance     { text-wrap: balance; }
   .font-display     { font-family: var(--font-display); }
   .font-mono-data   { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
@@ -249,146 +172,47 @@
   .animation-delay-300 { animation-delay: 300ms; }
   .animation-delay-500 { animation-delay: 500ms; }
 
-  .ticker-wrap  { overflow: hidden; white-space: nowrap; }
-  .ticker-move  {
-    display: inline-block;
-    animation: ticker 40s linear infinite;
-  }
+  .ticker-wrap { overflow: hidden; white-space: nowrap; }
+  .ticker-move { display: inline-block; animation: ticker 40s linear infinite; }
   .ticker-move:hover { animation-play-state: paused; }
 }
 
-/* ── Blur overlay — dark mode ──────────────────────────────────────────────── */
-.blur-overlay {
-  position: relative;
-  overflow: hidden;
-}
-.blur-overlay::after {
+/* ── Blur overlay for premium content ───────────────────────────────────── */
+.blur-overlay            { position: relative; overflow: hidden; }
+.blur-overlay::after     {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 30%, rgba(10,22,40,0.96) 70%);
+  background: linear-gradient(to bottom, transparent 30%, rgba(8,15,30,0.96) 70%);
   pointer-events: none;
 }
 
-/* ── Table styles — dark fintech ───────────────────────────────────────────── */
-.table-fintech {
-  @apply w-full border-collapse;
-}
-
-.table-fintech th {
-  text-align: left;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(201,168,76,0.15);
-  font-family: var(--font-sans);
-  color: #C9A84C;
-  background-color: #0A1628;
-}
-
-.table-fintech td {
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
-  border-bottom: 1px solid rgba(26, 48, 80, 0.8);
-  font-family: var(--font-sans);
-  color: #E2EAF4;
-}
-
-.table-fintech td.numeric,
-.table-fintech td[data-type="number"] {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
-
-.table-fintech tr:hover td {
-  background-color: rgba(201,168,76,0.04);
-}
-
-/* ── Chart tooltip — dark ──────────────────────────────────────────────────── */
-.recharts-tooltip-wrapper { outline: none !important; }
-
-.custom-tooltip {
-  @apply px-3 py-2 rounded-lg shadow-lg text-sm;
-  background: #112240;
-  color: #FFFFFF;
-  font-family: var(--font-sans);
-  border: 1px solid rgba(201,168,76,0.2);
-}
-
-/* ── Impact score bars — dark ──────────────────────────────────────────────── */
-.impact-bar      { @apply h-1.5 rounded-full overflow-hidden; background-color: #1A3050; }
-.impact-bar-fill { @apply h-full rounded-full transition-all duration-500; }
-
-/* ── Loading skeleton — dark ───────────────────────────────────────────────── */
+/* ── Skeleton loader ─────────────────────────────────────────────────────── */
 .skeleton {
-  background: linear-gradient(90deg, #112240 25%, #1A3050 50%, #112240 75%);
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--border) 50%, var(--bg-elevated) 75%);
   background-size: 800px 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
-/* ── Dividers ──────────────────────────────────────────────────────────────── */
-.divider-warm {
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent);
-}
+/* ── Impact score bars ───────────────────────────────────────────────────── */
+.impact-bar      { height: 6px; border-radius: 3px; overflow: hidden; background-color: var(--border); }
+.impact-bar-fill { height: 100%; border-radius: 3px; transition: all 0.5s; }
 
-/* ── Article / prose typography — dark ────────────────────────────────────── */
+/* ── Decorative divider ──────────────────────────────────────────────────── */
+.divider-warm { height: 1px; background: var(--border); }
+
+/* ── Article typography ──────────────────────────────────────────────────── */
 .prose-editorial h1,
 .prose-editorial h2,
-.prose-editorial h3 {
-  font-family: var(--font-display);
-  color: #FFFFFF;
-}
+.prose-editorial h3 { font-family: var(--font-display); font-weight: 500; }
 
 .prose-editorial p,
 .prose-editorial li {
   font-family: var(--font-sans);
   line-height: 1.75;
-  color: #A8B4C8;
+  color: var(--text-secondary);
 }
 
-/* ── Recharts dark overrides ───────────────────────────────────────────────── */
-.recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical   line {
-  stroke: rgba(26, 48, 80, 0.6) !important;
-}
-
-.recharts-text {
-  fill: #A8B4C8 !important;
-}
-
-/* ── Dark overrides for light-mode patterns used in components ─────────────── */
-
-/* Any bg-white used outside terminal becomes the panel color */
-:not(.terminal-scope) > .bg-white,
-:not(.terminal-scope) .bg-white:not([class*="terminal"]) {
-  background-color: #112240 !important;
-}
-
-/* bg-slate-* and bg-gray-* patterns */
-.bg-slate-50,  .bg-slate-100, .bg-slate-200 { background-color: #0A1628 !important; }
-.bg-slate-800, .bg-slate-900               { background-color: #112240 !important; }
-.bg-gray-50,  .bg-gray-100                { background-color: #0A1628 !important; }
-.bg-gray-200                               { background-color: #1A3050 !important; }
-
-/* text on dark bg */
-.text-gray-500, .text-gray-400, .text-slate-400, .text-slate-500 {
-  color: #A8B4C8 !important;
-}
-.text-slate-800, .text-gray-800, .text-slate-700, .text-gray-700,
-.text-slate-900, .text-gray-900 {
-  color: #FFFFFF !important;
-}
-.text-slate-600, .text-gray-600 { color: #C5D5E9 !important; }
-
-/* Borders */
-.border-gray-100, .border-slate-100 { border-color: rgba(26,48,80,0.8) !important; }
-.border-gray-200, .border-slate-200 { border-color: rgba(26,48,80,0.9) !important; }
-.border-slate-700, .border-slate-600 { border-color: rgba(42,64,112,0.8) !important; }
-
-/* Divide colors */
-.divide-slate-100 > * + *,
-.divide-slate-700 > * + * { border-color: rgba(26,48,80,0.8) !important; }
+/* ── Recharts ────────────────────────────────────────────────────────────── */
+.recharts-tooltip-wrapper { outline: none !important; }

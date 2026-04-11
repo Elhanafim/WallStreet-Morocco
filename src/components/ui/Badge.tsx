@@ -20,16 +20,17 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   dot?: boolean;
 }
 
-const variantClasses: Record<BadgeVariant, string> = {
-  default:   'bg-white/8 text-[#A8B4C8] border border-white/10',
-  primary:   'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
-  secondary: 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
-  success:   'bg-[#2ECC71]/10 text-[#2ECC71] border border-[#2ECC71]/20',
-  danger:    'bg-[#E74C3C]/10 text-[#E74C3C] border border-[#E74C3C]/20',
-  warning:   'bg-[#F0A500]/10 text-[#F0A500] border border-[#F0A500]/20',
-  gold:      'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
-  outline:   'bg-transparent border border-[#C9A84C]/30 text-[#A8B4C8]',
-  premium:   'bg-gradient-gold text-[#0A1628] font-bold border border-[#C9A84C]/30 shadow-sm',
+// Flat dark badges — 4px radius (spec: no rounded corners > 10px), 1px borders
+const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
+  default:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-muted)' },
+  primary:   { backgroundColor: 'rgba(90,122,159,0.1)', border: '1px solid rgba(90,122,159,0.3)', color: 'var(--text-secondary)' },
+  secondary: { backgroundColor: 'rgba(90,122,159,0.1)', border: '1px solid rgba(90,122,159,0.3)', color: 'var(--text-secondary)' },
+  success:   { backgroundColor: 'rgba(61,171,110,0.08)', border: '1px solid rgba(61,171,110,0.25)', color: 'var(--gain)' },
+  danger:    { backgroundColor: 'rgba(217,91,91,0.08)',  border: '1px solid rgba(217,91,91,0.25)',  color: 'var(--loss)' },
+  warning:   { backgroundColor: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.25)', color: '#D4A843' },
+  gold:      { backgroundColor: 'rgba(184,151,74,0.08)', border: '1px solid rgba(184,151,74,0.25)', color: 'var(--gold)' },
+  outline:   { backgroundColor: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)' },
+  premium:   { backgroundColor: 'var(--gold)', border: '1px solid var(--gold)', color: 'var(--bg-base)', fontWeight: 500 },
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
@@ -38,18 +39,27 @@ const sizeClasses: Record<BadgeSize, string> = {
   md: 'px-2.5 py-1 text-xs',
 };
 
+const dotColors: Partial<Record<BadgeVariant, string>> = {
+  success:   'var(--gain)',
+  danger:    'var(--loss)',
+  warning:   '#D4A843',
+  gold:      'var(--gold)',
+  secondary: 'var(--text-secondary)',
+  primary:   'var(--text-secondary)',
+};
+
 const categoryColors: Record<string, BadgeVariant> = {
-  'Bases': 'secondary',
-  'Actions': 'success',
-  'OPCVM': 'gold',
-  'Stratégie': 'primary',
+  'Bases':               'secondary',
+  'Actions':             'success',
+  'OPCVM':               'gold',
+  'Stratégie':           'primary',
   'Politique Monétaire': 'danger',
-  'Emploi': 'warning',
-  'Inflation': 'warning',
-  'Croissance': 'success',
-  'Commerce': 'secondary',
-  'Marché Boursier': 'primary',
-  'Résultats': 'gold',
+  'Emploi':              'warning',
+  'Inflation':           'warning',
+  'Croissance':          'success',
+  'Commerce':            'secondary',
+  'Marché Boursier':     'primary',
+  'Résultats':           'gold',
 };
 
 export function getCategoryBadgeVariant(category: string): BadgeVariant {
@@ -61,31 +71,20 @@ export const Badge = ({
   size = 'sm',
   dot = false,
   className,
+  style,
   children,
   ...props
 }: BadgeProps) => {
   return (
     <span
-      className={cn(
-        'inline-flex items-center gap-1.5 rounded-full font-semibold tracking-wide',
-        variantClasses[variant],
-        sizeClasses[size],
-        className
-      )}
+      className={cn('inline-flex items-center gap-1.5 font-sans tracking-wide', sizeClasses[size], className)}
+      style={{ borderRadius: '4px', ...variantStyles[variant], ...style }}
       {...props}
     >
       {dot && (
         <span
-          className={cn(
-            'w-1.5 h-1.5 rounded-full flex-shrink-0',
-            variant === 'success' && 'bg-success',
-            variant === 'danger' && 'bg-danger',
-            variant === 'warning' && 'bg-warning',
-            variant === 'secondary' && 'bg-secondary',
-            variant === 'primary' && 'bg-primary-900',
-            variant === 'gold' && 'bg-accent',
-            !['success', 'danger', 'warning', 'secondary', 'primary', 'gold'].includes(variant) && 'bg-current'
-          )}
+          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+          style={{ backgroundColor: dotColors[variant] ?? 'var(--text-muted)' }}
         />
       )}
       {children}
@@ -95,26 +94,18 @@ export const Badge = ({
 
 export function ImpactBadge({ score }: { score: number }) {
   const configs = {
-    1: { label: 'Faible', variant: 'default' as BadgeVariant },
-    2: { label: 'Bas', variant: 'secondary' as BadgeVariant },
-    3: { label: 'Modéré', variant: 'warning' as BadgeVariant },
-    4: { label: 'Élevé', variant: 'gold' as BadgeVariant },
-    5: { label: 'Critique', variant: 'danger' as BadgeVariant },
+    1: { label: 'Faible',   variant: 'default'   as BadgeVariant },
+    2: { label: 'Bas',      variant: 'secondary'  as BadgeVariant },
+    3: { label: 'Modéré',   variant: 'warning'    as BadgeVariant },
+    4: { label: 'Élevé',    variant: 'gold'       as BadgeVariant },
+    5: { label: 'Critique', variant: 'danger'     as BadgeVariant },
   };
   const config = configs[score as keyof typeof configs] || configs[1];
-  return (
-    <Badge variant={config.variant} dot>
-      {config.label}
-    </Badge>
-  );
+  return <Badge variant={config.variant} dot>{config.label}</Badge>;
 }
 
 export function PremiumBadge({ size = 'sm' }: { size?: BadgeSize }) {
-  return (
-    <Badge variant="premium" size={size}>
-      ✦ Premium
-    </Badge>
-  );
+  return <Badge variant="premium" size={size}>Premium</Badge>;
 }
 
 export default Badge;

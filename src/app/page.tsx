@@ -23,14 +23,20 @@ const TradingViewMarketOverview = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full rounded-2xl bg-[#112240] border border-[#C9A84C]/12 animate-pulse"
-           style={{ minHeight: '660px' }} />
+      <div
+        className="w-full animate-pulse"
+        style={{
+          minHeight: '660px',
+          backgroundColor: 'var(--bg-elevated)',
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+        }}
+      />
     ),
   }
 );
 const AssetWidget = dynamic(() => import('@/components/market/AssetWidget'), { ssr: false });
 
-/** Thin wrapper so we can pass a Forex symbol to AssetWidget without a sector label. */
 function ForexWidget({ symbol, name }: { symbol: string; name: string }) {
   return <AssetWidget symbol={symbol} name={name} sector="Forex" />;
 }
@@ -45,53 +51,87 @@ export default function HomePage() {
     <Hero key="hero" />,
 
     // ── Live Ticker Tape ──────────────────────────────────────────────────
-    <div key="ticker" className="bg-[#061020] border-y border-[#C9A84C]/10">
+    <div key="ticker" style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}>
       <TradingViewTicker />
     </div>,
 
     // ── Live Market Overview ───────────────────────────────────────────────
-    <section key="market" className="py-20 bg-[#0A1628]">
+    <section key="market" className="py-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="gold-bar" />
-            <div className="inline-flex items-center gap-2 bg-[#2ECC71]/10 border border-[#2ECC71]/20 rounded-full px-3 py-1 mb-3">
-              <span className="w-1.5 h-1.5 bg-[#2ECC71] rounded-full animate-pulse" />
-              <span className="text-[#2ECC71] text-xs font-semibold uppercase tracking-wide font-sans">{t('markets.badge')}</span>
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 mb-3"
+              style={{
+                border: '1px solid var(--border)',
+                borderRadius: '4px',
+                backgroundColor: 'var(--bg-elevated)',
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
+                style={{ backgroundColor: 'var(--gain)' }}
+              />
+              <span
+                className="text-xs uppercase tracking-wide"
+                style={{ color: 'var(--gain)', fontFamily: 'var(--font-sans)' }}
+              >
+                {t('markets.badge')}
+              </span>
             </div>
-            <h2 className="text-3xl font-black text-white mb-1 font-display">
+            <h2
+              className="text-3xl mb-1"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
+            >
               {t('markets.title')}
             </h2>
-            <p className="text-[#A8B4C8] text-sm font-sans">
+            <p className="text-sm" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
               {t('markets.subtitle')}
             </p>
           </div>
           <Link
             href="/market"
-            className="inline-flex items-center gap-2 bg-[#C9A84C] text-[#0A1628] font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-[#E8C45A] transition-all whitespace-nowrap font-sans"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap"
+            style={{
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: 'var(--text-secondary)',
+              backgroundColor: 'var(--bg-elevated)',
+              fontFamily: 'var(--font-sans)',
+            }}
+            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
           >
             <BarChart2 className="w-4 h-4" />
             {t('markets.cta')}
           </Link>
         </div>
-        <div className="rounded-2xl overflow-hidden border border-[#C9A84C]/12 shadow-card w-full" style={{ maxWidth: '100%' }}>
+        <div
+          className="overflow-hidden w-full"
+          style={{ border: '1px solid var(--border)', borderRadius: '8px' }}
+        >
           <TradingViewMarketOverview />
         </div>
-        <p className="text-center text-xs text-[#A8B4C8]/40 mt-3 font-sans">
+        <p
+          className="text-center text-xs mt-3"
+          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+        >
           {t('markets.source')}
         </p>
       </div>
     </section>,
 
     // ── Forex Section ─────────────────────────────────────────────────────
-    <section key="forex" className="py-16 bg-[#112240]">
+    <section key="forex" className="py-16" style={{ backgroundColor: 'var(--bg-surface)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <div className="gold-bar" />
-          <h2 className="text-2xl font-black text-white mb-1 font-display">
+          <h2
+            className="text-2xl mb-1"
+            style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
+          >
             {t('forex.title')}
           </h2>
-          <p className="text-[#A8B4C8] text-sm font-sans">
+          <p className="text-sm" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
             {t('forex.subtitle')}
           </p>
         </div>
@@ -99,13 +139,23 @@ export default function HomePage() {
           <ForexWidget symbol="FX_IDC:EURMAD" name="EUR / MAD" />
           <ForexWidget symbol="FX_IDC:USDMAD" name="USD / MAD" />
         </div>
-        <div className="bg-[#0A1628] border border-[#C9A84C]/12 rounded-2xl px-5 py-4 text-xs text-[#A8B4C8]/60 leading-relaxed font-sans">
+        <div
+          className="px-4 py-3 text-xs leading-relaxed"
+          style={{
+            backgroundColor: 'var(--bg-elevated)',
+            border: '1px solid var(--border)',
+            borderRadius: '6px',
+            color: 'var(--text-muted)',
+            fontFamily: 'var(--font-sans)',
+          }}
+        >
           {t('forex.disclaimer')}{' '}
           <a
             href="https://www.bkam.ma"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-[#C9A84C] transition-colors"
+            className="underline"
+            style={{ color: 'var(--text-secondary)' }}
           >
             {t('forex.bamLink')}
           </a>.
@@ -122,118 +172,190 @@ export default function HomePage() {
     </div>,
 
     // ── Featured Articles ──────────────────────────────────────────────────
-    <section key="articles" className="py-20 bg-[#0A1628]">
+    <section key="articles" className="py-20" style={{ backgroundColor: 'var(--bg-base)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <div className="gold-bar" />
-            <h2 className="text-3xl font-black text-white mb-2 font-display">
+            <h2
+              className="text-3xl mb-2"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
+            >
               {t('articles.title')}
             </h2>
-            <p className="text-[#A8B4C8] font-sans">{t('articles.subtitle')}</p>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
+              {t('articles.subtitle')}
+            </p>
           </div>
           <Link
             href="/learn"
-            className="hidden sm:flex items-center gap-2 text-[#C9A84C] font-semibold text-sm hover:gap-3 transition-all font-sans"
+            className="hidden sm:flex items-center gap-2 text-sm transition-colors"
+            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
           >
             {t('articles.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {featuredArticles.map((article) => (
             <ArticleCard key={article.id} article={article} />
           ))}
         </div>
         <div className="mt-8 text-center sm:hidden">
-          <Link href="/learn">
-            <button className="inline-flex items-center gap-2 text-[#C9A84C] font-semibold border border-[#C9A84C]/40 rounded-xl px-6 py-3 hover:bg-[#C9A84C]/10 transition-colors font-sans">
-              {t('articles.cta')} <ArrowRight className="w-4 h-4" />
-            </button>
+          <Link
+            href="/learn"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
+            style={{
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: 'var(--text-secondary)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            {t('articles.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>
     </section>,
 
     // ── OPCVM Preview ──────────────────────────────────────────────────────
-    <section key="opcvm" className="py-20 bg-[#112240]">
+    <section key="opcvm" className="py-20" style={{ backgroundColor: 'var(--bg-surface)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <div className="gold-bar" />
-            <h2 className="text-3xl font-black text-white mb-2 font-display">
+            <h2
+              className="text-3xl mb-2"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
+            >
               {t('opcvm.title')}
             </h2>
-            <p className="text-[#A8B4C8] font-sans">{t('opcvm.subtitle')}</p>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}>
+              {t('opcvm.subtitle')}
+            </p>
           </div>
           <Link
             href="/opcvm"
-            className="hidden sm:flex items-center gap-2 text-[#C9A84C] font-semibold text-sm hover:gap-3 transition-all font-sans"
+            className="hidden sm:flex items-center gap-2 text-sm transition-colors"
+            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
+            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
           >
             {t('opcvm.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="overflow-x-auto -mx-4 sm:mx-0">
-          <div className="min-w-[640px] px-4 sm:px-0">
-            <table className="w-full border-separate border-spacing-y-2">
-              <thead>
-                <tr>
-                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.fund')}</th>
-                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.bank')}</th>
-                  <th className="text-left text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.type')}</th>
-                  <th className="text-right text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.perf1y')}</th>
-                  <th className="text-right text-xs font-semibold text-[#C9A84C] uppercase tracking-wider px-5 py-3 font-sans">{t('opcvm.headers.risk')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {featuredFunds.map((fund) => (
-                  <tr
-                    key={fund.id}
-                    className="bg-[#0A1628] border border-[#C9A84C]/12 rounded-xl hover:border-[#C9A84C]/30 hover:bg-[#C9A84C]/4 transition-all duration-200"
+        <div className="overflow-x-auto">
+          <table
+            className="w-full"
+            style={{ borderCollapse: 'collapse', minWidth: '640px' }}
+          >
+            <thead>
+              <tr style={{ borderBottom: '1px solid var(--border)' }}>
+                {[
+                  t('opcvm.headers.fund'),
+                  t('opcvm.headers.bank'),
+                  t('opcvm.headers.type'),
+                  t('opcvm.headers.perf1y'),
+                  t('opcvm.headers.risk'),
+                ].map((h, i) => (
+                  <th
+                    key={h}
+                    className="py-3 px-4 text-left text-xs font-medium uppercase tracking-widest"
+                    style={{
+                      color: 'var(--text-muted)',
+                      fontFamily: 'var(--font-sans)',
+                      textAlign: i >= 3 ? 'right' : 'left',
+                      backgroundColor: 'var(--bg-elevated)',
+                    }}
                   >
-                    <td className="px-5 py-4 rounded-l-xl">
-                      <p className="font-semibold text-white text-sm font-sans">{fund.name}</p>
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className="text-xs font-bold bg-[#C9A84C]/10 text-[#C9A84C] px-2.5 py-1 rounded-lg font-sans">
-                        {fund.bankCode}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full font-sans ${
-                        fund.type === 'Actions'     ? 'bg-[#2ECC71]/12 text-[#2ECC71]'  :
-                        fund.type === 'Obligataire' ? 'bg-[#7C9EBF]/12 text-[#7C9EBF]' :
-                        fund.type === 'Monétaire'   ? 'bg-white/8 text-[#A8B4C8]'        :
-                        'bg-[#C9A84C]/12 text-[#C9A84C]'
-                      }`}>
-                        {fund.type}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4 text-right">
-                      <span className={`font-bold text-sm font-mono ${fund.performance1Y >= 0 ? 'text-[#2ECC71]' : 'text-[#E74C3C]'}`}>
-                        {formatPercent(fund.performance1Y)}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4 text-right rounded-r-xl">
-                      <div className="flex items-center justify-end gap-1">
-                        {Array.from({ length: 7 }, (_, j) => (
-                          <div
-                            key={j}
-                            className={`w-2 h-2 rounded-full ${j < fund.risk ? 'bg-[#C9A84C]' : 'bg-[#1A3050]'}`}
-                          />
-                        ))}
-                      </div>
-                    </td>
-                  </tr>
+                    {h}
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </tr>
+            </thead>
+            <tbody>
+              {featuredFunds.map((fund) => (
+                <tr
+                  key={fund.id}
+                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="transition-colors"
+                  onMouseEnter={e => ((e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'var(--bg-elevated)')}
+                  onMouseLeave={e => ((e.currentTarget as HTMLTableRowElement).style.backgroundColor = 'transparent')}
+                >
+                  <td
+                    className="px-4 py-3 text-sm font-medium"
+                    style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+                  >
+                    {fund.name}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className="text-xs px-2 py-0.5"
+                      style={{
+                        color: 'var(--text-muted)',
+                        backgroundColor: 'var(--bg-elevated)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '4px',
+                        fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      {fund.bankCode}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span
+                      className="text-xs px-2 py-0.5"
+                      style={{
+                        color: fund.type === 'Actions' ? 'var(--gain)' : fund.type === 'Obligataire' ? 'var(--text-secondary)' : 'var(--text-muted)',
+                        backgroundColor: 'transparent',
+                        border: `1px solid ${fund.type === 'Actions' ? 'rgba(61,171,110,0.3)' : 'var(--border)'}`,
+                        borderRadius: '4px',
+                        fontFamily: 'var(--font-sans)',
+                      }}
+                    >
+                      {fund.type}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <span
+                      className="text-sm font-medium"
+                      style={{
+                        color: fund.performance1Y >= 0 ? 'var(--gain)' : 'var(--loss)',
+                        fontFamily: 'var(--font-mono)',
+                      }}
+                    >
+                      {formatPercent(fund.performance1Y)}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      {Array.from({ length: 7 }, (_, j) => (
+                        <div
+                          key={j}
+                          className="w-1.5 h-1.5 rounded-full"
+                          style={{
+                            backgroundColor: j < fund.risk ? 'var(--text-muted)' : 'var(--border)',
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <div className="mt-6 text-center sm:hidden">
-          <Link href="/opcvm">
-            <button className="inline-flex items-center gap-2 text-[#C9A84C] font-semibold border border-[#C9A84C]/40 rounded-xl px-6 py-3 hover:bg-[#C9A84C]/10 transition-colors font-sans">
-              {t('opcvm.cta')} <ArrowRight className="w-4 h-4" />
-            </button>
+          <Link
+            href="/opcvm"
+            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
+            style={{
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: 'var(--text-secondary)',
+              fontFamily: 'var(--font-sans)',
+            }}
+          >
+            {t('opcvm.cta')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

@@ -3,46 +3,34 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Briefcase, LayoutDashboard, LogOut, ChevronDown, User } from 'lucide-react';
+import { Menu, X, Briefcase, LayoutDashboard, LogOut, ChevronDown, User, Heart } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const pathname = usePathname();
   const { data: session } = useSession();
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation('common');
-
   const { t: td } = useTranslation('donate');
 
   const navLinks: { href: string; label: string }[] = [
-    { href: '/learn', label: t('nav.learn') },
+    { href: '/learn',    label: t('nav.learn') },
     { href: '/simulator', label: t('nav.simulator') },
     { href: '/calendar', label: t('nav.calendrier') },
-    { href: '/opcvm', label: t('nav.opcvm') },
-    { href: '/market', label: t('nav.marches') },
+    { href: '/opcvm',    label: t('nav.opcvm') },
+    { href: '/market',   label: t('nav.marches') },
     { href: '/terminal', label: '◈ ' + t('nav.terminal') },
   ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     setIsOpen(false);
     setUserMenuOpen(false);
   }, [pathname]);
 
-  // Close user menu on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
@@ -55,67 +43,86 @@ export default function Navbar() {
 
   return (
     <nav
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'bg-[#0A1628]/98 backdrop-blur-md shadow-lg border-b border-[#C9A84C]/10'
-          : 'bg-[#0A1628]/80 backdrop-blur-sm'
-      )}
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        backgroundColor: 'var(--bg-surface)',
+        borderBottom: '1px solid var(--border)',
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo-icon.svg"
               alt="WallStreet Morocco"
-              width={36}
-              height={36}
+              width={32}
+              height={32}
               loading="lazy"
               decoding="async"
-              className="w-9 h-9 group-hover:scale-105 transition-transform duration-200"
+              className="w-8 h-8 group-hover:opacity-80 transition-opacity"
             />
-            <span className="font-extrabold text-white text-lg leading-tight hidden sm:block font-sans">
+            <span
+              className="font-medium text-[15px] hidden sm:block"
+              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+            >
               WallStreet{' '}
-              <span className="text-[#C9A84C]">Morocco</span>
+              <span style={{ color: 'var(--gold)' }}>Morocco</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-0.5">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                  pathname === link.href
-                    ? 'text-[#C9A84C] font-semibold'
-                    : 'text-[#A8B4C8] hover:text-white hover:bg-white/5'
-                )}
-              >
-                {link.label}
-                {pathname === link.href && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-[#C9A84C] rounded-full" />
-                )}
-              </Link>
-            ))}
-            {/* Donate pill */}
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-3 py-2 transition-colors duration-150"
+                  style={{
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '13px',
+                    fontWeight: active ? 500 : 400,
+                    color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  }}
+                >
+                  {link.label}
+                  {active && (
+                    <span
+                      className="absolute bottom-0 left-3 right-3"
+                      style={{
+                        height: '2px',
+                        backgroundColor: 'var(--gold)',
+                        borderRadius: '1px 1px 0 0',
+                      }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+
+            {/* Donate */}
             <Link
               href="/donate"
-              className="ml-1 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 border-[1.5px]"
-              style={{ borderColor: '#c1272d', color: '#c1272d' }}
+              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 transition-all duration-150"
+              style={{
+                fontSize: '13px',
+                fontWeight: 400,
+                color: '#c1272d',
+                border: '1px solid rgba(193,39,45,0.3)',
+                borderRadius: '6px',
+              }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = '#c1272d';
-                (e.currentTarget as HTMLAnchorElement).style.color = '#fff';
+                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(193,39,45,0.1)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
-                (e.currentTarget as HTMLAnchorElement).style.color = '#c1272d';
               }}
             >
-              <span className="animate-heartbeat">♥</span>
+              <Heart className="w-3.5 h-3.5 animate-heartbeat" />
               <span>{td('navLabel')}</span>
             </Link>
           </div>
@@ -124,29 +131,29 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-2">
             {session ? (
               <>
-                {/* Dashboard link */}
                 <Link
                   href="/dashboard"
-                  className={cn(
-                    'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
-                    pathname.startsWith('/dashboard')
-                      ? 'bg-[#C9A84C]/15 text-[#C9A84C] border border-[#C9A84C]/30'
-                      : 'text-[#A8B4C8] hover:text-white hover:bg-white/5'
-                  )}
+                  className="flex items-center gap-1.5 px-3 py-2 transition-colors duration-150"
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: pathname.startsWith('/dashboard') ? 500 : 400,
+                    color: pathname.startsWith('/dashboard') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                    fontFamily: 'var(--font-sans)',
+                  }}
                 >
                   <LayoutDashboard className="w-3.5 h-3.5" />
                   {t('nav.dashboard')}
                 </Link>
 
-                {/* Portfolio link */}
                 <Link
                   href="/portfolio"
-                  className={cn(
-                    'flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
-                    pathname === '/portfolio' || pathname.startsWith('/portfolio/')
-                      ? 'bg-[#C9A84C] text-[#0A1628]'
-                      : 'bg-[#C9A84C]/10 text-[#C9A84C] hover:bg-[#C9A84C]/20 border border-[#C9A84C]/20'
-                  )}
+                  className="flex items-center gap-1.5 px-3 py-2 transition-colors duration-150"
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    color: 'var(--text-secondary)',
+                    fontFamily: 'var(--font-sans)',
+                  }}
                 >
                   <Briefcase className="w-3.5 h-3.5" />
                   {t('nav.portfolio')}
@@ -156,32 +163,61 @@ export default function Navbar() {
                 <div className="relative" ref={userMenuRef}>
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-[#A8B4C8] hover:text-white hover:bg-white/5 transition-all duration-200"
+                    className="flex items-center gap-1.5 px-2 py-2 transition-colors"
+                    style={{ color: 'var(--text-secondary)' }}
                   >
-                    <div className="w-6 h-6 rounded-full bg-[#C9A84C]/15 border border-[#C9A84C]/30 flex items-center justify-center">
-                      <User className="w-3.5 h-3.5 text-[#C9A84C]" />
+                    <div
+                      className="w-6 h-6 flex items-center justify-center"
+                      style={{
+                        backgroundColor: 'var(--bg-elevated)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      <User className="w-3 h-3" style={{ color: 'var(--text-secondary)' }} />
                     </div>
-                    <ChevronDown className={cn('w-3.5 h-3.5 transition-transform', userMenuOpen && 'rotate-180')} />
+                    <ChevronDown className={cn('w-3 h-3 transition-transform', userMenuOpen && 'rotate-180')} />
                   </button>
 
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-52 bg-[#112240] rounded-xl shadow-2xl border border-[#C9A84C]/15 py-1 z-50">
-                      <div className="px-4 py-2.5 border-b border-[#1A3050]">
-                        <p className="text-xs font-semibold text-white truncate">{session.user?.name ?? t('nav.investor')}</p>
-                        <p className="text-xs text-[#A8B4C8] truncate">{session.user?.email}</p>
+                    <div
+                      className="absolute right-0 top-full mt-1 w-52 py-1 z-50"
+                      style={{
+                        backgroundColor: 'var(--bg-elevated)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '8px',
+                      }}
+                    >
+                      <div
+                        className="px-4 py-2.5"
+                        style={{ borderBottom: '1px solid var(--border)' }}
+                      >
+                        <p
+                          className="text-xs font-medium truncate"
+                          style={{ color: 'var(--text-primary)' }}
+                        >
+                          {session.user?.name ?? t('nav.investor')}
+                        </p>
+                        <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>
+                          {session.user?.email}
+                        </p>
                       </div>
                       <Link
                         href="/dashboard/profile"
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#A8B4C8] hover:text-white hover:bg-white/5 transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs transition-colors"
+                        style={{ color: 'var(--text-secondary)' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
+                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
                       >
-                        <User className="w-4 h-4" />
+                        <User className="w-3.5 h-3.5" />
                         {t('nav.profile')}
                       </Link>
                       <button
                         onClick={() => signOut({ callbackUrl: '/' })}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs transition-colors"
+                        style={{ color: '#D95B5B' }}
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-3.5 h-3.5" />
                         {t('nav.logout')}
                       </button>
                     </div>
@@ -192,14 +228,24 @@ export default function Navbar() {
               <>
                 <Link
                   href="/auth/login"
-                  className="text-sm font-medium text-[#A8B4C8] hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/5"
+                  className="text-[13px] px-3 py-2 transition-colors"
+                  style={{ color: 'var(--text-secondary)', fontWeight: 400 }}
                 >
                   {t('nav.login')}
                 </Link>
-                <Link href="/auth/signup">
-                  <Button size="sm" variant="gold">
-                    {t('nav.register')}
-                  </Button>
+                <Link
+                  href="/auth/signup"
+                  className="px-4 py-2 text-[13px] font-medium transition-colors"
+                  style={{
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--gold)',
+                    borderRadius: '6px',
+                    backgroundColor: 'transparent',
+                  }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'rgba(184,151,74,0.08)')}
+                  onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
+                >
+                  {t('nav.register')}
                 </Link>
               </>
             )}
@@ -208,7 +254,8 @@ export default function Navbar() {
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-[#A8B4C8] hover:text-white hover:bg-white/5 transition-colors"
+            className="md:hidden p-2 transition-colors"
+            style={{ color: 'var(--text-secondary)', borderRadius: '6px' }}
             aria-label="Toggle menu"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -223,63 +270,59 @@ export default function Navbar() {
           isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
         )}
       >
-        <div className="bg-[#0A1628] border-t border-[#C9A84C]/10 px-4 py-4 space-y-1 shadow-2xl">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                'flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
-                pathname === link.href
-                  ? 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20 font-semibold'
-                  : 'text-[#A8B4C8] hover:text-white hover:bg-white/5'
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
-          {/* Mobile donate row */}
+        <div
+          className="px-4 py-4 space-y-0.5"
+          style={{ borderTop: '1px solid var(--border)' }}
+        >
+          {navLinks.map((link) => {
+            const active = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="flex items-center px-3 py-2.5 text-[13px] transition-colors"
+                style={{
+                  color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  fontWeight: active ? 500 : 400,
+                  borderLeft: active ? '2px solid var(--gold)' : '2px solid transparent',
+                  paddingLeft: '12px',
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+
           <Link
             href="/donate"
-            className="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold mt-1 bg-red-500/5 border border-red-500/20"
+            className="flex items-center gap-2 px-3 py-2.5 text-[13px] mt-1"
+            style={{ color: '#c1272d' }}
           >
-            <div>
-              <p style={{ color: '#c1272d' }}>
-                <span className="animate-heartbeat mr-1">♥</span>
-                {td('navLabelMobile')}
-              </p>
-              <p className="text-xs text-red-400/70 mt-0.5">{td('navSubMobile')}</p>
-            </div>
-            <span style={{ color: '#c1272d' }} className="text-lg">→</span>
+            <Heart className="w-3.5 h-3.5 animate-heartbeat" />
+            {td('navLabelMobile')}
           </Link>
-          <div className="pt-3 border-t border-[#1A3050] flex flex-col gap-2">
+
+          <div className="pt-3 flex flex-col gap-1.5" style={{ borderTop: '1px solid var(--border)' }}>
             {session ? (
               <>
                 <Link
                   href="/dashboard"
-                  className={cn(
-                    'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200',
-                    pathname.startsWith('/dashboard')
-                      ? 'bg-[#C9A84C] text-[#0A1628]'
-                      : 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20'
-                  )}
+                  className="flex items-center gap-2 px-3 py-2.5 text-[13px] transition-colors"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   <LayoutDashboard className="w-4 h-4" /> {t('nav.dashboard')}
                 </Link>
                 <Link
                   href="/portfolio"
-                  className={cn(
-                    'flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200',
-                    pathname === '/portfolio' || pathname.startsWith('/portfolio/')
-                      ? 'bg-[#C9A84C] text-[#0A1628]'
-                      : 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20'
-                  )}
+                  className="flex items-center gap-2 px-3 py-2.5 text-[13px] transition-colors"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
                   <Briefcase className="w-4 h-4" /> {t('nav.portfolio')}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
-                  className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-red-400 border border-red-500/20 hover:bg-red-500/10 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2.5 text-[13px] transition-colors"
+                  style={{ color: '#D95B5B' }}
                 >
                   <LogOut className="w-4 h-4" /> {t('nav.logout')}
                 </button>
@@ -288,13 +331,23 @@ export default function Navbar() {
               <>
                 <Link
                   href="/auth/login"
-                  className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-medium text-[#A8B4C8] border border-[#1A3050] hover:bg-white/5 transition-colors"
+                  className="flex items-center justify-center px-4 py-2.5 text-[13px] transition-colors"
+                  style={{
+                    color: 'var(--text-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '6px',
+                  }}
                 >
                   {t('nav.login')}
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-[#C9A84C] text-[#0A1628] hover:bg-[#E8C45A] transition-colors"
+                  className="flex items-center justify-center px-4 py-2.5 text-[13px] font-medium transition-colors"
+                  style={{
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--gold)',
+                    borderRadius: '6px',
+                  }}
                 >
                   {t('nav.registerFree')}
                 </Link>

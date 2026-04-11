@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { ArrowRight, BookOpen } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 import dynamic from 'next/dynamic';
 import MoroccoNewsFeed from './MoroccoNewsFeed';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +10,11 @@ import { useTranslation } from 'react-i18next';
 const TradingViewChart = dynamic(() => import('@/components/market/TradingViewChart'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-3">
-      <div className="w-8 h-8 border-2 border-[#C9A84C]/40 border-t-[#C9A84C] rounded-full animate-spin" />
+    <div className="w-full h-full flex items-center justify-center">
+      <div
+        className="w-6 h-6 border-2 border-t-transparent rounded-full animate-spin"
+        style={{ borderColor: 'var(--border)', borderTopColor: 'transparent' }}
+      />
     </div>
   ),
 });
@@ -21,161 +23,226 @@ export default function Hero() {
   const { t } = useTranslation('home');
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#0A1628] pt-16">
-
-      {/* Background atmosphere */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Subtle grid — Moroccan-inspired geometry */}
+    <section
+      className="relative flex flex-col justify-center overflow-hidden"
+      style={{ minHeight: 'calc(100vh - 160px)' }}
+    >
+      {/* Zone 1: Casablanca photo background */}
+      <div className="absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://images.unsplash.com/photo-1566127992631-137a642a90f4?w=1920&q=90&auto=format&fit=crop"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center"
+        />
+        {/* Dark overlay: gradient from 0.85 at top to 0.95 at bottom */}
         <div
-          className="absolute inset-0 opacity-[0.025]"
+          className="absolute inset-0"
           style={{
-            backgroundImage: `linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)`,
-            backgroundSize: '80px 80px',
+            background: 'linear-gradient(180deg, rgba(8,15,30,0.85) 0%, rgba(8,15,30,0.95) 100%)',
           }}
         />
-        {/* Diagonal offset accent grid */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `linear-gradient(#C9A84C 1px, transparent 1px), linear-gradient(90deg, #C9A84C 1px, transparent 1px)`,
-            backgroundSize: '80px 80px',
-            backgroundPosition: '40px 40px',
-          }}
-        />
-        {/* Ambient glow blobs */}
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#C9A84C]/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#C9A84C]/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#112240]/80 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-16">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-          {/* ── LEFT: Copy & CTAs ───────────────────────────────────── */}
+          {/* LEFT: Copy & CTAs */}
           <div className="text-center lg:text-left animate-fade-in">
-            {/* Moroccan gold bar */}
-            <div className="gold-bar hidden lg:block" />
 
             {/* Educational badge */}
-            <div className="inline-flex items-center gap-2 bg-[#C9A84C]/12 border border-[#C9A84C]/25 rounded-full px-3 py-1.5 mb-4 sm:mb-6 max-w-full">
-              <BookOpen className="w-3.5 h-3.5 text-[#C9A84C] flex-shrink-0" />
-              <span className="text-[#C9A84C] text-xs sm:text-sm font-medium truncate font-sans">
+            <div
+              className="inline-flex items-center gap-2 mb-5 px-3 py-1.5"
+              style={{
+                border: '1px solid var(--border)',
+                borderRadius: '4px',
+                backgroundColor: 'var(--bg-elevated)',
+              }}
+            >
+              <BookOpen className="w-3.5 h-3.5" style={{ color: 'var(--text-muted)' }} />
+              <span
+                className="text-xs"
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+              >
                 {t('hero.badge')}
               </span>
             </div>
 
-            <h1 className="text-[2rem] sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-3 sm:mb-4 font-display">
+            {/* Headline */}
+            <h1
+              className="mb-4 leading-tight"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 500,
+                fontSize: 'clamp(2.2rem, 5vw, 4rem)',
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.02em',
+              }}
+            >
               {t('hero.headline1')}{' '}
-              <span className="gradient-text-gold">{t('hero.headline2')}</span>
+              <span style={{ color: 'var(--gold)' }}>{t('hero.headline2')}</span>
               <br />
               {t('hero.headline3')}
             </h1>
 
-            <p className="text-[#A8B4C8] text-sm sm:text-lg leading-relaxed mb-5 sm:mb-8 max-w-xl mx-auto lg:mx-0 font-sans">
+            <p
+              className="text-sm sm:text-base leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0"
+              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+            >
               {t('hero.subtitle')}
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-3 sm:mb-4">
-              <Link href="/market" className="w-full sm:w-auto">
-                <Button size="lg" variant="primary" iconPosition="right" icon={<ArrowRight className="w-5 h-5" />}
-                  className="w-full sm:w-auto">
-                  {t('hero.cta1')}
-                </Button>
+            {/* CTAs — gold border = 1 of 3 gold uses on this page */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-6">
+              <Link
+                href="/market"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
+                style={{
+                  border: '1px solid var(--gold)',
+                  borderRadius: '6px',
+                  color: 'var(--text-primary)',
+                  backgroundColor: 'transparent',
+                  fontFamily: 'var(--font-sans)',
+                }}
+                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'rgba(184,151,74,0.08)')}
+                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
+              >
+                {t('hero.cta1')}
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/learn" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                  {t('hero.cta2')}
-                </Button>
+              <Link
+                href="/learn"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
+                style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: '6px',
+                  color: 'var(--text-secondary)',
+                  backgroundColor: 'var(--bg-elevated)',
+                  fontFamily: 'var(--font-sans)',
+                }}
+                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
+                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
+              >
+                {t('hero.cta2')}
               </Link>
             </div>
 
-            {/* Permanent disclaimer strip */}
-            <div className="mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-xl">
-              <p className="text-[10px] sm:text-[11px] text-white/30 leading-relaxed text-center lg:text-left font-sans">
-                {t('hero.eduNote')}
-              </p>
-            </div>
-
-            {/* Stats row */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 max-w-xl mx-auto lg:mx-0">
-              {[
-                { value: t('hero.trust1'), icon: '🏢' },
-                { value: t('hero.trust2'), icon: '📚' },
-                { value: t('hero.trust3'), icon: '📊' },
-                { value: t('hero.trust4'), icon: '⚖️' },
-              ].map((stat) => (
-                <div
-                  key={stat.value}
-                  className="bg-[#C9A84C]/5 border border-[#C9A84C]/12 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-center"
-                >
-                  <span className="text-sm sm:text-base">{stat.icon}</span>
-                  <p className="text-[#A8B4C8] text-[10px] sm:text-[11px] font-medium mt-0.5 sm:mt-1 leading-tight font-sans">{stat.value}</p>
-                </div>
-              ))}
-            </div>
+            <p
+              className="text-[11px] leading-relaxed max-w-xl mx-auto lg:mx-0 text-center lg:text-left"
+              style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+            >
+              {t('hero.eduNote')}
+            </p>
           </div>
 
-          {/* ── RIGHT: Live TradingView MASI Chart ──────────────────── */}
+          {/* RIGHT: Live TradingView MASI Chart */}
           <div className="hidden lg:flex flex-col gap-3 animate-slide-up">
-            {/* Chart header */}
             <div className="flex items-center justify-between px-1">
               <div>
-                <p className="text-[#A8B4C8] text-xs uppercase tracking-widest font-sans">{t('hero.chartLabel')}</p>
-                <p className="text-white font-bold text-lg font-display">{t('hero.chartTitle')}</p>
+                <p
+                  className="text-xs uppercase tracking-widest mb-0.5"
+                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                >
+                  {t('hero.chartLabel')}
+                </p>
+                <p
+                  className="text-base font-medium"
+                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
+                >
+                  {t('hero.chartTitle')}
+                </p>
               </div>
-              <div className="flex items-center gap-2 bg-[#C9A84C]/12 border border-[#C9A84C]/25 rounded-full px-3 py-1">
-                <span className="w-1.5 h-1.5 bg-[#C9A84C] rounded-full animate-pulse" />
-                <span className="text-[#C9A84C] text-xs font-semibold font-sans">{t('hero.chartLive')}</span>
+              <div
+                className="flex items-center gap-2 px-3 py-1"
+                style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: '4px',
+                  backgroundColor: 'var(--bg-elevated)',
+                }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full animate-pulse"
+                  style={{ backgroundColor: 'var(--gain)' }}
+                />
+                <span
+                  className="text-xs"
+                  style={{ color: 'var(--gain)', fontFamily: 'var(--font-sans)' }}
+                >
+                  {t('hero.chartLive')}
+                </span>
               </div>
             </div>
 
             {/* Chart container */}
             <div
-              className="relative bg-[#112240] border border-[#C9A84C]/15 rounded-2xl overflow-hidden shadow-2xl geo-corner"
-              style={{ height: '400px' }}
+              className="relative overflow-hidden"
+              style={{
+                height: '380px',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+                backgroundColor: 'var(--bg-surface)',
+              }}
             >
               <TradingViewChart
                 symbol="CSEMA:MASI"
-                height={400}
+                height={380}
                 theme="dark"
                 interval="D"
                 showToolbar={false}
               />
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 peer-empty:opacity-100">
-                <p className="text-[#A8B4C8] text-sm font-sans">{t('hero.chartUnavailable')}</p>
-              </div>
             </div>
 
-            {/* Quick asset strip below chart */}
+            {/* Quick asset strip */}
             <div className="grid grid-cols-3 gap-2">
               {[
                 { symbol: 'ATW', name: 'Attijariwafa' },
                 { symbol: 'IAM', name: 'Maroc Telecom' },
-                { symbol: 'BCP', name: 'Banque Pop.'   },
+                { symbol: 'BCP', name: 'Banque Pop.' },
               ].map((s) => (
                 <div
                   key={s.symbol}
-                  className="bg-[#112240] border border-[#C9A84C]/12 rounded-xl px-3 py-2.5 text-center hover:border-[#C9A84C]/30 hover:bg-[#C9A84C]/5 transition-all duration-200"
+                  className="px-3 py-2.5 text-center transition-colors"
+                  style={{
+                    border: '1px solid var(--border)',
+                    borderRadius: '6px',
+                    backgroundColor: 'var(--bg-elevated)',
+                  }}
                 >
-                  <p className="text-[#C9A84C] font-black text-sm font-mono">{s.symbol}</p>
-                  <p className="text-[#A8B4C8] text-xs truncate font-sans">{s.name}</p>
+                  <p
+                    className="text-sm font-medium"
+                    style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
+                  >
+                    {s.symbol}
+                  </p>
+                  <p
+                    className="text-xs truncate mt-0.5"
+                    style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                  >
+                    {s.name}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* ── Morocco Economic News Feed — hidden on mobile ───────────── */}
+        {/* Morocco Economic News Feed */}
         <div className="hidden sm:block">
           <MoroccoNewsFeed />
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
-        <div className="w-5 h-8 rounded-full border-2 border-[#C9A84C]/30 flex items-start justify-center pt-1.5">
-          <div className="w-1 h-2 bg-[#C9A84C]/60 rounded-full animate-pulse" />
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
+        <div
+          className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
+          style={{ border: '1px solid var(--border)' }}
+        >
+          <div
+            className="w-0.5 h-2 rounded-full animate-pulse"
+            style={{ backgroundColor: 'var(--text-muted)' }}
+          />
         </div>
       </div>
     </section>

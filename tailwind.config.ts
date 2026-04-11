@@ -9,64 +9,72 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Deep navy — primary backgrounds ───────────────────────────
+        // Text hierarchy
         primary: {
-          DEFAULT: '#0A1628',
-          50:  '#E2EAF4',
-          100: '#C5D5E9',
-          200: '#A8B4C8',   // secondary text / muted labels
-          300: '#7890B0',
-          400: '#4A6890',
-          500: '#2A4870',
-          600: '#1A3050',
-          700: '#122040',
-          800: '#0E1A34',
-          900: '#0A1628',   // deepest navy
+          DEFAULT: '#E8EAF0',
+          50:  '#F4F5F8',
+          100: '#E8EAF0',
+          200: '#C5CAD5',
+          300: '#9FAAB8',
+          400: '#7A8BA0',   // --text-secondary
+          500: '#5A6B80',
+          600: '#3D4F65',   // --text-muted
+          700: '#2A3A52',
+          800: '#1C2B40',   // --border
+          900: '#080F1E',   // --bg-base
         },
-        // ── Gold — accent / CTA / highlights ──────────────────────────
-        secondary: {
-          DEFAULT: '#C9A84C',
-          50:  '#FDF8ED',
-          100: '#F9EDCC',
-          200: '#F2D88A',
-          300: '#E8C45A',
-          400: '#D9B24E',
-          500: '#C9A84C',
-          600: '#A88A3A',
-          700: '#876C2A',
-          800: '#664E1A',
-          900: '#45300A',
-        },
-        // ── Gold accent (alias) ────────────────────────────────────────
-        accent: {
-          DEFAULT: '#C9A84C',
-          50:  '#FDF8ED',
-          100: '#F9EDCC',
-          200: '#F2D88A',
-          300: '#E8C45A',
-          400: '#D9B24E',
-          500: '#C9A84C',
-          600: '#A88A3A',
-          700: '#876C2A',
-          800: '#664E1A',
-          900: '#45300A',
-        },
-        // ── Dark panels / surfaces ─────────────────────────────────────
+        // Background surfaces
         surface: {
-          DEFAULT: '#112240',
-          50:  '#0A1628',   // page background (deep navy)
-          100: '#112240',   // card / panel background
-          200: '#1A3050',   // border / divider
-          300: '#2A4070',   // lighter border
+          DEFAULT: '#0E1A2E', // --bg-surface
+          50:  '#14243D',     // --bg-elevated
+          100: '#1C2B40',     // --border
+          200: '#243452',
+          300: '#2C3D60',
         },
-        // ── Semantic ───────────────────────────────────────────────────
-        success: '#2ECC71',
-        danger:  '#E74C3C',
-        warning: '#F0A500',
+        // Muted blue (links, secondary actions)
+        secondary: {
+          DEFAULT: '#5A7A9F',
+          50:  '#EEF3F8',
+          100: '#D5E3EF',
+          200: '#A8C4DC',
+          300: '#7AA5C9',
+          400: '#5A7A9F',
+          500: '#4A6A8F',
+          600: '#3A5A7F',
+          700: '#2A4A6F',
+          800: '#1C3A5F',
+          900: '#0E2A4F',
+        },
+        // Gold accent — use max 3× per page
+        accent: {
+          DEFAULT: '#B8974A',
+          50:  '#F8F2E4',
+          100: '#F0E4C3',
+          200: '#E4CC8C',
+          300: '#D4B460',
+          400: '#C4A040',
+          500: '#B8974A',
+          600: '#9A7A3A',
+          700: '#7C5E2C',
+          800: '#5E4220',
+          900: '#3E2814',
+        },
+        // Semantic aliases
+        success: '#3DAB6E',
+        danger:  '#D95B5B',
+        warning: '#D4A843',
+        gain:    '#3DAB6E',
+        loss:    '#D95B5B',
+        gold:    '#B8974A',
+        // Direct token names
+        'bg-base':     '#080F1E',
+        'bg-surface':  '#0E1A2E',
+        'bg-elevated': '#14243D',
+        'border-dark': '#1C2B40',
       },
       fontFamily: {
-        sans:    ['DM Sans', 'system-ui', 'sans-serif'],
-        display: ['Playfair Display', 'Georgia', 'serif'],
+        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
         mono:    ['JetBrains Mono', 'Menlo', 'monospace'],
       },
       fontSize: {
@@ -74,18 +82,22 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-hero':   'linear-gradient(135deg, #0A1628 0%, #112240 50%, #0A1628 100%)',
-        'gradient-card':   'linear-gradient(135deg, #112240 0%, #1A3050 100%)',
-        'gradient-gold':   'linear-gradient(135deg, #C9A84C 0%, #E8C45A 50%, #C9A84C 100%)',
-        'gradient-warm':   'linear-gradient(135deg, #112240 0%, #0A1628 100%)',
+        'gradient-hero':   'linear-gradient(180deg, #080F1E 0%, #0E1A2E 100%)',
+        'gradient-card':   'linear-gradient(135deg, #0E1A2E 0%, #14243D 100%)',
+        'gradient-warm':   'linear-gradient(180deg, #080F1E 0%, #0E1A2E 100%)',
       },
+      // No glows — only structural shadows
       boxShadow: {
-        'card':       '0 1px 3px 0 rgba(0,0,0,0.4), 0 1px 2px -1px rgba(0,0,0,0.3)',
-        'card-hover': '0 10px 40px -8px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.15)',
-        'card-warm':  '0 2px 8px 0 rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.1)',
-        'glow-gold':  '0 0 24px rgba(201,168,76,0.25)',
-        'glow-blue':  '0 0 24px rgba(201,168,76,0.15)',
-        'inset-border':'inset 0 0 0 1px rgba(201,168,76,0.12)',
+        'card':       '0 0 0 1px #1C2B40',
+        'card-hover': '0 4px 16px -4px rgba(0,0,0,0.5)',
+        'card-warm':  '0 0 0 1px #1C2B40',
+        'inset-border': 'inset 0 0 0 1px #1C2B40',
+      },
+      // Cap all corner radii at 10px
+      borderRadius: {
+        'xl':  '8px',
+        '2xl': '10px',
+        '3xl': '10px',
       },
       animation: {
         'ticker':     'ticker 40s linear infinite',
@@ -106,11 +118,6 @@ const config: Config = {
           '0%':   { opacity: '0', transform: 'translateY(24px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-      },
-      borderRadius: {
-        'xl':  '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.5rem',
       },
     },
   },
