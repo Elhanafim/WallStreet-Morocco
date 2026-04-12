@@ -44,11 +44,12 @@ function JumpNav({ activeSector }: { activeSector: string }) {
               e.preventDefault();
               document.getElementById(`sector-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all whitespace-nowrap ${
-              activeSector === s.id
-                ? 'bg-primary text-white border-primary'
-                : 'bg-white text-primary/60 border-surface-200 hover:border-primary/40 hover:text-primary'
-            }`}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all whitespace-nowrap"
+            style={{
+              backgroundColor: activeSector === s.id ? 'var(--gold)' : 'var(--bg-surface)',
+              color: activeSector === s.id ? 'var(--bg-surface)' : 'var(--text-secondary)',
+              borderColor: activeSector === s.id ? 'var(--gold)' : 'var(--border)',
+            }}
           >
             <span>{s.icon}</span>
             <span>{s.name.split(' & ')[0].split(' ')[0]}</span>
@@ -85,7 +86,20 @@ function StockCard({
         {isAuthenticated ? (
           <button
             onClick={handleAdd}
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-secondary/30 text-secondary text-xs font-semibold hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-200"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border transition-all duration-200 text-xs font-semibold"
+            style={{
+              borderColor: 'var(--border)',
+              color: 'var(--text-secondary)',
+              backgroundColor: 'transparent',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = 'var(--bg-elevated)';
+              e.currentTarget.style.color = 'var(--text-primary)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = 'var(--text-secondary)';
+            }}
           >
             <Plus className="w-3.5 h-3.5" />
             Ajouter au portefeuille
@@ -94,7 +108,13 @@ function StockCard({
           <button
             disabled
             title="Connectez-vous pour investir"
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-surface-200 text-primary/25 text-xs font-semibold cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold cursor-not-allowed"
+            style={{
+              borderColor: 'var(--border)',
+              backgroundColor: 'var(--bg-base)',
+              color: 'var(--text-muted)',
+              opacity: 0.5,
+            }}
           >
             <Plus className="w-3.5 h-3.5" />
             Ajouter au portefeuille
@@ -139,13 +159,20 @@ const SectorSection = memo(function SectorSection({
       {/* Sticky sector header */}
       <div
         ref={headingRef}
-        className="sticky top-16 z-20 bg-surface-50/95 backdrop-blur-sm border-b-2 border-secondary/30 flex items-center justify-between px-1 py-3 mb-4"
+        className="sticky top-16 z-20 backdrop-blur-sm border-b-2 flex items-center justify-between px-1 py-3 mb-4"
+        style={{
+          backgroundColor: 'var(--bg-base)',
+          borderColor: 'var(--border)',
+        }}
       >
         <div className="flex items-center gap-2">
           <span className="text-xl">{sector.icon}</span>
-          <span className="font-black text-primary text-sm">{sector.name}</span>
+          <span className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{sector.name}</span>
         </div>
-        <span className="text-xs font-semibold text-primary/40 bg-surface-200 px-2.5 py-1 rounded-full">
+        <span
+          className="text-xs font-semibold px-2.5 py-1 rounded-full"
+          style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-secondary)' }}
+        >
           {assets.length} valeur{assets.length > 1 ? 's' : ''}
         </span>
       </div>
@@ -231,23 +258,40 @@ export default function MarketStockGrid({ assets }: { assets: Asset[] }) {
       {/* ── Status + count strip ── */}
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-semibold text-primary/60">
+          <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
             {assets.length} valeurs cotées
           </span>
-          <div className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${
-            open ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${open ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`} />
+          <div
+            className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full"
+            style={{
+              backgroundColor: 'var(--bg-elevated)',
+              color: open ? 'var(--gain)' : 'var(--loss)',
+              border: '1px solid var(--border)',
+            }}
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                backgroundColor: open ? 'var(--gain)' : 'var(--loss)',
+                animation: open ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
+              }}
+            />
             {open ? 'Marché ouvert' : 'Marché fermé'}
           </div>
           {now && (
-            <span className="text-xs text-primary/30">· {now}</span>
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>· {now}</span>
           )}
         </div>
       </div>
 
       {/* ── Jump nav ── */}
-      <div className="sticky top-16 z-30 bg-surface-50/95 backdrop-blur-sm py-3 mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b border-surface-200">
+      <div
+        className="sticky top-16 z-30 backdrop-blur-sm py-3 mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 border-b"
+        style={{
+          backgroundColor: 'var(--bg-base)',
+          borderColor: 'var(--border)',
+        }}
+      >
         <JumpNav activeSector={activeSector} />
       </div>
 

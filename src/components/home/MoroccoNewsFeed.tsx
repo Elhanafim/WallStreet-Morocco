@@ -9,11 +9,11 @@ import { useTranslation } from 'react-i18next';
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 const IMPACT_COLORS: Record<number, { bg: string; color: string }> = {
-  5: { bg: '#ede9fe', color: '#6d28d9' },
-  4: { bg: '#fee2e2', color: '#b91c1c' },
-  3: { bg: '#ffedd5', color: '#c2410c' },
-  2: { bg: '#fef3c7', color: '#b45309' },
-  1: { bg: '#f3f4f6', color: '#6b7280' },
+  5: { bg: 'var(--bg-elevated)',   color: 'var(--text-primary)' },
+  4: { bg: 'var(--loss)',           color: '#FFFFFF' },
+  3: { bg: 'var(--gold)',           color: '#FFFFFF' },
+  2: { bg: 'var(--border-strong)', color: 'var(--text-primary)' },
+  1: { bg: 'var(--bg-elevated)',   color: 'var(--text-secondary)' },
 };
 
 function ImpactPill({ score }: { score: number }) {
@@ -81,20 +81,30 @@ export default function MoroccoNewsFeed() {
   })();
 
   return (
-    <div className="mt-6 sm:mt-10 bg-white/5 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6">
+    <div
+      className="mt-6 sm:mt-10 rounded-2xl sm:rounded-3xl p-4 sm:p-6"
+      style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+      }}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-5">
         <div>
-          <h3 className="text-white font-black text-base">
-            🇲🇦 {t('calendar.moroccoFeed.title')}
+          <h3 className="section-label" style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+            {/* Strip emojis from title */}
+            {t('calendar.moroccoFeed.title').replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}
           </h3>
-          <p className="text-white/40 text-xs mt-0.5">
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
             {t('calendar.moroccoFeed.subtitle')}
           </p>
         </div>
         <Link
           href="/calendar"
-          className="text-white/40 hover:text-white/70 text-xs font-semibold whitespace-nowrap transition-colors"
+          className="text-xs font-semibold whitespace-nowrap transition-colors"
+          style={{ color: 'var(--text-secondary)' }}
+          onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
         >
           {t('buttons.seeAll')} →
         </Link>
@@ -112,21 +122,21 @@ export default function MoroccoNewsFeed() {
           ))}
         </div>
       ) : error ? (
-        <p className="text-white/30 text-sm text-center py-6">
+        <p className="text-[var(--text-muted)] text-sm text-center py-6">
           {t('calendar.moroccoFeed.unavailable')}{' '}
-          <Link href="/calendar" className="underline hover:text-white/60 transition-colors">
+          <Link href="/calendar" className="underline hover:text-[var(--text-secondary)] transition-colors">
             {t('calendar.moroccoFeed.seeCalendar')}
           </Link>
         </p>
       ) : events.length === 0 ? (
-        <p className="text-white/30 text-sm text-center py-6">
+        <p className="text-[var(--text-muted)] text-sm text-center py-6">
           {t('calendar.moroccoFeed.empty')}{' '}
-          <Link href="/calendar" className="underline hover:text-white/60 transition-colors">
+          <Link href="/calendar" className="underline hover:text-[var(--text-secondary)] transition-colors">
             {t('calendar.moroccoFeed.seeCalendar')}
           </Link>
         </p>
       ) : (
-        <div className="divide-y divide-white/5">
+        <div className="divide-y divide-[var(--border)]">
           {events.map((ev, idx) => {
             const { label: dateLabel, isPast } = formatShortDate(ev.date.slice(0, 10));
             return (
@@ -134,33 +144,34 @@ export default function MoroccoNewsFeed() {
                 {/* Separator before first upcoming event */}
                 {idx === separatorIdx && (
                   <div className="flex items-center gap-3 py-2.5">
-                    <div className="flex-1 h-px bg-white/10" />
-                    <span className="text-[9px] text-white/30 font-bold uppercase tracking-wide">
+                    <div className="flex-1 h-px" style={{ backgroundColor: 'var(--border)' }} />
+                    <span className="text-[9px] font-bold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
                       {t('calendar.moroccoFeed.upcomingDivider')}
                     </span>
-                    <div className="flex-1 h-px bg-white/10" />
+                    <div className="flex-1 h-px" style={{ backgroundColor: 'var(--border)' }} />
                   </div>
                 )}
-                <div className="flex items-start gap-3 py-2 sm:py-3">
+                <div className="flex items-start gap-3 py-2 sm:py-3 transition-colors duration-120 hover:bg-[var(--bg-elevated)] px-2 rounded-lg">
                   <ImpactPill score={ev.impactScore} />
-                  <span className={`text-[10px] font-semibold flex-shrink-0 w-[4.5rem] ${isPast ? 'text-white/30' : 'text-white/60'}`}>
+                  <span
+                    className="text-[10px] font-semibold flex-shrink-0 w-[4.5rem]"
+                    style={{ color: isPast ? 'var(--text-muted)' : 'var(--text-secondary)' }}
+                  >
                     {dateLabel}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-white/80 truncate leading-snug">
+                    <p className="text-xs font-semibold truncate leading-snug" style={{ color: 'var(--text-primary)' }}>
                       {ev.titleFr || ev.title}
                     </p>
                     {(ev.actual || ev.forecast) && (
-                      <p className="text-[10px] text-white/35 mt-0.5 flex items-center gap-1.5">
+                      <p className="text-[10px] mt-0.5 flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
                         {ev.actual && (
-                          <span className={
-                            ev.actual.startsWith('-') ? 'text-red-400' : 'text-emerald-400'
-                          }>
+                          <span style={{ color: ev.actual.startsWith('-') ? 'var(--loss)' : 'var(--gain)' }}>
                             {t('calendar.moroccoFeed.actual')} : {ev.actual}
                           </span>
                         )}
                         {ev.actual && ev.forecast && (
-                          <span className="text-white/20">·</span>
+                          <span style={{ color: 'var(--border)' }}>·</span>
                         )}
                         {ev.forecast && <span>{t('calendar.moroccoFeed.forecast')} : {ev.forecast}</span>}
                       </p>
@@ -170,7 +181,8 @@ export default function MoroccoNewsFeed() {
                     href={ev.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/20 hover:text-white/50 transition-colors flex-shrink-0 text-sm leading-none mt-0.5"
+                    className="transition-colors flex-shrink-0 text-sm leading-none mt-0.5"
+                    style={{ color: 'var(--text-muted)' }}
                     onClick={(e) => e.stopPropagation()}
                     aria-label="Source"
                   >
@@ -184,10 +196,10 @@ export default function MoroccoNewsFeed() {
       )}
 
       {/* CTA */}
-      <div className="mt-4 pt-4 border-t border-white/8">
+      <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
         <Link
           href="/calendar"
-          className="flex items-center justify-center gap-2 text-xs font-semibold text-white/50 border border-white/12 rounded-xl px-4 py-2.5 hover:bg-white/5 hover:text-white/75 transition-colors"
+          className="btn-ghost-secondary flex items-center justify-center gap-2 text-xs font-semibold rounded-xl px-4 py-2.5"
         >
           {t('calendar.moroccoFeed.seeAll')}
         </Link>

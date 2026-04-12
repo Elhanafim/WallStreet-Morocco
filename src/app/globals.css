@@ -4,94 +4,73 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Design Tokens — Light Mode (default) ────────────────────────────────── */
+/* ── DESIGN TOKENS ───────────────────────────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --bg-base:        #F4F2EE;   /* warm Moroccan parchment */
-  --bg-surface:     #FFFFFF;   /* cards, panels, navbar */
-  --bg-elevated:    #EAE7E0;   /* hover rows, inner cards */
+  /* ── LIGHT MODE (default) ─────────────────────── */
+
+  /* Backgrounds — warm Moroccan parchment scale */
+  --bg-base:        #F4F2EE;
+  --bg-surface:     #FFFFFF;
+  --bg-elevated:    #EAE7E0;
+
   /* Borders */
   --border:         #D8D2C7;
-  /* Accent — darker gold for contrast on light bg (4.5:1 on white) */
+  --border-strong:  #B0A898;
+
+  /* Gold — darkened for light bg legibility */
   --gold:           #8B6914;
-  /* Text hierarchy */
-  --text-primary:   #0F1923;   /* headings, key numbers — near-black */
-  --text-secondary: #4A5568;   /* labels, subtitles */
-  --text-muted:     #94A3B0;   /* timestamps, footnotes */
-  /* Data colors */
-  --gain:           #1A7A4A;   /* positive % — 5.3:1 on white */
-  --loss:           #B83232;   /* negative % — 5.9:1 on white */
-  /* Fonts — unchanged across modes */
+  --gold-subtle:    #C9A84C;
+
+  /* Text — must be DARK on light backgrounds */
+  --text-primary:   #0F1923;   /* near-black navy  — ratio 18:1 on white  */
+  --text-secondary: #4A5568;   /* dark slate       — ratio 7.4:1 on white */
+  --text-muted:     #718096;   /* medium slate     — ratio 4.6:1 on white */
+
+  /* Financial data colors — darker for light bg */
+  --gain:           #1A7A4A;   /* dark green  — ratio 6.1:1 on white */
+  --loss:           #B83232;   /* dark red    — ratio 5.9:1 on white */
+
+  /* Navbar */
+  --nav-bg:         #FFFFFF;
+  --nav-border:     #D8D2C7;
+
+  /* Fonts — essential for layout */
   --font-display:   'Cormorant Garamond', Georgia, serif;
   --font-sans:      'Inter', system-ui, sans-serif;
   --font-mono:      'JetBrains Mono', Menlo, monospace;
 }
 
-/* ── Design Tokens — Dark Mode ───────────────────────────────────────────── */
 [data-theme="dark"] {
+  /* ── DARK MODE ────────────────────────────────── */
+
+  /* Backgrounds — deep navy scale */
   --bg-base:        #080F1E;
   --bg-surface:     #0E1A2E;
   --bg-elevated:    #14243D;
+
+  /* Borders */
   --border:         #1E3050;
+  --border-strong:  #2A4268;
+
+  /* Gold — lighter for dark bg legibility */
   --gold:           #B8974A;
-  --text-primary:   #E8EAF0;   /* 15:1 on --bg-surface */
-  --text-secondary: #7A8BA0;   /* 5.1:1 on --bg-surface */
-  --text-muted:     #3D4F65;
-  --gain:           #3DAB6E;   /* 6:1 on --bg-surface */
-  --loss:           #D95B5B;   /* 4.7:1 on --bg-surface */
+  --gold-subtle:    #8B6914;
+
+  /* Text — must be LIGHT on dark backgrounds */
+  --text-primary:   #E8EAF0;   /* near-white    — ratio 14.8:1 on #0E1A2E */
+  --text-secondary: #7A8BA0;   /* muted blue    — ratio 5.2:1 on #0E1A2E  */
+  --text-muted:     #3D4F65;   /* dark muted    — ratio 2.1:1 (bg only)   */
+
+  /* Financial data colors — lighter for dark bg */
+  --gain:           #3DAB6E;   /* bright green  — ratio 5.8:1 on #0E1A2E  */
+  --loss:           #D95B5B;   /* bright red    — ratio 5.1:1 on #0E1A2E  */
+
+  /* Navbar */
+  --nav-bg:         #0E1A2E;
+  --nav-border:     #1E3050;
 }
 
-/* ── Dark-mode overrides for unconverted Tailwind classes ─────────────────── */
-/* These remap existing Tailwind bg/text/border classes to the dark tokens.    */
-/* Only active when [data-theme="dark"] is on <html>.                          */
 
-[data-theme="dark"] .bg-white       { background-color: var(--bg-surface) !important; }
-[data-theme="dark"] .bg-gray-50,
-[data-theme="dark"] .bg-slate-50,
-[data-theme="dark"] .bg-surface-50  { background-color: var(--bg-elevated) !important; }
-[data-theme="dark"] .bg-primary     { background-color: var(--bg-base) !important; }
-[data-theme="dark"] .bg-surface-100 { background-color: var(--bg-elevated) !important; }
-
-[data-theme="dark"] .text-primary        { color: var(--text-primary) !important; }
-[data-theme="dark"] .text-primary\/80    { color: var(--text-primary) !important; }
-[data-theme="dark"] .text-primary\/70    { color: var(--text-secondary) !important; }
-[data-theme="dark"] .text-primary\/60    { color: var(--text-secondary) !important; }
-[data-theme="dark"] .text-primary\/50    { color: var(--text-secondary) !important; }
-[data-theme="dark"] .text-primary\/40    { color: var(--text-muted) !important; }
-[data-theme="dark"] .text-primary\/30    { color: var(--text-muted) !important; }
-[data-theme="dark"] .text-primary\/20    { color: var(--text-muted) !important; }
-[data-theme="dark"] .text-success        { color: var(--gain) !important; }
-[data-theme="dark"] .text-danger         { color: var(--loss) !important; }
-[data-theme="dark"] .text-green-700,
-[data-theme="dark"] .text-emerald-600    { color: var(--gain) !important; }
-[data-theme="dark"] .text-red-600,
-[data-theme="dark"] .text-red-500        { color: var(--loss) !important; }
-[data-theme="dark"] .text-gray-500,
-[data-theme="dark"] .text-slate-500      { color: var(--text-secondary) !important; }
-
-[data-theme="dark"] .border-surface-200,
-[data-theme="dark"] .border-surface-100,
-[data-theme="dark"] .border-surface-50  { border-color: var(--border) !important; }
-[data-theme="dark"] .border-gray-100,
-[data-theme="dark"] .border-gray-200    { border-color: var(--border) !important; }
-[data-theme="dark"] .divide-surface-100,
-[data-theme="dark"] .divide-slate-100,
-[data-theme="dark"] .divide-slate-200   { --tw-divide-opacity: 1; border-color: var(--border) !important; }
-
-[data-theme="dark"] .shadow-card,
-[data-theme="dark"] .shadow-card-hover,
-[data-theme="dark"] .shadow-card-warm,
-[data-theme="dark"] .shadow-sm,
-[data-theme="dark"] .shadow-md,
-[data-theme="dark"] .shadow-lg          { box-shadow: none !important; }
-
-[data-theme="dark"] .bg-success\/10     { background-color: rgba(61,171,110,0.08) !important; }
-[data-theme="dark"] .bg-danger\/10      { background-color: rgba(217,91,91,0.08) !important; }
-[data-theme="dark"] .bg-accent\/10,
-[data-theme="dark"] .bg-accent\/5       { background-color: rgba(184,151,74,0.08) !important; }
-[data-theme="dark"] .border-accent\/20,
-[data-theme="dark"] .border-accent\/30  { border-color: rgba(184,151,74,0.25) !important; }
-[data-theme="dark"] .text-accent        { color: var(--gold) !important; }
 
 /* ── Keyframes ───────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
@@ -233,6 +212,63 @@
   .ticker-wrap { overflow: hidden; white-space: nowrap; }
   .ticker-move { display: inline-block; animation: ticker 40s linear infinite; }
   .ticker-move:hover { animation-play-state: paused; }
+
+  /* ── Buttons & CTAs ─────────────────────────────────────────────────────── */
+  .btn-primary-cta {
+    background-color: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    transition: all 120ms ease;
+  }
+
+  [data-theme="dark"] .btn-primary-cta:hover {
+    background-color: var(--gold);
+    color: var(--bg-base);
+  }
+
+  :root:not([data-theme="dark"]) .btn-primary-cta:hover {
+    background-color: var(--gold);
+    color: var(--bg-surface);
+  }
+
+  .btn-secondary {
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    transition: all 120ms ease;
+  }
+
+  .btn-ghost-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    transition: all 120ms ease;
+  }
+  .btn-ghost-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── Section Labels ──────────────────────────────────────────────────────── */
+  .section-label {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 13px;
+    background: var(--gold);
+    margin-right: 8px;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
 }
 
 /* ── Premium blur overlay ────────────────────────────────────────────────── */
@@ -274,3 +310,37 @@
 
 /* ── Recharts ────────────────────────────────────────────────────────────── */
 .recharts-tooltip-wrapper { outline: none !important; }
+
+@layer utilities {
+  /* ── BUTTON UTILITIES ──────────────────────────────────────────────────── */
+  .btn-primary-cta {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    background-color: transparent;
+    transition: all 150ms ease;
+  }
+  .btn-primary-cta:hover {
+    background-color: var(--gold);
+    color: var(--bg-surface); /* Correct pairing for gold bg */
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background-color: transparent;
+    transition: all 150ms ease;
+  }
+  .btn-secondary:hover {
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+
+  .btn-ghost-secondary {
+    color: var(--text-secondary);
+    transition: all 150ms ease;
+  }
+  .btn-ghost-secondary:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-elevated);
+  }
+}

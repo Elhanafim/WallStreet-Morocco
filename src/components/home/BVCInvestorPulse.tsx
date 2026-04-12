@@ -110,10 +110,10 @@ export default function BVCInvestorPulse() {
         <div style={{ marginBottom: '40px' }}>
           <h2 style={{
             fontFamily: 'var(--font-display)',
-            fontSize: '30px',
+            fontSize: '32px',
             fontWeight: 500,
             color: 'var(--text-primary)',
-            marginBottom: '8px',
+            marginBottom: '4px',
           }}>
             {t('bvc.dashboardTitle')}
           </h2>
@@ -126,7 +126,7 @@ export default function BVCInvestorPulse() {
           </p>
         </div>
 
-        {/* ── Market Status Strip ─────────────────────────────────────────────── */}
+        {/* ── Status Bar ("Marché ouvert/fermé") ─────────────────────────────── */}
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -157,11 +157,11 @@ export default function BVCInvestorPulse() {
           </div>
 
           <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--text-primary)', fontWeight: 500 }}>
             MASI · Bourse de Casablanca
           </span>
           <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
-          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--text-muted)' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--text-secondary)' }}>
             {t('market.sessionHours')}
           </span>
           <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
@@ -184,13 +184,7 @@ export default function BVCInvestorPulse() {
               display: 'flex',
               flexDirection: 'column',
             }}>
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '14px',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '20px',
-              }}>
+              <h3 className="section-label" style={{ marginBottom: '20px', color: 'var(--text-primary)', fontSize: '20px' }}>
                 {t('bvc.topMovers')}
               </h3>
 
@@ -239,23 +233,20 @@ export default function BVCInvestorPulse() {
                     { title: th('movers_losers'),  items: movers.losers,  positive: false },
                   ] as { title: string; items: BVCPrice[]; positive: boolean }[]).map(({ title, items, positive }) => (
                     <div key={title}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px' }}>
-                        {positive
-                          ? <TrendingUp   size={13} style={{ color: 'var(--gain)', flexShrink: 0 }} />
-                          : <TrendingDown size={13} style={{ color: 'var(--loss)', flexShrink: 0 }} />
-                        }
+                      <div className="section-label" style={{ marginBottom: '12px' }}>
                         <p style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '13px',
-                          fontWeight: 500,
                           color: positive ? 'var(--gain)' : 'var(--loss)',
+                          fontWeight: 500,
                         }}>
                           {title}
                         </p>
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {items.map((stock) => (
-                          <div key={stock.ticker} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <div
+                            key={stock.ticker}
+                            className="group flex items-center gap-8 py-1.5 px-2 rounded-md hover:bg-[var(--bg-elevated)] transition-colors duration-120"
+                          >
                             <span style={{
                               width: '40px',
                               fontFamily: 'var(--font-mono)',
@@ -263,9 +254,6 @@ export default function BVCInvestorPulse() {
                               fontWeight: 600,
                               color: 'var(--text-primary)',
                               flexShrink: 0,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
                             }}>
                               {stock.ticker}
                             </span>
@@ -273,7 +261,7 @@ export default function BVCInvestorPulse() {
                               flex: 1,
                               fontFamily: 'var(--font-sans)',
                               fontSize: '11px',
-                              color: 'var(--text-muted)',
+                              color: 'var(--text-secondary)',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
@@ -283,7 +271,7 @@ export default function BVCInvestorPulse() {
                             <span style={{
                               fontFamily: 'var(--font-mono)',
                               fontSize: '11px',
-                              fontWeight: 600,
+                              fontWeight: 500,
                               flexShrink: 0,
                               color: positive ? 'var(--gain)' : 'var(--loss)',
                             }}>
@@ -312,23 +300,8 @@ export default function BVCInvestorPulse() {
                 </p>
                 <Link
                   href="/market"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
-                    padding: '6px 12px',
-                    textDecoration: 'none',
-                    backgroundColor: 'transparent',
-                    transition: 'background-color 0.15s',
-                  }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--bg-elevated)')}
-                  onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
+                  className="btn-ghost-secondary inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium"
+                  style={{ textDecoration: 'none' }}
                 >
                   {t('bvc.seeAllStocks')}
                   <ArrowRight size={12} />
@@ -348,18 +321,12 @@ export default function BVCInvestorPulse() {
               display: 'flex',
               flexDirection: 'column',
             }}>
-              <h3 style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '14px',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '20px',
-              }}>
+              <h3 className="section-label" style={{ marginBottom: '20px', color: 'var(--text-primary)', fontSize: '20px' }}>
                 {t('bvc.indicators')}
               </h3>
 
               <div className="grid grid-cols-2 gap-3 flex-1">
-                {metrics.map((m, i) => (
+                 {metrics.map((m, i) => (
                   <div
                     key={i}
                     style={{
@@ -373,10 +340,9 @@ export default function BVCInvestorPulse() {
                     <p style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '11px',
-                      fontWeight: 500,
-                      color: 'var(--text-secondary)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
+                      letterSpacing: '0.07em',
+                      color: 'var(--text-secondary)',
                       marginTop: '8px',
                       lineHeight: 1.2,
                     }}>
@@ -394,9 +360,9 @@ export default function BVCInvestorPulse() {
                     </p>
                     <p style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: '9px',
+                      fontSize: '11px',
                       color: 'var(--text-muted)',
-                      marginTop: '2px',
+                      marginTop: '4px',
                       lineHeight: 1.3,
                     }}>
                       {m.note}

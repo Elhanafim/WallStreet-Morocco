@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef, useState } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'gold';
 type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -21,54 +21,8 @@ const sizeClasses: Record<ButtonSize, string> = {
   xl: 'px-8 py-4 text-lg',
 };
 
-// All buttons: 6px radius, no shadows, Inter weight 400/500
 const baseClasses =
-  'inline-flex items-center justify-center gap-2 font-sans transition-colors duration-150 focus:outline-none select-none tracking-tight';
-
-const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
-  primary: {
-    border: '1px solid var(--gold)',
-    borderRadius: '6px',
-    color: 'var(--text-primary)',
-    backgroundColor: 'transparent',
-    fontWeight: 400,
-  },
-  secondary: {
-    border: '1px solid var(--border)',
-    borderRadius: '6px',
-    color: 'var(--text-secondary)',
-    backgroundColor: 'var(--bg-elevated)',
-    fontWeight: 400,
-  },
-  outline: {
-    border: '1px solid var(--border)',
-    borderRadius: '6px',
-    color: 'var(--text-secondary)',
-    backgroundColor: 'transparent',
-    fontWeight: 400,
-  },
-  ghost: {
-    border: '1px solid transparent',
-    borderRadius: '6px',
-    color: 'var(--text-secondary)',
-    backgroundColor: 'transparent',
-    fontWeight: 400,
-  },
-  danger: {
-    border: '1px solid rgba(217,91,91,0.4)',
-    borderRadius: '6px',
-    color: 'var(--loss)',
-    backgroundColor: 'rgba(217,91,91,0.06)',
-    fontWeight: 400,
-  },
-  gold: {
-    border: '1px solid var(--gold)',
-    borderRadius: '6px',
-    color: 'var(--gold)',
-    backgroundColor: 'rgba(184,151,74,0.06)',
-    fontWeight: 400,
-  },
-};
+  'inline-flex items-center justify-center gap-2 font-sans transition-all duration-150 focus:outline-none select-none tracking-tight';
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -83,11 +37,69 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       style,
       children,
       disabled,
+      onMouseEnter,
+      onMouseLeave,
       ...props
     },
     ref
   ) => {
+    const [isHovered, setIsHovered] = useState(false);
     const isDisabled = disabled || loading;
+
+    const getVariantStyles = (): React.CSSProperties => {
+      switch (variant) {
+        case 'primary':
+          return {
+            border: '1px solid var(--gold)',
+            color: isHovered ? 'var(--bg-surface)' : 'var(--gold)',
+            backgroundColor: isHovered ? 'var(--gold)' : 'transparent',
+            borderRadius: '6px',
+            fontWeight: 500,
+          };
+        case 'secondary':
+          return {
+            border: '1px solid var(--border)',
+            color: isHovered ? 'var(--text-primary)' : 'var(--text-secondary)',
+            backgroundColor: isHovered ? 'var(--bg-elevated)' : 'transparent',
+            borderRadius: '6px',
+            fontWeight: 400,
+          };
+        case 'outline':
+          return {
+            border: '1px solid var(--border)',
+            color: 'var(--text-secondary)',
+            backgroundColor: 'transparent',
+            borderRadius: '6px',
+            fontWeight: 400,
+          };
+        case 'ghost':
+          return {
+            border: '1px solid transparent',
+            color: 'var(--text-secondary)',
+            backgroundColor: isHovered ? 'var(--bg-elevated)' : 'transparent',
+            borderRadius: '6px',
+            fontWeight: 400,
+          };
+        case 'danger':
+          return {
+            border: '1px solid var(--loss)',
+            color: isHovered ? 'var(--bg-surface)' : 'var(--loss)',
+            backgroundColor: isHovered ? 'var(--loss)' : 'transparent',
+            borderRadius: '6px',
+            fontWeight: 500,
+          };
+        case 'gold':
+          return {
+            border: '1px solid var(--gold)',
+            color: isHovered ? 'var(--bg-surface)' : 'var(--gold)',
+            backgroundColor: isHovered ? 'var(--gold)' : 'transparent',
+            borderRadius: '6px',
+            fontWeight: 500,
+          };
+        default:
+          return {};
+      }
+    };
 
     return (
       <button
@@ -100,7 +112,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           isDisabled && 'opacity-50 cursor-not-allowed pointer-events-none',
           className
         )}
-        style={{ ...variantStyles[variant], ...style }}
+        style={{ ...getVariantStyles(), ...style }}
+        onMouseEnter={(e) => {
+          setIsHovered(true);
+          onMouseEnter?.(e);
+        }}
+        onMouseLeave={(e) => {
+          setIsHovered(false);
+          onMouseLeave?.(e);
+        }}
         {...props}
       >
         {loading ? (

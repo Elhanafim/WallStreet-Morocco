@@ -36,11 +36,12 @@ export default function Hero() {
           aria-hidden="true"
           className="w-full h-full object-cover object-center"
         />
-        {/* Dark overlay: gradient from 0.85 at top to 0.95 at bottom */}
+        {/* Dynamic overlay for contrast system compliance — uses var(--bg-base) at high opacity */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, rgba(8,15,30,0.85) 0%, rgba(8,15,30,0.95) 100%)',
+            backgroundColor: 'var(--bg-base)',
+            opacity: 0.9,
           }}
         />
       </div>
@@ -75,9 +76,8 @@ export default function Hero() {
               style={{
                 fontFamily: 'var(--font-display)',
                 fontWeight: 500,
-                fontSize: 'clamp(2.2rem, 5vw, 4rem)',
+                fontSize: '32px',
                 color: 'var(--text-primary)',
-                letterSpacing: '-0.02em',
               }}
             >
               {t('hero.headline1')}{' '}
@@ -87,42 +87,24 @@ export default function Hero() {
             </h1>
 
             <p
-              className="text-sm sm:text-base leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+              className="leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0"
+              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)', fontSize: '14px' }}
             >
               {t('hero.subtitle')}
             </p>
 
-            {/* CTAs — gold border = 1 of 3 gold uses on this page */}
+            {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-6">
               <Link
                 href="/market"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
-                style={{
-                  border: '1px solid var(--gold)',
-                  borderRadius: '6px',
-                  color: 'var(--text-primary)',
-                  backgroundColor: 'transparent',
-                  fontFamily: 'var(--font-sans)',
-                }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'rgba(184,151,74,0.08)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
+                className="btn-primary-cta w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-md"
               >
                 {t('hero.cta1')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/learn"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium transition-colors"
-                style={{
-                  border: '1px solid var(--border)',
-                  borderRadius: '6px',
-                  color: 'var(--text-secondary)',
-                  backgroundColor: 'var(--bg-elevated)',
-                  fontFamily: 'var(--font-sans)',
-                }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
+                className="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-md"
               >
                 {t('hero.cta2')}
               </Link>

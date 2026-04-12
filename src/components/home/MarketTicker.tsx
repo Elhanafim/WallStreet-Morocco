@@ -10,13 +10,12 @@ function TickerItem({ symbol, value, change }: { symbol: string; value: number; 
     : value.toFixed(2);
 
   return (
-    <span className="inline-flex items-center gap-2 px-5 border-r border-white/10 last:border-r-0">
-      <span className="font-bold text-white text-sm">{symbol}</span>
-      <span className="text-white/80 text-sm">{formattedValue}</span>
+    <span className="inline-flex items-center gap-2 px-5 border-r" style={{ borderColor: 'var(--border)' }}>
+      <span className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{symbol}</span>
+      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{formattedValue}</span>
       <span
-        className={`flex items-center gap-0.5 text-xs font-semibold ${
-          isPositive ? 'text-success' : 'text-danger'
-        }`}
+        className="flex items-center gap-0.5 text-xs font-semibold"
+        style={{ color: isPositive ? 'var(--gain)' : 'var(--loss)' }}
       >
         {isPositive ? (
           <TrendingUp className="w-3 h-3" />
@@ -33,10 +32,13 @@ export default function MarketTicker() {
   const doubledStocks = [...tickerStocks, ...tickerStocks];
 
   return (
-    <div className="bg-primary border-y border-white/10 py-2.5 overflow-hidden">
-      <div className="relative flex items-center">
+    <div className="border-y transition-colors duration-150" style={{ backgroundColor: 'var(--bg-base)', borderColor: 'var(--border)' }}>
+      <div className="relative flex items-center py-2.5">
         {/* Label */}
-        <div className="flex-shrink-0 px-4 py-0.5 bg-accent text-primary text-xs font-black uppercase tracking-wider mr-4 rounded-sm">
+        <div
+          className="flex-shrink-0 px-4 py-0.5 text-xs font-black uppercase tracking-wider mr-4 rounded-sm"
+          style={{ backgroundColor: 'var(--gold)', color: 'var(--bg-surface)' }}
+        >
           LIVE
         </div>
 

@@ -20,17 +20,17 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   dot?: boolean;
 }
 
-// Flat dark badges — 4px radius (spec: no rounded corners > 10px), 1px borders
+// Flat dark badges — 4px radius, 1px borders
 const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
   default:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-muted)' },
-  primary:   { backgroundColor: 'rgba(90,122,159,0.1)', border: '1px solid rgba(90,122,159,0.3)', color: 'var(--text-secondary)' },
-  secondary: { backgroundColor: 'rgba(90,122,159,0.1)', border: '1px solid rgba(90,122,159,0.3)', color: 'var(--text-secondary)' },
-  success:   { backgroundColor: 'rgba(61,171,110,0.08)', border: '1px solid rgba(61,171,110,0.25)', color: 'var(--gain)' },
-  danger:    { backgroundColor: 'rgba(217,91,91,0.08)',  border: '1px solid rgba(217,91,91,0.25)',  color: 'var(--loss)' },
-  warning:   { backgroundColor: 'rgba(212,168,67,0.08)', border: '1px solid rgba(212,168,67,0.25)', color: '#D4A843' },
-  gold:      { backgroundColor: 'rgba(184,151,74,0.08)', border: '1px solid rgba(184,151,74,0.25)', color: 'var(--gold)' },
+  primary:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' },
+  secondary: { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' },
+  success:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--gain)' },
+  danger:    { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--loss)', color: 'var(--loss)' },
+  warning:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--gold)', color: 'var(--gold)' },
+  gold:      { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--gold)', color: 'var(--gold)' },
   outline:   { backgroundColor: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)' },
-  premium:   { backgroundColor: 'var(--gold)', border: '1px solid var(--gold)', color: 'var(--bg-base)', fontWeight: 500 },
+  premium:   { backgroundColor: 'var(--gold)', border: '1px solid var(--gold)', color: 'var(--bg-surface)', fontWeight: 500 },
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
@@ -42,7 +42,7 @@ const sizeClasses: Record<BadgeSize, string> = {
 const dotColors: Partial<Record<BadgeVariant, string>> = {
   success:   'var(--gain)',
   danger:    'var(--loss)',
-  warning:   '#D4A843',
+  warning:   'var(--gold)',
   gold:      'var(--gold)',
   secondary: 'var(--text-secondary)',
   primary:   'var(--text-secondary)',

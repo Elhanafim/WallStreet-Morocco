@@ -264,7 +264,6 @@ export default function HomePage() {
                       color: 'var(--text-muted)',
                       fontFamily: 'var(--font-sans)',
                       textAlign: i >= 3 ? 'right' : 'left',
-                      backgroundColor: 'var(--bg-elevated)',
                     }}
                   >
                     {h}
@@ -306,8 +305,8 @@ export default function HomePage() {
                       className="text-xs px-2 py-0.5"
                       style={{
                         color: fund.type === 'Actions' ? 'var(--gain)' : fund.type === 'Obligataire' ? 'var(--text-secondary)' : 'var(--text-muted)',
-                        backgroundColor: 'transparent',
-                        border: `1px solid ${fund.type === 'Actions' ? 'rgba(61,171,110,0.3)' : 'var(--border)'}`,
+                        backgroundColor: 'var(--bg-elevated)',
+                        border: '1px solid var(--border)',
                         borderRadius: '4px',
                         fontFamily: 'var(--font-sans)',
                       }}

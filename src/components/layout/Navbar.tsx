@@ -66,14 +66,15 @@ export default function Navbar() {
     borderRadius: '6px',
     cursor: 'pointer',
     flexShrink: 0,
+    color: 'var(--text-secondary)',
   };
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50"
+      className="fixed top-0 left-0 right-0 z-50 transition-colors duration-150"
       style={{
-        backgroundColor: 'var(--bg-surface)',
-        borderBottom: '1px solid var(--border)',
+        backgroundColor: 'var(--nav-bg)',
+        borderBottom: '1px solid var(--nav-border)',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -108,7 +109,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative px-3 py-2 transition-colors duration-150"
+                  className="relative px-3 py-2 transition-colors duration-150 hover:text-[var(--text-primary)]"
                   style={{
                     fontFamily: 'var(--font-sans)',
                     fontSize: '13px',
@@ -123,7 +124,6 @@ export default function Navbar() {
                       style={{
                         height: '2px',
                         backgroundColor: 'var(--gold)',
-                        borderRadius: '1px 1px 0 0',
                       }}
                     />
                   )}
@@ -131,22 +131,14 @@ export default function Navbar() {
               );
             })}
 
-            {/* Donate */}
+            {/* Donate / Primary CTA */}
             <Link
               href="/donate"
-              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 transition-all duration-150"
+              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 transition-all duration-150 group/donate btn-primary-cta"
               style={{
                 fontSize: '13px',
-                fontWeight: 400,
-                color: '#c1272d',
-                border: '1px solid rgba(193,39,45,0.3)',
+                fontWeight: 500,
                 borderRadius: '6px',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(193,39,45,0.1)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
               }}
             >
               <Heart className="w-3.5 h-3.5 animate-heartbeat" />
@@ -208,7 +200,7 @@ export default function Navbar() {
 
                   {userMenuOpen && (
                     <div
-                      className="absolute right-0 top-full mt-1 w-52 py-1 z-50"
+                      className="absolute right-0 top-full mt-1 w-52 py-1 z-50 shadow-lg"
                       style={{
                         backgroundColor: 'var(--bg-elevated)',
                         border: '1px solid var(--border)',
@@ -242,7 +234,7 @@ export default function Navbar() {
                       <button
                         onClick={() => signOut({ callbackUrl: '/' })}
                         className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs transition-colors"
-                        style={{ color: '#D95B5B' }}
+                        style={{ color: 'var(--loss)' }}
                       >
                         <LogOut className="w-3.5 h-3.5" />
                         {t('nav.logout')}
@@ -269,7 +261,7 @@ export default function Navbar() {
                     borderRadius: '6px',
                     backgroundColor: 'transparent',
                   }}
-                  onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'rgba(184,151,74,0.08)')}
+                  onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--bg-elevated)')}
                   onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
                 >
                   {t('nav.register')}
@@ -277,20 +269,20 @@ export default function Navbar() {
               </>
             )}
 
-            {/* Theme Toggle — Sun in dark mode, Moon in light mode */}
+            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               style={themeToggleStyle}
             >
               {theme === 'dark'
-                ? <Sun size={16} style={{ color: 'var(--text-secondary)' }} />
-                : <Moon size={16} style={{ color: 'var(--text-secondary)' }} />
+                ? <Sun size={16} />
+                : <Moon size={16} />
               }
             </button>
           </div>
 
-          {/* Mobile header right: theme toggle + hamburger */}
+          {/* Mobile header right */}
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={toggleTheme}
@@ -298,8 +290,8 @@ export default function Navbar() {
               style={themeToggleStyle}
             >
               {theme === 'dark'
-                ? <Sun size={16} style={{ color: 'var(--text-secondary)' }} />
-                : <Moon size={16} style={{ color: 'var(--text-secondary)' }} />
+                ? <Sun size={16} />
+                : <Moon size={16} />
               }
             </button>
             <button
@@ -323,7 +315,7 @@ export default function Navbar() {
       >
         <div
           className="px-4 py-4 space-y-0.5"
-          style={{ borderTop: '1px solid var(--border)' }}
+          style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--nav-bg)' }}
         >
           {navLinks.map((link) => {
             const active = pathname === link.href;
@@ -347,7 +339,7 @@ export default function Navbar() {
           <Link
             href="/donate"
             className="flex items-center gap-2 px-3 py-2.5 text-[13px] mt-1"
-            style={{ color: '#c1272d' }}
+            style={{ color: 'var(--loss)' }}
           >
             <Heart className="w-3.5 h-3.5 animate-heartbeat" />
             {td('navLabelMobile')}
@@ -373,7 +365,7 @@ export default function Navbar() {
                 <button
                   onClick={() => signOut({ callbackUrl: '/' })}
                   className="flex items-center gap-2 px-3 py-2.5 text-[13px] transition-colors"
-                  style={{ color: '#D95B5B' }}
+                  style={{ color: 'var(--loss)' }}
                 >
                   <LogOut className="w-4 h-4" /> {t('nav.logout')}
                 </button>

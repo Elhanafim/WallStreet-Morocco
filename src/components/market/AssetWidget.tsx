@@ -8,12 +8,15 @@ interface AssetWidgetProps {
   colorTheme?: 'light' | 'dark';
 }
 
-function AssetWidget({ symbol, name, sector, colorTheme = 'light' }: AssetWidgetProps) {
+function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
     ref.current.innerHTML = '';
+
+    // Detect theme from DOM (data-theme attribute on <html>)
+    const isDark = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark';
 
     const script = document.createElement('script');
     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
@@ -24,7 +27,7 @@ function AssetWidget({ symbol, name, sector, colorTheme = 'light' }: AssetWidget
       height: 200,
       locale: 'fr',
       dateRange: '1M',
-      colorTheme,
+      colorTheme: isDark ? 'dark' : 'light',
       isTransparent: true,
       autosize: true,
       largeChartUrl: '',
@@ -35,18 +38,29 @@ function AssetWidget({ symbol, name, sector, colorTheme = 'light' }: AssetWidget
     ref.current.appendChild(script);
 
     return () => { if (ref.current) ref.current.innerHTML = ''; };
-  }, [symbol, colorTheme]);
+  }, [symbol]);
 
   return (
-    <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300">
+    <div
+      className="rounded-2xl border overflow-hidden transition-all duration-300"
+      style={{
+        backgroundColor: 'var(--bg-surface)',
+        borderColor: 'var(--border)',
+      }}
+    >
       <div className="px-4 pt-4 pb-1">
         <div className="flex items-start justify-between">
           <div>
-            <p className="font-bold text-sm text-primary">{name}</p>
-            <p className="text-xs text-primary/40">{sector} · {symbol.split(':')[1]}</p>
+            <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{name}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{sector} · {symbol.split(':')[1]}</p>
           </div>
-          <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-            <span className="text-xs font-black text-secondary">{symbol.split(':')[1]?.[0]}</span>
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: 'var(--bg-elevated)' }}
+          >
+            <span className="text-xs font-black" style={{ color: 'var(--text-secondary)' }}>
+              {symbol.split(':')[1]?.[0]}
+            </span>
           </div>
         </div>
       </div>
