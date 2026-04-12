@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Briefcase, LayoutDashboard, LogOut, ChevronDown, User, Heart } from 'lucide-react';
+import { Menu, X, Briefcase, LayoutDashboard, LogOut, ChevronDown, User, Heart, Sun, Moon } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const pathname = usePathname();
   const { data: session } = useSession();
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -18,12 +19,12 @@ export default function Navbar() {
   const { t: td } = useTranslation('donate');
 
   const navLinks: { href: string; label: string }[] = [
-    { href: '/learn',    label: t('nav.learn') },
+    { href: '/learn',     label: t('nav.learn') },
     { href: '/simulator', label: t('nav.simulator') },
-    { href: '/calendar', label: t('nav.calendrier') },
-    { href: '/opcvm',    label: t('nav.opcvm') },
-    { href: '/market',   label: t('nav.marches') },
-    { href: '/terminal', label: '◈ ' + t('nav.terminal') },
+    { href: '/calendar',  label: t('nav.calendrier') },
+    { href: '/opcvm',     label: t('nav.opcvm') },
+    { href: '/market',    label: t('nav.marches') },
+    { href: '/terminal',  label: '◈ ' + t('nav.terminal') },
   ];
 
   useEffect(() => {
@@ -40,6 +41,32 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Sync theme state from localStorage on mount
+  useEffect(() => {
+    const saved = (localStorage.getItem('wsm-theme') || 'dark') as 'dark' | 'light';
+    setTheme(saved);
+  }, []);
+
+  function toggleTheme() {
+    const next: 'dark' | 'light' = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('wsm-theme', next);
+  }
+
+  const themeToggleStyle: React.CSSProperties = {
+    width: '32px',
+    height: '32px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'var(--bg-elevated)',
+    border: '1px solid var(--border)',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    flexShrink: 0,
+  };
 
   return (
     <nav
@@ -127,7 +154,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Auth Area */}
+          {/* Desktop Right: Auth + Theme Toggle */}
           <div className="hidden md:flex items-center gap-2">
             {session ? (
               <>
@@ -249,17 +276,41 @@ export default function Navbar() {
                 </Link>
               </>
             )}
+
+            {/* Theme Toggle — Sun in dark mode, Moon in light mode */}
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={themeToggleStyle}
+            >
+              {theme === 'dark'
+                ? <Sun size={16} style={{ color: 'var(--text-secondary)' }} />
+                : <Moon size={16} style={{ color: 'var(--text-secondary)' }} />
+              }
+            </button>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 transition-colors"
-            style={{ color: 'var(--text-secondary)', borderRadius: '6px' }}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile header right: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={themeToggleStyle}
+            >
+              {theme === 'dark'
+                ? <Sun size={16} style={{ color: 'var(--text-secondary)' }} />
+                : <Moon size={16} style={{ color: 'var(--text-secondary)' }} />
+              }
+            </button>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 transition-colors"
+              style={{ color: 'var(--text-secondary)', borderRadius: '6px' }}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </div>
 

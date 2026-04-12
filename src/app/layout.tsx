@@ -50,6 +50,12 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        {/* No-flash theme init: runs before any CSS, sets data-theme from localStorage */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var s=localStorage.getItem('wsm-theme')||'dark';document.documentElement.setAttribute('data-theme',s);})();`,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

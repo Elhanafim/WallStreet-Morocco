@@ -2,6 +2,17 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import {
+  Building2,
+  Landmark,
+  BarChart2,
+  LineChart,
+  Calendar,
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
+  ArrowRight,
+} from 'lucide-react';
 import { fetchCalendarEvents } from '@/services/calendarService';
 import { fetchMovers, BVCMovers, BVCPrice } from '@/lib/bvcPriceService';
 import { useTranslation } from 'react-i18next';
@@ -18,15 +29,15 @@ function isBvcOpen(): boolean {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function BVCInvestorPulse() {
-  const [open, setOpen]               = useState(false);
-  const [nextBam, setNextBam]         = useState<string | null>(null);
-  const [movers, setMovers]           = useState<BVCMovers | null>(null);
+  const [open, setOpen]                   = useState(false);
+  const [nextBam, setNextBam]             = useState<string | null>(null);
+  const [movers, setMovers]               = useState<BVCMovers | null>(null);
   const [moversLoading, setMoversLoading] = useState(true);
-  const [moversError, setMoversError] = useState(false);
-  const [lastUpdate, setLastUpdate]   = useState<string>('');
-  const intervalRef                   = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [moversError, setMoversError]     = useState(false);
+  const [lastUpdate, setLastUpdate]       = useState<string>('');
+  const intervalRef                       = useRef<ReturnType<typeof setInterval> | null>(null);
   const { t, i18n } = useTranslation('common');
-  const { t: th } = useTranslation('home');
+  const { t: th }   = useTranslation('home');
   const lang = i18n.language?.slice(0, 2) ?? 'fr';
 
   // Live market status, refreshed every minute
@@ -46,7 +57,12 @@ export default function BVCInvestorPulse() {
         if (data) {
           setMovers(data);
           const now = new Date();
-          setLastUpdate(now.toLocaleTimeString(lang === 'fr' ? 'fr-MA' : lang === 'es' ? 'es-ES' : 'en-US', { hour: '2-digit', minute: '2-digit' }));
+          setLastUpdate(
+            now.toLocaleTimeString(
+              lang === 'fr' ? 'fr-MA' : lang === 'es' ? 'es-ES' : 'en-US',
+              { hour: '2-digit', minute: '2-digit' },
+            ),
+          );
         } else {
           setMoversError(true);
         }
@@ -69,7 +85,7 @@ export default function BVCInvestorPulse() {
           (e) => e.country === 'MA' && e.category === 'monetary_policy' && e.isUpcoming,
         );
         if (next) {
-          const d = new Date(next.date.slice(0, 10) + 'T12:00:00');
+          const d      = new Date(next.date.slice(0, 10) + 'T12:00:00');
           const locale = lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US';
           setNextBam(d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' }));
         }
@@ -78,42 +94,80 @@ export default function BVCInvestorPulse() {
   }, [lang]);
 
   const metrics = [
-    { icon: '🏦', label: t('bvc.marketCap'),        value: '~1 050 Mrd MAD', note: t('bvc.quarterly') },
-    { icon: '🏢', label: t('bvc.listedCompanies'),  value: '78',              note: 'Casablanca Bourse' },
-    { icon: '🏛️', label: t('bvc.bamRate'),          value: '2,25 %',          note: t('bvc.unchanged') },
-    { icon: '📊', label: t('bvc.avgVolume'),        value: '~350 M MAD',      note: t('bvc.monthly') },
-    { icon: '📐', label: t('bvc.avgPE'),            value: '~17×',            note: t('bvc.indicative') },
-    { icon: '📅', label: t('bvc.nextBamDecision'),  value: null,              note: 'Bank Al-Maghrib' },
+    { icon: <Building2 size={16} />, label: t('bvc.marketCap'),       value: '~1 050 Mrd MAD', note: t('bvc.quarterly') },
+    { icon: <Building2 size={16} />, label: t('bvc.listedCompanies'), value: '78',              note: 'Casablanca Bourse' },
+    { icon: <Landmark   size={16} />, label: t('bvc.bamRate'),         value: '2,25 %',          note: t('bvc.unchanged') },
+    { icon: <BarChart2  size={16} />, label: t('bvc.avgVolume'),       value: '~350 M MAD',      note: t('bvc.monthly') },
+    { icon: <LineChart  size={16} />, label: t('bvc.avgPE'),           value: '~17×',            note: t('bvc.indicative') },
+    { icon: <Calendar   size={16} />, label: t('bvc.nextBamDecision'), value: null,              note: 'Bank Al-Maghrib' },
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section style={{ padding: '80px 0', backgroundColor: 'var(--bg-base)' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section header */}
-        <div className="mb-10">
-          <h2 className="text-3xl font-black text-primary mb-2">
+        <div style={{ marginBottom: '40px' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '30px',
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+            marginBottom: '8px',
+          }}>
             {t('bvc.dashboardTitle')}
           </h2>
-          <p className="text-primary/60 text-sm">
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '14px',
+            color: 'var(--text-secondary)',
+          }}>
             {t('bvc.dashboardSubtitle')}
           </p>
         </div>
 
         {/* ── Market Status Strip ─────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 bg-white border border-surface-200 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 mb-8 shadow-card">
-          <div className="flex items-center gap-2">
-            <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${open ? 'bg-green-500 animate-pulse' : 'bg-red-400'}`} />
-            <span className={`font-bold text-sm ${open ? 'text-green-700' : 'text-red-600'}`}>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '16px 16px',
+          backgroundColor: 'var(--bg-surface)',
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+          padding: '12px 20px',
+          marginBottom: '32px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{
+              width: '10px',
+              height: '10px',
+              borderRadius: '50%',
+              flexShrink: 0,
+              backgroundColor: open ? 'var(--gain)' : 'var(--loss)',
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              fontWeight: 600,
+              color: open ? 'var(--gain)' : 'var(--loss)',
+            }}>
               {open ? t('market.open') : t('market.closed')}
             </span>
           </div>
-          <span className="hidden sm:block w-px h-4 bg-surface-200" />
-          <span className="text-sm text-primary/60 font-medium">MASI · Bourse de Casablanca</span>
-          <span className="hidden sm:block w-px h-4 bg-surface-200" />
-          <span className="text-xs text-primary/40">{t('market.sessionHours')}</span>
-          <span className="hidden sm:block w-px h-4 bg-surface-200" />
-          <span className="text-xs text-primary/40">{t('market.delayed')}</span>
+
+          <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}>
+            MASI · Bourse de Casablanca
+          </span>
+          <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--text-muted)' }}>
+            {t('market.sessionHours')}
+          </span>
+          <span style={{ width: '1px', height: '16px', backgroundColor: 'var(--border)' }} className="hidden sm:block" />
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--text-muted)' }}>
+            {t('market.delayed')}
+          </span>
         </div>
 
         {/* ── Two-column layout ───────────────────────────────────────────────── */}
@@ -121,20 +175,41 @@ export default function BVCInvestorPulse() {
 
           {/* Left: Top Movers (60%) */}
           <div className="lg:col-span-3">
-            <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card h-full flex flex-col">
-              <h3 className="font-black text-primary text-base mb-5">{t('bvc.topMovers')}</h3>
+            <div style={{
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '10px',
+              padding: '24px',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginBottom: '20px',
+              }}>
+                {t('bvc.topMovers')}
+              </h3>
 
               {moversLoading ? (
                 <div className="grid grid-cols-2 gap-6 flex-1">
                   {[0, 1].map((col) => (
                     <div key={col}>
-                      <div className="w-24 h-3 bg-surface-100 rounded animate-pulse mb-3" />
-                      <div className="space-y-3">
+                      <div style={{
+                        width: '96px', height: '12px', borderRadius: '4px',
+                        backgroundColor: 'var(--bg-elevated)',
+                        marginBottom: '12px',
+                        animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite',
+                      }} />
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {Array.from({ length: 10 }, (_, i) => (
-                          <div key={i} className="flex items-center gap-2 animate-pulse">
-                            <div className="w-10 h-3 bg-surface-100 rounded" />
-                            <div className="flex-1 h-3 bg-surface-100 rounded" />
-                            <div className="w-12 h-3 bg-surface-100 rounded" />
+                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ width: '40px', height: '12px', borderRadius: '4px', backgroundColor: 'var(--bg-elevated)', animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }} />
+                            <div style={{ flex: 1, height: '12px', borderRadius: '4px', backgroundColor: 'var(--bg-elevated)', animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }} />
+                            <div style={{ width: '48px', height: '12px', borderRadius: '4px', backgroundColor: 'var(--bg-elevated)', animation: 'pulse 2s cubic-bezier(0.4,0,0.6,1) infinite' }} />
                           </div>
                         ))}
                       </div>
@@ -142,10 +217,20 @@ export default function BVCInvestorPulse() {
                   ))}
                 </div>
               ) : moversError || !movers ? (
-                <div className="flex-1 flex items-center justify-center">
-                  <p className="text-xs text-primary/40 text-center leading-relaxed max-w-xs">
-                    ⚠️ {th('movers_unavailable')}
-                  </p>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                    <AlertTriangle size={16} style={{ color: 'var(--text-muted)' }} />
+                    <p style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '12px',
+                      color: 'var(--text-muted)',
+                      textAlign: 'center',
+                      lineHeight: '1.5',
+                      maxWidth: '280px',
+                    }}>
+                      {th('movers_unavailable')}
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-6 flex-1">
@@ -154,15 +239,54 @@ export default function BVCInvestorPulse() {
                     { title: th('movers_losers'),  items: movers.losers,  positive: false },
                   ] as { title: string; items: BVCPrice[]; positive: boolean }[]).map(({ title, items, positive }) => (
                     <div key={title}>
-                      <p className={`text-xs font-bold mb-3 ${positive ? 'text-success' : 'text-danger'}`}>
-                        {positive ? '📈' : '📉'} {title}
-                      </p>
-                      <div className="space-y-1.5">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '12px' }}>
+                        {positive
+                          ? <TrendingUp   size={13} style={{ color: 'var(--gain)', flexShrink: 0 }} />
+                          : <TrendingDown size={13} style={{ color: 'var(--loss)', flexShrink: 0 }} />
+                        }
+                        <p style={{
+                          fontFamily: 'var(--font-sans)',
+                          fontSize: '13px',
+                          fontWeight: 500,
+                          color: positive ? 'var(--gain)' : 'var(--loss)',
+                        }}>
+                          {title}
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         {items.map((stock) => (
-                          <div key={stock.ticker} className="flex items-center gap-2 text-xs">
-                            <span className="w-10 font-bold text-primary shrink-0 truncate">{stock.ticker}</span>
-                            <span className="flex-1 text-primary/50 truncate">{stock.name}</span>
-                            <span className={`font-bold shrink-0 ${positive ? 'text-success' : 'text-danger'}`}>
+                          <div key={stock.ticker} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{
+                              width: '40px',
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              color: 'var(--text-primary)',
+                              flexShrink: 0,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}>
+                              {stock.ticker}
+                            </span>
+                            <span style={{
+                              flex: 1,
+                              fontFamily: 'var(--font-sans)',
+                              fontSize: '11px',
+                              color: 'var(--text-muted)',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}>
+                              {stock.name}
+                            </span>
+                            <span style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              flexShrink: 0,
+                              color: positive ? 'var(--gain)' : 'var(--loss)',
+                            }}>
                               {positive ? '+' : ''}{stock.changePercent.toFixed(2)}%
                             </span>
                           </div>
@@ -173,15 +297,41 @@ export default function BVCInvestorPulse() {
                 </div>
               )}
 
-              <div className="mt-5 pt-4 border-t border-surface-100 flex items-center justify-between gap-3 flex-wrap">
-                <p className="text-[10px] text-primary/30">
+              <div style={{
+                marginTop: '20px',
+                paddingTop: '16px',
+                borderTop: '1px solid var(--border)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                flexWrap: 'wrap',
+              }}>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '10px', color: 'var(--text-muted)' }}>
                   {lastUpdate ? th('movers_last_update', { time: lastUpdate }) : t('bvc.liveUnavailable')}
                 </p>
                 <Link
                   href="/market"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-primary border border-surface-200 rounded-xl px-3 py-1.5 hover:bg-surface-50 transition-colors"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    padding: '6px 12px',
+                    textDecoration: 'none',
+                    backgroundColor: 'transparent',
+                    transition: 'background-color 0.15s',
+                  }}
+                  onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--bg-elevated)')}
+                  onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'transparent')}
                 >
                   {t('bvc.seeAllStocks')}
+                  <ArrowRight size={12} />
                 </Link>
               </div>
             </div>
@@ -189,21 +339,79 @@ export default function BVCInvestorPulse() {
 
           {/* Right: Key Metrics (40%) */}
           <div className="lg:col-span-2">
-            <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card h-full flex flex-col">
-              <h3 className="font-black text-primary text-base mb-5">{t('bvc.indicators')}</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 flex-1">
+            <div style={{
+              backgroundColor: 'var(--bg-surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '10px',
+              padding: '24px',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}>
+              <h3 style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                fontWeight: 600,
+                color: 'var(--text-primary)',
+                marginBottom: '20px',
+              }}>
+                {t('bvc.indicators')}
+              </h3>
+
+              <div className="grid grid-cols-2 gap-3 flex-1">
                 {metrics.map((m, i) => (
-                  <div key={i} className="bg-surface-50 border border-surface-100 rounded-xl p-3">
-                    <span className="text-lg">{m.icon}</span>
-                    <p className="text-[10px] text-primary/50 font-medium mt-1 leading-tight">{m.label}</p>
-                    <p className="text-sm font-black text-primary mt-0.5">
+                  <div
+                    key={i}
+                    style={{
+                      backgroundColor: 'var(--bg-elevated)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '8px',
+                      padding: '20px 22px',
+                    }}
+                  >
+                    <div style={{ color: 'var(--text-muted)' }}>{m.icon}</div>
+                    <p style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      marginTop: '8px',
+                      lineHeight: 1.2,
+                    }}>
+                      {m.label}
+                    </p>
+                    <p style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '22px',
+                      fontWeight: 500,
+                      color: 'var(--text-primary)',
+                      marginTop: '4px',
+                      lineHeight: 1.1,
+                    }}>
                       {i === 5 ? (nextBam ?? t('bvc.toConfirm')) : m.value}
                     </p>
-                    <p className="text-[9px] text-primary/30 mt-0.5 leading-tight">{m.note}</p>
+                    <p style={{
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '9px',
+                      color: 'var(--text-muted)',
+                      marginTop: '2px',
+                      lineHeight: 1.3,
+                    }}>
+                      {m.note}
+                    </p>
                   </div>
                 ))}
               </div>
-              <p className="text-[9px] text-primary/30 mt-4 leading-relaxed">
+
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '9px',
+                color: 'var(--text-muted)',
+                marginTop: '16px',
+                lineHeight: 1.5,
+              }}>
                 {t('bvc.indicativeData')}
               </p>
             </div>
