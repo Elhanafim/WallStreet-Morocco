@@ -106,7 +106,6 @@ export default function BVCInvestorPulse() {
   ];
 
   return (
-  return (
     <section className="py-[var(--space-xl)] px-[var(--space-md)]">
       <div className="max-w-7xl mx-auto">
         
