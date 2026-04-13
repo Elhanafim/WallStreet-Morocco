@@ -173,7 +173,7 @@ export default function HomePage() {
                           "w-1.5 h-1.5 rounded-full transition-all duration-500",
                           j < fund.risk ? "bg-[var(--gold)]" : "bg-[var(--border)]"
                         )}
-                        style={{ delay: `${j * 50}ms` }}
+                        style={{ transitionDelay: `${j * 50}ms` }}
                       />
                     ))}
                   </div>
