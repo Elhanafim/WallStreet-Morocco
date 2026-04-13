@@ -63,7 +63,7 @@ export default function Navbar() {
             className="w-7 h-7 flex items-center justify-center rounded-[5px]"
             style={{ backgroundColor: 'var(--gold)', boxShadow: '0 0 0 1px rgba(184,151,74,0.3)' }}
           >
-            <TrendingUp size={14} className="text-[#0A0F1E]" />
+            <TrendingUp size={14} className="text-[#fff]" />
           </div>
           <span className="font-display text-[17px] font-medium tracking-tight" style={{ color: 'var(--text-primary)' }}>
             WallStreet <span style={{ color: 'var(--gold)' }} className="italic">Morocco</span>
@@ -109,7 +109,7 @@ export default function Navbar() {
               >
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-semibold"
-                  style={{ backgroundColor: 'var(--gold)', color: '#0A0F1E' }}
+                  style={{ backgroundColor: 'var(--gold)', color: '#fff' }}
                 >
                   {session.user?.name?.[0]?.toUpperCase() ?? 'U'}
                 </div>
@@ -177,7 +177,7 @@ export default function Navbar() {
                 className="font-body text-[13.5px] font-semibold px-4 py-1.5 rounded-[6px] transition-all duration-150 hover:brightness-110"
                 style={{
                   backgroundColor: 'var(--gold)',
-                  color: '#0A0F1E',
+                  color: '#fff',
                 }}
               >
                 Sign Up
@@ -236,7 +236,7 @@ export default function Navbar() {
               <Link
                 href="/auth/signup"
                 className="flex-1 text-center py-2.5 rounded-[6px] font-body text-[14px] font-semibold"
-                style={{ backgroundColor: 'var(--gold)', color: '#0A0F1E' }}
+                style={{ backgroundColor: 'var(--gold)', color: '#fff' }}
               >
                 Sign Up
               </Link>

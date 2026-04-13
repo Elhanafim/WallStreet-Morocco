@@ -49,12 +49,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="light">
       <head>
-        {/* Dark mode is the canonical mode — always initialise as dark */}
+        {/* Light is the canonical mode — no flash of unstyled content */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute('data-theme','dark');`,
+            __html: `(function(){var t=localStorage.getItem('wsm-theme');document.documentElement.setAttribute('data-theme',t||'light');})();`,
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -93,7 +93,7 @@ export default function Hero() {
                 fontSize: '14px',
                 padding: '11px 24px',
                 backgroundColor: 'var(--gold)',
-                color: '#070D1A',
+                color: '#fff',
               }}
             >
               <BarChart2 size={15} />
