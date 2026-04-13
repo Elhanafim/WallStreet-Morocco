@@ -174,7 +174,7 @@ export default function MarketSummary() {
                 color: 'var(--text-primary)',
               }}
             >
-              MSI20 — Indice Blue Chips
+              MSI20 — Blue Chip Index
             </h3>
             <p
               style={{
@@ -183,7 +183,7 @@ export default function MarketSummary() {
                 color: 'var(--text-muted)',
               }}
             >
-              Bourse de Casablanca · Temps réel via TradingView
+              Bourse de Casablanca · Top 20 companies by market cap
             </p>
           </div>
         </div>
@@ -217,7 +217,7 @@ export default function MarketSummary() {
                 paddingLeft: '8px',
               }}
             >
-              Plus fortes hausses
+              Top Gainers
             </h4>
             <div className="ml-auto flex items-center gap-2">
               <span
@@ -227,7 +227,7 @@ export default function MarketSummary() {
                   color: marketStatus.open ? 'var(--gain)' : 'var(--text-muted)',
                 }}
               >
-                {marketStatus.open ? 'Ouvert' : 'Fermé'}
+                {marketStatus.open ? 'Open' : 'Closed'}
               </span>
               <button
                 onClick={load}
@@ -288,7 +288,7 @@ export default function MarketSummary() {
                 paddingLeft: '8px',
               }}
             >
-              Plus fortes baisses
+              Top Losers
             </h4>
             <div className="ml-auto">
               {movers && (
@@ -324,7 +324,7 @@ export default function MarketSummary() {
               className="mt-3 text-right"
               style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--text-muted)' }}
             >
-              Bourse de Casablanca
+              Casablanca Stock Exchange
             </p>
           )}
         </div>

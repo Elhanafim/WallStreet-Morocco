@@ -1,29 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── DESIGN TOKENS ───────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS  –  Dark is the canonical mode.
+   ───────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* ── COLORS (Light Mode) ─────────────────────── */
-  --bg-base:        #F4F2EE;
-  --bg-surface:     #FFFFFF;
-  --bg-elevated:    #EAE7E0;
-  --border:         #D8D2C7;
-  --gold:           #8B6914;
-  --gold-light:     #C9A84C;
-  --text-primary:   #0F1923;
-  --text-secondary: #4A5568;
-  --text-muted:     #718096;
-  --gain:           #1A7A4A;
-  --loss:           #B83232;
+  /* Backgrounds */
+  --bg-base:        #070D1A;   /* deepest navy — page background       */
+  --bg-surface:     #0C1527;   /* card / panel surface                 */
+  --bg-elevated:    #121F35;   /* hover, selected, active states       */
+  --bg-overlay:     #1A2D4A;   /* tooltips, dropdowns                  */
 
-  /* ── TYPOGRAPHY ─────────────────────────────── */
+  /* Borders */
+  --border:         #1C2E48;   /* default dividers                     */
+  --border-strong:  #253D5C;   /* emphasized borders                   */
+
+  /* Brand accent — institutional gold */
+  --gold:           #C9A84C;   /* primary accent / CTAs                */
+  --gold-dim:       #8B6914;   /* secondary gold, text on dark         */
+  --gold-subtle:    rgba(201,168,76,0.10); /* tinted bg                */
+
+  /* Text hierarchy */
+  --text-primary:   #EDF0F7;   /* headings & primary content           */
+  --text-secondary: #8298B0;   /* secondary labels                     */
+  --text-muted:     #3D5470;   /* tertiary / disabled                  */
+
+  /* Semantic */
+  --gain:           #3DB87A;   /* positive / green                     */
+  --gain-bg:        rgba(61,184,122,0.08);
+  --loss:           #E05555;   /* negative / red                       */
+  --loss-bg:        rgba(224,85,85,0.08);
+  --warning:        #D4A843;
+  --info:           #5B9BD5;
+
+  /* Typography */
   --font-display:   'Cormorant Garamond', Georgia, serif;
   --font-body:      'DM Sans', system-ui, sans-serif;
+  --font-mono:      'JetBrains Mono', 'Fira Code', monospace;
 
-  /* ── SPACING SYSTEM ────────────────────────── */
+  /* Spacing scale */
   --space-xs:   8px;
   --space-sm:  16px;
   --space-md:  32px;
@@ -31,183 +49,264 @@
   --space-xl:  96px;
   --space-2xl: 128px;
 
-  /* ── Premium Effects ────────────────────────── */
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-  --shadow-premium: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.35);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+  --shadow-xl: 0 24px 48px rgba(0,0,0,0.6);
 }
 
-[data-theme="dark"] {
-  /* ── COLORS (Dark Mode) ──────────────────────── */
-  --bg-base:        #080F1E;
-  --bg-surface:     #0E1A2E;
-  --bg-elevated:    #14243D;
-  --border:         #1E3050;
-  --gold:           #B8974A;
-  --gold-light:     #8B6914;
-  --text-primary:   #E8EAF0;
-  --text-secondary: #7A8BA0;
-  --text-muted:     #3D4F65;
-  --gain:           #3DAB6E;
-  --loss:           #D95B5B;
-
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.4), 0 4px 6px -2px rgba(0,0,0,0.3);
-  --shadow-premium: 0 20px 25px -5px rgba(0,0,0,0.5), 0 10px 10px -5px rgba(0,0,0,0.4);
+/* ─── Optional light mode override (non-default) ─────────────────────────── */
+[data-theme="light"] {
+  --bg-base:        #F2F4F7;
+  --bg-surface:     #FFFFFF;
+  --bg-elevated:    #E8ECF2;
+  --bg-overlay:     #FFFFFF;
+  --border:         #D0D8E4;
+  --border-strong:  #B8C4D4;
+  --gold:           #9A7020;
+  --gold-dim:       #C9A84C;
+  --gold-subtle:    rgba(154,112,32,0.08);
+  --text-primary:   #0D1621;
+  --text-secondary: #4A5E74;
+  --text-muted:     #8298B0;
+  --gain:           #1A7A4A;
+  --gain-bg:        rgba(26,122,74,0.08);
+  --loss:           #B83232;
+  --loss-bg:        rgba(184,50,50,0.08);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.12);
+  --shadow-xl: 0 24px 48px rgba(0,0,0,0.16);
 }
 
-/* ── Keyframes ───────────────────────────────────────────────────────────── */
+/* ─── Keyframes ──────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fadeIn { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
 @keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.1); }
+  50%       { transform: scale(1.08); }
 }
+
+.animate-fadeIn    { animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-slideUp   { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-ticker    { animation: ticker 40s linear infinite; }
+.animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
 .animate-heartbeat { animation: heartbeat 4s ease-in-out infinite; }
 
-/* ── Base ────────────────────────────────────────────────────────────────── */
+/* ─── Base layer ─────────────────────────────────────────────────────────── */
 @layer base {
-  * { box-sizing: border-box; padding: 0; margin: 0; }
+  *, *::before, *::after { box-sizing: border-box; }
+  * { padding: 0; margin: 0; }
 
-  html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
     font-family: var(--font-body);
     background-color: var(--bg-base);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 16px;
     font-weight: 300;
-    line-height: 1.75;
+    line-height: 1.7;
+    max-width: 100vw;
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1.15;
     color: var(--text-primary);
+    letter-spacing: -0.01em;
   }
 
-  a { color: inherit; text-decoration: none; transition: 150ms; }
+  a { color: inherit; text-decoration: none; }
 
-  ::-webkit-scrollbar         { width: 6px; height: 6px; }
+  code, kbd, pre { font-family: var(--font-mono); }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar         { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track   { background: transparent; }
-  ::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb   { background: var(--border-strong); border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 }
 
-/* ── Components ──────────────────────────────────────────────────────────── */
+/* ─── Components ─────────────────────────────────────────────────────────── */
 @layer components {
+
+  /* Layout containers */
+  .container-max {
+    @apply max-w-[1400px] mx-auto px-6;
+  }
   .section-container {
-    @apply w-full py-[var(--space-xl)] px-[var(--space-md)];
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-  
-  .container-max   { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
-
-  /* ── Surface Styles ─────────────────────────────────────────────────────── */
-  .glass-surface {
-    @apply backdrop-blur-md;
-    background: color-mix(in srgb, var(--bg-surface), transparent 10%);
-    border: 1px solid var(--border);
+    @apply container-max py-[var(--space-xl)];
   }
 
+  /* ── Cards ── */
   .premium-card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: var(--space-md);
-    transition: all 300ms;
+    transition: border-color 200ms, box-shadow 200ms;
+  }
+  .premium-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
   }
 
-  /* ── Card Headers ───────────────────────────────────────────────────────── */
-  .card-header-accent {
-    @apply flex items-center gap-2 mb-6;
-  }
-  .card-header-bar {
-    width: 3px;
-    height: 20px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-  .card-header-title {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-  .card-header-subtitle {
-    font-family: var(--font-body);
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-    display: block;
+  .glass-surface {
+    background: rgba(12, 21, 39, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
   }
 
-  /* ── Table styling following Step 5 Stock Table rules ───────────────────── */
-  .table-fintech { 
-    @apply w-full border-collapse; 
-    min-width: 600px;
-  }
+  /* ── Card accent headers ── */
+  .card-header-accent   { @apply flex items-center gap-2 mb-5; }
+  .card-header-bar      { width: 3px; height: 18px; background: var(--gold); border-radius: 2px; }
+  .card-header-title    { font-family: var(--font-display); font-size: 20px; font-weight: 500; color: var(--text-primary); }
+  .card-header-subtitle { font-family: var(--font-body); font-size: 12px; color: var(--text-secondary); margin-top: 3px; display: block; }
 
-  .table-fintech th {
-    @apply text-left font-body text-[11px] font-medium uppercase tracking-[0.08em] py-3 px-4 border-b;
-    border-color: var(--border);
-    color: var(--text-muted);
-  }
-
-  .table-fintech td {
-    @apply py-3 px-4 font-body text-[13px] border-b transition-colors;
-    border-color: var(--border);
-    color: var(--text-primary);
-    min-height: 46px;
-  }
-
-  .table-fintech tr {
-    background: var(--bg-surface);
-    transition: 120ms;
-  }
-  .table-fintech tr:nth-child(even) {
-    background: var(--bg-base);
-  }
-  .table-fintech tr:hover {
-    background: var(--bg-elevated);
-  }
-
-  /* ── Section Labels ─────────────────────────────────────────────────────── */
+  /* ── Section labels ── */
   .section-label {
     font-family: var(--font-body);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.1em;
     color: var(--text-secondary);
-    border-left: 3px solid var(--gold);
+    border-left: 2.5px solid var(--gold);
     padding-left: 8px;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
   }
+
+  /* ── Tables ── */
+  .table-fintech {
+    @apply w-full border-collapse;
+    min-width: 540px;
+  }
+  .table-fintech th {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+  .table-fintech td {
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    transition: background 100ms;
+  }
+  .table-fintech tr { background: var(--bg-surface); }
+  .table-fintech tr:nth-child(even) { background: var(--bg-base); }
+  .table-fintech tr:hover td { background: var(--bg-elevated); }
+
+  /* ── Stat chip ── */
+  .stat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .stat-chip-gain { background: var(--gain-bg); color: var(--gain); }
+  .stat-chip-loss { background: var(--loss-bg); color: var(--loss); }
+
+  /* ── Buttons ── */
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 6px;
+    background: var(--gold);
+    color: #070D1A;
+    transition: filter 150ms, transform 100ms;
+    cursor: pointer;
+  }
+  .btn-gold:hover { filter: brightness(1.1); }
+  .btn-gold:active { transform: scale(0.98); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1.5px solid var(--border-strong);
+    color: var(--text-primary);
+    transition: all 150ms;
+    cursor: pointer;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
 }
 
-/* ── Utilities ───────────────────────────────────────────────────────────── */
+/* ─── Utilities ──────────────────────────────────────────────────────────── */
 @layer utilities {
-  .font-display   { font-family: var(--font-display); }
-  .font-body      { font-family: var(--font-body); }
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+  .font-mono    { font-family: var(--font-mono); }
 
   .text-gold-gradient {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    background-image: linear-gradient(130deg, #C9A84C 0%, #F0D080 50%, #C9A84C 100%);
   }
 
   .bg-gold-gradient {
-    background-image: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    background-image: linear-gradient(130deg, #C9A84C 0%, #E8C060 50%, #C9A84C 100%);
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* Market data color helpers */
+  .text-gain { color: var(--gain); }
+  .text-loss { color: var(--loss); }
+  .bg-gain   { background: var(--gain-bg); }
+  .bg-loss   { background: var(--loss-bg); }
 }

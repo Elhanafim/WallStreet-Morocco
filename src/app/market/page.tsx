@@ -1,19 +1,17 @@
 import dynamic from 'next/dynamic';
-import { BarChart2, Globe2 } from 'lucide-react';
-import MarchesSupport from '@/components/donate/MarchesSupport';
+import { Activity, BarChart2, TrendingUp, Clock, Globe2, Layers } from 'lucide-react';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
-import EduBannerInline from '@/components/legal/EduBannerInline';
 
-const TradingViewTicker  = dynamic(() => import('@/components/market/TradingViewTicker'),  { ssr: false });
-const TradingViewChart   = dynamic(() => import('@/components/market/TradingViewChart'),   { ssr: false });
-const WatchlistPanel     = dynamic(() => import('@/components/market/WatchlistPanel'),     { ssr: false });
-const MarketSummary      = dynamic(() => import('@/components/market/MarketSummary'),      { ssr: false });
-const MarketStockGrid    = dynamic(() => import('@/components/market/MarketStockGrid'),    { ssr: false });
-const ChatHint           = dynamic(() => import('@/components/chat/ChatHint'),             { ssr: false });
+const TradingViewTicker   = dynamic(() => import('@/components/market/TradingViewTicker'),   { ssr: false });
+const TradingViewChart    = dynamic(() => import('@/components/market/TradingViewChart'),    { ssr: false });
+const WatchlistPanel      = dynamic(() => import('@/components/market/WatchlistPanel'),      { ssr: false });
+const MarketSummary       = dynamic(() => import('@/components/market/MarketSummary'),       { ssr: false });
+const MarketStockGrid     = dynamic(() => import('@/components/market/MarketStockGrid'),     { ssr: false });
+const ChatHint            = dynamic(() => import('@/components/chat/ChatHint'),              { ssr: false });
 
 // ── All 77 CSEMA stocks ────────────────────────────────────────────────────────
 const ASSETS = [
-  // Banques
+  // Banks
   { symbol: 'CSEMA:ATW',  name: 'Attijariwafa Bank',              sector: 'Banque'           },
   { symbol: 'CSEMA:BCP',  name: 'Banque Centrale Populaire',      sector: 'Banque'           },
   { symbol: 'CSEMA:BOA',  name: 'Bank of Africa',                 sector: 'Banque'           },
@@ -21,33 +19,33 @@ const ASSETS = [
   { symbol: 'CSEMA:CDM',  name: 'Crédit du Maroc',                sector: 'Banque'           },
   { symbol: 'CSEMA:CFG',  name: 'CFG Bank',                       sector: 'Banque'           },
   { symbol: 'CSEMA:BCI',  name: 'BMCI',                           sector: 'Banque'           },
-  // Assurance
+  // Insurance
   { symbol: 'CSEMA:WAA',  name: 'Wafa Assurance',                 sector: 'Assurance'        },
   { symbol: 'CSEMA:ATL',  name: 'AtlantaSanad',                   sector: 'Assurance'        },
   { symbol: 'CSEMA:SAH',  name: 'Sanlam Maroc',                   sector: 'Assurance'        },
   { symbol: 'CSEMA:AGM',  name: 'Agma',                           sector: 'Assurance'        },
   { symbol: 'CSEMA:AFM',  name: 'AFMA',                           sector: 'Assurance'        },
-  // Crédit
+  // Credit
   { symbol: 'CSEMA:EQD',  name: 'EQDOM',                          sector: 'Crédit'           },
   { symbol: 'CSEMA:SLF',  name: 'Salafin',                        sector: 'Crédit'           },
   { symbol: 'CSEMA:MAB',  name: 'Maghreb Crédit-bail',            sector: 'Crédit'           },
   { symbol: 'CSEMA:MLE',  name: 'Maroc Leasing',                  sector: 'Crédit'           },
-  // Télécoms
+  // Telecoms
   { symbol: 'CSEMA:IAM',  name: 'Maroc Telecom',                  sector: 'Télécoms'         },
-  // Mines & Matériaux
+  // Mining & Materials
   { symbol: 'CSEMA:MNG',  name: 'Managem',                        sector: 'Mines'            },
   { symbol: 'CSEMA:SMI',  name: 'SMI (Imiter)',                   sector: 'Mines'            },
   { symbol: 'CSEMA:CMT',  name: 'Compagnie Minière de Touissit',  sector: 'Mines'            },
   { symbol: 'CSEMA:ZDJ',  name: 'Zellidja',                       sector: 'Mines'            },
   { symbol: 'CSEMA:ALM',  name: 'Aluminium du Maroc',             sector: 'Mines'            },
-  // BTP & Construction
+  // Construction
   { symbol: 'CSEMA:LHM',  name: 'LafargeHolcim Maroc',           sector: 'BTP'              },
   { symbol: 'CSEMA:CMA',  name: 'Ciments du Maroc',              sector: 'BTP'              },
   { symbol: 'CSEMA:GTM',  name: 'TGCC (Travaux du Maroc)',        sector: 'BTP'              },
   { symbol: 'CSEMA:TGC',  name: 'TGCC SA',                        sector: 'BTP'              },
   { symbol: 'CSEMA:JET',  name: 'Jet Contractors',               sector: 'BTP'              },
   { symbol: 'CSEMA:STR',  name: 'Stroc Industrie',               sector: 'BTP'              },
-  // Immobilier
+  // Real Estate
   { symbol: 'CSEMA:ADH',  name: 'Addoha',                        sector: 'Immobilier'       },
   { symbol: 'CSEMA:ADI',  name: 'Alliances Dév. Immobilier',     sector: 'Immobilier'       },
   { symbol: 'CSEMA:RDS',  name: 'Résidences Dar Saada',          sector: 'Immobilier'       },
@@ -55,11 +53,11 @@ const ASSETS = [
   { symbol: 'CSEMA:IMO',  name: 'Immorente Invest',              sector: 'Immobilier'       },
   { symbol: 'CSEMA:RIS',  name: 'Risma',                         sector: 'Immobilier'       },
   { symbol: 'CSEMA:BAL',  name: 'Balima',                        sector: 'Immobilier'       },
-  // Pétrole, Gaz & Énergie
+  // Energy
   { symbol: 'CSEMA:GAZ',  name: 'Afriquia Gaz',                  sector: 'Énergie'          },
   { symbol: 'CSEMA:TQM',  name: 'TAQA Morocco',                  sector: 'Énergie'          },
   { symbol: 'CSEMA:TMA',  name: 'TotalEnergies Marketing Maroc', sector: 'Énergie'          },
-  // Agroalimentaire
+  // Agri-food
   { symbol: 'CSEMA:CSR',  name: 'Cosumar',                       sector: 'Agroalimentaire'  },
   { symbol: 'CSEMA:LES',  name: 'Lesieur Cristal',               sector: 'Agroalimentaire'  },
   { symbol: 'CSEMA:OUL',  name: "Eaux Minérales d'Oulmès",       sector: 'Agroalimentaire'  },
@@ -73,11 +71,11 @@ const ASSETS = [
   { symbol: 'CSEMA:ATH',  name: 'Auto Hall',                     sector: 'Distribution'     },
   { symbol: 'CSEMA:NEJ',  name: 'Auto Nejma',                    sector: 'Distribution'     },
   { symbol: 'CSEMA:NKL',  name: 'Ennakl Automobiles',            sector: 'Distribution'     },
-  // Santé & Pharmacie
+  // Healthcare & Pharma
   { symbol: 'CSEMA:SOT',  name: 'Sothema',                       sector: 'Santé'            },
   { symbol: 'CSEMA:AKT',  name: 'Akdital',                       sector: 'Santé'            },
   { symbol: 'CSEMA:PRO',  name: 'Promopharm',                    sector: 'Santé'            },
-  // Technologie & IT
+  // Technology & IT
   { symbol: 'CSEMA:HPS',  name: 'HPS (Hightech Payment)',        sector: 'Technologie'      },
   { symbol: 'CSEMA:S2M',  name: 'S2M (Monétique)',               sector: 'Technologie'      },
   { symbol: 'CSEMA:MIC',  name: 'Microdata',                     sector: 'Technologie'      },
@@ -87,11 +85,11 @@ const ASSETS = [
   { symbol: 'CSEMA:IBC',  name: 'IB Maroc.com',                  sector: 'Technologie'      },
   { symbol: 'CSEMA:CMG',  name: 'CMGP Group',                    sector: 'Technologie'      },
   { symbol: 'CSEMA:DWY',  name: 'Disway',                        sector: 'Technologie'      },
-  // Transport & Logistique
+  // Transport & Logistics
   { symbol: 'CSEMA:MSA',  name: 'Marsa Maroc',                   sector: 'Transport'        },
   { symbol: 'CSEMA:CTM',  name: 'CTM',                           sector: 'Transport'        },
   { symbol: 'CSEMA:CAP',  name: 'Cash Plus',                     sector: 'Transport'        },
-  // Industrie & Conglomérats
+  // Industry & Conglomerates
   { symbol: 'CSEMA:DHO',  name: 'Delta Holding',                 sector: 'Industrie'        },
   { symbol: 'CSEMA:SID',  name: 'SONASID',                       sector: 'Industrie'        },
   { symbol: 'CSEMA:SNA',  name: 'Stokvis Nord Afrique',          sector: 'Industrie'        },
@@ -102,138 +100,192 @@ const ASSETS = [
   { symbol: 'CSEMA:AFI',  name: 'Afric Industries',              sector: 'Industrie'        },
   { symbol: 'CSEMA:SNP',  name: 'SNEP',                          sector: 'Industrie'        },
   { symbol: 'CSEMA:COL',  name: 'Colorado',                      sector: 'Industrie'        },
-  // Autres & Divers
+  // Holdings & Other
   { symbol: 'CSEMA:VCN',  name: 'Vicenne',                       sector: 'Holding'          },
   { symbol: 'CSEMA:REB',  name: 'Rebab Company',                 sector: 'Holding'          },
 ];
 
+// ── Market breadcrumb sections ─────────────────────────────────────────────────
+const MARKET_META = [
+  { icon: <Layers size={13} />, label: '77 Securities' },
+  { icon: <Globe2 size={13} />, label: 'Bourse de Casablanca' },
+  { icon: <Clock size={13} />,  label: 'Mon – Fri · 09:30 – 15:30' },
+  { icon: <Activity size={13} />, label: 'TradingView Data Feed' },
+];
+
 export const metadata = {
-  title: 'Marchés | WallStreet Morocco',
-  description: 'Suivez le MASI et les 77 actions marocaines par secteur en temps réel',
+  title: 'Markets | WallStreet Morocco',
+  description: 'Real-time market data for all 77 companies listed on the Bourse de Casablanca — MASI, indices, sectors.',
 };
 
 export default function MarketPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--bg-base)' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-base)' }}>
 
-      {/* Ticker tape */}
+      {/* ── Ticker tape ─────────────────────────────────────────────────────── */}
       <div style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}>
         <TradingViewTicker />
       </div>
 
-      {/* Page header */}
+      {/* ── Page header ─────────────────────────────────────────────────────── */}
       <div
-        className="py-10 px-4"
-        style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          borderBottom: '1px solid var(--border)',
+        }}
       >
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-9 h-9 flex items-center justify-center"
-              style={{
-                backgroundColor: 'var(--bg-elevated)',
-                border: '1px solid var(--border)',
-                borderRadius: '6px',
-              }}
-            >
-              <BarChart2 className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
+        {/* Gold top accent */}
+        <div style={{ height: '2px', background: 'linear-gradient(90deg, var(--gold) 0%, transparent 60%)' }} />
+
+        <div className="max-w-[1400px] mx-auto px-6 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+
+            {/* Title block */}
+            <div className="flex items-start gap-4">
+              <div
+                className="w-10 h-10 flex items-center justify-center rounded-[8px] flex-shrink-0"
+                style={{
+                  backgroundColor: 'var(--gold-subtle)',
+                  border: '1px solid rgba(201,168,76,0.25)',
+                }}
+              >
+                <BarChart2 size={18} style={{ color: 'var(--gold)' }} />
+              </div>
+              <div>
+                <h1
+                  className="font-display font-medium"
+                  style={{ fontSize: '28px', color: 'var(--text-primary)', lineHeight: 1.15 }}
+                >
+                  Moroccan Markets
+                </h1>
+                <p
+                  className="font-body text-[13px] mt-1"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  Live prices, charts, and sector analysis — Bourse de Casablanca
+                </p>
+              </div>
             </div>
-            <div>
-              <h1
-                className="text-2xl"
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
-              >
-                Marchés Marocains
-              </h1>
-              <p
-                className="text-xs mt-0.5"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
-              >
-                Données en temps réel · Bourse de Casablanca · 77 valeurs
-              </p>
+
+            {/* Meta chips */}
+            <div className="flex flex-wrap gap-2">
+              {MARKET_META.map((m) => (
+                <div
+                  key={m.label}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[11.5px]"
+                  style={{
+                    backgroundColor: 'var(--bg-elevated)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  <span style={{ color: 'var(--text-muted)' }}>{m.icon}</span>
+                  {m.label}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      <EduBannerInline />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-0 space-y-3">
+      {/* ── Disclaimer + AI hint ─────────────────────────────────────────────── */}
+      <div className="max-w-[1400px] mx-auto px-6 pt-5 pb-0 space-y-3">
         <FinancialDisclaimer variant="short" />
         <ChatHint
           storageKey="wsma_hint_market"
           icon=""
-          message="Des questions sur une valeur ? Demandez à l'assistant IA."
-          ctaLabel="Ouvrir l'assistant"
+          message="Questions about a stock? Ask the AI assistant."
+          ctaLabel="Open Assistant"
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* ── Main layout: 3-col left + 1-col right ───────────────────────────── */}
+      <div className="max-w-[1400px] mx-auto px-6 py-8">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
 
-          {/* Left: Main content (3 cols) */}
+          {/* ── LEFT: Main content (3 cols) ─────────────────────────────────── */}
           <div className="xl:col-span-3 space-y-6">
 
-            {/* MASI Advanced Chart */}
+            {/* MASI Chart */}
             <div
-              className="overflow-hidden"
+              className="overflow-hidden rounded-[10px]"
               style={{
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border)',
-                borderRadius: '8px',
               }}
             >
+              {/* Card header */}
               <div
                 className="px-5 py-4 flex items-center justify-between"
                 style={{ borderBottom: '1px solid var(--border)' }}
               >
                 <div className="flex items-center gap-3">
-                  <Globe2 className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
+                  <div
+                    className="w-8 h-8 flex items-center justify-center rounded-[6px]"
+                    style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
+                  >
+                    <TrendingUp size={15} style={{ color: 'var(--gold)' }} />
+                  </div>
                   <div>
                     <h2
-                      className="text-sm font-medium"
-                      style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
+                      className="font-display font-medium"
+                      style={{ fontSize: '17px', color: 'var(--text-primary)' }}
                     >
-                      MASI — Graphique Avancé
+                      MASI — All Shares Index
                     </h2>
                     <p
-                      className="text-xs"
-                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
+                      className="font-body text-[12px]"
+                      style={{ color: 'var(--text-muted)' }}
                     >
-                      Indice Marocain de toutes les valeurs
+                      Moroccan All Shares Index · Daily chart
                     </p>
                   </div>
                 </div>
-                <span
-                  className="text-xs px-2 py-0.5"
-                  style={{
-                    color: 'var(--gain)',
-                    backgroundColor: 'rgba(61,171,110,0.08)',
-                    border: '1px solid rgba(61,171,110,0.25)',
-                    borderRadius: '4px',
-                    fontFamily: 'var(--font-body)',
-                  }}
-                >
-                  Live
-                </span>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="flex items-center gap-1.5 font-mono text-[11px] px-2.5 py-1 rounded-full"
+                    style={{
+                      color: 'var(--gain)',
+                      backgroundColor: 'var(--gain-bg)',
+                      border: '1px solid rgba(61,184,122,0.2)',
+                    }}
+                  >
+                    <span
+                      className="w-1.5 h-1.5 rounded-full animate-pulse-slow"
+                      style={{ backgroundColor: 'var(--gain)' }}
+                    />
+                    LIVE
+                  </span>
+                </div>
               </div>
-              <TradingViewChart symbol="CSEMA:MASI" height={450} theme="dark" interval="D" showToolbar={true} />
+              <TradingViewChart symbol="CSEMA:MASI" height={460} theme="dark" interval="D" showToolbar={true} />
             </div>
 
-            {/* Market Summary */}
+            {/* Market Summary: Movers + MSI20 */}
             <MarketSummary />
 
-            {/* Support strip */}
-            <MarchesSupport />
-            <EduBannerInline />
-
-            {/* Stocks by sector */}
-            <MarketStockGrid assets={ASSETS} />
+            {/* All stocks by sector */}
+            <div>
+              <div className="flex items-center gap-3 mb-5">
+                <span className="section-label">All Securities</span>
+                <span
+                  className="font-mono text-[11px] px-2 py-0.5 rounded-[4px]"
+                  style={{
+                    backgroundColor: 'var(--bg-elevated)',
+                    color: 'var(--text-muted)',
+                    border: '1px solid var(--border)',
+                  }}
+                >
+                  77 companies · 14 sectors
+                </span>
+              </div>
+              <MarketStockGrid assets={ASSETS} />
+            </div>
           </div>
 
-          {/* Right: Watchlist sidebar */}
+          {/* ── RIGHT: Watchlist sidebar ─────────────────────────────────────── */}
           <div className="xl:col-span-1">
-            <div className="sticky top-4 space-y-4">
+            <div className="sticky top-[72px] space-y-4">
               <WatchlistPanel />
             </div>
           </div>
