@@ -1,5 +1,5 @@
-'use client';
 import { useEffect, useRef, memo } from 'react';
+import Card from '@/components/ui/Card';
 
 interface AssetWidgetProps {
   symbol: string;
@@ -41,31 +41,33 @@ function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
   }, [symbol]);
 
   return (
-    <div
-      className="rounded-2xl border overflow-hidden transition-all duration-300"
-      style={{
-        backgroundColor: 'var(--bg-surface)',
-        borderColor: 'var(--border)',
-      }}
-    >
-      <div className="px-4 pt-4 pb-1">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{name}</p>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{sector} · {symbol.split(':')[1]}</p>
+    <Card variant="premium" className="group">
+      <div className="px-5 pt-5 pb-2">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-bold truncate mb-0.5 leading-tight">
+              {name}
+            </h3>
+            <div className="flex items-center gap-2">
+              <span className="w-1 h-3 bg-gold-gradient rounded-full" />
+              <p className="text-[11px] font-medium tracking-wide uppercase text-[var(--text-muted)] truncate">
+                {sector || 'Action'} · {symbol.split(':')[1]}
+              </p>
+            </div>
           </div>
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: 'var(--bg-elevated)' }}
-          >
-            <span className="text-xs font-black" style={{ color: 'var(--text-secondary)' }}>
-              {symbol.split(':')[1]?.[0]}
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:border-[var(--gold)] transition-colors">
+            <span className="text-sm font-black text-[var(--gold)]">
+              {symbol.split(':')[1]?.[0] || 'A'}
             </span>
           </div>
         </div>
       </div>
-      <div ref={ref} className="tradingview-widget-container" style={{ height: '160px' }} />
-    </div>
+      <div 
+        ref={ref} 
+        className="tradingview-widget-container transition-opacity duration-700 opacity-0 animate-fadeIn" 
+        style={{ height: '160px', animationDelay: '0.3s' }} 
+      />
+    </Card>
   );
 }
 

@@ -1,12 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { Mail, Linkedin } from 'lucide-react';
+import { Mail, Linkedin, Instagram, Globe, Shield, ExternalLink, ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import DonateFooterStrip from '@/components/donate/DonateFooterStrip';
 import { CONTACT } from '@/data/contact';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Button from '@/components/ui/Button';
+import Badge from '@/components/ui/Badge';
+import { cn } from '@/lib/utils';
 
 const CookieBanner = dynamic(() => import('@/components/legal/CookieBanner'), { ssr: false });
 
@@ -39,284 +42,170 @@ export default function Footer() {
     <>
       {showCookieBanner && <CookieBanner onClose={() => setShowCookieBanner(false)} />}
 
-      {/* Zone 6: Footer */}
-      <footer className="relative">
+      <footer className="relative bg-[var(--bg-surface)] border-t border-[var(--border)] overflow-hidden">
+        {/* Glow effect */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px bg-gold-gradient opacity-20" />
+        
+        <DonateFooterStrip />
 
-        {/* Border above footer */}
-        <div style={{ height: '1px', backgroundColor: 'var(--border)' }} />
+        <div className="container-max py-20 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12">
 
-        {/* Background using var(--bg-surface) for contrast system compliance */}
-        <div className="absolute inset-0" style={{ backgroundColor: 'var(--bg-surface)', zIndex: 0 }} />
-
-        {/* Content */}
-        <div className="relative" style={{ zIndex: 1 }}>
-          <DonateFooterStrip />
-
-          {/* Main Footer */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-
-              {/* Brand */}
-              <div className="lg:col-span-1">
-                <Link href="/" className="flex items-center gap-3 mb-4 group">
+            {/* Brand Column */}
+            <div className="lg:col-span-1">
+              <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
+                <div className="w-10 h-10 rounded-xl bg-gold-gradient flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/logo-icon.svg"
-                    alt="WallStreet Morocco"
-                    width={36}
-                    height={36}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-9 h-9 group-hover:opacity-80 transition-opacity"
-                  />
-                  <span
-                    className="font-medium text-base"
-                    style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
-                  >
-                    WallStreet <span style={{ color: 'var(--gold)' }}>Morocco</span>
-                  </span>
-                </Link>
-                <p
-                  className="text-sm leading-relaxed mb-6"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  {t('footer.tagline')}
-                </p>
+                  <img src="/logo-icon.svg" alt="W" className="w-6 h-6 invert brightness-0" />
+                </div>
+                <span className="font-display text-xl font-bold tracking-tight">
+                  WallStreet <span className="text-gold-gradient">Morocco</span>
+                </span>
+              </Link>
+              <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-8 max-w-xs">
+                {t('footer.tagline')}
+              </p>
 
-                {/* Social Links */}
-                <div className="flex items-center gap-2">
+              {/* Social Links */}
+              <div className="flex items-center gap-3">
+                {[
+                  { icon: <Instagram className="w-4 h-4" />, href: CONTACT.instagram, label: 'Instagram' },
+                  { icon: <Linkedin className="w-4 h-4" />, href: CONTACT.linkedin, label: 'LinkedIn' },
+                  { icon: <Mail className="w-4 h-4" />, href: `mailto:${CONTACT.email}`, label: 'Email' }
+                ].map((social) => (
                   <a
-                    href={CONTACT.instagram}
+                    key={social.label}
+                    href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 flex items-center justify-center transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-elevated)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      color: 'var(--text-secondary)',
-                    }}
-                    aria-label="Instagram"
-                    onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                    onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:text-[var(--gold)] hover:border-[var(--gold)] hover:-translate-y-1 transition-all duration-300"
+                    aria-label={social.label}
                   >
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
+                    {social.icon}
                   </a>
-                  <a
-                    href={CONTACT.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 flex items-center justify-center transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-elevated)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      color: 'var(--text-secondary)',
-                    }}
-                    aria-label="LinkedIn"
-                    onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                    onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                  >
-                    <Linkedin className="w-3.5 h-3.5" />
-                  </a>
-                  <a
-                    href={`mailto:${CONTACT.email}`}
-                    className="w-8 h-8 flex items-center justify-center transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-elevated)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      color: 'var(--text-secondary)',
-                    }}
-                    aria-label="Email"
-                    onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                    onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                  >
-                    <Mail className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Platform Links */}
-              <div>
-                <h3
-                  className="text-xs font-medium uppercase tracking-widest mb-5"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-                >
-                  {t('footer.platform')}
-                </h3>
-                <ul className="space-y-3">
-                  {platformLinks.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-sm transition-colors"
-                        style={{ color: 'var(--text-secondary)' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Learn Links */}
-              <div>
-                <h3
-                  className="text-xs font-medium uppercase tracking-widest mb-5"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-                >
-                  {t('footer.learn')}
-                </h3>
-                <ul className="space-y-3">
-                  {learnLinks.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-sm transition-colors"
-                        style={{ color: 'var(--text-secondary)' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Company */}
-              <div>
-                <h3
-                  className="text-xs font-medium uppercase tracking-widest mb-5"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-                >
-                  {t('footer.company')}
-                </h3>
-                <ul className="space-y-3">
-                  {companyLinks.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-sm transition-colors"
-                        style={{ color: 'var(--text-secondary)' }}
-                        onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                        onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-5">
-                  <a
-                    href={`mailto:${CONTACT.email}`}
-                    className="flex items-center gap-2 text-xs transition-colors"
-                    style={{ color: 'var(--text-secondary)' }}
-                  >
-                    <Mail className="w-3 h-3" />
-                    {CONTACT.email}
-                  </a>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Newsletter */}
-            <div
-              className="mt-12 pt-8"
-              style={{ borderTop: '1px solid var(--border)' }}
-            >
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            {/* Platform Column */}
+            <div>
+              <h3 className="section-label mb-8">{t('footer.platform')}</h3>
+              <ul className="space-y-4">
+                {platformLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:translate-x-1 transition-all flex items-center gap-2 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--gold)] transition-colors" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Learn Column */}
+            <div>
+              <h3 className="section-label mb-8">{t('footer.learn')}</h3>
+              <ul className="space-y-4">
+                {learnLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:translate-x-1 transition-all flex items-center gap-2 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--gold)] transition-colors" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company/Newsletter Column */}
+            <div>
+              <h3 className="section-label mb-8">{t('footer.company')}</h3>
+              <div className="space-y-8">
                 <div>
-                  <h4
-                    className="text-sm font-medium mb-1"
-                    style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
-                  >
-                    {t('footer.newsletter')}
-                  </h4>
-                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <h4 className="text-sm font-bold mb-3">{t('footer.newsletter')}</h4>
+                  <p className="text-xs text-[var(--text-secondary)] mb-4 leading-relaxed">
                     {t('footer.newsletterDesc')}
                   </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      placeholder={t('footer.emailPlaceholder')}
+                      className="flex-1 w-full bg-[var(--bg-elevated)] border border-[var(--border)] rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-[var(--gold)] transition-colors"
+                    />
+                    <Button variant="primary" size="xs" className="h-[38px]">
+                      {t('buttons.subscribe')}
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex gap-2 w-full sm:w-auto">
-                  <input
-                    type="email"
-                    placeholder={t('footer.emailPlaceholder')}
-                    className="flex-1 sm:w-60 px-3 py-2 text-sm focus:outline-none transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-elevated)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      color: 'var(--text-primary)',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                  />
-                  <button
-                    className="px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-elevated)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      color: 'var(--text-primary)',
-                      fontFamily: 'var(--font-sans)',
-                    }}
-                  >
-                    {t('buttons.subscribe')}
-                  </button>
+                <div className="flex items-center gap-3 p-4 rounded-2xl bg-[var(--bg-elevated)] border border-[var(--border)] group hover:border-[var(--gold)] transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--bg-surface)] flex items-center justify-center border border-[var(--border)] group-hover:text-[var(--gold)] transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Support</p>
+                    <a href={`mailto:${CONTACT.email}`} className="text-xs font-medium hover:text-[var(--gold)] transition-colors">
+                      {CONTACT.email}
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Disclaimer */}
-          <div style={{ borderTop: '1px solid var(--border)' }}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-              <p
-                className="text-xs text-center leading-relaxed"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-              >
+          {/* Disclaimer Text */}
+          <div className="mt-20 pt-10 border-t border-[var(--border)]">
+            <div className="flex flex-col items-center gap-6">
+              <div className="flex items-center gap-2 text-[var(--gold)] opacity-60">
+                <Shield className="w-4 h-4" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Compliance & Safety</span>
+              </div>
+              <p className="text-[11px] text-center leading-relaxed text-[var(--text-muted)] max-w-4xl mx-auto italic">
                 {tl('footer.disclaimer')}
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Bottom bar */}
-          <div style={{ borderTop: '1px solid var(--border)' }}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col gap-2">
-              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-                {[
-                  { href: '/mentions-legales', label: tl('footer.mentions') },
-                  { href: '/terms',            label: tl('footer.terms') },
-                  { href: '/confidentialite',  label: tl('footer.privacy') },
-                  { href: '/politique-cookies', label: tl('footer.cookiePolicy') },
-                  { href: '/politique-risques', label: tl('footer.riskPolicy') },
-                ].map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className="text-xs transition-colors"
-                    style={{ color: 'var(--text-secondary)' }}
-                    onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-                    onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
-                  >
-                    {l.label}
-                  </Link>
-                ))}
-                <button
-                  onClick={() => setShowCookieBanner(true)}
-                  className="text-xs transition-colors cursor-pointer"
-                  style={{ color: 'var(--text-secondary)' }}
+        {/* Bottom Bar */}
+        <div className="bg-[var(--bg-elevated)]/30 border-t border-[var(--border)]">
+          <div className="container-max py-8 gap-8 flex flex-col items-center justify-between md:flex-row">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              {[
+                { href: '/mentions-legales', label: tl('footer.mentions') },
+                { href: '/terms',            label: tl('footer.terms') },
+                { href: '/confidentialite',  label: tl('footer.privacy') },
+                { href: '/politique-risques', label: tl('footer.riskPolicy') },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[11px] font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] transition-colors"
                 >
-                  {tl('footer.manageCookies')}
-                </button>
-              </div>
-              <p className="text-xs text-center" style={{ color: 'var(--text-secondary)' }}>
-                © {new Date().getFullYear()} WallStreet Morocco · Projet indépendant · Non agréé AMMC
+                  {link.label}
+                </Link>
+              ))}
+              <button
+                onClick={() => setShowCookieBanner(true)}
+                className="text-[11px] font-medium text-[var(--text-secondary)] hover:text-[var(--gold)] transition-colors"
+              >
+                {tl('footer.manageCookies')}
+              </button>
+            </div>
+            
+            <div className="flex flex-col items-center md:items-end gap-1">
+              <p className="text-[11px] font-bold text-[var(--text-primary)]">
+                © {new Date().getFullYear()} WallStreet Morocco
               </p>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" size="xs" className="opacity-70">Independent Project</Badge>
+                <Badge variant="danger" size="xs" className="opacity-70">Non-agréé AMMC</Badge>
+              </div>
             </div>
           </div>
         </div>

@@ -20,23 +20,22 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   dot?: boolean;
 }
 
-// Flat dark badges — 4px radius, 1px borders
-const variantStyles: Record<BadgeVariant, React.CSSProperties> = {
-  default:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-muted)' },
-  primary:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' },
-  secondary: { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' },
-  success:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--gain)' },
-  danger:    { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--loss)', color: 'var(--loss)' },
-  warning:   { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--gold)', color: 'var(--gold)' },
-  gold:      { backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--gold)', color: 'var(--gold)' },
-  outline:   { backgroundColor: 'transparent', border: '1px solid var(--border)', color: 'var(--text-muted)' },
-  premium:   { backgroundColor: 'var(--gold)', border: '1px solid var(--gold)', color: 'var(--bg-surface)', fontWeight: 500 },
+const variantClasses: Record<BadgeVariant, string> = {
+  default:   'bg-[var(--bg-elevated)] border-[var(--border)] text-[var(--text-muted)]',
+  primary:   'bg-[var(--bg-elevated)] border-[var(--border)] text-[var(--text-secondary)]',
+  secondary: 'bg-[var(--bg-elevated)] border-[var(--border)] text-[var(--text-secondary)]',
+  success:   'bg-[var(--bg-elevated)] border-[var(--gain)] text-[var(--gain)]',
+  danger:    'bg-[var(--bg-elevated)] border-[var(--loss)] text-[var(--loss)]',
+  warning:   'bg-[var(--bg-elevated)] border-[var(--gold)] text-[var(--gold)]',
+  gold:      'bg-[var(--bg-elevated)] border-[var(--gold)] text-[var(--gold)]',
+  outline:   'bg-transparent border-[var(--border)] text-[var(--text-muted)]',
+  premium:   'bg-gold-gradient border-transparent text-white font-medium',
 };
 
 const sizeClasses: Record<BadgeSize, string> = {
-  xs: 'px-1.5 py-0.5 text-2xs',
-  sm: 'px-2 py-0.5 text-xs',
-  md: 'px-2.5 py-1 text-xs',
+  xs: 'px-1.5 py-0.5 text-[10px] leading-none',
+  sm: 'px-2 py-0.5 text-[11px] leading-tight',
+  md: 'px-2.5 py-1 text-[12px] leading-normal',
 };
 
 const dotColors: Partial<Record<BadgeVariant, string>> = {
@@ -77,13 +76,18 @@ export const Badge = ({
 }: BadgeProps) => {
   return (
     <span
-      className={cn('inline-flex items-center gap-1.5 font-sans tracking-wide', sizeClasses[size], className)}
-      style={{ borderRadius: '4px', ...variantStyles[variant], ...style }}
+      className={cn(
+        'inline-flex items-center gap-1.5 font-body tracking-tight font-medium border rounded-md transition-all',
+        variantClasses[variant],
+        sizeClasses[size],
+        className
+      )}
+      style={style}
       {...props}
     >
       {dot && (
         <span
-          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+          className="w-1.5 h-1.5 rounded-full flex-shrink-0 animate-pulse"
           style={{ backgroundColor: dotColors[variant] ?? 'var(--text-muted)' }}
         />
       )}

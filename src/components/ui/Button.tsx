@@ -46,58 +46,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const [isHovered, setIsHovered] = useState(false);
     const isDisabled = disabled || loading;
 
-    const getVariantStyles = (): React.CSSProperties => {
+    const getVariantClasses = () => {
       switch (variant) {
         case 'primary':
-          return {
-            border: '1px solid var(--gold)',
-            color: isHovered ? 'var(--bg-surface)' : 'var(--gold)',
-            backgroundColor: isHovered ? 'var(--gold)' : 'transparent',
-            borderRadius: '6px',
-            fontWeight: 500,
-          };
+          return 'bg-gold-gradient text-white border-transparent hover:shadow-lg hover:brightness-110';
         case 'secondary':
-          return {
-            border: '1px solid var(--border)',
-            color: isHovered ? 'var(--text-primary)' : 'var(--text-secondary)',
-            backgroundColor: isHovered ? 'var(--bg-elevated)' : 'transparent',
-            borderRadius: '6px',
-            fontWeight: 400,
-          };
+          return 'bg-[var(--bg-elevated)] text-[var(--text-primary)] border-[var(--border)] hover:border-[var(--gold)]';
         case 'outline':
-          return {
-            border: '1px solid var(--border)',
-            color: 'var(--text-secondary)',
-            backgroundColor: 'transparent',
-            borderRadius: '6px',
-            fontWeight: 400,
-          };
+          return 'bg-transparent text-[var(--gold)] border-[var(--gold)] hover:bg-[var(--gold)] hover:text-white';
         case 'ghost':
-          return {
-            border: '1px solid transparent',
-            color: 'var(--text-secondary)',
-            backgroundColor: isHovered ? 'var(--bg-elevated)' : 'transparent',
-            borderRadius: '6px',
-            fontWeight: 400,
-          };
+          return 'bg-transparent text-[var(--text-secondary)] border-transparent hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]';
         case 'danger':
-          return {
-            border: '1px solid var(--loss)',
-            color: isHovered ? 'var(--bg-surface)' : 'var(--loss)',
-            backgroundColor: isHovered ? 'var(--loss)' : 'transparent',
-            borderRadius: '6px',
-            fontWeight: 500,
-          };
+          return 'bg-transparent text-[var(--loss)] border-[var(--loss)] hover:bg-[var(--loss)] hover:text-white';
         case 'gold':
-          return {
-            border: '1px solid var(--gold)',
-            color: isHovered ? 'var(--bg-surface)' : 'var(--gold)',
-            backgroundColor: isHovered ? 'var(--gold)' : 'transparent',
-            borderRadius: '6px',
-            fontWeight: 500,
-          };
+          return 'text-gold-gradient border-[var(--gold)] hover:bg-[var(--gold)] hover:text-white';
         default:
-          return {};
+          return '';
       }
     };
 
@@ -108,19 +72,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           baseClasses,
           sizeClasses[size],
+          getVariantClasses(),
+          'border rounded-xl font-medium transition-all duration-300',
           fullWidth && 'w-full',
           isDisabled && 'opacity-50 cursor-not-allowed pointer-events-none',
           className
         )}
-        style={{ ...getVariantStyles(), ...style }}
-        onMouseEnter={(e) => {
-          setIsHovered(true);
-          onMouseEnter?.(e);
-        }}
-        onMouseLeave={(e) => {
-          setIsHovered(false);
-          onMouseLeave?.(e);
-        }}
         {...props}
       >
         {loading ? (

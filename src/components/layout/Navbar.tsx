@@ -73,46 +73,37 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 transition-colors duration-150"
       style={{
-        backgroundColor: 'var(--nav-bg)',
-        borderBottom: '1px solid var(--nav-border)',
+        height: '64px',
+        backgroundColor: 'var(--bg-surface)',
+        borderBottom: '1px solid var(--border)',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logo-icon.svg"
-              alt="WallStreet Morocco"
-              width={32}
-              height={32}
-              loading="lazy"
-              decoding="async"
-              className="w-8 h-8 group-hover:opacity-80 transition-opacity"
-            />
+          <Link href="/" className="flex items-center gap-2 group">
             <span
-              className="font-medium text-[15px] hidden sm:block"
-              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+              className="text-[18px] tracking-tight"
+              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
             >
               WallStreet{' '}
-              <span style={{ color: 'var(--gold)' }}>Morocco</span>
+              <span style={{ color: 'var(--gold)', fontStyle: 'italic' }}>Morocco</span>
             </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-0.5">
+          {/* Desktop Nav - Centered */}
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
               const active = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative px-3 py-2 transition-colors duration-150 hover:text-[var(--text-primary)]"
+                  className="relative py-1 transition-colors duration-150 hover:text-[var(--text-primary)]"
                   style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '13px',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '14px',
                     fontWeight: active ? 500 : 400,
                     color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
                   }}
@@ -120,7 +111,7 @@ export default function Navbar() {
                   {link.label}
                   {active && (
                     <span
-                      className="absolute bottom-0 left-3 right-3"
+                      className="absolute bottom-[-22px] left-0 right-0"
                       style={{
                         height: '2px',
                         backgroundColor: 'var(--gold)',
@@ -130,21 +121,33 @@ export default function Navbar() {
                 </Link>
               );
             })}
+          </div>
 
-            {/* Donate / Primary CTA */}
+          {/* Desktop Right: CTA + Mode Toggle */}
+          <div className="hidden md:flex items-center gap-4">
             <Link
               href="/donate"
-              className="ml-1 flex items-center gap-1.5 px-3 py-1.5 transition-all duration-150 group/donate btn-primary-cta"
+              className="flex items-center gap-1.5 px-4 py-1.5 transition-all duration-110 border rounded-[4px]"
               style={{
+                borderColor: 'var(--gold)',
+                color: 'var(--gold)',
+                backgroundColor: 'transparent',
+                fontFamily: 'var(--font-body)',
                 fontSize: '13px',
                 fontWeight: 500,
-                borderRadius: '6px',
+                letterSpacing: '0.01em',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.backgroundColor = 'var(--gold)';
+                e.currentTarget.style.color = 'var(--bg-base)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = 'var(--gold)';
               }}
             >
-              <Heart className="w-3.5 h-3.5 animate-heartbeat" />
               <span>{td('navLabel')}</span>
             </Link>
-          </div>
 
           {/* Desktop Right: Auth + Theme Toggle */}
           <div className="hidden md:flex items-center gap-2">
