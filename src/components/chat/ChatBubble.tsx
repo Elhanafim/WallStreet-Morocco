@@ -163,7 +163,7 @@ export default function ChatBubble() {
           className={`
             chat-bubble-btn
             relative flex items-center gap-2.5
-            text-white font-semibold
+            text-white font-medium
             transition-all duration-200 active:scale-95
             ${bouncing ? "chat-bounce" : ""}
             ${pulsing && !chat.isOpen ? "chat-pulse" : ""}
@@ -173,7 +173,7 @@ export default function ChatBubble() {
           {!chat.isOpen && chat.unreadCount > 0 && (
             <span className="
               absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1
-              rounded-full bg-red-500 text-white text-[10px] font-bold
+              rounded-full bg-red-500 text-white text-[10px] font-medium
               flex items-center justify-center
               animate-badge-in
             ">

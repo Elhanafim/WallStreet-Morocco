@@ -16,7 +16,7 @@ function TickerItem({ symbol, value, change }: { symbol: string; value: number; 
       <span className="font-body text-[13px] text-[var(--text-secondary)] tabular-nums">{formattedValue}</span>
       <span
         className={cn(
-          "flex items-center gap-1 font-body text-[12px] font-semibold",
+          "flex items-center gap-1 font-body text-[12px] font-medium",
           isPositive ? "text-[var(--gain)]" : "text-[var(--loss)]"
         )}
       >

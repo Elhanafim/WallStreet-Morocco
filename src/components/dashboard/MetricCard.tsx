@@ -62,7 +62,7 @@ export default function MetricCard({
               backgroundColor: 'rgba(184,151,74,0.08)',
               border: '1px solid rgba(184,151,74,0.2)',
               borderRadius: '4px',
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'var(--font-body)',
             }}
           >
             {badge}
@@ -75,7 +75,7 @@ export default function MetricCard({
         className="text-xs mb-1"
         style={{
           color: 'var(--text-muted)',
-          fontFamily: 'var(--font-sans)',
+          fontFamily: 'var(--font-body)',
           fontWeight: 400,
         }}
       >

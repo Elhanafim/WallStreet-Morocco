@@ -48,15 +48,15 @@ function ActualVsForecast({ actual, forecast, previous }: {
     <div className="grid grid-cols-3 gap-2 mt-3">
       <div className="bg-surface-50 rounded-lg p-2 text-center">
         <p className="text-primary/40 text-2xs uppercase tracking-wide mb-0.5">Précédent</p>
-        <p className="text-primary/60 text-xs font-semibold">{previous || '—'}</p>
+        <p className="text-primary/60 text-xs font-medium">{previous || '—'}</p>
       </div>
       <div className="bg-surface-50 rounded-lg p-2 text-center">
         <p className="text-primary/40 text-2xs uppercase tracking-wide mb-0.5">Prévision</p>
-        <p className="text-secondary text-xs font-semibold">{forecast || '—'}</p>
+        <p className="text-secondary text-xs font-medium">{forecast || '—'}</p>
       </div>
       <div className={cn('rounded-lg p-2 text-center', actual ? 'bg-success/10' : 'bg-surface-50')}>
         <p className="text-primary/40 text-2xs uppercase tracking-wide mb-0.5">Réel</p>
-        <p className={cn('text-xs font-bold', actual ? 'text-success' : 'text-primary/30')}>
+        <p className={cn('text-xs font-medium', actual ? 'text-success' : 'text-primary/30')}>
           {actual || 'À venir'}
         </p>
       </div>
@@ -79,7 +79,7 @@ export default function EventCard({ event, variant = 'default' }: EventCardProps
               </span>
             )}
           </div>
-          <p className="text-sm font-semibold text-primary line-clamp-2 leading-snug">
+          <p className="text-sm font-medium text-primary line-clamp-2 leading-snug">
             {event.title}
           </p>
         </div>
@@ -98,7 +98,7 @@ export default function EventCard({ event, variant = 'default' }: EventCardProps
           <span className="text-2xl">{event.countryFlag}</span>
           <div>
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <span className="text-xs font-semibold text-primary/50">{event.country}</span>
+              <span className="text-xs font-medium text-primary/50">{event.country}</span>
               <span className="text-xs text-primary/30">•</span>
               <span className="text-xs text-primary/50">{formatDate(event.date, 'medium')}</span>
               {event.time && (
@@ -121,7 +121,7 @@ export default function EventCard({ event, variant = 'default' }: EventCardProps
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-primary mb-2 leading-snug">
+      <h3 className="text-sm font-medium text-primary mb-2 leading-snug">
         {event.title}
       </h3>
 

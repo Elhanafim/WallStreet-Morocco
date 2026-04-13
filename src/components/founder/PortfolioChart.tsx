@@ -46,15 +46,15 @@ function ChartTooltip({ active, payload, label }: any) {
 
   return (
     <div className="bg-primary border border-white/15 rounded-xl shadow-2xl px-4 py-3 text-xs min-w-[200px]">
-      <p className="text-white font-bold mb-2">{label}</p>
+      <p className="text-white font-medium mb-2">{label}</p>
       <div className="space-y-1">
         <div className="flex justify-between gap-4">
           <span className="text-emerald-400">Portefeuille</span>
-          <span className="text-white font-semibold">${fmt(port.value)}</span>
+          <span className="text-white font-medium">${fmt(port.value)}</span>
         </div>
         <div className="flex justify-between gap-4">
           <span className="text-white/40">Capital investi</span>
-          <span className="text-white font-semibold">${fmt(cap.value)}</span>
+          <span className="text-white font-medium">${fmt(cap.value)}</span>
         </div>
         <div className="flex justify-between gap-4 pt-1 border-t border-white/10">
           <span className="text-emerald-400/70">Performance</span>
@@ -86,7 +86,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-white font-black text-lg">
+            <h3 className="text-white font-medium text-lg">
               Évolution du portefeuille
             </h3>
             <p className="text-white/40 text-xs mt-0.5">

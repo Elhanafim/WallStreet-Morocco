@@ -112,7 +112,7 @@ function LoginForm() {
     border: '1px solid var(--border)',
     borderRadius: '6px',
     color: 'var(--text-primary)',
-    fontFamily: 'var(--font-sans)',
+    fontFamily: 'var(--font-body)',
     fontSize: '14px',
     outline: 'none',
     transition: 'border-color 0.15s',
@@ -139,7 +139,7 @@ function LoginForm() {
             </div>
             <span
               className="font-medium text-lg"
-              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
             >
               WallStreet <span style={{ color: 'var(--gold)' }}>Morocco</span>
             </span>
@@ -164,7 +164,7 @@ function LoginForm() {
             </h1>
             <p
               className="text-sm"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
             >
               {t('auth.loginSubtitle')}
             </p>
@@ -182,7 +182,7 @@ function LoginForm() {
               <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--loss)' }} />
               <p
                 className="text-sm"
-                style={{ color: 'var(--loss)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--loss)', fontFamily: 'var(--font-body)' }}
               >
                 {error}
               </p>
@@ -195,7 +195,7 @@ function LoginForm() {
               <label
                 htmlFor="email"
                 className="block text-xs font-medium mb-1.5"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
               >
                 {t('auth.email')}
               </label>
@@ -224,7 +224,7 @@ function LoginForm() {
                 <label
                   htmlFor="password"
                   className="block text-xs font-medium"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
                 >
                   {t('auth.password')}
                 </label>
@@ -283,7 +283,7 @@ function LoginForm() {
               <label
                 htmlFor="remember"
                 className="text-xs"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
               >
                 {t('auth.rememberMe')}
               </label>
@@ -299,7 +299,7 @@ function LoginForm() {
                 borderRadius: '6px',
                 color: 'var(--text-primary)',
                 backgroundColor: 'transparent',
-                fontFamily: 'var(--font-sans)',
+                fontFamily: 'var(--font-body)',
               }}
               onMouseEnter={e => {
                 if (!isLoading) (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(184,151,74,0.08)';
@@ -336,7 +336,7 @@ function LoginForm() {
                 style={{
                   backgroundColor: 'var(--bg-surface)',
                   color: 'var(--text-muted)',
-                  fontFamily: 'var(--font-sans)',
+                  fontFamily: 'var(--font-body)',
                 }}
               >
                 {t('auth.orContinueWith')}
@@ -376,7 +376,7 @@ function LoginForm() {
                   borderRadius: '6px',
                   color: 'var(--text-secondary)',
                   backgroundColor: 'var(--bg-elevated)',
-                  fontFamily: 'var(--font-sans)',
+                  fontFamily: 'var(--font-body)',
                 }}
                 onMouseEnter={e => ((e.currentTarget as HTMLButtonElement).style.color = 'var(--text-primary)')}
                 onMouseLeave={e => ((e.currentTarget as HTMLButtonElement).style.color = 'var(--text-secondary)')}
@@ -390,7 +390,7 @@ function LoginForm() {
           {/* Signup link */}
           <p
             className="text-center text-xs mt-6"
-            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
           >
             {t('auth.noAccount')}{' '}
             <Link
@@ -406,7 +406,7 @@ function LoginForm() {
         {/* Security note */}
         <p
           className="text-center text-xs mt-5"
-          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
         >
           {t('auth.secureConnection')}
         </p>

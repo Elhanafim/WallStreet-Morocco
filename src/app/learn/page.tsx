@@ -46,7 +46,7 @@ export default function LearnPage() {
   const featuredArticle = articles[0];
 
   return (
-    <div className="pt-16 min-h-screen bg-white">
+    <div className="pt-16 min-h-screen bg-[var(--bg-base)]">
       {/* Legal disclaimer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <FinancialDisclaimer variant="short" />
@@ -55,7 +55,7 @@ export default function LearnPage() {
       {/* Hero */}
       <div className="bg-gradient-hero py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">
+          <h1 className="text-5xl sm:text-6xl font-medium text-white mb-4">
             Centre d&apos;apprentissage
           </h1>
           <p className="text-white/70 text-xl max-w-2xl mx-auto mb-8">
@@ -94,7 +94,7 @@ export default function LearnPage() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm whitespace-nowrap transition-all duration-200 ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium text-sm whitespace-nowrap transition-all duration-200 ${
                 activeCategory === cat.id
                   ? 'bg-primary text-white shadow-md'
                   : 'bg-surface-100 text-primary/70 hover:bg-surface-200'
@@ -127,7 +127,7 @@ export default function LearnPage() {
               <div className="mb-12">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="w-1.5 h-6 bg-accent rounded-full" />
-                  <h2 className="text-lg font-bold text-primary">Article à la une</h2>
+                  <h2 className="text-lg font-medium text-primary">Article à la une</h2>
                 </div>
                 <ArticleCard article={featuredArticle} variant="featured" />
               </div>
@@ -154,7 +154,7 @@ export default function LearnPage() {
             ) : (
               <div className="text-center py-20">
                 <BookOpen className="w-12 h-12 text-primary/20 mx-auto mb-4" />
-                <h3 className="text-primary font-bold text-lg mb-2">Aucun article trouvé</h3>
+                <h3 className="text-primary font-medium text-lg mb-2">Aucun article trouvé</h3>
                 <p className="text-primary/50 text-sm">
                   Essayez une autre recherche ou sélectionnez une autre catégorie
                 </p>

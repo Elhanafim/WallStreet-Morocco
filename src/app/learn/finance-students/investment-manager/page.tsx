@@ -30,8 +30,8 @@ export default function InvestmentManagerPage() {
     >
       <div id="capital-budgeting-game">
         <div className="flex items-center gap-2 mb-6">
-          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">J</span>
-          <h2 className="text-xl font-bold text-primary">Le Défi du Budget d&apos;Investissement</h2>
+          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-medium text-xs">J</span>
+          <h2 className="text-xl font-medium text-primary">Le Défi du Budget d&apos;Investissement</h2>
         </div>
         <CapitalBudgetingGame />
       </div>

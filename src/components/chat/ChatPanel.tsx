@@ -66,7 +66,7 @@ function renderMarkdown(text: string): React.ReactNode {
     if (numMatch) {
       nodes.push(
         <div key={key} className="flex gap-2 items-start leading-snug my-0.5">
-          <span className="shrink-0 font-semibold text-emerald-600 dark:text-emerald-400 text-xs w-4">{numMatch[1]}.</span>
+          <span className="shrink-0 font-medium text-emerald-600 dark:text-emerald-400 text-xs w-4">{numMatch[1]}.</span>
           <span>{inlineMarkdown(numMatch[2])}</span>
         </div>
       );
@@ -94,7 +94,7 @@ function inlineMarkdown(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[.+?\]\(.+?\))/g);
   return parts.map((part, j) => {
     if (/^\*\*(.+)\*\*$/.test(part)) {
-      return <strong key={j} className="font-semibold">{part.slice(2, -2)}</strong>;
+      return <strong key={j} className="font-medium">{part.slice(2, -2)}</strong>;
     }
     if (/^\*(.+)\*$/.test(part)) {
       return <em key={j}>{part.slice(1, -1)}</em>;
@@ -187,11 +187,11 @@ export default function ChatPanel({
     >
       {/* ── Header ── */}
       <div className="flex items-center gap-2.5 px-4 py-3 bg-blue-700 text-white shrink-0">
-        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium text-sm shrink-0">
           W
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm leading-tight">
+          <p className="font-medium text-sm leading-tight">
             {t("assistantName", "Assistant WallStreet Morocco")}
           </p>
           <p className="text-blue-200 text-[11px]">
@@ -242,7 +242,7 @@ export default function ChatPanel({
         {/* Welcome */}
         {messages.length === 0 && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-medium shrink-0 mt-0.5">
               W
             </div>
             <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[88%] text-gray-800 dark:text-gray-200 leading-relaxed">
@@ -260,7 +260,7 @@ export default function ChatPanel({
             className={`flex gap-2 items-start group ${msg.role === "user" ? "flex-row-reverse" : ""}`}
           >
             {msg.role === "assistant" && (
-              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-medium shrink-0 mt-0.5">
                 W
               </div>
             )}
@@ -282,7 +282,7 @@ export default function ChatPanel({
         {/* Streaming bubble */}
         {isStreaming && (
           <div className="flex gap-2 items-start">
-            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-medium shrink-0 mt-0.5">
               W
             </div>
             <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[88%] text-gray-800 dark:text-gray-200 leading-relaxed">
@@ -328,7 +328,7 @@ export default function ChatPanel({
           <a
             href="/donate"
             onClick={onHideDonateNudge}
-            className="mt-1.5 inline-block font-semibold text-red-600 dark:text-red-400 hover:underline"
+            className="mt-1.5 inline-block font-medium text-red-600 dark:text-red-400 hover:underline"
           >
             {t("donateCta", "Faire un don →")}
           </a>

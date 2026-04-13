@@ -27,14 +27,14 @@ export default function PolitiqueRisquesPage() {
               <AlertTriangle className="w-6 h-6 text-warning" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">
+              <h1 className="text-3xl sm:text-4xl font-medium text-white">
                 Politique de risques et avertissements
               </h1>
               <p className="text-white/50 text-sm mt-1">Dernière mise à jour : 25 mars 2026</p>
             </div>
           </div>
           <div className="bg-warning/20 border border-warning/40 rounded-xl px-5 py-3 mt-4">
-            <p className="text-warning text-sm font-semibold">
+            <p className="text-warning text-sm font-medium">
               ⚠️ À lire attentivement avant d&apos;utiliser le portefeuille ou de prendre toute
               décision d&apos;investissement.
             </p>
@@ -48,7 +48,7 @@ export default function PolitiqueRisquesPage() {
 
           {/* Main warning box */}
           <div className="bg-danger/5 border-l-4 border-danger rounded-xl p-5">
-            <p className="font-black text-danger text-base mb-2">⚠️ AVERTISSEMENT GÉNÉRAL</p>
+            <p className="font-medium text-danger text-base mb-2">⚠️ AVERTISSEMENT GÉNÉRAL</p>
             <p className="text-primary/80 text-sm leading-relaxed">
               <strong>WallStreet Morocco est un outil éducatif.</strong> Aucune information publiée
               ici ne doit être considérée comme un conseil financier professionnel. WallStreet Morocco
@@ -99,7 +99,7 @@ export default function PolitiqueRisquesPage() {
 
           <Section title="2. Les performances passées ne garantissent pas les performances futures">
             <div className="bg-warning/10 border border-warning/30 rounded-xl p-4">
-              <p className="font-black text-warning-700 text-sm mb-2">
+              <p className="font-medium text-warning-700 text-sm mb-2">
                 ⚠️ AVERTISSEMENT ESSENTIEL
               </p>
               <p className="text-primary/80 text-sm leading-relaxed">
@@ -192,7 +192,7 @@ export default function PolitiqueRisquesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-black text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
+      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
       <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
     </section>
   );

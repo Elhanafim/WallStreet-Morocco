@@ -47,7 +47,7 @@ function JumpNav({ activeSector }: { activeSector: string }) {
               e.preventDefault();
               document.getElementById(`sector-${s.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider transition-all border ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-medium uppercase tracking-wider transition-all border ${
               activeSector === s.id 
                 ? 'bg-gold-gradient text-white border-transparent shadow-md' 
                 : 'bg-[var(--bg-elevated)] text-[var(--text-secondary)] border-[var(--border)] hover:border-[var(--gold)]'
@@ -141,7 +141,7 @@ const SectorSection = memo(function SectorSection({
           <div className="w-8 h-8 rounded-lg bg-gold-gradient flex items-center justify-center text-white text-lg">
             {sector.icon}
           </div>
-          <h3 className="text-xl font-bold tracking-tight">{sector.name}</h3>
+          <h3 className="text-xl font-medium tracking-tight">{sector.name}</h3>
         </div>
         <Badge variant="default" dot>
           {assets.length} valeur{assets.length > 1 ? 's' : ''}
@@ -218,7 +218,7 @@ export default function MarketStockGrid({ assets }: { assets: Asset[] }) {
           </Badge>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)]">
             <span className={`w-2 h-2 rounded-full ${open ? 'bg-[var(--gain)] animate-pulse' : 'bg-[var(--loss)]'}`} />
-            <span className={`text-[11px] font-bold uppercase tracking-widest ${open ? 'text-[var(--gain)]' : 'text-[var(--loss)]'}`}>
+            <span className={`text-[11px] font-medium uppercase tracking-widest ${open ? 'text-[var(--gain)]' : 'text-[var(--loss)]'}`}>
               {open ? 'Marché ouvert' : 'Marché fermé'}
             </span>
           </div>

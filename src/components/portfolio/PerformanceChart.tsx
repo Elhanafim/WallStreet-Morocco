@@ -48,7 +48,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   const positive = gain >= 0;
   return (
     <div className="bg-white border border-surface-200 rounded-xl shadow-lg p-3 text-xs">
-      <p className="font-semibold text-primary/60 mb-2">{label ? fmtDate(label) : ''}</p>
+      <p className="font-medium text-primary/60 mb-2">{label ? fmtDate(label) : ''}</p>
       <div className="space-y-1">
         <div className="flex justify-between gap-4">
           <span className="text-primary/50">Valeur</span>
@@ -56,7 +56,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
         </div>
         <div className="flex justify-between gap-4">
           <span className="text-primary/50">Investi</span>
-          <span className="font-semibold text-primary/70">{fmtMAD(cost)} MAD</span>
+          <span className="font-medium text-primary/70">{fmtMAD(cost)} MAD</span>
         </div>
         <div className={`flex justify-between gap-4 pt-1 border-t border-surface-100 ${positive ? 'text-emerald-600' : 'text-red-500'}`}>
           <span>G/P</span>
@@ -122,7 +122,7 @@ const PerformanceChart = memo(function PerformanceChart({ snapshots, totalCost }
             <button
               key={r.value}
               onClick={() => setRange(r.value)}
-              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
                 range === r.value
                   ? 'bg-white shadow-sm text-primary'
                   : 'text-primary/40 hover:text-primary'

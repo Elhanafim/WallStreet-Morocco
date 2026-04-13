@@ -37,21 +37,21 @@ function ArticleContent({ content }: { content: string }) {
 
         if (trimmed.startsWith('# ')) {
           return (
-            <h1 key={index} className="text-3xl font-black text-primary mt-8 mb-4">
+            <h1 key={index} className="text-3xl font-medium text-primary mt-8 mb-4">
               {trimmed.slice(2)}
             </h1>
           );
         }
         if (trimmed.startsWith('## ')) {
           return (
-            <h2 key={index} className="text-2xl font-bold text-primary mt-8 mb-3 border-b border-surface-200 pb-2">
+            <h2 key={index} className="text-2xl font-medium text-primary mt-8 mb-3 border-b border-surface-200 pb-2">
               {trimmed.slice(3)}
             </h2>
           );
         }
         if (trimmed.startsWith('### ')) {
           return (
-            <h3 key={index} className="text-lg font-bold text-primary mt-6 mb-2">
+            <h3 key={index} className="text-lg font-medium text-primary mt-6 mb-2">
               {trimmed.slice(4)}
             </h3>
           );
@@ -67,7 +67,7 @@ function ArticleContent({ content }: { content: string }) {
           const [num, ...rest] = trimmed.split('. ');
           return (
             <div key={index} className="flex gap-3 my-2">
-              <span className="flex-shrink-0 w-6 h-6 bg-secondary/10 text-secondary rounded-full flex items-center justify-center text-sm font-bold">
+              <span className="flex-shrink-0 w-6 h-6 bg-secondary/10 text-secondary rounded-full flex items-center justify-center text-sm font-medium">
                 {num}
               </span>
               <p className="text-primary/80">{rest.join('. ')}</p>
@@ -89,7 +89,7 @@ function ArticleContent({ content }: { content: string }) {
         }
 
         const formattedLine = trimmed
-          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-bold">$1</strong>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary font-medium">$1</strong>')
           .replace(/\*(.*?)\*/g, '<em>$1</em>');
 
         return (
@@ -114,7 +114,7 @@ export default function ArticlePage({ params }: PageProps) {
   const relatedArticles = getRelatedArticles(params.slug, 3);
 
   return (
-    <div className="pt-16 min-h-screen bg-white">
+    <div className="pt-16 min-h-screen bg-[var(--bg-base)]">
       {/* Article Header */}
       <div className="bg-gradient-hero py-16 px-4">
         <div className="max-w-4xl mx-auto">
@@ -132,7 +132,7 @@ export default function ArticlePage({ params }: PageProps) {
             </Badge>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-white mb-6 leading-tight">
             {article.title}
           </h1>
 
@@ -172,7 +172,7 @@ export default function ArticlePage({ params }: PageProps) {
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
               <div className="mt-10 pt-6 border-t border-surface-200">
-                <p className="text-sm font-semibold text-primary/50 mb-3">Tags</p>
+                <p className="text-sm font-medium text-primary/50 mb-3">Tags</p>
                 <div className="flex flex-wrap gap-2">
                   {article.tags.map((tag) => (
                     <span
@@ -188,18 +188,18 @@ export default function ArticlePage({ params }: PageProps) {
 
             {/* Share */}
             <div className="mt-8 pt-6 border-t border-surface-200">
-              <p className="text-sm font-semibold text-primary mb-3">Partager cet article</p>
+              <p className="text-sm font-medium text-primary mb-3">Partager cet article</p>
               <div className="flex items-center gap-3">
                 <a
                   href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent('https://wallstreetmorocco.com/learn/' + article.slug)}&title=${encodeURIComponent(article.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-[#0A66C2]/10 text-[#0A66C2] rounded-xl text-sm font-semibold hover:bg-[#0A66C2]/20 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-[#0A66C2]/10 text-[#0A66C2] rounded-xl text-sm font-medium hover:bg-[#0A66C2]/20 transition-colors"
                 >
                   <Linkedin className="w-4 h-4" />
                   LinkedIn
                 </a>
-                <button className="flex items-center gap-2 px-4 py-2 bg-surface-100 text-primary/60 rounded-xl text-sm font-semibold hover:bg-surface-200 transition-colors">
+                <button className="flex items-center gap-2 px-4 py-2 bg-surface-100 text-primary/60 rounded-xl text-sm font-medium hover:bg-surface-200 transition-colors">
                   <Share2 className="w-4 h-4" />
                   Copier le lien
                 </button>
@@ -210,7 +210,7 @@ export default function ArticlePage({ params }: PageProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Author Card */}
-            <div className="bg-white border border-surface-200 rounded-2xl p-5 shadow-card">
+            <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-card">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
                   <img src="/logo-icon.svg" alt="WallStreet Morocco" className="w-7 h-7 object-contain" />
@@ -221,7 +221,7 @@ export default function ArticlePage({ params }: PageProps) {
 
             {/* Article Info */}
             <div className="bg-surface-50 rounded-2xl p-6">
-              <h3 className="text-sm font-bold text-primary/50 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-medium text-primary/50 uppercase tracking-wider mb-4">
                 À propos de cet article
               </h3>
               <div className="space-y-3">
@@ -233,15 +233,15 @@ export default function ArticlePage({ params }: PageProps) {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-primary/50">Durée de lecture</span>
-                  <span className="font-semibold text-primary">{article.readTime} min</span>
+                  <span className="font-medium text-primary">{article.readTime} min</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-primary/50">Publié le</span>
-                  <span className="font-semibold text-primary">{formatDate(article.date, 'short')}</span>
+                  <span className="font-medium text-primary">{formatDate(article.date, 'short')}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-primary/50">Accès</span>
-                  <span className="font-semibold text-xs px-2 py-0.5 rounded-full bg-success/10 text-success">
+                  <span className="font-medium text-xs px-2 py-0.5 rounded-full bg-success/10 text-success">
                     Gratuit
                   </span>
                 </div>
@@ -250,8 +250,8 @@ export default function ArticlePage({ params }: PageProps) {
 
             {/* Related Articles */}
             {relatedArticles.length > 0 && (
-              <div className="bg-white border border-surface-200 rounded-2xl p-6 shadow-card">
-                <h3 className="text-sm font-bold text-primary/50 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-6 shadow-card">
+                <h3 className="text-sm font-medium text-primary/50 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <BookOpen className="w-4 h-4" />
                   Articles similaires
                 </h3>

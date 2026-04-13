@@ -100,9 +100,9 @@ export default function SimulatorPage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-4">
             <Calculator className="w-4 h-4 text-accent" />
-            <span className="text-accent text-sm font-semibold">Simulateur de portefeuille</span>
+            <span className="text-accent text-sm font-medium">Simulateur de portefeuille</span>
           </div>
-          <h1 className="text-5xl font-black text-white mb-4">
+          <h1 className="text-5xl font-medium text-white mb-4">
             Projetez votre{' '}
             <span className="gradient-text-gold">richesse future</span>
           </h1>
@@ -118,15 +118,15 @@ export default function SimulatorPage() {
           {/* Form Panel */}
           <div className="lg:col-span-2 space-y-6">
             {/* Parameters Card */}
-            <div className="bg-white rounded-2xl shadow-card p-6 border border-surface-200">
-              <h2 className="text-lg font-black text-primary mb-6 flex items-center gap-2">
+            <div className="bg-[var(--bg-surface)] rounded-lg p-6 border border-[var(--border)]">
+              <h2 className="text-lg font-medium text-primary mb-6 flex items-center gap-2">
                 <Calculator className="w-5 h-5 text-secondary" />
                 Paramètres
               </h2>
 
               {/* Initial Amount */}
               <div className="mb-5">
-                <label className="block text-sm font-semibold text-primary mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Capital initial (MAD)
                 </label>
                 <div className="relative">
@@ -135,7 +135,7 @@ export default function SimulatorPage() {
                     type="number"
                     value={initialAmount}
                     onChange={(e) => setInitialAmount(Math.max(0, Number(e.target.value)))}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 text-primary font-medium focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
                     min="0"
                     step="1000"
                   />
@@ -159,7 +159,7 @@ export default function SimulatorPage() {
 
               {/* Monthly Amount */}
               <div className="mb-5">
-                <label className="block text-sm font-semibold text-primary mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Investissement mensuel (MAD)
                 </label>
                 <div className="relative">
@@ -168,7 +168,7 @@ export default function SimulatorPage() {
                     type="number"
                     value={monthlyAmount}
                     onChange={(e) => setMonthlyAmount(Math.max(0, Number(e.target.value)))}
-                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 text-primary font-semibold focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-surface-200 text-primary font-medium focus:outline-none focus:ring-2 focus:ring-secondary transition-all"
                     min="0"
                     step="100"
                   />
@@ -190,7 +190,7 @@ export default function SimulatorPage() {
 
               {/* Risk Level */}
               <div className="mb-5">
-                <label className="block text-sm font-semibold text-primary mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Profil de risque
                 </label>
                 <div className="space-y-2.5">
@@ -203,12 +203,12 @@ export default function SimulatorPage() {
                         className={`w-full text-left p-3.5 rounded-xl border-2 transition-all duration-200 ${
                           riskLevel === risk
                             ? 'border-secondary bg-secondary/5'
-                            : 'border-surface-200 bg-white hover:border-surface-300'
+                            : 'border-[var(--border)] bg-[var(--bg-surface)] hover:border-[var(--gold)]'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-0.5">
                           <span className="font-bold text-sm text-primary">{p.label}</span>
-                          <span className={`text-xs font-bold ${p.color}`}>
+                          <span className={`text-xs font-medium ${p.color}`}>
                             ~{p.rate}%/an
                           </span>
                         </div>
@@ -221,7 +221,7 @@ export default function SimulatorPage() {
 
               {/* Time Horizon */}
               <div>
-                <label className="block text-sm font-semibold text-primary mb-2">
+                <label className="block text-sm font-medium text-primary mb-2">
                   Horizon d&apos;investissement
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -229,7 +229,7 @@ export default function SimulatorPage() {
                     <button
                       key={years}
                       onClick={() => setTimeHorizon(years)}
-                      className={`py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${
+                      className={`py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                         timeHorizon === years
                           ? 'bg-primary text-white'
                           : 'bg-surface-100 text-primary/70 hover:bg-surface-200'
@@ -247,7 +247,7 @@ export default function SimulatorPage() {
               <div className="flex gap-3">
                 <Info className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-xs font-semibold text-primary mb-1">À propos du simulateur</p>
+                  <p className="text-xs font-medium text-primary mb-1">À propos du simulateur</p>
                   <p className="text-xs text-primary/60 leading-relaxed">
                     Ce simulateur utilise la formule des intérêts composés mensuels.
                     Les rendements historiques ne garantissent pas les performances futures.
@@ -294,7 +294,7 @@ export default function SimulatorPage() {
               ].map((stat) => (
                 <div key={stat.label} className={`${stat.bg} rounded-2xl p-4 text-center`}>
                   <stat.icon className={`w-5 h-5 ${stat.color} mx-auto mb-2`} />
-                  <p className={`text-xl font-black ${stat.color} mb-0.5 leading-tight`}>
+                  <p className={`text-xl font-medium ${stat.color} mb-0.5 leading-tight`}>
                     {stat.value}
                   </p>
                   <p className="text-primary/50 text-xs">{stat.label}</p>
@@ -303,9 +303,9 @@ export default function SimulatorPage() {
             </div>
 
             {/* Growth Chart */}
-            <div className="bg-white rounded-2xl shadow-card p-6 border border-surface-200">
+            <div className="bg-[var(--bg-surface)] rounded-lg p-6 border border-[var(--border)]">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-black text-primary">
+                <h3 className="font-medium text-primary">
                   Croissance du portefeuille
                 </h3>
                 <div className="flex items-center gap-2">
@@ -325,7 +325,7 @@ export default function SimulatorPage() {
             {/* Bottom Grid */}
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Allocation Chart */}
-              <div className="bg-white rounded-2xl shadow-card p-6 border border-surface-200">
+              <div className="bg-[var(--bg-surface)] rounded-lg p-6 border border-[var(--border)]">
                 <AllocationChart
                   allocations={profile.allocations}
                   title="Allocation recommandée"
@@ -333,8 +333,8 @@ export default function SimulatorPage() {
               </div>
 
               {/* Year by Year Table */}
-              <div className="bg-white rounded-2xl shadow-card p-6 border border-surface-200">
-                <h4 className="text-sm font-bold text-primary mb-4">Projection annuelle</h4>
+              <div className="bg-[var(--bg-surface)] rounded-lg p-6 border border-[var(--border)]">
+                <h4 className="text-sm font-medium text-primary mb-4">Projection annuelle</h4>
                 <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1">
                   {results.map((result) => (
                     <div
@@ -342,12 +342,12 @@ export default function SimulatorPage() {
                       className="flex items-center justify-between py-2 border-b border-surface-100 last:border-0"
                     >
                       <div className="flex items-center gap-2">
-                        <span className="text-xs bg-primary/5 text-primary font-bold w-12 h-6 rounded-lg flex items-center justify-center">
+                        <span className="text-xs bg-primary/5 text-primary font-medium w-12 h-6 rounded-lg flex items-center justify-center">
                           An {result.year}
                         </span>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-bold text-primary">
+                        <p className="text-sm font-medium text-primary">
                           {formatCurrency(result.value)}
                         </p>
                         <p className="text-xs text-success">

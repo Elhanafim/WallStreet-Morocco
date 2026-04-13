@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import {
   Wallet, TrendingUp, BarChart2, ArrowRight, Briefcase, Plus,
-  Calendar, DollarSign,
+  Calendar,
 } from 'lucide-react';
 import MetricCard from '@/components/dashboard/MetricCard';
 import DashboardDonateWidget from '@/components/donate/DashboardDonateWidget';
@@ -49,15 +49,21 @@ const STRATEGY_LABELS: Record<string, string> = {
   AUTRE: 'Autre',
 };
 
+// Use design-token-aligned colors for pie chart
 const TYPE_COLORS: Record<string, string> = {
-  STOCK: '#3A86FF',
-  OPCVM: '#8B5CF6',
+  STOCK: '#B8974A',   // --gold (dark mode value)
+  OPCVM: '#7A8BA0',   // --text-secondary
 };
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
 
 function Skeleton({ className }: { className: string }) {
-  return <div className={`animate-pulse bg-gray-100 rounded-xl ${className}`} />;
+  return (
+    <div
+      className={`animate-pulse rounded-lg ${className}`}
+      style={{ backgroundColor: 'var(--bg-elevated)' }}
+    />
+  );
 }
 
 // ─── Portfolio Summary Card ───────────────────────────────────────────────────
@@ -65,29 +71,71 @@ function Skeleton({ className }: { className: string }) {
 function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
   const invested = portfolio.holdings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 p-5 flex flex-col gap-3">
+    <div
+      className="flex flex-col gap-4 transition-all duration-200 p-5"
+      style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        borderRadius: '8px',
+      }}
+    >
       <Link href={`/portfolio/${portfolio.id}`} className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-black text-[#0A2540] leading-tight">{portfolio.name}</p>
-          <p className="text-xs text-gray-400 mt-0.5">
-            {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy} · {portfolio.holdings.length} position{portfolio.holdings.length !== 1 ? 's' : ''}
+          <p
+            className="text-sm leading-tight"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+            }}
+          >
+            {portfolio.name}
+          </p>
+          <p
+            className="text-xs mt-0.5"
+            style={{ fontFamily: 'var(--font-body)', color: 'var(--text-muted)' }}
+          >
+            {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy}
+            {' · '}
+            {portfolio.holdings.length} position{portfolio.holdings.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <div className="w-8 h-8 bg-[#3A86FF]/10 rounded-xl flex items-center justify-center flex-shrink-0">
-          <Briefcase className="w-4 h-4 text-[#3A86FF]" />
+        <div
+          className="w-8 h-8 flex items-center justify-center flex-shrink-0"
+          style={{
+            backgroundColor: 'var(--bg-elevated)',
+            border: '1px solid var(--border)',
+            borderRadius: '6px',
+          }}
+        >
+          <Briefcase className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
         </div>
       </Link>
+
       <div className="flex items-center justify-between">
-        <span className="text-lg font-black text-[#0A2540]">{fmtMAD(invested)}</span>
-        <div className="flex gap-1.5">
+        <span
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '20px',
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+          }}
+        >
+          {fmtMAD(invested)}
+        </span>
+        <div className="flex gap-2">
           {(['STOCK', 'OPCVM'] as const).map((t) => {
             const c = portfolio.holdings.filter((h) => h.assetType === t).length;
             if (!c) return null;
             return (
               <span
                 key={t}
-                className="text-xs font-semibold px-2 py-0.5 rounded-full"
-                style={{ backgroundColor: `${TYPE_COLORS[t]}18`, color: TYPE_COLORS[t] }}
+                className="text-xs"
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 400,
+                  color: 'var(--text-secondary)',
+                }}
               >
                 {c} {t === 'STOCK' ? 'Action' : 'OPCVM'}{c > 1 ? 's' : ''}
               </span>
@@ -95,9 +143,26 @@ function PortfolioSummaryCard({ portfolio }: { portfolio: NamedPortfolio }) {
           })}
         </div>
       </div>
+
       <Link
         href={`/portfolio/${portfolio.id}`}
-        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#3A86FF]/30 text-[#3A86FF] text-xs font-semibold hover:bg-[#3A86FF] hover:text-white hover:border-[#3A86FF] transition-all duration-200"
+        className="flex items-center justify-center gap-1.5 px-3 py-2 transition-all duration-200"
+        style={{
+          border: '1px solid var(--border)',
+          borderRadius: '6px',
+          color: 'var(--text-secondary)',
+          fontFamily: 'var(--font-body)',
+          fontSize: '12px',
+          fontWeight: 400,
+        }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
+          (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+          (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)';
+        }}
       >
         <Plus className="w-3.5 h-3.5" />
         Ajouter un actif
@@ -113,7 +178,6 @@ export default function DashboardPage() {
   const [portfolios, setPortfolios] = useState<NamedPortfolio[]>([]);
   const [loading, setLoading] = useState(true);
 
-
   const fetchPortfolios = useCallback(() => {
     fetch('/api/portfolios')
       .then((r) => (r.ok ? r.json() : []))
@@ -126,18 +190,15 @@ export default function DashboardPage() {
     fetchPortfolios();
   }, [fetchPortfolios]);
 
-  // ── Listen for portfolioUpdated to refresh without reload ──
   useEffect(() => {
     const handler = () => fetchPortfolios();
     window.addEventListener('portfolioUpdated', handler);
     return () => window.removeEventListener('portfolioUpdated', handler);
   }, [fetchPortfolios]);
 
-  // ── Aggregated stats across all portfolios ──
   const allHoldings = portfolios.flatMap((p) => p.holdings);
   const totalInvested = allHoldings.reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
 
-  // This month contributions
   const now = new Date();
   const monthlyContrib = allHoldings
     .filter((h) => {
@@ -146,7 +207,6 @@ export default function DashboardPage() {
     })
     .reduce((s, h) => s + h.quantity * h.purchasePrice, 0);
 
-  // Allocation donut by type
   const allocationMap: Record<string, number> = {};
   allHoldings.forEach((h) => {
     allocationMap[h.assetType] = (allocationMap[h.assetType] ?? 0) + h.quantity * h.purchasePrice;
@@ -154,10 +214,9 @@ export default function DashboardPage() {
   const pieData = Object.entries(allocationMap).map(([type, value]) => ({
     name: type === 'STOCK' ? 'Actions BVC' : 'OPCVM',
     value: Math.round(value),
-    color: TYPE_COLORS[type] ?? '#6B7280',
+    color: TYPE_COLORS[type] ?? 'var(--text-muted)',
   }));
 
-  // Recent holdings across all portfolios (latest 5)
   const recentHoldings = [...allHoldings]
     .sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime())
     .slice(0, 5);
@@ -167,21 +226,57 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Placement 6: donate widget */}
       <DashboardDonateWidget />
+
       {/* Welcome */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-xl font-black text-[#0A2540]">
-            Bonjour, {session?.user?.name?.split(' ')[0] ?? 'Investisseur'} 👋
+          <h2
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '22px',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+            }}
+          >
+            Bonjour, {session?.user?.name?.split(' ')[0] ?? 'Investisseur'}
           </h2>
-          <p className="text-sm text-gray-500 mt-0.5">
-            {new Date().toLocaleDateString('fr-MA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          <p
+            className="mt-0.5"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '13px',
+              color: 'var(--text-muted)',
+            }}
+          >
+            {new Date().toLocaleDateString('fr-MA', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
           </p>
         </div>
         <Link
           href="/portfolio"
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#0A2540] text-white text-sm font-bold rounded-xl hover:bg-[#3A86FF] transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2.5 transition-colors"
+          style={{
+            backgroundColor: 'var(--bg-elevated)',
+            border: '1px solid var(--border)',
+            borderRadius: '6px',
+            color: 'var(--text-secondary)',
+            fontFamily: 'var(--font-body)',
+            fontSize: '13px',
+            fontWeight: 400,
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
+            (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+            (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)';
+          }}
         >
           <Briefcase className="w-4 h-4" />
           Mes Portefeuilles
@@ -189,7 +284,6 @@ export default function DashboardPage() {
       </div>
 
       {loading ? (
-        /* ── Skeleton ── */
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28" />)}
@@ -201,17 +295,58 @@ export default function DashboardPage() {
         </>
       ) : portfolios.length === 0 ? (
         /* ── Empty State ── */
-        <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-12 text-center">
-          <div className="w-16 h-16 bg-[#0A2540]/5 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <BarChart2 className="w-8 h-8 text-[#0A2540]/40" />
+        <div
+          className="p-12 text-center"
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px dashed var(--border)',
+            borderRadius: '8px',
+          }}
+        >
+          <div
+            className="w-16 h-16 flex items-center justify-center mx-auto mb-4"
+            style={{
+              backgroundColor: 'var(--bg-elevated)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+            }}
+          >
+            <BarChart2 className="w-8 h-8" style={{ color: 'var(--text-muted)' }} />
           </div>
-          <h3 className="text-lg font-black text-[#0A2540] mb-2">Aucun portefeuille</h3>
-          <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
+          <h3
+            className="mb-2"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '20px',
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+            }}
+          >
+            Aucun portefeuille
+          </h3>
+          <p
+            className="mb-6 max-w-sm mx-auto"
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '14px',
+              fontWeight: 300,
+              color: 'var(--text-secondary)',
+              lineHeight: 1.75,
+            }}
+          >
             Créez votre premier portefeuille pour commencer à suivre vos investissements BVC et OPCVM.
           </p>
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#0A2540] text-white font-bold rounded-xl hover:bg-[#3A86FF] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 transition-colors"
+            style={{
+              backgroundColor: 'var(--gold)',
+              color: 'var(--bg-base)',
+              borderRadius: '6px',
+              fontFamily: 'var(--font-body)',
+              fontSize: '13px',
+              fontWeight: 500,
+            }}
           >
             <Plus className="w-4 h-4" />
             Créer un portefeuille
@@ -221,34 +356,10 @@ export default function DashboardPage() {
         <>
           {/* ── KPI Strip ── */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <MetricCard
-              label="Total Investi"
-              value={fmtMAD(totalInvested)}
-              icon={Wallet}
-              iconColor="text-[#0A2540]"
-              iconBg="bg-[#0A2540]/10"
-            />
-            <MetricCard
-              label="Portefeuilles"
-              value={`${portfolios.length}`}
-              icon={Briefcase}
-              iconColor="text-[#3A86FF]"
-              iconBg="bg-blue-50"
-            />
-            <MetricCard
-              label="Positions"
-              value={`${allHoldings.length}`}
-              icon={TrendingUp}
-              iconColor="text-emerald-600"
-              iconBg="bg-emerald-50"
-            />
-            <MetricCard
-              label="Contrib. ce mois"
-              value={fmtMAD(monthlyContrib)}
-              icon={Calendar}
-              iconColor="text-amber-600"
-              iconBg="bg-amber-50"
-            />
+            <MetricCard label="Total Investi"      value={fmtMAD(totalInvested)} icon={Wallet}    />
+            <MetricCard label="Portefeuilles"      value={`${portfolios.length}`} icon={Briefcase}  />
+            <MetricCard label="Positions"          value={`${allHoldings.length}`} icon={TrendingUp} />
+            <MetricCard label="Contrib. ce mois"   value={fmtMAD(monthlyContrib)} icon={Calendar}  />
           </div>
 
           {/* ── Charts + Portfolios ── */}
@@ -256,10 +367,31 @@ export default function DashboardPage() {
             {/* Portfolio cards preview */}
             <div className="xl:col-span-2 space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-black text-[#0A2540]">Mes Portefeuilles</h3>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '18px',
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  Mes Portefeuilles
+                </h3>
                 <Link
                   href="/portfolio"
-                  className="text-xs font-semibold text-[#3A86FF] hover:text-[#0A2540] flex items-center gap-1 transition-colors"
+                  className="flex items-center gap-1 transition-colors"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: 'var(--text-muted)',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)';
+                  }}
                 >
                   Voir tout <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -271,30 +403,92 @@ export default function DashboardPage() {
                 {hasMore && (
                   <Link
                     href="/portfolio"
-                    className="bg-white rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#3A86FF] hover:bg-blue-50/30 transition-all duration-200 p-5 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-[#3A86FF] min-h-[100px]"
+                    className="flex flex-col items-center justify-center gap-2 min-h-[100px] transition-all duration-200"
+                    style={{
+                      border: '1px dashed var(--border)',
+                      borderRadius: '8px',
+                      color: 'var(--text-muted)',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: '12px',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
+                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+                      (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)';
+                    }}
                   >
-                    <Plus className="w-6 h-6" />
-                    <span className="text-xs font-semibold">+{portfolios.length - 3} autres</span>
+                    <Plus className="w-5 h-5" />
+                    <span>+{portfolios.length - 3} autres</span>
                   </Link>
                 )}
                 <Link
                   href="/portfolio"
-                  className="bg-white rounded-2xl border-2 border-dashed border-gray-200 hover:border-[#3A86FF] hover:bg-blue-50/30 transition-all duration-200 p-5 flex flex-col items-center justify-center gap-2 text-gray-400 hover:text-[#3A86FF] min-h-[100px]"
+                  className="flex flex-col items-center justify-center gap-2 min-h-[100px] transition-all duration-200"
+                  style={{
+                    border: '1px dashed var(--border)',
+                    borderRadius: '8px',
+                    color: 'var(--text-muted)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--gold)';
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border)';
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)';
+                  }}
                 >
-                  <Plus className="w-6 h-6" />
-                  <span className="text-xs font-semibold">Nouveau</span>
+                  <Plus className="w-5 h-5" />
+                  <span>Nouveau</span>
                 </Link>
               </div>
             </div>
 
             {/* Allocation donut */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div
+              className="p-6"
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+              }}
+            >
               <div className="mb-4">
-                <h3 className="text-base font-black text-[#0A2540]">Allocation globale</h3>
-                <p className="text-xs text-gray-500 mt-0.5">Par type d&apos;actif</p>
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '18px',
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  Allocation globale
+                </h3>
+                <p
+                  className="mt-0.5"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  Par type d&apos;actif
+                </p>
               </div>
               {pieData.length === 0 ? (
-                <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
+                <div
+                  className="h-48 flex items-center justify-center"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '13px',
+                    color: 'var(--text-muted)',
+                  }}
+                >
                   Aucune position
                 </div>
               ) : (
@@ -316,18 +510,43 @@ export default function DashboardPage() {
                       </Pie>
                       <Tooltip
                         formatter={(value: number) => [`${value.toLocaleString('fr-MA')} MAD`]}
-                        contentStyle={{ borderRadius: '12px', border: '1px solid #E5E7EB', fontSize: '12px' }}
+                        contentStyle={{
+                          borderRadius: '6px',
+                          border: '1px solid var(--border)',
+                          backgroundColor: 'var(--bg-elevated)',
+                          color: 'var(--text-primary)',
+                          fontSize: '12px',
+                          fontFamily: 'var(--font-body)',
+                        }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
                   <div className="space-y-2 mt-2">
                     {pieData.map((item) => (
-                      <div key={item.name} className="flex items-center justify-between text-xs">
+                      <div key={item.name} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} />
-                          <span className="text-gray-600">{item.name}</span>
+                          <div
+                            className="w-2 h-2 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-body)',
+                              fontSize: '12px',
+                              color: 'var(--text-secondary)',
+                            }}
+                          >
+                            {item.name}
+                          </span>
                         </div>
-                        <span className="font-semibold text-[#0A2540]">
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '12px',
+                            fontWeight: 500,
+                            color: 'var(--text-primary)',
+                          }}
+                        >
                           {totalInvested > 0 ? ((item.value / totalInvested) * 100).toFixed(1) : 0}%
                         </span>
                       </div>
@@ -340,39 +559,122 @@ export default function DashboardPage() {
 
           {/* ── Recent holdings ── */}
           {recentHoldings.length > 0 && (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="flex items-center justify-between p-6 border-b border-gray-50">
-                <h3 className="text-base font-black text-[#0A2540]">Dernières positions</h3>
+            <div
+              className="overflow-hidden"
+              style={{
+                backgroundColor: 'var(--bg-surface)',
+                border: '1px solid var(--border)',
+                borderRadius: '8px',
+              }}
+            >
+              <div
+                className="flex items-center justify-between p-6"
+                style={{ borderBottom: '1px solid var(--border)' }}
+              >
+                <h3
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '18px',
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  Dernières positions
+                </h3>
                 <Link
                   href="/portfolio"
-                  className="text-xs font-semibold text-[#3A86FF] hover:text-[#0A2540] flex items-center gap-1 transition-colors"
+                  className="flex items-center gap-1 transition-colors"
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '12px',
+                    color: 'var(--text-muted)',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-muted)';
+                  }}
                 >
                   Voir tout <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
-              <div className="divide-y divide-gray-50">
+              <div style={{ borderTop: '0' }}>
                 {recentHoldings.map((h) => (
-                  <div key={h.id} className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition-colors">
+                  <div
+                    key={h.id}
+                    className="flex items-center justify-between px-6 py-4 transition-colors"
+                    style={{ borderBottom: '1px solid var(--border)' }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.backgroundColor = 'var(--bg-elevated)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.backgroundColor = 'transparent';
+                    }}
+                  >
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                        style={{ backgroundColor: TYPE_COLORS[h.assetType] ?? '#6B7280' }}
+                        className="w-9 h-9 flex items-center justify-center flex-shrink-0"
+                        style={{
+                          backgroundColor: 'var(--bg-elevated)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '6px',
+                          color: 'var(--gold)',
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '11px',
+                          fontWeight: 500,
+                        }}
                       >
                         {h.assetSymbol.slice(0, 2).toUpperCase()}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-[#0A2540]">{h.assetName}</p>
-                        <p className="text-xs text-gray-400">
-                          {h.assetType === 'STOCK' ? 'Action BVC' : 'OPCVM'} ·{' '}
-                          {new Intl.DateTimeFormat('fr-MA', { day: '2-digit', month: 'short', year: 'numeric' }).format(new Date(h.purchaseDate))}
+                        <p
+                          style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '13px',
+                            fontWeight: 500,
+                            color: 'var(--text-primary)',
+                          }}
+                        >
+                          {h.assetName}
+                        </p>
+                        <p
+                          style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '11px',
+                            color: 'var(--text-muted)',
+                          }}
+                        >
+                          {h.assetType === 'STOCK' ? 'Action BVC' : 'OPCVM'}
+                          {' · '}
+                          {new Intl.DateTimeFormat('fr-MA', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                          }).format(new Date(h.purchaseDate))}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-[#0A2540]">
+                      <p
+                        style={{
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '16px',
+                          fontWeight: 500,
+                          color: 'var(--text-primary)',
+                        }}
+                      >
                         {(h.quantity * h.purchasePrice).toLocaleString('fr-MA')} MAD
                       </p>
-                      <p className="text-xs text-gray-400">{h.quantity} × {h.purchasePrice.toLocaleString('fr-MA')}</p>
+                      <p
+                        style={{
+                          fontFamily: 'var(--font-body)',
+                          fontSize: '11px',
+                          color: 'var(--text-muted)',
+                        }}
+                      >
+                        {h.quantity} × {h.purchasePrice.toLocaleString('fr-MA')}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -381,7 +683,6 @@ export default function DashboardPage() {
           )}
         </>
       )}
-
     </div>
   );
 }

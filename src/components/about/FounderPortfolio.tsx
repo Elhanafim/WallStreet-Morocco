@@ -57,11 +57,11 @@ function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-primary border border-white/10 rounded-xl shadow-2xl px-4 py-3 text-xs min-w-[160px]">
-      <p className="text-white font-bold mb-2">{label}</p>
+      <p className="text-white font-medium mb-2">{label}</p>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex justify-between gap-4 mb-1">
           <span style={{ color: p.color }}>{p.name}</span>
-          <span className="text-white font-semibold">${p.value.toLocaleString()}</span>
+          <span className="text-white font-medium">${p.value.toLocaleString()}</span>
         </div>
       ))}
     </div>
@@ -76,7 +76,7 @@ function PieTooltip({ active, payload }: any) {
     <div className="bg-white border border-surface-200 rounded-xl shadow-lg px-3 py-2 text-xs">
       <p className="font-bold text-primary">{d.ticker} · {d.name}</p>
       <p className="text-primary/60">{d.sector}</p>
-      <p className="font-black text-secondary mt-1">{d.pct}%</p>
+      <p className="font-medium text-secondary mt-1">{d.pct}%</p>
     </div>
   );
 }
@@ -98,9 +98,9 @@ export default function FounderPortfolio() {
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-5">
             <Target className="w-3.5 h-3.5 text-accent" />
-            <span className="text-accent text-xs font-bold uppercase tracking-widest">Stratégie & Performance</span>
+            <span className="text-accent text-xs font-medium uppercase tracking-widest">Stratégie & Performance</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-medium text-white mb-4">
             Sélection de titres BVC<br />
             <span className="text-accent">+51% en 17 mois</span>
           </h2>
@@ -124,8 +124,8 @@ export default function FounderPortfolio() {
             return (
               <div key={m.label} className={`rounded-2xl p-5 border ${bg} text-center`}>
                 <m.icon className={`w-5 h-5 mx-auto mb-2 ${m.variant === 'gold' ? 'text-accent' : m.variant === 'success' ? 'text-emerald-400' : 'text-white/40'}`} />
-                <p className={`text-2xl font-black ${valColor}`}>{m.value}</p>
-                <p className="text-white/60 text-xs font-semibold mt-1">{m.label}</p>
+                <p className={`text-2xl font-medium ${valColor}`}>{m.value}</p>
+                <p className="text-white/60 text-xs font-medium mt-1">{m.label}</p>
                 <p className="text-white/30 text-[10px] mt-0.5">{m.sub}</p>
               </div>
             );
@@ -139,7 +139,7 @@ export default function FounderPortfolio() {
           <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-white font-black text-lg">Évolution du portefeuille</h3>
+                <h3 className="text-white font-medium text-lg">Évolution du portefeuille</h3>
                 <p className="text-white/40 text-xs mt-0.5">Nov 2024 — Mar 2026 · DCA 100$/mois</p>
               </div>
               <div className="flex flex-col gap-1.5 text-xs text-right">
@@ -193,7 +193,7 @@ export default function FounderPortfolio() {
 
           {/* Allocation — 1/3 width */}
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-            <h3 className="text-white font-black text-base mb-1">Répartition</h3>
+            <h3 className="text-white font-medium text-base mb-1">Répartition</h3>
             <p className="text-white/40 text-xs mb-5">Portefeuille BVC illustratif</p>
 
             {/* Pie chart */}
@@ -223,7 +223,7 @@ export default function FounderPortfolio() {
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: a.color }} />
-                      <span className="text-white/70 text-xs font-semibold">{a.ticker}</span>
+                      <span className="text-white/70 text-xs font-medium">{a.ticker}</span>
                     </div>
                     <span className="text-white/50 text-xs">{a.pct}%</span>
                   </div>
@@ -244,11 +244,11 @@ export default function FounderPortfolio() {
             { label: 'Livret épargne (3.5%/an)',    pct: 4.7,   gain: '+$60',   color: 'from-white/5 to-white/0',              border: 'border-white/10',       text: 'text-white/50',     highlight: false },
           ].map((b) => (
             <div key={b.label} className={`bg-gradient-to-br ${b.color} border ${b.border} rounded-2xl p-5`}>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-wide mb-2">{b.label}</p>
-              <p className={`text-4xl font-black ${b.text} mb-1`}>+{b.pct}%</p>
+              <p className="text-white/50 text-xs font-medium uppercase tracking-wide mb-2">{b.label}</p>
+              <p className={`text-4xl font-medium ${b.text} mb-1`}>+{b.pct}%</p>
               <p className="text-white/40 text-sm">{b.gain} sur $1 700</p>
               {b.highlight && (
-                <div className="mt-3 inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full">
+                <div className="mt-3 inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 text-xs font-medium px-2.5 py-1 rounded-full">
                   <Flame className="w-3 h-3" />
                   7,8× le MASI · 10,9× un livret
                 </div>

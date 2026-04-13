@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function FinanceStudentsPage() {
   return (
-    <div className="pt-16 min-h-screen bg-white">
+    <div className="pt-16 min-h-screen bg-[var(--bg-base)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         <Link
           href="/learn"

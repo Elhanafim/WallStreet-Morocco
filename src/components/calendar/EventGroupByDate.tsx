@@ -36,7 +36,7 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
     return (
       <div className="text-center py-16 text-white/25">
         <p className="text-4xl mb-3">📅</p>
-        <p className="text-sm font-semibold">Aucun événement pour ces filtres</p>
+        <p className="text-sm font-medium">Aucun événement pour ces filtres</p>
         <p className="text-xs mt-1">Essayez d&apos;élargir les critères de recherche</p>
       </div>
     );
@@ -73,7 +73,7 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
                 isTomorrow ? 'bg-white/10 border border-white/15' :
                 'bg-white/5 border border-white/8'
               }`}>
-                <p className={`text-xs font-black uppercase tracking-wide ${
+                <p className={`text-xs font-medium uppercase tracking-wide ${
                   isToday ? 'text-white' : isTomorrow ? 'text-white/70' : 'text-white/50'
                 }`}>
                   {day}
@@ -81,11 +81,11 @@ export default function EventGroupByDate({ events }: EventGroupByDateProps) {
                 <p className="text-[10px] text-white/30 font-medium">{date}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-white/25 font-semibold">
+                <span className="text-[10px] text-white/25 font-medium">
                   {dayEvents.length} événement{dayEvents.length > 1 ? 's' : ''}
                 </span>
                 {maxImpact >= 4 && (
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                  <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
                     maxImpact >= 5
                       ? 'bg-red-500/15 text-red-400 border border-red-500/25'
                       : 'bg-orange-500/15 text-orange-400 border border-orange-500/25'

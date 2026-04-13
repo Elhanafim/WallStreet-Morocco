@@ -27,7 +27,7 @@ export default function PolitiqueCookiesPage() {
               <Cookie className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">
+              <h1 className="text-3xl sm:text-4xl font-medium text-white">
                 Politique de cookies et traceurs
               </h1>
               <p className="text-white/50 text-sm mt-1">Dernière mise à jour : 25 mars 2026</p>
@@ -63,7 +63,7 @@ export default function PolitiqueCookiesPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-2 h-2 bg-success rounded-full" />
                   <p className="font-bold text-primary text-sm">
-                    a) Cookies ESSENTIELS — <span className="text-success font-semibold">Toujours actifs (pas de consentement requis)</span>
+                    a) Cookies ESSENTIELS — <span className="text-success font-medium">Toujours actifs (pas de consentement requis)</span>
                   </p>
                 </div>
                 <ul className="space-y-1 text-sm text-primary/70 pl-4">
@@ -81,7 +81,7 @@ export default function PolitiqueCookiesPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-2 h-2 bg-warning rounded-full" />
                   <p className="font-bold text-primary text-sm">
-                    b) Cookies FONCTIONNELS — <span className="text-warning font-semibold">Consentement requis</span>
+                    b) Cookies FONCTIONNELS — <span className="text-warning font-medium">Consentement requis</span>
                   </p>
                 </div>
                 <ul className="space-y-1 text-sm text-primary/70 pl-4">
@@ -98,7 +98,7 @@ export default function PolitiqueCookiesPage() {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-2 h-2 bg-secondary rounded-full" />
                   <p className="font-bold text-primary text-sm">
-                    c) Cookies ANALYTIQUES — <span className="text-secondary font-semibold">Consentement requis</span>
+                    c) Cookies ANALYTIQUES — <span className="text-secondary font-medium">Consentement requis</span>
                   </p>
                 </div>
                 <ul className="space-y-1 text-sm text-primary/70 pl-4">
@@ -153,26 +153,26 @@ export default function PolitiqueCookiesPage() {
             <table className="w-full text-sm mt-2 border-collapse">
               <thead>
                 <tr className="bg-surface-50">
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Catégorie</th>
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Durée</th>
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Consentement</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Catégorie</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Durée</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Consentement</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="py-2 px-3 border border-surface-200 font-medium">Essentiels</td>
                   <td className="py-2 px-3 border border-surface-200">Session à 12 mois</td>
-                  <td className="py-2 px-3 border border-surface-200 text-success font-semibold">Non requis</td>
+                  <td className="py-2 px-3 border border-surface-200 text-success font-medium">Non requis</td>
                 </tr>
                 <tr className="bg-surface-50">
                   <td className="py-2 px-3 border border-surface-200 font-medium">Fonctionnels</td>
                   <td className="py-2 px-3 border border-surface-200">6 mois</td>
-                  <td className="py-2 px-3 border border-surface-200 text-warning font-semibold">Requis</td>
+                  <td className="py-2 px-3 border border-surface-200 text-warning font-medium">Requis</td>
                 </tr>
                 <tr>
                   <td className="py-2 px-3 border border-surface-200 font-medium">Analytiques</td>
                   <td className="py-2 px-3 border border-surface-200">12 mois</td>
-                  <td className="py-2 px-3 border border-surface-200 text-warning font-semibold">Requis</td>
+                  <td className="py-2 px-3 border border-surface-200 text-warning font-medium">Requis</td>
                 </tr>
               </tbody>
             </table>
@@ -215,7 +215,7 @@ export default function PolitiqueCookiesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-black text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
+      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
       <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
     </section>
   );
@@ -226,5 +226,5 @@ function Bullet() {
 }
 
 function BulletNo() {
-  return <span className="flex-shrink-0 text-danger font-bold text-xs mt-0.5">✕</span>;
+  return <span className="flex-shrink-0 text-danger font-medium text-xs mt-0.5">✕</span>;
 }

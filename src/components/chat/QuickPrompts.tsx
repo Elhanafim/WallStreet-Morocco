@@ -15,7 +15,7 @@ export default function QuickPrompts({ currentPage, onSelect, hidden }: QuickPro
 
   return (
     <div className="px-3 pb-2 flex flex-col gap-1.5">
-      <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">
+      <p className="text-[10px] font-medium uppercase tracking-wide text-gray-400 dark:text-gray-500">
         Suggestions
       </p>
       {prompts.map((p) => (

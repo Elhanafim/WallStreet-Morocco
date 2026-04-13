@@ -87,13 +87,13 @@ export default function AboutContent() {
             <div>
               <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-6">
                 <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-                <span className="text-accent text-xs font-bold uppercase tracking-widest">{t('hero.badge')}</span>
+                <span className="text-accent text-xs font-medium uppercase tracking-widest">{t('hero.badge')}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight mb-2">
                 El Hanafi
               </h1>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-accent leading-tight mb-6">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-accent leading-tight mb-6">
                 Mohammed
               </h2>
 
@@ -106,7 +106,7 @@ export default function AboutContent() {
                   <TrendingUp className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-emerald-400 font-black text-xl leading-none">+51%</p>
+                  <p className="text-emerald-400 font-medium text-xl leading-none">+51%</p>
                   <p className="text-white/50 text-xs mt-0.5">{t('hero.achievementBadge')}</p>
                 </div>
               </div>
@@ -155,14 +155,14 @@ export default function AboutContent() {
                     loading="eager"
                   />
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-primary/90 to-transparent p-5">
-                    <p className="text-white font-bold text-lg">WallStreet Morocco</p>
+                    <p className="text-white font-medium text-lg">WallStreet Morocco</p>
                     <p className="text-accent text-sm font-medium">{t('hero.founderTitle')}</p>
                   </div>
                 </div>
-                <div className="absolute -top-4 -right-4 bg-emerald-500 text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30">
+                <div className="absolute -top-4 -right-4 bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30">
                   {t('hero.activeSince')}
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-accent text-primary text-xs font-black px-4 py-2 rounded-2xl shadow-lg">
+                <div className="absolute -bottom-4 -left-4 bg-accent text-primary text-xs font-medium px-4 py-2 rounded-2xl shadow-lg">
                   {t('hero.returns')}
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function AboutContent() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <blockquote>
             <div className="text-8xl text-primary/8 font-serif leading-none mb-2 select-none">&ldquo;</div>
-            <p className="text-2xl sm:text-3xl font-bold text-primary leading-relaxed -mt-10">
+            <p className="text-2xl sm:text-3xl font-medium text-primary leading-relaxed -mt-10">
               {t('quote.text')}
             </p>
             <p className="mt-6 text-primary/40 text-sm font-medium">
@@ -192,9 +192,9 @@ export default function AboutContent() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-secondary/10 border border-secondary/20 rounded-full px-4 py-1.5 mb-4">
               <Briefcase className="w-3.5 h-3.5 text-secondary" />
-              <span className="text-secondary text-xs font-bold uppercase tracking-widest">{t('timeline.badge')}</span>
+              <span className="text-secondary text-xs font-medium uppercase tracking-widest">{t('timeline.badge')}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-primary mb-3">
+            <h2 className="text-3xl sm:text-4xl font-medium text-primary mb-3">
               {t('timeline.title')}
             </h2>
             <p className="text-primary/50">{t('timeline.subtitle')}</p>
@@ -215,9 +215,9 @@ export default function AboutContent() {
                         <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color}`}>
                           <item.icon className="w-4 h-4" />
                         </div>
-                        <span className="font-black text-sm opacity-80">{item.year}</span>
+                        <span className="font-medium text-sm opacity-80">{item.year}</span>
                       </div>
-                      <h3 className="font-black text-primary text-base mb-2">{item.title}</h3>
+                      <h3 className="font-medium text-primary text-base mb-2">{item.title}</h3>
                       <p className="text-primary/60 text-sm leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -237,9 +237,9 @@ export default function AboutContent() {
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-1.5 mb-4">
               <Lightbulb className="w-3.5 h-3.5 text-accent-600" />
-              <span className="text-accent-600 text-xs font-bold uppercase tracking-widest">{t('vision.badge')}</span>
+              <span className="text-accent-600 text-xs font-medium uppercase tracking-widest">{t('vision.badge')}</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-primary mb-3">
+            <h2 className="text-3xl sm:text-4xl font-medium text-primary mb-3">
               {t('vision.title')}
             </h2>
             <p className="text-primary/50 max-w-2xl mx-auto">
@@ -253,7 +253,7 @@ export default function AboutContent() {
                 <div className="w-11 h-11 bg-primary/8 rounded-xl flex items-center justify-center mb-5">
                   <p.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-black text-primary text-base mb-3">{p.title}</h3>
+                <h3 className="font-medium text-primary text-base mb-3">{p.title}</h3>
                 <p className="text-primary/60 text-sm leading-relaxed">{p.body}</p>
               </div>
             ))}
@@ -281,9 +281,9 @@ export default function AboutContent() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 mb-6">
             <CheckCircle className="w-3.5 h-3.5 text-success" />
-            <span className="text-success text-xs font-semibold">{t('cta.badge')}</span>
+            <span className="text-success text-xs font-medium">{t('cta.badge')}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-primary mb-4">
+          <h2 className="text-3xl sm:text-4xl font-medium text-primary mb-4">
             {t('cta.title')}
           </h2>
           <p className="text-primary/60 mb-10 text-lg leading-relaxed">
@@ -292,13 +292,13 @@ export default function AboutContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/auth/signup"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white font-bold rounded-xl hover:bg-secondary-600 transition-colors shadow-md text-base"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-secondary text-white font-medium rounded-xl hover:bg-secondary-600 transition-colors shadow-md text-base"
             >
               {t('cta.button1')} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/simulator"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-surface-200 text-primary font-semibold rounded-xl hover:bg-surface-50 hover:shadow-card transition-all text-base"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-surface-200 text-primary font-medium rounded-xl hover:bg-surface-50 hover:shadow-card transition-all text-base"
             >
               {t('cta.button2')}
             </Link>

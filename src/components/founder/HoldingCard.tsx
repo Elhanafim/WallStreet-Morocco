@@ -74,7 +74,7 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
           </span>
           <div className="min-w-0">
             <p
-              className="text-base font-black leading-none"
+              className="text-base font-medium leading-none"
               style={{ color: holding.color }}
             >
               {holding.ticker}
@@ -85,7 +85,7 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
           </div>
         </div>
         <span
-          className="flex-shrink-0 text-[10px] font-black px-2.5 py-1 rounded-full border"
+          className="flex-shrink-0 text-[10px] font-medium px-2.5 py-1 rounded-full border"
           style={{ color: holding.color, borderColor: `${holding.color}50`, background: `${holding.color}15` }}
         >
           {holding.weight}%
@@ -94,7 +94,7 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
 
       {/* Sector */}
       <div className="px-5 pb-3">
-        <p className="text-white/40 text-[11px] uppercase tracking-wide font-semibold">
+        <p className="text-white/40 text-[11px] uppercase tracking-wide font-medium">
           {holding.sector}
         </p>
       </div>
@@ -103,19 +103,19 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
       <div className="px-5 pb-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-white/8 pt-3">
         <div>
           <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Prix entrée</p>
-          <p className="text-white/70 text-sm font-bold">{fmt(holding.priceNov2024)} MAD</p>
+          <p className="text-white/70 text-sm font-medium">{fmt(holding.priceNov2024)} MAD</p>
         </div>
         <div>
           <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Prix actuel</p>
-          <p className="text-white font-bold text-sm">{fmt(holding.priceMar2026)} MAD</p>
+          <p className="text-white font-medium text-sm">{fmt(holding.priceMar2026)} MAD</p>
         </div>
         <div>
           <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Perf. P/P</p>
-          <p className="text-emerald-400 font-black text-base">+{holding.perfPointToPoint}%</p>
+          <p className="text-emerald-400 font-medium text-base">+{holding.perfPointToPoint}%</p>
         </div>
         <div>
           <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">DCA est.</p>
-          <p className="text-emerald-300 font-black text-base">+{holding.dcaReturn}%</p>
+          <p className="text-emerald-300 font-medium text-base">+{holding.dcaReturn}%</p>
         </div>
       </div>
 

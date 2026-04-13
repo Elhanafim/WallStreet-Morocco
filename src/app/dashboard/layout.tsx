@@ -104,7 +104,7 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
                   border: '1px solid var(--border)',
                   borderRadius: '6px',
                   color: 'var(--text-secondary)',
-                  fontFamily: 'var(--font-sans)',
+                  fontFamily: 'var(--font-body)',
                 }}
               >
                 {session?.user?.name?.[0]?.toUpperCase() ?? 'U'}
@@ -112,7 +112,7 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
               <div className="hidden sm:block">
                 <p
                   className="text-xs font-medium leading-none"
-                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
                 >
                   {session?.user?.name ?? 'Utilisateur'}
                 </p>
@@ -124,7 +124,7 @@ function DashboardInner({ children }: { children: React.ReactNode }) {
                       backgroundColor: badge.bg,
                       border: '1px solid var(--border)',
                       borderRadius: '3px',
-                      fontFamily: 'var(--font-sans)',
+                      fontFamily: 'var(--font-body)',
                     }}
                   >
                     {badge.label}

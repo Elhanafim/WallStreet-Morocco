@@ -66,14 +66,14 @@ export default function SuggestionPanel({ suggestions }: Props) {
           <h3 className="font-bold text-sm text-primary">Analyse du portefeuille</h3>
           <p className="text-xs text-primary/40">Bas\u00e9 sur la composition de votre portefeuille</p>
         </div>
-        <span className="ml-auto text-xs font-semibold bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+        <span className="ml-auto text-xs font-medium bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
           {suggestions.length}
         </span>
       </div>
 
       {/* Legal disclaimer — prominent, above all suggestions */}
       <div className="mb-3 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl">
-        <p className="text-xs text-amber-700 font-bold">
+        <p className="text-xs text-amber-700 font-medium">
           \u26a0\ufe0f Information \u00e9ducative uniquement \u2014 pas un conseil en investissement
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function SuggestionPanel({ suggestions }: Props) {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${cfg.badge}`}>
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${cfg.badge}`}>
                     {cfg.badgeText}
                   </span>
                   {s.ticker && (
@@ -97,7 +97,7 @@ export default function SuggestionPanel({ suggestions }: Props) {
                       {s.ticker}
                     </span>
                   )}
-                  <span className="text-xs font-semibold text-primary">{s.title}</span>
+                  <span className="text-xs font-medium text-primary">{s.title}</span>
                 </div>
                 <p className="text-xs text-primary/70 leading-relaxed">{s.message}</p>
               </div>

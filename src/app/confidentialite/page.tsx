@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
               <Shield className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">
+              <h1 className="text-3xl sm:text-4xl font-medium text-white">
                 Politique de confidentialité
               </h1>
               <p className="text-white/50 text-sm mt-1">Dernière mise à jour : 25 mars 2026</p>
@@ -105,8 +105,8 @@ export default function PrivacyPolicyPage() {
             <table className="w-full text-sm mt-2 border-collapse">
               <thead>
                 <tr className="bg-surface-50">
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Type de donnée</th>
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Durée</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Type de donnée</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Durée</th>
                 </tr>
               </thead>
               <tbody>
@@ -142,7 +142,7 @@ export default function PrivacyPolicyPage() {
               <li className="flex items-start gap-2"><Bullet /><span><strong>Droit de retrait du consentement</strong> — à tout moment, sans effet rétroactif</span></li>
             </ul>
             <div className="mt-4 bg-secondary/5 border border-secondary/20 rounded-xl p-4">
-              <p className="text-sm font-semibold text-primary mb-1">Pour exercer ces droits :</p>
+              <p className="text-sm font-medium text-primary mb-1">Pour exercer ces droits :</p>
               <p className="text-sm text-primary/70">Email : <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></p>
               <p className="text-sm text-primary/70">Délai de réponse : <strong>30 jours maximum</strong></p>
             </div>
@@ -153,26 +153,26 @@ export default function PrivacyPolicyPage() {
             <table className="w-full text-sm mt-2 border-collapse">
               <thead>
                 <tr className="bg-surface-50">
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Catégorie</th>
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Usage</th>
-                  <th className="text-left py-2 px-3 font-semibold text-primary/70 border border-surface-200">Consentement</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Catégorie</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Usage</th>
+                  <th className="text-left py-2 px-3 font-medium text-primary/70 border border-surface-200">Consentement</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="py-2 px-3 border border-surface-200 font-medium">Essentiels</td>
                   <td className="py-2 px-3 border border-surface-200">Session d&apos;authentification, langue, préférences UI</td>
-                  <td className="py-2 px-3 border border-surface-200 text-success font-semibold">Toujours actifs</td>
+                  <td className="py-2 px-3 border border-surface-200 text-success font-medium">Toujours actifs</td>
                 </tr>
                 <tr className="bg-surface-50">
                   <td className="py-2 px-3 border border-surface-200 font-medium">Fonctionnels</td>
                   <td className="py-2 px-3 border border-surface-200">Sauvegarde historique portefeuille, préférences avancées</td>
-                  <td className="py-2 px-3 border border-surface-200 text-warning font-semibold">Consentement requis</td>
+                  <td className="py-2 px-3 border border-surface-200 text-warning font-medium">Consentement requis</td>
                 </tr>
                 <tr>
                   <td className="py-2 px-3 border border-surface-200 font-medium">Analytiques</td>
                   <td className="py-2 px-3 border border-surface-200">Pages visitées, durée (via Vercel Analytics — anonymisé)</td>
-                  <td className="py-2 px-3 border border-surface-200 text-warning font-semibold">Consentement requis</td>
+                  <td className="py-2 px-3 border border-surface-200 text-warning font-medium">Consentement requis</td>
                 </tr>
               </tbody>
             </table>
@@ -241,7 +241,7 @@ export default function PrivacyPolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-black text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
+      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
       <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
     </section>
   );
@@ -250,7 +250,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-3">
-      <p className="font-semibold text-primary mb-2">{title}</p>
+      <p className="font-medium text-primary mb-2">{title}</p>
       <ul className="space-y-1 pl-2">{children}</ul>
     </div>
   );

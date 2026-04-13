@@ -34,7 +34,7 @@ export default function CalendarFilters({
       <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={() => onUpcomingOnlyChange(!upcomingOnly)}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold border transition-all duration-150 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium border transition-all duration-150 ${
             upcomingOnly
               ? 'bg-amber-500/20 border-amber-500/40 text-amber-400'
               : 'bg-white/5 border-white/8 text-white/40 hover:text-white/70'
@@ -47,12 +47,12 @@ export default function CalendarFilters({
 
       {/* Row 2 — Impact filter */}
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-xs text-white/30 font-semibold uppercase tracking-wide">Impact min :</span>
+        <span className="text-xs text-white/30 font-medium uppercase tracking-wide">Impact min :</span>
         {IMPACT_OPTS.map(({ score, label, color }) => (
           <button
             key={String(score)}
             onClick={() => onImpactMinChange(score)}
-            className={`px-2.5 py-1 rounded-lg text-xs font-bold border transition-all duration-150 ${
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all duration-150 ${
               impactMin === score
                 ? `${color} bg-gray-900 border-gray-600`
                 : 'text-white/30 bg-transparent border-white/8 hover:text-white/60'
@@ -66,10 +66,10 @@ export default function CalendarFilters({
       {/* Row 3 — Category filter */}
       {availableCategories.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-white/30 font-semibold uppercase tracking-wide">Catégorie :</span>
+          <span className="text-xs text-white/30 font-medium uppercase tracking-wide">Catégorie :</span>
           <button
             onClick={() => onCategoryChange(null)}
-            className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all duration-150 ${
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all duration-150 ${
               !category
                 ? 'bg-gray-900 text-white border-gray-600'
                 : 'text-white/30 bg-transparent border-white/8 hover:text-white/60'
@@ -81,7 +81,7 @@ export default function CalendarFilters({
             <button
               key={cat}
               onClick={() => onCategoryChange(cat === category ? null : cat)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all duration-150 ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-all duration-150 ${
                 category === cat
                   ? 'bg-gray-900 text-white border-gray-600'
                   : 'text-white/30 bg-transparent border-white/8 hover:text-white/60'

@@ -69,7 +69,7 @@ export default function WatchlistPanel() {
         </div>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="flex items-center gap-1.5 text-xs font-semibold text-secondary hover:text-secondary-600 transition-colors"
+          className="flex items-center gap-1.5 text-xs font-medium text-secondary hover:text-secondary-600 transition-colors"
         >
           <Plus className="w-3.5 h-3.5" />
           Ajouter
@@ -79,7 +79,7 @@ export default function WatchlistPanel() {
       {/* Add assets panel */}
       {showAdd && (
         <div className="px-5 py-3 bg-surface-50 border-b border-surface-100">
-          <p className="text-xs font-semibold text-primary/60 mb-2">Sélectionner des actifs</p>
+          <p className="text-xs font-medium text-primary/60 mb-2">Sélectionner des actifs</p>
           <div className="flex flex-wrap gap-2">
             {unwatchedAssets.map(asset => (
               <button
@@ -111,7 +111,7 @@ export default function WatchlistPanel() {
             <div className={`w-1 h-8 rounded-full transition-all ${activeSymbol === asset.symbol ? 'bg-secondary' : 'bg-transparent'}`} />
 
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm text-primary truncate">{asset.name}</p>
+              <p className="font-medium text-sm text-primary truncate">{asset.name}</p>
               <p className="text-xs text-primary/40">{asset.sector} · {asset.symbol.split(':')[1]}</p>
             </div>
 
@@ -132,7 +132,7 @@ export default function WatchlistPanel() {
             <p className="text-sm text-primary/40">Votre watchlist est vide</p>
             <button
               onClick={() => setShowAdd(true)}
-              className="mt-2 text-xs text-secondary font-semibold hover:underline"
+              className="mt-2 text-xs text-secondary font-medium hover:underline"
             >
               Ajouter des actifs
             </button>
@@ -143,7 +143,7 @@ export default function WatchlistPanel() {
       {/* Active chart */}
       {activeSymbol && watchedAssets.length > 0 && (
         <div className="p-4 border-t border-surface-100 bg-surface-50">
-          <p className="text-xs font-semibold text-primary/50 mb-2 uppercase tracking-wide">
+          <p className="text-xs font-medium text-primary/50 mb-2 uppercase tracking-wide">
             {watchedAssets.find(a => a.symbol === activeSymbol)?.name}
           </p>
           <TradingViewSymbolInfo symbol={activeSymbol} colorTheme="light" />

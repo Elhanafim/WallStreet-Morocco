@@ -73,7 +73,7 @@ const config: Config = {
         'border-dark': '#1C2B40',
       },
       fontFamily: {
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
+        sans:    ['DM Sans', 'system-ui', 'sans-serif'],
         display: ['Cormorant Garamond', 'Georgia', 'serif'],
         mono:    ['JetBrains Mono', 'Menlo', 'monospace'],
       },

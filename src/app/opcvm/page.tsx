@@ -66,7 +66,7 @@ export default function OpcvmPage() {
                     backgroundColor: 'rgba(184,151,74,0.08)',
                     border: '1px solid rgba(184,151,74,0.2)',
                     borderRadius: '4px',
-                    fontFamily: 'var(--font-sans)',
+                    fontFamily: 'var(--font-body)',
                   }}
                 >
                   Source AMMC Officielle
@@ -74,7 +74,7 @@ export default function OpcvmPage() {
               </div>
               <p
                 className="text-sm"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
               >
                 Aperçu global et statistiques hebdomadaires du marché marocain des OPCVM.
                 {latest?.date && (
@@ -92,7 +92,7 @@ export default function OpcvmPage() {
               borderRadius: '6px',
               color: 'var(--text-secondary)',
               backgroundColor: 'var(--bg-elevated)',
-              fontFamily: 'var(--font-sans)',
+              fontFamily: 'var(--font-body)',
             }}
             onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
             onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
@@ -132,13 +132,13 @@ export default function OpcvmPage() {
                 </p>
                 <p
                   className="text-xs font-medium"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
                 >
                   {kpi.label}
                 </p>
                 <p
                   className="text-[10px] mt-0.5 truncate"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                 >
                   {kpi.sub}
                 </p>
@@ -157,7 +157,7 @@ export default function OpcvmPage() {
             />
             <p
               className="text-sm"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
             >
               Chargement des statistiques AMMC…
             </p>
@@ -167,7 +167,7 @@ export default function OpcvmPage() {
             <AlertTriangle className="w-8 h-8 mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
             <p
               className="text-sm font-medium mb-4"
-              style={{ color: 'var(--loss)', fontFamily: 'var(--font-sans)' }}
+              style={{ color: 'var(--loss)', fontFamily: 'var(--font-body)' }}
             >
               Données indisponibles
             </p>
@@ -179,7 +179,7 @@ export default function OpcvmPage() {
                 borderRadius: '6px',
                 color: 'var(--text-secondary)',
                 backgroundColor: 'var(--bg-elevated)',
-                fontFamily: 'var(--font-sans)',
+                fontFamily: 'var(--font-body)',
               }}
             >
               <RefreshCw className="w-3.5 h-3.5" />
@@ -205,7 +205,7 @@ export default function OpcvmPage() {
                   >
                     <p
                       className="text-xs font-medium mb-2"
-                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                     >
                       {label}
                     </p>
@@ -222,7 +222,7 @@ export default function OpcvmPage() {
                     </p>
                     <p
                       className="text-[10px]"
-                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                     >
                       Encours
                     </p>
@@ -238,7 +238,7 @@ export default function OpcvmPage() {
                     )}
                     <p
                       className="text-[10px] mt-1"
-                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                     >
                       {s.nb_fonds || '—'} fonds
                     </p>
@@ -274,7 +274,7 @@ export default function OpcvmPage() {
                     borderRadius: '5px',
                     color: 'var(--text-secondary)',
                     backgroundColor: 'var(--bg-base)',
-                    fontFamily: 'var(--font-sans)',
+                    fontFamily: 'var(--font-body)',
                   }}
                 >
                   <RefreshCw className="w-3 h-3" />
@@ -291,7 +291,7 @@ export default function OpcvmPage() {
                           className="px-5 py-3 text-xs font-medium uppercase tracking-widest"
                           style={{
                             color: 'var(--text-muted)',
-                            fontFamily: 'var(--font-sans)',
+                            fontFamily: 'var(--font-body)',
                             textAlign: i === 0 ? 'left' : 'right',
                           }}
                         >
@@ -314,7 +314,7 @@ export default function OpcvmPage() {
                         >
                           <td
                             className="px-5 py-3 text-sm font-medium"
-                            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+                            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
                           >
                             {label}
                           </td>
@@ -372,19 +372,19 @@ export default function OpcvmPage() {
             >
               <p
                 className="text-xs"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
               >
                 Source : <span className="font-medium">{latest.source || 'AMMC'}</span>
               </p>
               <p
                 className="text-xs font-medium"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
               >
                 Les statistiques sont mises à jour de manière hebdomadaire.
               </p>
               <p
                 className="text-xs"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
               >
                 Ces informations macro-économiques agrégées sont fournies à des fins éducatives uniquement.
               </p>

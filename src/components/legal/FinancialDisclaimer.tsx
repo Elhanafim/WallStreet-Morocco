@@ -29,13 +29,13 @@ export default function FinancialDisclaimer({ variant = 'short', className = '' 
       >
         <p
           className="text-xs font-medium mb-1.5 uppercase tracking-wide"
-          style={{ color: 'var(--gold)', fontFamily: 'var(--font-sans)' }}
+          style={{ color: 'var(--gold)', fontFamily: 'var(--font-body)' }}
         >
           Avertissement légal
         </p>
         <p
           className="text-xs leading-relaxed"
-          style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
+          style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
         >
           Les informations fournies sur ce site sont à titre éducatif uniquement et ne constituent
           en aucun cas un conseil en investissement, une recommandation d&apos;achat ou de vente de
@@ -75,7 +75,7 @@ export default function FinancialDisclaimer({ variant = 'short', className = '' 
       >
         <span
           className="text-[11px] leading-relaxed"
-          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
         >
           Informations éducatives uniquement · Pas un conseil en investissement · Risque de perte en capital
         </span>
@@ -88,7 +88,7 @@ export default function FinancialDisclaimer({ variant = 'short', className = '' 
     <p
       className={`text-[11px] leading-relaxed italic ${className}`}
       role="note"
-      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
     >
       Les performances affichées sont calculées sur données historiques et ne garantissent pas de
       résultats futurs.

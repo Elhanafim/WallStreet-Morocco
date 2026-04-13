@@ -36,8 +36,8 @@ export default function RiskManagerPage() {
       {/* Game A */}
       <div id="risk-radar-game" className="mb-14">
         <div className="flex items-center gap-2 mb-6">
-          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">A</span>
-          <h2 className="text-xl font-bold text-primary">Risk Radar: Bank Edition</h2>
+          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-medium text-xs">A</span>
+          <h2 className="text-xl font-medium text-primary">Risk Radar: Bank Edition</h2>
         </div>
         <RiskRadarGame />
       </div>
@@ -47,8 +47,8 @@ export default function RiskManagerPage() {
       {/* Game B */}
       <div id="hedge-or-hold-game">
         <div className="flex items-center gap-2 mb-6">
-          <span className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary font-bold text-xs">B</span>
-          <h2 className="text-xl font-bold text-primary">Hedge or Hold?</h2>
+          <span className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary font-medium text-xs">B</span>
+          <h2 className="text-xl font-medium text-primary">Hedge or Hold?</h2>
         </div>
         <HedgeOrHoldGame />
       </div>

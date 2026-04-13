@@ -147,7 +147,7 @@ export default function MarketPage() {
               </h1>
               <p
                 className="text-xs mt-0.5"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
               >
                 Données en temps réel · Bourse de Casablanca · 77 valeurs
               </p>
@@ -162,7 +162,7 @@ export default function MarketPage() {
         <FinancialDisclaimer variant="short" />
         <ChatHint
           storageKey="wsma_hint_market"
-          icon="💬"
+          icon=""
           message="Des questions sur une valeur ? Demandez à l'assistant IA."
           ctaLabel="Ouvrir l'assistant"
         />
@@ -192,13 +192,13 @@ export default function MarketPage() {
                   <div>
                     <h2
                       className="text-sm font-medium"
-                      style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+                      style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
                     >
                       MASI — Graphique Avancé
                     </h2>
                     <p
                       className="text-xs"
-                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+                      style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                     >
                       Indice Marocain de toutes les valeurs
                     </p>
@@ -211,7 +211,7 @@ export default function MarketPage() {
                     backgroundColor: 'rgba(61,171,110,0.08)',
                     border: '1px solid rgba(61,171,110,0.25)',
                     borderRadius: '4px',
-                    fontFamily: 'var(--font-sans)',
+                    fontFamily: 'var(--font-body)',
                   }}
                 >
                   Live

@@ -72,7 +72,7 @@ function CategoryPill({ category }: { category: string }) {
   const label = CATEGORY_LABELS[category] || category;
   return (
     <span
-      className="inline-block text-[10px] font-semibold px-2 py-0.5 bg-white text-gray-700 rounded-sm"
+      className="inline-block text-[10px] font-medium px-2 py-0.5 bg-white text-gray-700 rounded-sm"
       style={{ borderLeft: `3px solid ${color}` }}
     >
       {label}
@@ -93,7 +93,7 @@ function DataGrid({ actual, forecast, previous }: {
       {[
         { label: 'Précédent', value: previous, cls: 'text-gray-500' },
         { label: 'Prévision', value: forecast, cls: 'text-gray-600' },
-        { label: 'Réel', value: actual, cls: actual ? 'text-emerald-600 font-bold' : 'text-gray-300' },
+        { label: 'Réel', value: actual, cls: actual ? 'text-emerald-600 font-medium' : 'text-gray-300' },
       ].map(({ label, value, cls }) => (
         <div key={label} className={`rounded-lg p-2 text-center ${value && label === 'Réel' ? 'bg-emerald-50' : 'bg-gray-50'}`}>
           <p className="text-gray-400 text-[9px] uppercase tracking-wide mb-0.5">{label}</p>
@@ -126,7 +126,7 @@ export default function LiveEventCard({ event, variant = 'default' }: LiveEventC
               </span>
             )}
           </div>
-          <p className="text-xs font-semibold text-white/80 line-clamp-2 leading-snug">
+          <p className="text-xs font-medium text-white/80 line-clamp-2 leading-snug">
             {event.titleFr || event.title}
           </p>
         </div>
@@ -145,7 +145,7 @@ export default function LiveEventCard({ event, variant = 'default' }: LiveEventC
           <span className="text-2xl flex-shrink-0">{event.countryFlag}</span>
           <div>
             <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-              <span className="text-xs font-semibold text-gray-500">{event.country}</span>
+              <span className="text-xs font-medium text-gray-500">{event.country}</span>
               {event.currency && (
                 <span className="text-[10px] text-gray-400">{event.currency}</span>
               )}
@@ -161,7 +161,7 @@ export default function LiveEventCard({ event, variant = 'default' }: LiveEventC
         </div>
         <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
           <ImpactBars score={event.impactScore} />
-          <span className={`text-[10px] font-bold ${
+          <span className={`text-[10px] font-medium ${
             event.impactScore >= 5 ? 'text-red-500' :
             event.impactScore >= 4 ? 'text-orange-500' :
             event.impactScore >= 3 ? 'text-yellow-600' :
@@ -173,7 +173,7 @@ export default function LiveEventCard({ event, variant = 'default' }: LiveEventC
       </div>
 
       {/* Title */}
-      <h3 className="text-sm font-bold text-gray-900 mb-1.5 leading-snug">
+      <h3 className="text-sm font-medium text-gray-900 mb-1.5 leading-snug">
         {event.titleFr || event.title}
       </h3>
 
@@ -191,12 +191,12 @@ export default function LiveEventCard({ event, variant = 'default' }: LiveEventC
       <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-gray-100">
         <div className="flex items-center gap-2">
           {event.isMoroccoRelevant && (
-            <span className="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded-full font-semibold">
+            <span className="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-1.5 py-0.5 rounded-full font-medium">
               🇲🇦 Pertinent
             </span>
           )}
           {event.isUpcoming && (
-            <span className="text-[9px] bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded-full font-semibold">
+            <span className="text-[9px] bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded-full font-medium">
               À venir
             </span>
           )}

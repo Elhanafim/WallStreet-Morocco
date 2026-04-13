@@ -29,7 +29,7 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
               key={lang}
               onClick={() => switchLang(lang)}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 min-h-[44px] min-w-[44px]',
+                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 min-h-[44px] min-w-[44px]',
                 current === lang
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-primary/50 hover:text-primary hover:bg-surface-100'
@@ -50,7 +50,7 @@ export default function LanguageSwitcher({ className, floating }: { className?: 
           key={lang}
           onClick={() => switchLang(lang)}
           className={cn(
-            'px-2.5 py-1 rounded-md text-xs font-semibold transition-all duration-150',
+            'px-2.5 py-1 rounded-md text-xs font-medium transition-all duration-150',
             current === lang
               ? 'bg-white text-primary shadow-sm'
               : 'text-primary/50 hover:text-primary'

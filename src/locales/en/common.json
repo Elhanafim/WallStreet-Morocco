@@ -246,10 +246,10 @@
   "bvc": {
     "dashboardTitle": "BVC Investor Dashboard",
     "dashboardSubtitle": "Key data for individual investors on the Casablanca Stock Exchange",
-    "topMovers": "Today's Movers 📊",
+    "topMovers": "Today's Movers",
     "topGains": "▲ Top Gainers",
     "topLosses": "▼ Top Losers",
-    "indicators": "Market Indicators 📈",
+    "indicators": "Market Indicators",
     "marketCap": "BVC Market Cap",
     "listedCompanies": "Listed companies",
     "bamRate": "BAM policy rate",

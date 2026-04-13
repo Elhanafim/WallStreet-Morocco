@@ -43,7 +43,7 @@ function sortCalendarEvents(evts: LiveCalendarEvent[]): LiveCalendarEvent[] {
 
 function EventSkeleton() {
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-4 animate-pulse"
+    <div className="bg-[var(--bg-elevated)] border border-[var(--border)] rounded-lg p-4 animate-pulse"
       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
     >
       <div className="flex gap-3 mb-3">
@@ -85,16 +85,16 @@ function RegionSection({ label, flag, accentColor, events, collapsed, onToggle }
       >
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xl">{flag}</span>
-          <span className={`text-sm font-bold ${events.length > 0 ? 'text-white' : 'text-white/40'}`}>
+          <span className={`text-sm font-medium ${events.length > 0 ? 'text-white' : 'text-white/40'}`}>
             {label}
           </span>
-          <span className="text-[10px] text-white/40 font-semibold bg-white/8 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] text-white/40 font-medium bg-white/8 px-2 py-0.5 rounded-full">
             {events.length > 0
               ? t('calendar.events_other', { count: events.length })
               : t('calendar.noEvents_region')}
           </span>
           {maxImpact >= 4 && (
-            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
               maxImpact >= 5
                 ? 'bg-red-500/15 text-red-400 border border-red-500/25'
                 : 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
@@ -251,9 +251,9 @@ export default function CalendarPage() {
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-4">
             <Calendar className="w-4 h-4 text-accent" />
-            <span className="text-accent text-sm font-semibold">{t('page.badge')}</span>
+            <span className="text-accent text-sm font-medium">{t('page.badge')}</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl font-medium text-white mb-4">
             {t('page.title1')}{' '}
             <span className="gradient-text-gold">{t('page.title2')}</span>
           </h1>
@@ -291,7 +291,7 @@ export default function CalendarPage() {
                   <button
                     key={id}
                     onClick={() => setActiveTab(id)}
-                    className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-150 ${
+                    className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
                       isActive
                         ? 'bg-white text-gray-900 shadow-sm'
                         : 'text-white/50 hover:text-white/80 hover:bg-white/8'
@@ -300,7 +300,7 @@ export default function CalendarPage() {
                     <span>{flag}</span>
                     <span>{label}</span>
                     {count > 0 && (
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
                         isActive ? 'bg-gray-100 text-gray-500' : 'bg-white/10 text-white/40'
                       }`}>
                         {count}
@@ -324,7 +324,7 @@ export default function CalendarPage() {
         {error && (
           <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/25 rounded-2xl p-4 mb-6">
             <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-400 font-semibold text-sm">{error}</p>
+            <p className="text-red-400 font-medium text-sm">{error}</p>
           </div>
         )}
 
@@ -373,7 +373,7 @@ export default function CalendarPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             <div className="bg-white/5 border border-white/8 rounded-2xl p-5">
-              <h3 className="text-white font-black text-sm mb-1 flex items-center gap-2">
+              <h3 className="text-white font-medium text-sm mb-1 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
                 {t('sidebar.upcomingTitle')}
               </h3>
@@ -396,7 +396,7 @@ export default function CalendarPage() {
             </div>
 
             <div className="bg-white/5 border border-white/8 rounded-2xl p-5">
-              <h3 className="text-white/50 text-xs font-bold uppercase tracking-wider mb-4">{t('sidebar.sourcesTitle')}</h3>
+              <h3 className="text-white/50 text-xs font-medium uppercase tracking-wider mb-4">{t('sidebar.sourcesTitle')}</h3>
               <div className="space-y-2">
                 {[
                   { name: 'Finnhub', desc: t('sidebar.sources.finnhub'), color: 'bg-amber-400' },
@@ -409,7 +409,7 @@ export default function CalendarPage() {
                   <div key={name} className="flex items-center gap-2.5">
                     <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color}`} />
                     <div>
-                      <p className="text-white/60 text-xs font-semibold">{name}</p>
+                      <p className="text-white/60 text-xs font-medium">{name}</p>
                       <p className="text-white/25 text-[10px]">{desc}</p>
                     </div>
                   </div>
@@ -418,7 +418,7 @@ export default function CalendarPage() {
             </div>
 
             <div className="bg-accent/8 border border-accent/15 rounded-2xl p-5">
-              <h4 className="text-white/80 font-bold text-xs mb-3">💡 {t('sidebar.howToReadTitle')}</h4>
+              <h4 className="text-white/80 font-medium text-xs mb-3">💡 {t('sidebar.howToReadTitle')}</h4>
               <ul className="space-y-1.5 text-[11px] text-white/45">
                 <li>• {t('sidebar.tips.critical')}</li>
                 <li>• {t('sidebar.tips.bam')}</li>

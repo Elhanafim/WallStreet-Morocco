@@ -12,15 +12,13 @@ interface ChatHintProps {
   icon: string;
   message: string;
   ctaLabel: string;
-  /** Optional prefill message to send when CTA is clicked */
   prefillMessage?: string;
-  variant?: "banner" | "card"; // banner = slim top strip, card = padded box
+  variant?: "banner" | "card";
 }
 
-const TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+const TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 function openChatBubble(prefill?: string) {
-  // Dispatch a custom event that ChatBubble listens to
   window.dispatchEvent(
     new CustomEvent("wsma:open-chat", { detail: { prefill: prefill ?? "" } })
   );
@@ -41,7 +39,7 @@ export default function ChatHint({
       const raw = localStorage.getItem(storageKey);
       if (raw) {
         const ts = parseInt(raw, 10);
-        if (Date.now() - ts < TTL_MS) return; // still dismissed
+        if (Date.now() - ts < TTL_MS) return;
       }
       setVisible(true);
     } catch {
@@ -61,29 +59,64 @@ export default function ChatHint({
 
   if (!visible) return null;
 
+  const closeIcon = (
+    <button
+      onClick={dismiss}
+      aria-label="Fermer"
+      style={{ color: 'var(--text-muted)' }}
+    >
+      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  );
+
   if (variant === "card") {
     return (
-      <div className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 mt-6">
+      <div
+        className="p-5 mt-6"
+        style={{
+          border: '1px solid var(--border)',
+          borderLeft: '3px solid var(--gold)',
+          borderRadius: '6px',
+          backgroundColor: 'var(--bg-elevated)',
+        }}
+      >
         <div className="flex items-start gap-3">
-          <span className="text-2xl shrink-0">{icon}</span>
+          {icon && (
+            <span
+              className="shrink-0"
+              style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--text-muted)' }}
+            >
+              {icon}
+            </span>
+          )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm text-gray-700 dark:text-gray-300 leading-snug">{message}</p>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '13px',
+                fontWeight: 300,
+                color: 'var(--text-secondary)',
+                lineHeight: 1.6,
+              }}
+            >
+              {message}
+            </p>
             <button
               onClick={handleCta}
-              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 hover:underline"
+              className="mt-3 transition-colors"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                fontWeight: 500,
+                color: 'var(--gold)',
+              }}
             >
               {ctaLabel} →
             </button>
           </div>
-          <button
-            onClick={dismiss}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 ml-1 shrink-0"
-            aria-label="Fermer"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          {closeIcon}
         </div>
       </div>
     );
@@ -91,24 +124,46 @@ export default function ChatHint({
 
   // variant = "banner"
   return (
-    <div className="flex items-center gap-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl px-4 py-2.5 text-sm">
-      <span className="shrink-0">{icon}</span>
-      <p className="flex-1 text-gray-700 dark:text-gray-300 text-xs sm:text-sm">{message}</p>
+    <div
+      className="flex items-center gap-3 px-4 py-2.5"
+      style={{
+        border: '1px solid var(--border)',
+        borderRadius: '6px',
+        backgroundColor: 'var(--bg-elevated)',
+      }}
+    >
+      {icon && (
+        <span
+          className="shrink-0"
+          style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--text-muted)' }}
+        >
+          {icon}
+        </span>
+      )}
+      <p
+        className="flex-1"
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '12px',
+          fontWeight: 300,
+          color: 'var(--text-secondary)',
+        }}
+      >
+        {message}
+      </p>
       <button
         onClick={handleCta}
-        className="shrink-0 text-xs sm:text-sm font-semibold text-emerald-700 dark:text-emerald-400 hover:underline whitespace-nowrap"
+        className="shrink-0 transition-colors whitespace-nowrap"
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '12px',
+          fontWeight: 500,
+          color: 'var(--gold)',
+        }}
       >
         {ctaLabel} →
       </button>
-      <button
-        onClick={dismiss}
-        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 shrink-0"
-        aria-label="Fermer"
-      >
-        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      {closeIcon}
     </div>
   );
 }

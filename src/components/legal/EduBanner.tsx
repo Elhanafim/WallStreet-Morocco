@@ -12,7 +12,7 @@ export default function EduBanner() {
         <span>⚠️ {t('edubanner.text')}</span>
         <Link
           href="/politique-risques"
-          className="underline hover:text-amber-900 font-semibold whitespace-nowrap"
+          className="underline hover:text-amber-900 font-medium whitespace-nowrap"
         >
           {t('edubanner.link')} →
         </Link>

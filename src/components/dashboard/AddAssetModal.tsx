@@ -86,7 +86,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div>
-            <h2 className="text-lg font-black text-[#0A2540]">Ajouter un actif</h2>
+            <h2 className="text-lg font-medium text-[#0A2540]">Ajouter un actif</h2>
             <p className="text-sm text-gray-500 mt-0.5">Enregistrez un nouvel investissement</p>
           </div>
           <button
@@ -106,7 +106,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
 
           {/* Asset Type */}
           <div>
-            <label className="block text-sm font-semibold text-[#0A2540] mb-2">Type d&apos;actif</label>
+            <label className="block text-sm font-medium text-[#0A2540] mb-2">Type d&apos;actif</label>
             <div className="grid grid-cols-5 gap-2">
               {assetTypes.map(({ value, label, icon: Icon, color, bg }) => (
                 <button
@@ -130,7 +130,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
 
           {/* Asset Name */}
           <div>
-            <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">
+            <label className="block text-sm font-medium text-[#0A2540] mb-1.5">
               Nom de l&apos;actif <span className="text-red-500">*</span>
             </label>
             <input
@@ -144,7 +144,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
 
           {/* Ticker */}
           <div>
-            <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">Ticker / Code (optionnel)</label>
+            <label className="block text-sm font-medium text-[#0A2540] mb-1.5">Ticker / Code (optionnel)</label>
             <input
               type="text"
               value={form.ticker}
@@ -157,7 +157,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
           {/* Amount + Quantity row */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">
+              <label className="block text-sm font-medium text-[#0A2540] mb-1.5">
                 Montant investi (MAD) <span className="text-red-500">*</span>
               </label>
               <input
@@ -171,7 +171,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">Quantité (optionnel)</label>
+              <label className="block text-sm font-medium text-[#0A2540] mb-1.5">Quantité (optionnel)</label>
               <input
                 type="number"
                 min="0"
@@ -187,7 +187,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
           {/* Purchase Price + Date */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">Prix d&apos;achat (optionnel)</label>
+              <label className="block text-sm font-medium text-[#0A2540] mb-1.5">Prix d&apos;achat (optionnel)</label>
               <input
                 type="number"
                 min="0"
@@ -199,7 +199,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">
+              <label className="block text-sm font-medium text-[#0A2540] mb-1.5">
                 Date <span className="text-red-500">*</span>
               </label>
               <input
@@ -213,7 +213,7 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-semibold text-[#0A2540] mb-1.5">Notes (optionnel)</label>
+            <label className="block text-sm font-medium text-[#0A2540] mb-1.5">Notes (optionnel)</label>
             <textarea
               value={form.notes}
               onChange={(e) => update('notes', e.target.value)}
@@ -228,14 +228,14 @@ export default function AddAssetModal({ onClose, onSuccess }: AddAssetModalProps
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-semibold hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="flex-1 px-4 py-3 rounded-xl bg-[#0A2540] text-white text-sm font-bold hover:bg-[#3A86FF] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 rounded-xl bg-[#0A2540] text-white text-sm font-medium hover:bg-[#3A86FF] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

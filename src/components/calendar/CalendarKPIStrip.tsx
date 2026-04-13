@@ -26,8 +26,8 @@ export default function CalendarKPIStrip({ events }: CalendarKPIStripProps) {
           key={label}
           className="bg-white/5 border border-white/8 rounded-2xl px-4 py-3 text-center"
         >
-          <p className={`text-2xl font-black ${color}`}>{value}</p>
-          <p className="text-white/40 text-xs font-semibold mt-0.5 uppercase tracking-wide">{label}</p>
+          <p className={`text-2xl font-medium ${color}`}>{value}</p>
+          <p className="text-white/40 text-xs font-medium mt-0.5 uppercase tracking-wide">{label}</p>
         </div>
       ))}
     </div>

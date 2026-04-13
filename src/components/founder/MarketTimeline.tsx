@@ -60,7 +60,7 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
     <div ref={ref} className="mb-16">
       {/* Header */}
       <div className="mb-8">
-        <h3 className="text-white font-black text-xl sm:text-2xl mb-1">
+        <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
           Le contexte de marché en 17 mois
         </h3>
         <p className="text-white/40 text-sm">
@@ -97,7 +97,7 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                   className={`w-full text-center px-2 pb-3 ${isAbove ? 'min-h-[72px]' : 'min-h-[72px] invisible pointer-events-none select-none'}`}
                   aria-hidden={!isAbove}
                 >
-                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-wide mb-1">
+                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-1">
                     {event.date}
                   </p>
                   <p className={`text-xs leading-tight font-medium ${textColor(event.type)}`}>
@@ -122,7 +122,7 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                   className={`w-full text-center px-2 pt-3 ${!isAbove ? 'min-h-[72px]' : 'min-h-[72px] invisible pointer-events-none select-none'}`}
                   aria-hidden={isAbove}
                 >
-                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-wide mb-1">
+                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-1">
                     {event.date}
                   </p>
                   <p className={`text-xs leading-tight font-medium ${textColor(event.type)}`}>
@@ -166,7 +166,7 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                 </div>
                 {/* Right: text */}
                 <div className="pb-6">
-                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-wide mb-0.5">
+                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-0.5">
                     {event.date}
                   </p>
                   <p className={`text-sm leading-snug font-medium ${textColor(event.type)}`}>

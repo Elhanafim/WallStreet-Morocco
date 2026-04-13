@@ -1,13 +1,12 @@
 'use client';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { TrendingUp, RefreshCw } from 'lucide-react';
-import { Activity } from 'lucide-react';
+import { TrendingUp, RefreshCw, Activity } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { fetchMovers, BVCMovers, getMarketStatus } from '@/lib/bvcPriceService';
 
 const TradingViewChart = dynamic(() => import('./TradingViewChart'), { ssr: false });
 
-const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const REFRESH_INTERVAL = 5 * 60 * 1000;
 
 function MoverRow({ rank, symbol, name, changePercent, up }: {
   rank: number;
@@ -19,16 +18,68 @@ function MoverRow({ rank, symbol, name, changePercent, up }: {
   const sign = changePercent >= 0 ? '+' : '';
   const label = `${sign}${changePercent.toFixed(2)}%`;
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-xs text-primary/30 w-4 font-mono">{rank}</span>
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${up ? 'bg-success/10' : 'bg-danger/10'}`}>
-        <span className={`text-xs font-black ${up ? 'text-success' : 'text-danger'}`}>{symbol[0]}</span>
+    <div
+      className="flex items-center gap-3 h-[46px] transition-colors"
+      style={{ borderBottom: '1px solid var(--border)' }}
+      onMouseEnter={(e) => {
+        (e.currentTarget as HTMLDivElement).style.backgroundColor = 'var(--bg-elevated)';
+      }}
+      onMouseLeave={(e) => {
+        (e.currentTarget as HTMLDivElement).style.backgroundColor = 'transparent';
+      }}
+    >
+      <span
+        className="w-5 text-right"
+        style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--text-muted)' }}
+      >
+        {rank}
+      </span>
+      <div
+        className="w-8 h-8 flex items-center justify-center flex-shrink-0"
+        style={{
+          backgroundColor: 'var(--bg-elevated)',
+          border: '1px solid var(--border)',
+          borderRadius: '6px',
+          fontFamily: 'var(--font-body)',
+          fontSize: '11px',
+          fontWeight: 500,
+          color: up ? 'var(--gain)' : 'var(--loss)',
+        }}
+      >
+        {symbol[0]}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-primary">{symbol}</p>
-        <p className="text-xs text-primary/50 truncate">{name}</p>
+        <p
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '13px',
+            fontWeight: 500,
+            color: 'var(--text-primary)',
+          }}
+        >
+          {symbol}
+        </p>
+        <p
+          className="truncate"
+          style={{
+            fontFamily: 'var(--font-body)',
+            fontSize: '11px',
+            fontWeight: 300,
+            color: 'var(--text-secondary)',
+          }}
+        >
+          {name}
+        </p>
       </div>
-      <span className={`text-sm font-bold px-2 py-0.5 rounded-lg flex-shrink-0 ${up ? 'text-success bg-success/10' : 'text-danger bg-danger/10'}`}>
+      <span
+        className="flex-shrink-0"
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '13px',
+          fontWeight: 500,
+          color: up ? 'var(--gain)' : 'var(--loss)',
+        }}
+      >
         {label}
       </span>
     </div>
@@ -37,14 +88,14 @@ function MoverRow({ rank, symbol, name, changePercent, up }: {
 
 function SkeletonRow() {
   return (
-    <div className="flex items-center gap-3 animate-pulse">
-      <div className="w-4 h-3 bg-surface-200 rounded" />
-      <div className="w-8 h-8 bg-surface-200 rounded-lg" />
+    <div className="flex items-center gap-3 h-[46px] animate-pulse">
+      <div className="w-5 h-3 rounded" style={{ backgroundColor: 'var(--bg-elevated)' }} />
+      <div className="w-8 h-8 rounded" style={{ backgroundColor: 'var(--bg-elevated)' }} />
       <div className="flex-1 space-y-1.5">
-        <div className="h-3 bg-surface-200 rounded w-16" />
-        <div className="h-2.5 bg-surface-200 rounded w-24" />
+        <div className="h-3 rounded w-16" style={{ backgroundColor: 'var(--bg-elevated)' }} />
+        <div className="h-2.5 rounded w-24" style={{ backgroundColor: 'var(--bg-elevated)' }} />
       </div>
-      <div className="h-5 w-14 bg-surface-200 rounded-lg" />
+      <div className="h-4 w-14 rounded" style={{ backgroundColor: 'var(--bg-elevated)' }} />
     </div>
   );
 }
@@ -92,14 +143,48 @@ export default function MarketSummary() {
   return (
     <div className="space-y-6">
       {/* MASI Chart */}
-      <div className="bg-white rounded-2xl border border-surface-200 shadow-card overflow-hidden">
-        <div className="px-5 py-4 border-b border-surface-100 flex items-center gap-3">
-          <div className="w-8 h-8 bg-secondary/10 rounded-lg flex items-center justify-center">
-            <Activity className="w-4 h-4 text-secondary" />
+      <div
+        className="overflow-hidden"
+        style={{
+          backgroundColor: 'var(--bg-surface)',
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+        }}
+      >
+        <div
+          className="px-5 py-4 flex items-center gap-3"
+          style={{ borderBottom: '1px solid var(--border)' }}
+        >
+          <div
+            className="w-8 h-8 flex items-center justify-center"
+            style={{
+              backgroundColor: 'var(--bg-elevated)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+            }}
+          >
+            <Activity className="w-4 h-4" style={{ color: 'var(--gold)' }} />
           </div>
           <div>
-            <h3 className="font-bold text-primary text-sm">MSI20 — Indice Blue Chips</h3>
-            <p className="text-xs text-primary/50">Bourse de Casablanca · Temps réel via TradingView</p>
+            <h3
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '18px',
+                fontWeight: 500,
+                color: 'var(--text-primary)',
+              }}
+            >
+              MSI20 — Indice Blue Chips
+            </h3>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '12px',
+                color: 'var(--text-muted)',
+              }}
+            >
+              Bourse de Casablanca · Temps réel via TradingView
+            </p>
           </div>
         </div>
         <div className="p-2">
@@ -110,27 +195,52 @@ export default function MarketSummary() {
       {/* Top Movers */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Gainers */}
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-4 h-4 text-success" />
-            <h4 className="font-bold text-sm text-primary">Meilleures hausses</h4>
+        <div
+          className="p-5"
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+          }}
+        >
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="w-4 h-4" style={{ color: 'var(--gain)' }} />
+            <h4
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '11px',
+                fontWeight: 500,
+                textTransform: 'uppercase',
+                letterSpacing: '0.09em',
+                color: 'var(--text-secondary)',
+                borderLeft: '3px solid var(--gold)',
+                paddingLeft: '8px',
+              }}
+            >
+              Plus fortes hausses
+            </h4>
             <div className="ml-auto flex items-center gap-2">
-              {marketStatus.open ? (
-                <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">Ouvert</span>
-              ) : (
-                <span className="text-xs bg-surface-100 text-primary/40 px-2 py-0.5 rounded-full">Fermé</span>
-              )}
+              <span
+                style={{
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '11px',
+                  color: marketStatus.open ? 'var(--gain)' : 'var(--text-muted)',
+                }}
+              >
+                {marketStatus.open ? 'Ouvert' : 'Fermé'}
+              </span>
               <button
                 onClick={load}
                 disabled={loading}
-                className="text-primary/30 hover:text-secondary disabled:opacity-40 transition-colors"
+                className="transition-colors disabled:opacity-40"
                 title="Actualiser"
+                style={{ color: 'var(--text-muted)' }}
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               </button>
             </div>
           </div>
-          <div className="space-y-3">
+          <div>
             {loading && gainers.length === 0
               ? Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)
               : gainers.map((s, i) => (
@@ -146,24 +256,55 @@ export default function MarketSummary() {
             }
           </div>
           {lastUpdate && (
-            <p className="text-xs text-primary/25 mt-3 text-right">
+            <p
+              className="mt-3 text-right"
+              style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--text-muted)' }}
+            >
               {lastUpdate.toLocaleTimeString('fr-MA', { hour: '2-digit', minute: '2-digit' })}
             </p>
           )}
         </div>
 
         {/* Losers */}
-        <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-5">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-4 h-4 text-danger rotate-180" />
-            <h4 className="font-bold text-sm text-primary">Plus fortes baisses</h4>
-            <div className="ml-auto flex items-center gap-2">
+        <div
+          className="p-5"
+          style={{
+            backgroundColor: 'var(--bg-surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+          }}
+        >
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="w-4 h-4 rotate-180" style={{ color: 'var(--loss)' }} />
+            <h4
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '11px',
+                fontWeight: 500,
+                textTransform: 'uppercase',
+                letterSpacing: '0.09em',
+                color: 'var(--text-secondary)',
+                borderLeft: '3px solid var(--gold)',
+                paddingLeft: '8px',
+              }}
+            >
+              Plus fortes baisses
+            </h4>
+            <div className="ml-auto">
               {movers && (
-                <span className="text-xs text-primary/30">{movers.total} titres</span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '11px',
+                    color: 'var(--text-muted)',
+                  }}
+                >
+                  {movers.total} titres
+                </span>
               )}
             </div>
           </div>
-          <div className="space-y-3">
+          <div>
             {loading && losers.length === 0
               ? Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)
               : losers.map((s, i) => (
@@ -179,7 +320,10 @@ export default function MarketSummary() {
             }
           </div>
           {lastUpdate && (
-            <p className="text-xs text-primary/25 mt-3 text-right">
+            <p
+              className="mt-3 text-right"
+              style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--text-muted)' }}
+            >
               Bourse de Casablanca
             </p>
           )}

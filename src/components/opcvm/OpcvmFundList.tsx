@@ -58,7 +58,7 @@ function PerfBadge({ value }: { value: number | null | undefined }) {
   const zero = value === 0;
   return (
     <span
-      className={`inline-flex items-center gap-0.5 font-bold text-sm tabular-nums ${
+      className={`inline-flex items-center gap-0.5 font-medium text-sm tabular-nums ${
         zero ? 'text-primary/50' : pos ? 'text-emerald-600' : 'text-red-600'
       }`}
     >
@@ -72,7 +72,7 @@ function TypeBadge({ type }: { type: string | null }) {
   const t = type ?? 'Autre';
   return (
     <span
-      className={`text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${
+      className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${
         TYPE_BADGE[t] ?? 'bg-surface-100 text-primary/60 border border-surface-200'
       }`}
     >
@@ -106,7 +106,7 @@ function SortTh({
   const Icon   = active ? (dir === 'asc' ? ArrowUp : ArrowDown) : ArrowUpDown;
   return (
     <th
-      className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none whitespace-nowrap
+      className={`px-4 py-3 text-xs font-medium uppercase tracking-wider cursor-pointer select-none whitespace-nowrap
         ${align === 'right' ? 'text-right' : 'text-left'}
         ${active ? 'text-secondary' : 'text-primary/50 hover:text-primary/70'}`}
       onClick={() => onSort(sortKey)}
@@ -139,7 +139,7 @@ function FundCard({ fund }: { fund: OpcvmFund }) {
           <div key={label} className="text-center bg-surface-50 rounded-lg p-2">
             <p className="text-[10px] text-primary/40 mb-0.5 uppercase font-medium">{label}</p>
             {val != null
-              ? <p className="text-xs font-bold text-primary">{val}</p>
+              ? <p className="text-xs font-medium text-primary">{val}</p>
               : <PerfBadge value={raw} />
             }
           </div>
@@ -238,7 +238,7 @@ export default function OpcvmFundList() {
             <button
               key={type}
               onClick={() => setActiveType(type)}
-              className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                 activeType === type
                   ? 'bg-primary text-white shadow-sm'
                   : 'text-primary/60 hover:text-primary'
@@ -271,7 +271,7 @@ export default function OpcvmFundList() {
           <button
             onClick={load}
             disabled={loadState === 'loading'}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-surface-200 text-primary/60 text-xs font-semibold hover:text-secondary hover:border-secondary transition-all disabled:opacity-40 whitespace-nowrap"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-surface-200 text-primary/60 text-xs font-medium hover:text-secondary hover:border-secondary transition-all disabled:opacity-40 whitespace-nowrap"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loadState === 'loading' ? 'animate-spin' : ''}`} />
             Actualiser
@@ -287,7 +287,7 @@ export default function OpcvmFundList() {
             <strong>Données de référence</strong> — connexion au flux en temps réel indisponible.
             Les performances affichées sont indicatives.
           </span>
-          <button onClick={load} className="ml-auto text-xs font-semibold underline hover:no-underline flex-shrink-0">
+          <button onClick={load} className="ml-auto text-xs font-medium underline hover:no-underline flex-shrink-0">
             Réessayer
           </button>
         </div>
@@ -307,7 +307,7 @@ export default function OpcvmFundList() {
           </div>
           <button
             onClick={load}
-            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-all"
           >
             <RefreshCw className="w-4 h-4" />
             Réessayer
@@ -324,7 +324,7 @@ export default function OpcvmFundList() {
                 <tr>
                   <SortTh label="Nom du fonds"    sortKey="name"            {...shProps} align="left" />
                   <SortTh label="Soc. de gestion" sortKey="societe_gestion" {...shProps} align="left" />
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-primary/50 whitespace-nowrap">
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-primary/50 whitespace-nowrap">
                     Catégorie
                   </th>
                   <SortTh label="VL (MAD)"  sortKey="vl"       {...shProps} />
@@ -348,7 +348,7 @@ export default function OpcvmFundList() {
                   : displayed.map((fund, i) => (
                     <tr key={`${fund.name}-${i}`} className="hover:bg-surface-50 transition-colors">
                       <td className="px-4 py-3.5 max-w-[240px]">
-                        <p className="font-semibold text-primary text-sm leading-snug line-clamp-2" title={fund.name}>
+                        <p className="font-medium text-primary text-sm leading-snug line-clamp-2" title={fund.name}>
                           {fund.name}
                         </p>
                       </td>
@@ -358,7 +358,7 @@ export default function OpcvmFundList() {
                       <td className="px-4 py-3.5">
                         <TypeBadge type={fund.type} />
                       </td>
-                      <td className="px-4 py-3.5 text-right font-mono text-sm text-primary font-semibold tabular-nums">
+                      <td className="px-4 py-3.5 text-right font-mono text-sm text-primary font-medium tabular-nums">
                         {fund.vl != null ? `${fmt(fund.vl)} MAD` : '—'}
                       </td>
                       <td className="px-4 py-3.5 text-right">

@@ -149,7 +149,7 @@ export default function SignupPage() {
             <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-accent" />
             </div>
-            <span className="font-black text-2xl text-white">
+            <span className="font-medium text-2xl text-white">
               WallStreet <span className="text-accent">Morocco</span>
             </span>
           </Link>
@@ -158,7 +158,7 @@ export default function SignupPage() {
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-primary mb-2">
+            <h1 className="text-2xl font-medium text-primary mb-2">
               {t('auth.registerTitle')}
             </h1>
             <p className="text-primary/60 text-sm">
@@ -194,7 +194,7 @@ export default function SignupPage() {
             {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.firstName')}</label>
+                <label className="block text-xs font-medium text-primary mb-1.5">{t('auth.firstName')}</label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                   <input
@@ -210,7 +210,7 @@ export default function SignupPage() {
                 {errors.firstName && <p className="text-danger text-xs mt-1">{errors.firstName}</p>}
               </div>
               <div>
-                <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.lastName')}</label>
+                <label className="block text-xs font-medium text-primary mb-1.5">{t('auth.lastName')}</label>
                 <input
                   type="text"
                   value={formData.lastName}
@@ -226,7 +226,7 @@ export default function SignupPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.email')}</label>
+              <label className="block text-xs font-medium text-primary mb-1.5">{t('auth.email')}</label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
@@ -244,7 +244,7 @@ export default function SignupPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.password')}</label>
+              <label className="block text-xs font-medium text-primary mb-1.5">{t('auth.password')}</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
@@ -286,7 +286,7 @@ export default function SignupPage() {
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-xs font-semibold text-primary mb-1.5">{t('auth.confirmPassword')}</label>
+              <label className="block text-xs font-medium text-primary mb-1.5">{t('auth.confirmPassword')}</label>
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-primary/40" />
                 <input
@@ -349,7 +349,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={isLoading || !formData.acceptTerms}
-              className="w-full bg-secondary text-white font-bold py-3.5 rounded-xl hover:bg-secondary-600 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+              className="w-full bg-secondary text-white font-medium py-3.5 rounded-xl hover:bg-secondary-600 transition-colors shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
             >
               {isLoading ? (
                 <>
@@ -371,7 +371,7 @@ export default function SignupPage() {
           {/* Login Link */}
           <p className="text-center text-sm text-primary/60 mt-5">
             {t('auth.hasAccount')}{' '}
-            <Link href="/auth/login" className="text-secondary font-semibold hover:text-secondary-600 transition-colors">
+            <Link href="/auth/login" className="text-secondary font-medium hover:text-secondary-600 transition-colors">
               {t('nav.login')}
             </Link>
           </p>

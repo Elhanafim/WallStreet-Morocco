@@ -98,12 +98,12 @@ function KPICard({
 
   const valueClass =
     variant === 'dominant'
-      ? 'text-emerald-400 text-4xl font-black'
+      ? 'text-emerald-400 text-4xl font-medium'
       : variant === 'gold'
-      ? 'text-accent text-2xl font-black'
+      ? 'text-accent text-2xl font-medium'
       : variant === 'success'
-      ? 'text-emerald-400 text-2xl font-black'
-      : 'text-white text-2xl font-black';
+      ? 'text-emerald-400 text-2xl font-medium'
+      : 'text-white text-2xl font-medium';
 
   return (
     <div
@@ -114,7 +114,7 @@ function KPICard({
       <p className={valueClass}>
         {format(animated)}{suffix}
       </p>
-      <p className="text-white/55 text-xs font-semibold mt-1 uppercase tracking-wide">{label}</p>
+      <p className="text-white/55 text-xs font-medium mt-1 uppercase tracking-wide">{label}</p>
       <div className="flex items-center justify-center gap-1.5 mt-1">
         {live && (
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />

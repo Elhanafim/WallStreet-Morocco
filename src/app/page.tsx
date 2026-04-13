@@ -113,7 +113,7 @@ export default function HomePage() {
                       <td className="font-bold text-[var(--text-primary)]">{fund.name}</td>
                       <td className="text-[var(--text-secondary)]">{fund.bankCode}</td>
                       <td className="text-[var(--text-secondary)]">{fund.type}</td>
-                      <td className={cn("text-right font-bold font-mono", fund.performance1Y >= 0 ? "text-[var(--gain)]" : "text-[var(--loss)]")}>
+                      <td className={cn("text-right font-medium font-mono", fund.performance1Y >= 0 ? "text-[var(--gain)]" : "text-[var(--loss)]")}>
                         {formatPercent(fund.performance1Y / 100)}
                       </td>
                       <td className="text-right">

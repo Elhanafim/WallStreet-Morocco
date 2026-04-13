@@ -27,7 +27,7 @@ export default function MentionsLegalesPage() {
               <Scale className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">Mentions légales</h1>
+              <h1 className="text-3xl sm:text-4xl font-medium text-white">Mentions légales</h1>
               <p className="text-white/50 text-sm mt-1">
                 Dernière mise à jour : 25 mars 2026
               </p>
@@ -187,7 +187,7 @@ export default function MentionsLegalesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-black text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
+      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
       <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
     </section>
   );
@@ -196,7 +196,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <tr className="border-b border-surface-100 last:border-0">
-      <td className="py-2 pr-4 font-semibold text-primary/50 whitespace-nowrap">{label}</td>
+      <td className="py-2 pr-4 font-medium text-primary/50 whitespace-nowrap">{label}</td>
       <td className="py-2 text-primary">{value}</td>
     </tr>
   );

@@ -16,12 +16,12 @@ export default function DonateLearnBanner() {
         borderLeftColor: '#f59e0b',
       }}
     >
-      <p className="text-sm font-bold text-amber-900 mb-2">📚 {t('learningTitle')}</p>
+      <p className="text-sm font-medium text-amber-900 mb-2">📚 {t('learningTitle')}</p>
       <p className="text-xs text-amber-800/80 leading-relaxed mb-1">{t('learningBody')}</p>
       <p className="text-xs text-amber-800/80 leading-relaxed mb-4">{t('learningAsk')}</p>
       <Link
         href="/donate"
-        className="inline-flex items-center gap-2 text-white font-bold text-xs px-4 py-2 rounded-full transition-colors hover:opacity-90"
+        className="inline-flex items-center gap-2 text-white font-medium text-xs px-4 py-2 rounded-full transition-colors hover:opacity-90"
         style={{ background: '#c1272d' }}
       >
         {t('learningBtn')}

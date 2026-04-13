@@ -96,7 +96,7 @@ function PriceField({
   if (asset.type === 'opcvm') {
     return (
       <div>
-        <label className="block text-sm font-semibold text-primary mb-1.5">
+        <label className="block text-sm font-medium text-primary mb-1.5">
           Valeur Liquidative (MAD)
         </label>
         <input
@@ -125,7 +125,7 @@ function PriceField({
 
   return (
     <div>
-      <label className="block text-sm font-semibold text-primary mb-1.5">
+      <label className="block text-sm font-medium text-primary mb-1.5">
         Prix actuel (MAD)
       </label>
 
@@ -149,7 +149,7 @@ function PriceField({
               {priceStatus.data.lastPrice.toLocaleString('fr-MA')} MAD
             </span>
             <span
-              className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+              className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                 priceStatus.data.changePercent >= 0
                   ? 'bg-emerald-100 text-emerald-700'
                   : 'bg-red-100 text-red-600'
@@ -184,7 +184,7 @@ function PriceField({
               ].map(({ label, value }) => (
                 <div key={label} className="bg-surface-50 rounded-lg px-2 py-1.5 border border-surface-100">
                   <p className="text-[10px] text-primary/40 font-medium">{label}</p>
-                  <p className="text-xs font-semibold text-primary">
+                  <p className="text-xs font-medium text-primary">
                     {value > 0 ? value.toLocaleString('fr-MA') : '—'}
                   </p>
                 </div>
@@ -226,7 +226,7 @@ function PriceField({
           <div className="flex items-start gap-3 px-4 py-3 rounded-xl border border-amber-200 bg-amber-50">
             <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-xs font-semibold text-amber-800">
+              <p className="text-xs font-medium text-amber-800">
                 Prix indisponible — Bourse de Casablanca ne répond pas.
               </p>
               <p className="text-xs text-amber-700 mt-0.5">
@@ -264,7 +264,7 @@ function MarketBadge({ marketStatus }: { marketStatus: MarketStatus | null }) {
   if (!marketStatus) return null;
   return (
     <div
-      className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${
+      className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full w-fit ${
         marketStatus.open
           ? 'bg-emerald-50 text-emerald-700'
           : 'bg-red-50 text-red-600'
@@ -507,20 +507,20 @@ export default function AddToPortfolioModal({
           <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Lock className="w-6 h-6 text-primary/40" />
           </div>
-          <h2 className="text-lg font-black text-primary mb-2">Connectez-vous pour investir</h2>
+          <h2 className="text-lg font-medium text-primary mb-2">Connectez-vous pour investir</h2>
           <p className="text-sm text-primary/50 mb-6">
             Créez un compte gratuit pour ajouter des actifs à votre portefeuille.
           </p>
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-semibold text-sm"
+              className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-medium text-sm"
             >
               Fermer
             </button>
             <a
               href="/auth/login"
-              className="flex-1 px-4 py-3 rounded-xl bg-secondary text-white font-bold text-sm text-center hover:bg-secondary-600 transition-colors"
+              className="flex-1 px-4 py-3 rounded-xl bg-secondary text-white font-medium text-sm text-center hover:bg-secondary-600 transition-colors"
             >
               Se connecter
             </a>
@@ -544,7 +544,7 @@ export default function AddToPortfolioModal({
           <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-7 h-7 text-emerald-500" />
           </div>
-          <h2 className="text-lg font-black text-primary mb-1">Position ajoutée !</h2>
+          <h2 className="text-lg font-medium text-primary mb-1">Position ajoutée !</h2>
           <p className="text-sm text-primary/60">{successMsg}</p>
         </div>
       </div>
@@ -564,7 +564,7 @@ export default function AddToPortfolioModal({
 
         {/* ── Header ── */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-surface-100 sticky top-0 bg-white rounded-t-2xl z-10">
-          <h2 className="text-base font-black text-primary">Ajouter à mon portefeuille</h2>
+          <h2 className="text-base font-medium text-primary">Ajouter à mon portefeuille</h2>
           <button
             onClick={onClose}
             className="text-primary/40 hover:text-primary transition-colors"
@@ -581,7 +581,7 @@ export default function AddToPortfolioModal({
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
               asset.type === 'stock' ? 'bg-secondary/10' : 'bg-accent/10'
             }`}>
-              <span className={`text-sm font-black ${
+              <span className={`text-sm font-medium ${
                 asset.type === 'stock' ? 'text-secondary' : 'text-accent-700'
               }`}>
                 {asset.ticker[0]}
@@ -591,7 +591,7 @@ export default function AddToPortfolioModal({
               <p className="font-bold text-primary text-sm truncate">{asset.name}</p>
               <p className="text-xs text-primary/40">{asset.ticker}</p>
             </div>
-            <span className={`text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0 ${
+            <span className={`text-xs font-medium px-2.5 py-1 rounded-full flex-shrink-0 ${
               asset.type === 'stock'
                 ? 'bg-secondary/10 text-secondary'
                 : 'bg-accent/10 text-accent-700'
@@ -616,7 +616,7 @@ export default function AddToPortfolioModal({
 
           {/* ── Portfolio selection ── */}
           <div>
-            <label className="block text-sm font-semibold text-primary mb-1.5">
+            <label className="block text-sm font-medium text-primary mb-1.5">
               Sélectionner le portefeuille
             </label>
 
@@ -691,7 +691,7 @@ export default function AddToPortfolioModal({
 
           {/* ── Quantity ── */}
           <div>
-            <label className="block text-sm font-semibold text-primary mb-1.5">
+            <label className="block text-sm font-medium text-primary mb-1.5">
               Quantité
             </label>
             <div className="flex items-center gap-3">
@@ -713,7 +713,7 @@ export default function AddToPortfolioModal({
 
           {/* ── Purchase date (read-only) ── */}
           <div>
-            <label className="block text-sm font-semibold text-primary mb-1.5">
+            <label className="block text-sm font-medium text-primary mb-1.5">
               Date d&apos;achat
             </label>
             <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-surface-200 bg-surface-50 text-sm text-primary/60">
@@ -733,7 +733,7 @@ export default function AddToPortfolioModal({
           {estimatedTotal !== null && (
             <div className="bg-surface-50 rounded-xl px-4 py-3 border border-surface-200">
               <p className="text-xs text-primary/50 mb-1">Valeur totale estimée</p>
-              <p className="font-black text-primary text-base">
+              <p className="font-medium text-primary text-base">
                 {estimatedTotal.toLocaleString('fr-MA', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
@@ -761,14 +761,14 @@ export default function AddToPortfolioModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-semibold text-sm hover:bg-surface-50 transition-colors"
+              className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-medium text-sm hover:bg-surface-50 transition-colors"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={!canSubmit}
-              className="flex-1 px-4 py-3 rounded-xl bg-secondary text-white font-bold text-sm hover:bg-secondary-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 rounded-xl bg-secondary text-white font-medium text-sm hover:bg-secondary-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <><Loader2 className="w-4 h-4 animate-spin" /> Ajout...</>

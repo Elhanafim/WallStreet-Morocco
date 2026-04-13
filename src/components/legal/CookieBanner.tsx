@@ -90,7 +90,7 @@ export default function CookieBanner({ onClose }: Props) {
                 <Cookie className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p className="text-white font-bold text-sm mb-1">{t('cookies.bannerTitle')}</p>
+                <p className="text-white font-medium text-sm mb-1">{t('cookies.bannerTitle')}</p>
                 <p className="text-white/60 text-xs leading-relaxed">
                   {t('cookies.bannerText')}{' '}
                   {t('cookies.learnMore')}{' '}
@@ -129,7 +129,7 @@ export default function CookieBanner({ onClose }: Props) {
               </button>
               <button
                 onClick={acceptAll}
-                className="px-4 py-2 rounded-lg bg-success text-white text-xs font-bold hover:bg-success/90 transition-colors shadow-md"
+                className="px-4 py-2 rounded-lg bg-success text-white text-xs font-medium hover:bg-success/90 transition-colors shadow-md"
               >
                 {t('cookies.acceptAll')}
               </button>
@@ -140,7 +140,7 @@ export default function CookieBanner({ onClose }: Props) {
         /* ── Manage view ─────────────────────────────────────────────────── */
         <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-white font-bold text-base">{t('cookies.manage')}</h2>
+            <h2 className="text-white font-medium text-base">{t('cookies.manage')}</h2>
             <button
               onClick={() => setView('banner')}
               className="w-7 h-7 flex items-center justify-center rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors"
@@ -154,10 +154,10 @@ export default function CookieBanner({ onClose }: Props) {
             {/* Essential — always on, cannot toggle */}
             <div className="flex items-center justify-between bg-white/5 rounded-xl p-4">
               <div>
-                <p className="text-white text-sm font-semibold">{t('cookies.categories.essential')}</p>
+                <p className="text-white text-sm font-medium">{t('cookies.categories.essential')}</p>
                 <p className="text-white/50 text-xs mt-0.5">{t('cookies.categories.essentialDesc')}</p>
               </div>
-              <div className="flex items-center gap-1.5 text-success text-xs font-semibold">
+              <div className="flex items-center gap-1.5 text-success text-xs font-medium">
                 <Check className="w-3.5 h-3.5" />
                 Actifs
               </div>
@@ -166,7 +166,7 @@ export default function CookieBanner({ onClose }: Props) {
             {CATEGORIES.map(({ key, labelKey, descKey }) => (
               <div key={key} className="flex items-center justify-between bg-white/5 rounded-xl p-4">
                 <div>
-                  <p className="text-white text-sm font-semibold">{t(labelKey)}</p>
+                  <p className="text-white text-sm font-medium">{t(labelKey)}</p>
                   <p className="text-white/50 text-xs mt-0.5">{t(descKey)}</p>
                 </div>
                 <button
@@ -198,7 +198,7 @@ export default function CookieBanner({ onClose }: Props) {
           <div className="flex gap-2">
             <button
               onClick={saveManaged}
-              className="flex-1 py-2.5 rounded-xl bg-success text-white text-sm font-bold hover:bg-success/90 transition-colors"
+              className="flex-1 py-2.5 rounded-xl bg-success text-white text-sm font-medium hover:bg-success/90 transition-colors"
             >
               {t('cookies.savePreferences')}
             </button>

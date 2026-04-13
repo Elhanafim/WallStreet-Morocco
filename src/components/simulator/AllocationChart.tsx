@@ -30,9 +30,9 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: data.color }}
           />
-          <span className="text-white font-semibold text-sm">{data.name}</span>
+          <span className="text-white font-medium text-sm">{data.name}</span>
         </div>
-        <p className="text-accent font-black text-xl mt-1">{data.percentage}%</p>
+        <p className="text-accent font-medium text-xl mt-1">{data.percentage}%</p>
       </div>
     );
   }
@@ -79,7 +79,7 @@ export default function AllocationChart({ allocations, title = "Allocation du po
   return (
     <div>
       {title && (
-        <h4 className="text-sm font-bold text-primary mb-4">{title}</h4>
+        <h4 className="text-sm font-medium text-primary mb-4">{title}</h4>
       )}
 
       <ResponsiveContainer width="100%" height={260}>
@@ -120,7 +120,7 @@ export default function AllocationChart({ allocations, title = "Allocation du po
               />
               <span className="text-sm text-primary font-medium">{allocation.name}</span>
             </div>
-            <span className="text-sm font-bold text-primary">{allocation.percentage}%</span>
+            <span className="text-sm font-medium text-primary">{allocation.percentage}%</span>
           </div>
         ))}
       </div>

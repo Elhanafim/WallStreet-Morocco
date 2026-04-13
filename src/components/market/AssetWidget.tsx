@@ -45,7 +45,7 @@ function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
       <div className="px-5 pt-5 pb-2">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-bold truncate mb-0.5 leading-tight">
+            <h3 className="text-base font-medium truncate mb-0.5 leading-tight">
               {name}
             </h3>
             <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
             </div>
           </div>
           <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--bg-elevated)] border border-[var(--border)] group-hover:border-[var(--gold)] transition-colors">
-            <span className="text-sm font-black text-[var(--gold)]">
+            <span className="text-sm font-medium text-[var(--gold)]">
               {symbol.split(':')[1]?.[0] || 'A'}
             </span>
           </div>

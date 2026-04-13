@@ -50,13 +50,13 @@ export default function DashboardDonateWidget() {
         borderTop: '3px solid #c1272d',
       }}
     >
-      <p className="text-sm font-black text-gray-900 mb-2">🏗️ {t('dashboardTitle')}</p>
+      <p className="text-sm font-medium text-gray-900 mb-2">🏗️ {t('dashboardTitle')}</p>
       <p className="text-xs text-gray-500 leading-relaxed mb-4">{t('dashboardBody')}</p>
       <div className="flex flex-wrap items-center gap-2">
         <Link
           href="/donate"
           onClick={dismiss}
-          className="inline-flex items-center gap-1.5 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors hover:opacity-90"
+          className="inline-flex items-center gap-1.5 text-white font-medium text-xs px-4 py-2 rounded-xl transition-colors hover:opacity-90"
           style={{ background: '#c1272d' }}
         >
           {t('dashboardBtn')}

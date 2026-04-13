@@ -15,7 +15,7 @@ function Var({ value, size = 'sm' }: { value: number; size?: 'sm' | 'xs' }) {
   const sz   = size === 'xs' ? 'w-2.5 h-2.5' : 'w-3 h-3';
   const txt  = size === 'xs' ? 'text-[11px]' : 'text-xs';
   return (
-    <span className={`inline-flex items-center gap-0.5 font-bold ${txt} ${pos ? 'text-success' : 'text-danger'}`}>
+    <span className={`inline-flex items-center gap-0.5 font-medium ${txt} ${pos ? 'text-success' : 'text-danger'}`}>
       <Icon className={sz} />
       {pos ? '+' : ''}{value.toFixed(2)}%
     </span>
@@ -31,7 +31,7 @@ function CategoryCard({ cat, totalBn }: { cat: CategoryStat; totalBn: number }) 
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${colors.badge}`}>
+          <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${colors.badge}`}>
             {cat.label}
           </span>
           <p className="text-primary/50 text-xs mt-1.5">{cat.nbFonds} fonds</p>
@@ -44,9 +44,9 @@ function CategoryCard({ cat, totalBn }: { cat: CategoryStat; totalBn: number }) 
 
       {/* Actif net */}
       <div>
-        <p className="text-2xl font-black text-primary">
+        <p className="text-2xl font-medium text-primary">
           {cat.actifNetBn.toLocaleString('fr-MA', { maximumFractionDigits: 0 })}
-          <span className="text-sm font-semibold text-primary/40 ml-1">Mrd MAD</span>
+          <span className="text-sm font-medium text-primary/40 ml-1">Mrd MAD</span>
         </p>
       </div>
 
@@ -54,7 +54,7 @@ function CategoryCard({ cat, totalBn }: { cat: CategoryStat; totalBn: number }) 
       <div>
         <div className="flex items-center justify-between mb-1">
           <span className="text-2xs text-primary/40">Part de marché</span>
-          <span className={`text-xs font-bold ${colors.text}`}>{pct.toFixed(1)}%</span>
+          <span className={`text-xs font-medium ${colors.text}`}>{pct.toFixed(1)}%</span>
         </div>
         <div className="w-full h-1.5 bg-surface-100 rounded-full overflow-hidden">
           <div className={`h-full ${colors.bar} rounded-full`} style={{ width: `${pct}%` }} />
@@ -79,14 +79,14 @@ export default function OpcvmMarketBanner({ stats }: { stats: OpcvmMarketStats }
           <div>
             <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-3 py-1 mb-3">
               <span className="w-1.5 h-1.5 bg-success rounded-full" />
-              <span className="text-success text-xs font-semibold uppercase tracking-wide">Données officielles AMMC</span>
+              <span className="text-success text-xs font-medium uppercase tracking-wide">Données officielles AMMC</span>
             </div>
-            <h2 className="text-2xl font-black text-primary">
+            <h2 className="text-2xl font-medium text-primary">
               Marché OPCVM marocain
             </h2>
             <p className="text-primary/50 text-sm mt-1">
               Semaine du {stats.reportDate} · {stats.totalNbFonds} OPCVM ·{' '}
-              <span className="font-semibold text-primary">
+              <span className="font-medium text-primary">
                 {stats.totalActifNetBn.toLocaleString('fr-MA', { maximumFractionDigits: 0 })} Mrd MAD
               </span>{' '}
               d&apos;actif net total

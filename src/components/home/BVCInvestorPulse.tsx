@@ -180,30 +180,30 @@ export default function BVCInvestorPulse() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                   {/* Gainers */}
                   <div>
-                    <h4 className="font-body text-[11px] font-semibold text-[var(--gain)] uppercase tracking-[0.12em] mb-6">
+                    <h4 className="font-body text-[11px] font-medium text-[var(--gain)] uppercase tracking-[0.12em] mb-6">
                       Plus fortes hausses
                     </h4>
                     <div className="space-y-1">
                       {movers.gainers.slice(0, 8).map((stock) => (
                         <div key={stock.ticker} className="flex items-center justify-between h-[46px] border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-base)] px-2 transition-colors">
-                          <span className="font-body text-[13px] font-bold text-[var(--text-primary)] w-12">{stock.ticker}</span>
+                          <span className="font-body text-[13px] font-medium text-[var(--text-primary)] w-12">{stock.ticker}</span>
                           <span className="font-body text-[13px] text-[var(--text-secondary)] flex-1 truncate px-4">{stock.name}</span>
-                          <span className="font-body text-[13px] font-bold text-[var(--gain)]">+{stock.changePercent.toFixed(2)}%</span>
+                          <span className="font-body text-[13px] font-medium text-[var(--gain)]">+{stock.changePercent.toFixed(2)}%</span>
                         </div>
                       ))}
                     </div>
                   </div>
                   {/* Losers */}
                   <div>
-                    <h4 className="font-body text-[11px] font-semibold text-[var(--loss)] uppercase tracking-[0.12em] mb-6">
+                    <h4 className="font-body text-[11px] font-medium text-[var(--loss)] uppercase tracking-[0.12em] mb-6">
                       Plus fortes baisses
                     </h4>
                     <div className="space-y-1">
                       {movers.losers.slice(0, 8).map((stock) => (
                         <div key={stock.ticker} className="flex items-center justify-between h-[46px] border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-base)] px-2 transition-colors">
-                          <span className="font-body text-[13px] font-bold text-[var(--text-primary)] w-12">{stock.ticker}</span>
+                          <span className="font-body text-[13px] font-medium text-[var(--text-primary)] w-12">{stock.ticker}</span>
                           <span className="font-body text-[13px] text-[var(--text-secondary)] flex-1 truncate px-4">{stock.name}</span>
-                          <span className="font-body text-[13px] font-bold text-[var(--loss)]">{stock.changePercent.toFixed(2)}%</span>
+                          <span className="font-body text-[13px] font-medium text-[var(--loss)]">{stock.changePercent.toFixed(2)}%</span>
                         </div>
                       ))}
                     </div>

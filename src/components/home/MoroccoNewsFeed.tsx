@@ -22,7 +22,7 @@ function ImpactPill({ score }: { score: number }) {
   const c = IMPACT_COLORS[Math.max(1, Math.min(5, score))];
   return (
     <span
-      className="inline-block text-[9px] font-black px-1.5 py-0.5 rounded-full flex-shrink-0 leading-none"
+      className="inline-block text-[9px] font-medium px-1.5 py-0.5 rounded-full flex-shrink-0 leading-none"
       style={{ background: c.bg, color: c.color }}
     >
       {score}
@@ -115,7 +115,7 @@ export default function MoroccoNewsFeed() {
       ) : error ? (
         <p className="text-[var(--text-muted)] font-body text-[14px] text-center py-10">
           {t('calendar.moroccoFeed.unavailable')}{' '}
-          <Link href="/calendar" icon={<ArrowRight size={14} />} className="text-[var(--gold)] underline hover:no-underline">
+          <Link href="/calendar" className="text-[var(--gold)] underline hover:no-underline">
             {t('calendar.moroccoFeed.seeCalendar')}
           </Link>
         </p>
@@ -137,7 +137,7 @@ export default function MoroccoNewsFeed() {
                 {idx === separatorIdx && (
                   <div className="flex items-center gap-4 py-4">
                     <div className="flex-1 h-px bg-[var(--border)]" />
-                    <span className="font-body text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--text-muted)]">
+                    <span className="font-body text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--text-muted)]">
                       {t('calendar.moroccoFeed.upcomingDivider')}
                     </span>
                     <div className="flex-1 h-px bg-[var(--border)]" />
@@ -146,7 +146,7 @@ export default function MoroccoNewsFeed() {
                 <div className="group flex items-start gap-4 py-4 transition-all border-l-2 border-transparent hover:border-[var(--gold)] hover:bg-[var(--bg-base)] -mx-6 px-6">
                   <div className="flex flex-col items-center gap-1 w-10 flex-shrink-0 pt-1">
                     <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: impactColor }} />
-                    <span className="font-body text-[9px] font-bold" style={{ color: impactColor }}>{ev.impactScore}</span>
+                    <span className="font-body text-[9px] font-medium" style={{ color: impactColor }}>{ev.impactScore}</span>
                   </div>
                   
                   <div className="flex-1 min-w-0">

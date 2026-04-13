@@ -44,7 +44,7 @@ export default function StrategySection() {
 
         {/* ══ BLOCK 0 — Legal disclaimer (must appear BEFORE any figures) ══════ */}
         <div className="mb-10 bg-amber-400/15 border-l-4 border-amber-400 rounded-xl p-5">
-          <p className="text-amber-300 font-black text-sm mb-2">\u26a0\ufe0f AVERTISSEMENT IMPORTANT</p>
+          <p className="text-amber-300 font-medium text-sm mb-2">\u26a0\ufe0f AVERTISSEMENT IMPORTANT</p>
           <p className="text-amber-100/80 text-xs leading-relaxed">
             <strong className="text-amber-200">Les performances pass\u00e9es ne pr\u00e9jugent pas des performances futures.</strong>{' '}
             Cette section pr\u00e9sente une simulation r\u00e9trospective \u00e0 titre \u00e9ducatif uniquement.
@@ -61,14 +61,14 @@ export default function StrategySection() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-5">
             <TrendingUp className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
-            <span className="text-accent text-xs font-bold uppercase tracking-widest">
+            <span className="text-accent text-xs font-medium uppercase tracking-widest">
               Stratégie &amp; Performance
             </span>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-white leading-tight mb-3">
                 Sélection de titres BVC<br />
                 <span className="text-accent">+51% en 17 mois</span>
               </h2>
@@ -97,7 +97,7 @@ export default function StrategySection() {
         {/* ══ BLOCK 4 — Holdings breakdown ═════════════════════════════════════ */}
         <div className="mb-16">
           <div className="mb-6">
-            <h3 className="text-white font-black text-xl sm:text-2xl mb-1">
+            <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
               Les 4 convictions
             </h3>
             <p className="text-white/40 text-sm">

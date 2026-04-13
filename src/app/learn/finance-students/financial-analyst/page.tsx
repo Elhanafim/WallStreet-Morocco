@@ -30,8 +30,8 @@ export default function FinancialAnalystPage() {
     >
       <div id="ratio-race-game">
         <div className="flex items-center gap-2 mb-6">
-          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">J</span>
-          <h2 className="text-xl font-bold text-primary">Ratio Race : Le Score de Crédit</h2>
+          <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-medium text-xs">J</span>
+          <h2 className="text-xl font-medium text-primary">Ratio Race : Le Score de Crédit</h2>
         </div>
         <RatioRaceGame />
       </div>

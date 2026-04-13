@@ -246,10 +246,10 @@
   "bvc": {
     "dashboardTitle": "Tableau de Bord Investisseur BVC",
     "dashboardSubtitle": "Données clés pour l'investisseur individuel sur la Bourse de Casablanca",
-    "topMovers": "Valeurs du Jour 📊",
+    "topMovers": "Valeurs du Jour",
     "topGains": "▲ Top Hausses",
     "topLosses": "▼ Top Baisses",
-    "indicators": "Indicateurs Marché 📈",
+    "indicators": "Indicateurs Marché",
     "marketCap": "Capitalisation BVC",
     "listedCompanies": "Sociétés cotées",
     "bamRate": "Taux directeur BAM",

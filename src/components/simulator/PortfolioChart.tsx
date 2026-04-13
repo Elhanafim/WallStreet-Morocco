@@ -31,7 +31,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     return (
       <div className="bg-primary border border-secondary/30 rounded-xl p-4 shadow-2xl min-w-[200px]">
-        <p className="text-accent font-bold text-sm mb-3">Année {label}</p>
+        <p className="text-accent font-medium text-sm mb-3">Année {label}</p>
         {payload.map((entry) => (
           <div key={entry.name} className="flex items-center justify-between gap-4 mb-1.5">
             <span className="flex items-center gap-1.5 text-white/70 text-xs">
@@ -41,7 +41,7 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
               />
               {entry.name}
             </span>
-            <span className="text-white font-semibold text-xs">
+            <span className="text-white font-medium text-xs">
               {formatCurrency(entry.value)}
             </span>
           </div>
@@ -71,19 +71,19 @@ export default function PortfolioChart({ data, monthlyAmount }: PortfolioChartPr
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-primary/5 rounded-xl p-3 text-center">
           <p className="text-primary/50 text-xs mb-1">Capital investi</p>
-          <p className="text-primary font-black text-sm">
+          <p className="text-primary font-medium text-sm">
             {formatCurrency(totalContributions)}
           </p>
         </div>
         <div className="bg-success/10 rounded-xl p-3 text-center">
           <p className="text-success/70 text-xs mb-1">Valeur finale</p>
-          <p className="text-success font-black text-sm">
+          <p className="text-success font-medium text-sm">
             {formatCurrency(finalValue)}
           </p>
         </div>
         <div className="bg-accent/10 rounded-xl p-3 text-center">
           <p className="text-accent/70 text-xs mb-1">Plus-values</p>
-          <p className="text-accent font-black text-sm">
+          <p className="text-accent font-medium text-sm">
             +{gainPercent}%
           </p>
         </div>

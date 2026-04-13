@@ -18,7 +18,7 @@ export default function MarchesSupport() {
       </p>
       <Link
         href="/donate"
-        className="text-xs font-bold px-3 py-1 rounded-full border transition-all hover:bg-[#c1272d] hover:text-white hover:border-[#c1272d] whitespace-nowrap"
+        className="text-xs font-medium px-3 py-1 rounded-full border transition-all hover:bg-[#c1272d] hover:text-white hover:border-[#c1272d] whitespace-nowrap"
         style={{ borderColor: '#c1272d', color: '#c1272d' }}
       >
         {t('marchesCta')}

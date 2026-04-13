@@ -119,7 +119,7 @@ function GpCell({ value, pct }: { value: number; pct: number }) {
   const Icon = pos ? TrendingUp : TrendingDown;
   return (
     <div className={`flex flex-col items-end ${pos ? 'text-emerald-600' : 'text-red-500'}`}>
-      <span className="text-sm font-bold flex items-center gap-0.5">
+      <span className="text-sm font-medium flex items-center gap-0.5">
         <Icon className="w-3.5 h-3.5" />
         {pos ? '+' : ''}{fmtMAD(value)}
       </span>
@@ -196,7 +196,7 @@ function DeleteHoldingModal({
         <div className="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <Trash2 className="w-6 h-6 text-red-500" />
         </div>
-        <h2 className="text-lg font-black text-primary mb-2">Supprimer cette position ?</h2>
+        <h2 className="text-lg font-medium text-primary mb-2">Supprimer cette position ?</h2>
         <p className="text-sm text-primary/60 mb-6">
           <strong>{holding.assetName}</strong> ({holding.quantity} × {fmtMAD(holding.purchasePrice)})
           sera supprimé définitivement.
@@ -204,14 +204,14 @@ function DeleteHoldingModal({
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-semibold text-sm hover:bg-surface-50 transition-colors"
+            className="flex-1 px-4 py-3 rounded-xl border border-surface-200 text-primary/70 font-medium text-sm hover:bg-surface-50 transition-colors"
           >
             Annuler
           </button>
           <button
             onClick={handleDelete}
             disabled={loading}
-            className="flex-1 px-4 py-3 rounded-xl bg-red-500 text-white font-bold text-sm hover:bg-red-600 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
+            className="flex-1 px-4 py-3 rounded-xl bg-red-500 text-white font-medium text-sm hover:bg-red-600 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
             Supprimer
@@ -371,7 +371,7 @@ function AddHoldingPanel({
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
-            <h2 className="font-black text-primary text-lg">
+            <h2 className="font-medium text-primary text-lg">
               {step === 1 ? 'Choisir un actif' : 'Détails de la position'}
             </h2>
           </div>
@@ -402,7 +402,7 @@ function AddHoldingPanel({
                   <button
                     key={t}
                     onClick={() => { setTab(t); setSearch(''); }}
-                    className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
                       tab === t ? 'bg-white shadow-sm text-primary' : 'text-primary/50 hover:text-primary'
                     }`}
                   >
@@ -441,14 +441,14 @@ function AddHoldingPanel({
                     <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                       asset.type === 'stock' ? 'bg-secondary/10' : 'bg-accent/10'
                     }`}>
-                      <span className={`text-xs font-black ${
+                      <span className={`text-xs font-medium ${
                         asset.type === 'stock' ? 'text-secondary' : 'text-accent-700'
                       }`}>
                         {asset.symbol.split(':').pop()?.[0] ?? asset.symbol[0]}
                       </span>
                     </div>
                     <div className="min-w-0">
-                      <p className="font-semibold text-primary text-sm leading-tight truncate">{asset.name}</p>
+                      <p className="font-medium text-primary text-sm leading-tight truncate">{asset.name}</p>
                       <p className="text-xs text-primary/40 mt-0.5">
                         {asset.type === 'stock'
                           ? `${asset.symbol} · ${'sector' in asset ? asset.sector : ''}`
@@ -458,7 +458,7 @@ function AddHoldingPanel({
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0 ml-2">
                     {asset.type === 'opcvm' && (
-                      <span className="text-xs font-bold text-primary/50 bg-surface-100 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-medium text-primary/50 bg-surface-100 px-2 py-0.5 rounded-full">
                         {(asset as OpcvmAsset).nav.toLocaleString('fr-MA')} MAD
                       </span>
                     )}
@@ -491,21 +491,21 @@ function AddHoldingPanel({
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${
                   selected.type === 'stock' ? 'bg-secondary/15' : 'bg-accent/15'
                 }`}>
-                  <span className={`text-sm font-black ${
+                  <span className={`text-sm font-medium ${
                     selected.type === 'stock' ? 'text-secondary' : 'text-accent-700'
                   }`}>
                     {selected.symbol.split(':').pop()?.[0] ?? selected.symbol[0]}
                   </span>
                 </div>
                 <div className="min-w-0">
-                  <p className="font-black text-primary text-sm leading-tight">{selected.name}</p>
+                  <p className="font-medium text-primary text-sm leading-tight">{selected.name}</p>
                   <p className="text-xs text-primary/40 mt-0.5">
                     {selected.type === 'stock'
                       ? `${selected.symbol} · ${'sector' in selected ? selected.sector : ''}`
                       : `${'manager' in selected ? selected.manager : ''} · ${'category' in selected ? selected.category : ''}`}
                   </p>
                 </div>
-                <span className={`ml-auto text-xs font-bold px-2 py-1 rounded-full flex-shrink-0 ${
+                <span className={`ml-auto text-xs font-medium px-2 py-1 rounded-full flex-shrink-0 ${
                   selected.type === 'stock'
                     ? 'bg-secondary/10 text-secondary'
                     : 'bg-accent/10 text-accent-700'
@@ -516,7 +516,7 @@ function AddHoldingPanel({
 
               {/* Prix */}
               <div>
-                <label className="block text-sm font-semibold text-primary mb-1.5">
+                <label className="block text-sm font-medium text-primary mb-1.5">
                   Prix d&apos;achat (MAD)
                   {selected.type === 'opcvm' && (
                     <span className="ml-2 text-xs font-normal text-primary/40">
@@ -611,7 +611,7 @@ function AddHoldingPanel({
 
               {/* Quantité */}
               <div>
-                <label className="block text-sm font-semibold text-primary mb-1.5">
+                <label className="block text-sm font-medium text-primary mb-1.5">
                   Quantité {selected.type === 'opcvm' ? '(parts)' : '(actions)'}
                 </label>
                 <input
@@ -629,7 +629,7 @@ function AddHoldingPanel({
 
               {/* Date d'achat */}
               <div>
-                <label className="block text-sm font-semibold text-primary mb-1.5">
+                <label className="block text-sm font-medium text-primary mb-1.5">
                   Date d&apos;achat
                 </label>
                 <input
@@ -643,7 +643,7 @@ function AddHoldingPanel({
 
               {/* Notes (optional) */}
               <div>
-                <label className="block text-sm font-semibold text-primary mb-1.5">
+                <label className="block text-sm font-medium text-primary mb-1.5">
                   Note <span className="text-primary/40 font-normal">(optionnel, 200 car. max)</span>
                 </label>
                 <textarea
@@ -661,7 +661,7 @@ function AddHoldingPanel({
               {estimatedTotal !== null && (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
                   <p className="text-xs text-primary/50 mb-0.5">Valeur totale estimée</p>
-                  <p className="text-xl font-black text-emerald-600">{fmtMAD(estimatedTotal)}</p>
+                  <p className="text-xl font-medium text-emerald-600">{fmtMAD(estimatedTotal)}</p>
                   <p className="text-xs text-primary/30 mt-0.5">
                     {parseFloat(quantity)} × {fmtMAD(parseFloat(price))}
                   </p>
@@ -688,7 +688,7 @@ function AddHoldingPanel({
                 (!price && priceState.status !== 'success') ||
                 (!!price && parseFloat(price) <= 0)
               }
-                className="w-full bg-secondary text-white font-bold py-3.5 rounded-xl hover:bg-secondary-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm"
+                className="w-full bg-secondary text-white font-medium py-3.5 rounded-xl hover:bg-secondary-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm"
               >
                 {loading ? (
                   <><Loader2 className="w-4 h-4 animate-spin" /> Ajout en cours...</>
@@ -733,7 +733,7 @@ function HoldingsTable({
                 {columns.map((h, i) => (
                   <th
                     key={h + i}
-                    className={`px-4 py-3.5 text-xs font-semibold text-primary/50 uppercase tracking-wider ${
+                    className={`px-4 py-3.5 text-xs font-medium text-primary/50 uppercase tracking-wider ${
                       i === 0 ? 'text-left' : i >= columns.length - 2 ? 'text-center' : 'text-right'
                     }`}
                   >
@@ -757,20 +757,20 @@ function HoldingsTable({
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
                           h.assetType === 'STOCK' ? 'bg-secondary/10' : 'bg-accent/10'
                         }`}>
-                          <span className={`text-xs font-black ${
+                          <span className={`text-xs font-medium ${
                             h.assetType === 'STOCK' ? 'text-secondary' : 'text-accent-700'
                           }`}>
                             {h.assetSymbol.split(':').pop()?.[0] ?? h.assetSymbol[0]}
                           </span>
                         </div>
-                        <span className="font-semibold text-primary text-sm leading-tight max-w-[140px] truncate">
+                        <span className="font-medium text-primary text-sm leading-tight max-w-[140px] truncate">
                           {h.assetName}
                         </span>
                       </div>
                     </td>
                     {/* Type */}
                     <td className="px-4 py-3.5 text-right">
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                         h.assetType === 'STOCK'
                           ? 'bg-secondary/10 text-secondary'
                           : 'bg-accent/10 text-accent-700'
@@ -787,7 +787,7 @@ function HoldingsTable({
                       </span>
                     </td>
                     {/* Qté */}
-                    <td className="px-4 py-3.5 text-right text-sm font-semibold text-primary">
+                    <td className="px-4 py-3.5 text-right text-sm font-medium text-primary">
                       {h.quantity.toLocaleString('fr-MA')}
                     </td>
                     {/* Prix d'achat */}
@@ -801,7 +801,7 @@ function HoldingsTable({
                       ) : pricesLoading && !livePrice ? (
                         <span className="inline-block w-14 h-4 bg-surface-200 rounded animate-pulse" />
                       ) : livePrice ? (
-                        <span className="font-semibold text-primary">{fmtMAD(livePrice)}</span>
+                        <span className="font-medium text-primary">{fmtMAD(livePrice)}</span>
                       ) : (
                         <span className="text-primary/30 text-xs">n/a</span>
                       )}
@@ -811,7 +811,7 @@ function HoldingsTable({
                       {fmtDate(h.purchaseDate)}
                     </td>
                     {/* Valeur investie / actuelle */}
-                    <td className="px-4 py-3.5 text-right text-sm font-bold text-primary">
+                    <td className="px-4 py-3.5 text-right text-sm font-medium text-primary">
                       {fmtMAD(livePrice ? currentValue : cost)}
                     </td>
                     {/* G/P */}
@@ -1005,9 +1005,9 @@ export default function PortfolioDetailPage({
           <div className="w-16 h-16 bg-surface-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Briefcase className="w-7 h-7 text-primary/30" />
           </div>
-          <h2 className="text-xl font-black text-primary mb-2">Portefeuille introuvable</h2>
+          <h2 className="text-xl font-medium text-primary mb-2">Portefeuille introuvable</h2>
           <p className="text-primary/50 text-sm mb-6">Ce portefeuille n&apos;existe pas ou ne vous appartient pas.</p>
-          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-secondary text-white font-bold px-5 py-3 rounded-xl text-sm">
+          <Link href="/portfolio" className="inline-flex items-center gap-2 bg-secondary text-white font-medium px-5 py-3 rounded-xl text-sm">
             <ArrowLeft className="w-4 h-4" /> Retour
           </Link>
         </div>
@@ -1035,10 +1035,10 @@ export default function PortfolioDetailPage({
                 <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
                   <Briefcase className="w-5 h-5 text-accent" />
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-white">{portfolio.name}</h1>
+                <h1 className="text-2xl sm:text-3xl font-medium text-white">{portfolio.name}</h1>
               </div>
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-xs font-semibold text-accent bg-accent/20 px-3 py-1 rounded-full">
+                <span className="text-xs font-medium text-accent bg-accent/20 px-3 py-1 rounded-full">
                   {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy}
                 </span>
                 <span className="text-white/50 text-sm">
@@ -1052,14 +1052,14 @@ export default function PortfolioDetailPage({
                   <button
                     onClick={() => refreshPrices(holdings)}
                     disabled={pricesLoading}
-                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm disabled:opacity-50"
+                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-medium px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm disabled:opacity-50"
                     title="Actualiser les prix"
                   >
                     <RefreshCw className={`w-4 h-4 ${pricesLoading ? 'animate-spin' : ''}`} />
                   </button>
                   <button
                     onClick={() => exportCSV(holdings, portfolio.name)}
-                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
+                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-medium px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
                     title="Exporter CSV"
                   >
                     <Download className="w-4 h-4" />
@@ -1069,7 +1069,7 @@ export default function PortfolioDetailPage({
               )}
               <button
                 onClick={() => setShowPanel(true)}
-                className="flex items-center gap-2 bg-accent text-primary font-bold px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm"
+                className="flex items-center gap-2 bg-accent text-primary font-medium px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm"
               >
                 <Plus className="w-4 h-4" /> Ajouter un actif
               </button>
@@ -1080,7 +1080,7 @@ export default function PortfolioDetailPage({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
             <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
               <DollarSign className="w-4 h-4 text-white/40 mx-auto mb-2" />
-              <p className="text-white font-black text-xl leading-none">{fmtMAD(totalCost, true)}</p>
+              <p className="text-white font-medium text-xl leading-none">{fmtMAD(totalCost, true)}</p>
               <p className="text-white/50 text-xs mt-1">Capital investi</p>
             </div>
             <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
@@ -1088,7 +1088,7 @@ export default function PortfolioDetailPage({
               {pricesLoading && !perf ? (
                 <div className="h-7 w-20 bg-white/20 rounded animate-pulse mx-auto mb-1" />
               ) : (
-                <p className={`font-black text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                <p className={`font-medium text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
                   {fmtMAD(totalValue, true)}
                 </p>
               )}
@@ -1103,7 +1103,7 @@ export default function PortfolioDetailPage({
               {pricesLoading && !perf ? (
                 <div className="h-7 w-16 bg-white/20 rounded animate-pulse mx-auto mb-1" />
               ) : (
-                <p className={`font-black text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
+                <p className={`font-medium text-xl leading-none ${totalGain >= 0 ? 'text-emerald-300' : 'text-red-300'}`}>
                   {totalGain >= 0 ? '+' : ''}{totalGainPct.toFixed(2)}%
                 </p>
               )}
@@ -1111,7 +1111,7 @@ export default function PortfolioDetailPage({
             </div>
             <div className="bg-white/10 border border-white/15 rounded-2xl p-4 text-center">
               <Minus className="w-4 h-4 text-white/40 mx-auto mb-2" />
-              <p className="text-white font-black text-xl leading-none">{holdings.length}</p>
+              <p className="text-white font-medium text-xl leading-none">{holdings.length}</p>
               <p className="text-white/50 text-xs mt-1">Positions</p>
             </div>
           </div>
@@ -1125,13 +1125,13 @@ export default function PortfolioDetailPage({
             <div className="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="w-7 h-7 text-secondary" />
             </div>
-            <h3 className="text-lg font-black text-primary mb-2">Aucune position</h3>
+            <h3 className="text-lg font-medium text-primary mb-2">Aucune position</h3>
             <p className="text-primary/50 text-sm max-w-xs mx-auto mb-6">
               Ajoutez vos premières actions BVC ou parts OPCVM pour commencer à suivre votre portefeuille.
             </p>
             <button
               onClick={() => setShowPanel(true)}
-              className="inline-flex items-center gap-2 bg-secondary text-white font-bold px-5 py-3 rounded-xl hover:bg-secondary-600 transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-secondary text-white font-medium px-5 py-3 rounded-xl hover:bg-secondary-600 transition-colors text-sm"
             >
               <Plus className="w-4 h-4" /> Ajouter un actif
             </button>

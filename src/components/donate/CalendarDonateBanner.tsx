@@ -54,7 +54,7 @@ export default function CalendarDonateBanner() {
         <Link
           href="/donate"
           onClick={dismiss}
-          className="text-white font-bold text-xs px-3 py-1.5 rounded-full transition-colors hover:opacity-90 whitespace-nowrap"
+          className="text-white font-medium text-xs px-3 py-1.5 rounded-full transition-colors hover:opacity-90 whitespace-nowrap"
           style={{ background: '#c1272d' }}
         >
           {t('calendarBtn')}

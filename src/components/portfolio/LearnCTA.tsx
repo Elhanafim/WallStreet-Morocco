@@ -11,7 +11,7 @@ export default function LearnCTA() {
       className="rounded-2xl shadow-lg p-8 text-center"
       style={{ background: 'linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%)' }}
     >
-      <h2 className="text-2xl font-black text-white mb-3">
+      <h2 className="text-2xl font-medium text-white mb-3">
         {t('learn_cta_title')}
       </h2>
       <p className="text-white/75 text-sm mb-6 max-w-md mx-auto">
@@ -19,7 +19,7 @@ export default function LearnCTA() {
       </p>
       <Link
         href="/learn"
-        className="inline-block bg-white text-blue-700 font-bold px-6 py-3 rounded-xl hover:scale-105 transition-transform duration-200 shadow-md text-sm"
+        className="inline-block bg-white text-blue-700 font-medium px-6 py-3 rounded-xl hover:scale-105 transition-transform duration-200 shadow-md text-sm"
       >
         {t('learn_cta_button')}
       </Link>

@@ -44,7 +44,7 @@ export default function ScenariosTable({ scenarios }: ScenariosTableProps) {
     >
       {/* Header */}
       <div className="mb-6">
-        <h3 className="text-white font-black text-xl sm:text-2xl mb-1">
+        <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
           Pourquoi la concentration bat la diversification
         </h3>
         <p className="text-white/40 text-sm">
@@ -64,19 +64,19 @@ export default function ScenariosTable({ scenarios }: ScenariosTableProps) {
           <table className="w-full min-w-[560px] border-collapse text-sm" role="table">
             <thead>
               <tr className="border-b border-white/10">
-                <th scope="col" className="text-left py-3 px-4 text-white/40 text-xs font-bold uppercase tracking-wide">
+                <th scope="col" className="text-left py-3 px-4 text-white/40 text-xs font-medium uppercase tracking-wide">
                   Scénario
                 </th>
-                <th scope="col" className="text-center py-3 px-4 text-white/40 text-xs font-bold uppercase tracking-wide">
+                <th scope="col" className="text-center py-3 px-4 text-white/40 text-xs font-medium uppercase tracking-wide">
                   Valeurs
                 </th>
-                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-bold uppercase tracking-wide">
+                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-medium uppercase tracking-wide">
                   Capital
                 </th>
-                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-bold uppercase tracking-wide">
+                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-medium uppercase tracking-wide">
                   Valeur finale
                 </th>
-                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-bold uppercase tracking-wide">
+                <th scope="col" className="text-right py-3 px-4 text-white/40 text-xs font-medium uppercase tracking-wide">
                   Performance
                 </th>
               </tr>
@@ -94,24 +94,24 @@ export default function ScenariosTable({ scenarios }: ScenariosTableProps) {
                   }`}
                 >
                   <td className="py-3.5 px-4">
-                    <span className="text-white font-semibold">
+                    <span className="text-white font-medium">
                       {s.icon && <span className="mr-1.5">{s.icon}</span>}
                       {s.label}
                     </span>
                     {s.highlight && (
-                      <span className="ml-2 text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded-full">
+                      <span className="ml-2 text-[10px] bg-emerald-500/20 text-emerald-400 font-medium px-2 py-0.5 rounded-full">
                         Choix retenu
                       </span>
                     )}
                   </td>
                   <td className="py-3.5 px-4 text-center text-white/60">{s.stocks}</td>
                   <td className="py-3.5 px-4 text-right text-white/60">${fmt(s.capital)}</td>
-                  <td className={`py-3.5 px-4 text-right font-bold ${s.highlight ? 'text-emerald-400' : 'text-white/70'}`}>
+                  <td className={`py-3.5 px-4 text-right font-medium ${s.highlight ? 'text-emerald-400' : 'text-white/70'}`}>
                     ${fmt(s.value)}
                   </td>
                   <td className="py-3.5 px-4 text-right">
                     <span
-                      className={`font-black text-base ${
+                      className={`font-medium text-base ${
                         s.highlight
                           ? 'text-emerald-400'
                           : s.muted

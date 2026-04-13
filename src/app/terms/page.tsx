@@ -26,7 +26,7 @@ export default function TermsPage() {
               <FileText className="w-6 h-6 text-accent" />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white">
+              <h1 className="text-3xl sm:text-4xl font-medium text-white">
                 Conditions d&apos;utilisation
               </h1>
               <p className="text-white/50 text-sm mt-1">Dernière mise à jour : 25 mars 2026</p>
@@ -34,7 +34,7 @@ export default function TermsPage() {
           </div>
           {/* Important disclaimer */}
           <div className="bg-warning/20 border border-warning/40 rounded-xl px-5 py-3 mt-4">
-            <p className="text-warning text-sm font-semibold">
+            <p className="text-warning text-sm font-medium">
               ⚠️ WallStreet Morocco est un site d&apos;information et d&apos;éducation financière
               uniquement — pas un service de conseil en investissement réglementé.
             </p>
@@ -69,7 +69,7 @@ export default function TermsPage() {
                 UNIQUEMENT.
               </p>
               <div>
-                <p className="font-semibold text-primary mb-2">CE SITE NE FOURNIT PAS :</p>
+                <p className="font-medium text-primary mb-2">CE SITE NE FOURNIT PAS :</p>
                 <ul className="space-y-1">
                   <li className="flex items-start gap-2"><Bullet /><span>De conseil en investissement au sens de la réglementation AMMC</span></li>
                   <li className="flex items-start gap-2"><Bullet /><span>De recommandations personnalisées d&apos;achat ou de vente de titres financiers</span></li>
@@ -78,7 +78,7 @@ export default function TermsPage() {
                 </ul>
               </div>
               <div>
-                <p className="font-semibold text-primary mb-2">LES DONNÉES AFFICHÉES :</p>
+                <p className="font-medium text-primary mb-2">LES DONNÉES AFFICHÉES :</p>
                 <ul className="space-y-1">
                   <li className="flex items-start gap-2"><Bullet /><span>Sont fournies avec un délai minimum de 15 minutes</span></li>
                   <li className="flex items-start gap-2"><Bullet /><span>Peuvent contenir des erreurs, des inexactitudes ou des omissions</span></li>
@@ -204,7 +204,7 @@ export default function TermsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-black text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
+      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
       <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
     </section>
   );

@@ -55,7 +55,7 @@ export default function InvestmentThesis() {
     >
       {/* Header */}
       <div className="mb-6">
-        <h3 className="text-white font-black text-xl sm:text-2xl mb-1">
+        <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
           Ma thèse d&apos;investissement
         </h3>
         <p className="text-white/40 text-sm">Novembre 2024 · Analyse fondamentale · Mégatendances</p>
@@ -75,7 +75,7 @@ export default function InvestmentThesis() {
           </p>
           <p className="text-white/70 text-sm sm:text-base leading-relaxed mt-4">
             Le résultat —{' '}
-            <span className="text-emerald-400 font-bold">+54,6% en DCA</span>
+            <span className="text-emerald-400 font-medium">+54,6% en DCA</span>
             {' '}contre{' '}
             <span className="text-white/50">+2,1% pour le MASI</span>
             {' '}— démontre que la sélection active, basée sur l&apos;analyse
@@ -86,7 +86,7 @@ export default function InvestmentThesis() {
 
         {/* Right: conviction pills — 2 columns */}
         <div className="lg:col-span-2 space-y-3">
-          <p className="text-white/40 text-xs uppercase tracking-widest font-bold mb-4">
+          <p className="text-white/40 text-xs uppercase tracking-widest font-medium mb-4">
             3 convictions fondamentales
           </p>
           {CONVICTIONS.map((c, i) => (
@@ -98,7 +98,7 @@ export default function InvestmentThesis() {
               }}
             >
               <span className="text-xl flex-shrink-0" aria-hidden="true">{c.icon}</span>
-              <p className="text-white/80 text-sm font-semibold leading-snug">{c.text}</p>
+              <p className="text-white/80 text-sm font-medium leading-snug">{c.text}</p>
             </div>
           ))}
         </div>

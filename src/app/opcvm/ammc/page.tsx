@@ -70,8 +70,8 @@ function KpiCard({ label, value, sub, color = BB_ORANGE }: {
       className="flex flex-col gap-1 px-5 py-4 border"
       style={{ background: BB_CARD, borderColor: `${color}44` }}
     >
-      <span className="text-[10px] uppercase tracking-widest font-bold" style={{ color: BB_MUTED }}>{label}</span>
-      <span className="text-2xl font-black tabular-nums" style={{ color }}>{value}</span>
+      <span className="text-[10px] uppercase tracking-widest font-medium" style={{ color: BB_MUTED }}>{label}</span>
+      <span className="text-2xl font-medium tabular-nums" style={{ color }}>{value}</span>
       <span className="text-[11px]" style={{ color: BB_MUTED }}>{sub}</span>
     </div>
   );
@@ -87,7 +87,7 @@ function ScoreBar({ score }: { score: number }) {
           style={{ width: `${score}%`, background: color }}
         />
       </div>
-      <span className="text-xs font-bold tabular-nums w-10 text-right" style={{ color }}>{score.toFixed(0)}</span>
+      <span className="text-xs font-medium tabular-nums w-10 text-right" style={{ color }}>{score.toFixed(0)}</span>
     </div>
   );
 }
@@ -190,7 +190,7 @@ export default function OpcvmAmmcPage() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: BB_BG }}>
         <div className="text-center space-y-3">
           <div className="text-3xl animate-pulse" style={{ color: BB_ORANGE }}>◈</div>
-          <p className="text-sm font-bold uppercase tracking-widest" style={{ color: BB_MUTED }}>
+          <p className="text-sm font-medium uppercase tracking-widest" style={{ color: BB_MUTED }}>
             Chargement des données AMMC…
           </p>
         </div>
@@ -202,13 +202,13 @@ export default function OpcvmAmmcPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: BB_BG }}>
         <div className="text-center space-y-4 max-w-md px-6">
-          <p className="text-lg font-bold" style={{ color: BB_RED }}>Données indisponibles</p>
+          <p className="text-lg font-medium" style={{ color: BB_RED }}>Données indisponibles</p>
           <p className="text-sm" style={{ color: BB_MUTED }}>
             Impossible de charger les données AMMC. Vérifiez votre connexion ou relancez le pipeline.
           </p>
           <button
             onClick={load}
-            className="px-4 py-2 text-sm font-bold border"
+            className="px-4 py-2 text-sm font-medium border"
             style={{ color: BB_ORANGE, borderColor: BB_ORANGE }}
           >
             Réessayer
@@ -245,7 +245,7 @@ export default function OpcvmAmmcPage() {
         style={{ background: '#060c18', borderColor: BB_BORDER }}
       >
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-black uppercase tracking-tight" style={{ color: BB_ORANGE }}>
+          <h1 className="text-2xl font-medium uppercase tracking-tight" style={{ color: BB_ORANGE }}>
             ◈ Statistiques Hebdomadaires OPCVM
           </h1>
           <p className="text-sm mt-1" style={{ color: BB_MUTED }}>
@@ -291,7 +291,7 @@ export default function OpcvmAmmcPage() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className="px-4 py-2 text-xs font-bold uppercase tracking-widest transition-colors"
+              className="px-4 py-2 text-xs font-medium uppercase tracking-widest transition-colors"
               style={{
                 color: activeTab === tab ? BB_ORANGE : BB_MUTED,
                 borderBottom: activeTab === tab ? `2px solid ${BB_ORANGE}` : '2px solid transparent',
@@ -315,7 +315,7 @@ export default function OpcvmAmmcPage() {
             {/* Category breakdown table */}
             <div className="border overflow-x-auto" style={{ borderColor: BB_BORDER, background: BB_CARD }}>
               <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: BB_BORDER }}>
-                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                <span className="text-xs font-medium uppercase tracking-widest" style={{ color: BB_ORANGE }}>
                   Répartition par Catégorie
                 </span>
                 <span className="text-xs" style={{ color: BB_MUTED }}>
@@ -326,7 +326,7 @@ export default function OpcvmAmmcPage() {
                 <thead>
                   <tr className="border-b" style={{ borderColor: BB_BORDER, color: BB_MUTED }}>
                     {['Catégorie', 'Fonds', 'Encours', 'Poids', 'Δ Hebdo', 'Idx Perf.', 'Souscriptions', 'Rachats', 'Flux Nets', 'Score'].map(h => (
-                      <th key={h} className="px-4 py-2 text-left font-bold uppercase tracking-wider">{h}</th>
+                      <th key={h} className="px-4 py-2 text-left font-medium uppercase tracking-wider">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -339,15 +339,15 @@ export default function OpcvmAmmcPage() {
                         className="border-b transition-colors hover:bg-white/5"
                         style={{ borderColor: BB_BORDER }}
                       >
-                        <td className="px-4 py-3 font-bold" style={{ color }}>{c.label}</td>
+                        <td className="px-4 py-3 font-medium" style={{ color }}>{c.label}</td>
                         <td className="px-4 py-3" style={{ color: BB_MUTED }}>{c.nb_fonds ?? '—'}</td>
-                        <td className="px-4 py-3 font-bold tabular-nums" style={{ color: BB_CYAN }}>
+                        <td className="px-4 py-3 font-medium tabular-nums" style={{ color: BB_CYAN }}>
                           {mrd(c.aum)} MAD
                         </td>
                         <td className="px-4 py-3 tabular-nums" style={{ color: BB_MUTED }}>
                           {c.weight?.toFixed(1)}%
                         </td>
-                        <td className="px-4 py-3 font-bold tabular-nums" style={{ color: pctColor(c.weekly_growth) }}>
+                        <td className="px-4 py-3 font-medium tabular-nums" style={{ color: pctColor(c.weekly_growth) }}>
                           {pct(c.weekly_growth)}
                         </td>
                         <td className="px-4 py-3 tabular-nums" style={{ color: BB_YELLOW }}>
@@ -360,7 +360,7 @@ export default function OpcvmAmmcPage() {
                           -{mrd(c.redemptions)}
                         </td>
                         <td
-                          className="px-4 py-3 font-bold tabular-nums"
+                          className="px-4 py-3 font-medium tabular-nums"
                           style={{ color: (c.net_flow ?? 0) >= 0 ? BB_GREEN : BB_RED }}
                         >
                           {(c.net_flow ?? 0) >= 0 ? '+' : ''}{mrd(c.net_flow)}
@@ -373,20 +373,20 @@ export default function OpcvmAmmcPage() {
                   })}
                   {/* Totals row */}
                   <tr style={{ background: '#0d1626' }}>
-                    <td className="px-4 py-3 font-black uppercase text-[10px] tracking-widest" style={{ color: BB_ORANGE }}>Total</td>
-                    <td className="px-4 py-3 font-bold" style={{ color: BB_WHITE }}>
+                    <td className="px-4 py-3 font-medium uppercase text-[10px] tracking-widest" style={{ color: BB_ORANGE }}>Total</td>
+                    <td className="px-4 py-3 font-medium" style={{ color: BB_WHITE }}>
                       {catList.reduce((s, c) => s + (c.nb_fonds ?? 0), 0)}
                     </td>
-                    <td className="px-4 py-3 font-black tabular-nums" style={{ color: BB_CYAN }}>
+                    <td className="px-4 py-3 font-medium tabular-nums" style={{ color: BB_CYAN }}>
                       {mrd(latest.aum_total)} MAD
                     </td>
-                    <td className="px-4 py-3 font-bold" style={{ color: BB_WHITE }}>100%</td>
-                    <td className="px-4 py-3 font-bold tabular-nums" style={{ color: pctColor(latest.weekly_growth) }}>
+                    <td className="px-4 py-3 font-medium" style={{ color: BB_WHITE }}>100%</td>
+                    <td className="px-4 py-3 font-medium tabular-nums" style={{ color: pctColor(latest.weekly_growth) }}>
                       {pct(latest.weekly_growth)}
                     </td>
                     <td colSpan={2} />
                     <td />
-                    <td className="px-4 py-3 font-black tabular-nums" style={{ color: latest.flows.net_flow >= 0 ? BB_GREEN : BB_RED }}>
+                    <td className="px-4 py-3 font-medium tabular-nums" style={{ color: latest.flows.net_flow >= 0 ? BB_GREEN : BB_RED }}>
                       {latest.flows.net_flow >= 0 ? '+' : ''}{mrd(latest.flows.net_flow)}
                     </td>
                     <td />
@@ -407,7 +407,7 @@ export default function OpcvmAmmcPage() {
                     style={{ background: BB_CARD, borderColor: `${color}44`, borderLeft: `3px solid ${color}` }}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-black" style={{ color }}>
+                      <span className="text-sm font-medium" style={{ color }}>
                         {medals[i] ? medals[i] + ' ' : ''}{c.label}
                       </span>
                       <span className="text-xs" style={{ color: BB_MUTED }}>{c.nb_fonds} fonds</span>
@@ -450,7 +450,7 @@ export default function OpcvmAmmcPage() {
 
             {/* AUM Line Chart */}
             <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+              <h3 className="text-xs font-medium uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
                 Évolution de l'Encours par Catégorie (M MAD)
               </h3>
               <ResponsiveContainer width="100%" height={280}>
@@ -484,7 +484,7 @@ export default function OpcvmAmmcPage() {
 
               {/* Pie Chart — category allocation */}
               <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-                <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                <h3 className="text-xs font-medium uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
                   Répartition de l'Encours (Semaine {latest.week_number})
                 </h3>
                 <ResponsiveContainer width="100%" height={240}>
@@ -520,7 +520,7 @@ export default function OpcvmAmmcPage() {
 
               {/* Bar Chart — weekly flows */}
               <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-                <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+                <h3 className="text-xs font-medium uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
                   Flux Hebdomadaires (M MAD)
                 </h3>
                 <ResponsiveContainer width="100%" height={240}>
@@ -540,7 +540,7 @@ export default function OpcvmAmmcPage() {
 
             {/* Score evolution line chart */}
             <div className="border p-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+              <h3 className="text-xs font-medium uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
                 Évolution des Scores OPCVM (0–100)
               </h3>
               <ResponsiveContainer width="100%" height={240}>
@@ -574,7 +574,7 @@ export default function OpcvmAmmcPage() {
             {/* Auto-generated insights */}
             <div className="border" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
               <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
-                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                <span className="text-xs font-medium uppercase tracking-widest" style={{ color: BB_ORANGE }}>
                   ◈ Insights Automatisés — {latest.date}
                 </span>
               </div>
@@ -588,14 +588,14 @@ export default function OpcvmAmmcPage() {
             {/* Historical insights */}
             <div className="border" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
               <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
-                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                <span className="text-xs font-medium uppercase tracking-widest" style={{ color: BB_ORANGE }}>
                   ◈ Historique des Signaux
                 </span>
               </div>
               <div className="overflow-y-auto" style={{ maxHeight: 420 }}>
                 {[...history].reverse().slice(0, 3).map(snap => (
                   <div key={snap.date} className="border-b px-4 py-3" style={{ borderColor: BB_BORDER }}>
-                    <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: BB_CYAN }}>
+                    <p className="text-[10px] font-medium uppercase tracking-widest mb-2" style={{ color: BB_CYAN }}>
                       Semaine {snap.week_number} · {snap.date}
                     </p>
                     {snap.insights.slice(0, 2).map((txt, i) => (
@@ -611,7 +611,7 @@ export default function OpcvmAmmcPage() {
             {/* Market metrics */}
             <div className="border md:col-span-2" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
               <div className="px-4 py-3 border-b" style={{ borderColor: BB_BORDER }}>
-                <span className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+                <span className="text-xs font-medium uppercase tracking-widest" style={{ color: BB_ORANGE }}>
                   ◈ Métriques de Marché — Momentum & Tendances
                 </span>
               </div>
@@ -622,8 +622,8 @@ export default function OpcvmAmmcPage() {
                   const momentum = weeks3.filter(g => g !== null && g > 0).length;
                   return (
                     <div key={c.key} className="px-4 py-4 text-center">
-                      <p className="text-[10px] uppercase font-bold tracking-wider mb-2" style={{ color }}>{c.label}</p>
-                      <p className="text-lg font-black" style={{ color: scoreColor(c.score ?? 50) }}>
+                      <p className="text-[10px] uppercase font-medium tracking-wider mb-2" style={{ color }}>{c.label}</p>
+                      <p className="text-lg font-medium" style={{ color: scoreColor(c.score ?? 50) }}>
                         {c.score?.toFixed(0) ?? '—'}
                       </p>
                       <p className="text-[10px] mt-1" style={{ color: BB_MUTED }}>score</p>
@@ -651,19 +651,19 @@ export default function OpcvmAmmcPage() {
 
             {/* Controls */}
             <div className="border p-5 space-y-5" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-              <h3 className="text-xs font-black uppercase tracking-widest" style={{ color: BB_ORANGE }}>
+              <h3 className="text-xs font-medium uppercase tracking-widest" style={{ color: BB_ORANGE }}>
                 ◈ Paramètres du Simulateur
               </h3>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                <label className="text-xs font-medium uppercase tracking-wider" style={{ color: BB_MUTED }}>
                   Montant initial (MAD)
                 </label>
                 <input
                   type="number"
                   value={simAmount}
                   onChange={e => setSimAmount(Number(e.target.value))}
-                  className="w-full bg-transparent border px-3 py-2 text-sm font-bold outline-none"
+                  className="w-full bg-transparent border px-3 py-2 text-sm font-medium outline-none"
                   style={{ borderColor: BB_BORDER, color: BB_WHITE }}
                   min={1000}
                   step={10000}
@@ -671,13 +671,13 @@ export default function OpcvmAmmcPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                <label className="text-xs font-medium uppercase tracking-wider" style={{ color: BB_MUTED }}>
                   Catégorie OPCVM
                 </label>
                 <select
                   value={simCat}
                   onChange={e => setSimCat(e.target.value)}
-                  className="w-full bg-transparent border px-3 py-2 text-sm font-bold outline-none"
+                  className="w-full bg-transparent border px-3 py-2 text-sm font-medium outline-none"
                   style={{ background: BB_CARD, borderColor: BB_BORDER, color: BB_WHITE }}
                 >
                   {catList.map(c => (
@@ -687,7 +687,7 @@ export default function OpcvmAmmcPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider" style={{ color: BB_MUTED }}>
+                <label className="text-xs font-medium uppercase tracking-wider" style={{ color: BB_MUTED }}>
                   Durée : {simWeeks} semaine{simWeeks > 1 ? 's' : ''}
                 </label>
                 <input
@@ -707,14 +707,14 @@ export default function OpcvmAmmcPage() {
               {simResult && (
                 <div className="pt-4 border-t space-y-3" style={{ borderColor: BB_BORDER }}>
                   <div>
-                    <p className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Valeur finale</p>
-                    <p className="text-xl font-black tabular-nums" style={{ color: BB_CYAN }}>
+                    <p className="text-[10px] uppercase font-medium" style={{ color: BB_MUTED }}>Valeur finale</p>
+                    <p className="text-xl font-medium tabular-nums" style={{ color: BB_CYAN }}>
                       {simResult.finalValue.toLocaleString('fr-MA')} MAD
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase font-bold" style={{ color: BB_MUTED }}>Gain / Perte</p>
-                    <p className="text-lg font-black tabular-nums" style={{ color: simResult.gain >= 0 ? BB_GREEN : BB_RED }}>
+                    <p className="text-[10px] uppercase font-medium" style={{ color: BB_MUTED }}>Gain / Perte</p>
+                    <p className="text-lg font-medium tabular-nums" style={{ color: simResult.gain >= 0 ? BB_GREEN : BB_RED }}>
                       {simResult.gain >= 0 ? '+' : ''}{simResult.gain.toLocaleString('fr-MA')} MAD
                     </p>
                     <p className="text-sm" style={{ color: pctColor(simResult.gainPct) }}>
@@ -727,7 +727,7 @@ export default function OpcvmAmmcPage() {
 
             {/* Simulation chart */}
             <div className="border p-5 md:col-span-2" style={{ background: BB_CARD, borderColor: BB_BORDER }}>
-              <h3 className="text-xs font-black uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
+              <h3 className="text-xs font-medium uppercase tracking-widest mb-4" style={{ color: BB_ORANGE }}>
                 Simulation : {catList.find(c => c.key === simCat)?.label} · {simWeeks} semaine{simWeeks > 1 ? 's' : ''}
               </h3>
               {simResult && (

@@ -66,7 +66,7 @@ export default function DonateToast({ holdingsCount = 0 }: { holdingsCount?: num
       >
         <div className="p-4">
           <div className="flex items-start justify-between gap-3 mb-2">
-            <p className="text-sm font-bold leading-snug">{t('toastTitle')}</p>
+            <p className="text-sm font-medium leading-snug">{t('toastTitle')}</p>
             <button
               onClick={dismiss}
               className="text-white/40 hover:text-white/80 flex-shrink-0 transition-colors mt-0.5"
@@ -80,7 +80,7 @@ export default function DonateToast({ holdingsCount = 0 }: { holdingsCount?: num
             <Link
               href="/donate"
               onClick={dismiss}
-              className="flex-1 text-center text-xs font-bold py-2 px-3 rounded-xl transition-colors text-white"
+              className="flex-1 text-center text-xs font-medium py-2 px-3 rounded-xl transition-colors text-white"
               style={{ background: '#c1272d' }}
             >
               {t('toastBtn')}

@@ -60,7 +60,7 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
           </div>
           <span
             className="text-sm font-medium"
-            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)' }}
+            style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-body)' }}
           >
             WallStreet <span style={{ color: 'var(--gold)' }}>Morocco</span>
           </span>
@@ -80,7 +80,7 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
       <nav className="flex-1 px-3 py-5 space-y-0.5 overflow-y-auto">
         <p
           className="text-2xs font-medium uppercase tracking-widest px-2 mb-3"
-          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
+          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
         >
           Menu
         </p>
@@ -95,7 +95,7 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
               style={{
                 color: active ? 'var(--text-primary)' : 'var(--text-muted)',
                 fontWeight: active ? 500 : 400,
-                fontFamily: 'var(--font-sans)',
+                fontFamily: 'var(--font-body)',
                 // Gold 2px left border for active — the 1 gold use in sidebar
                 borderLeft: active ? '2px solid var(--gold)' : '2px solid transparent',
                 paddingLeft: '10px',
@@ -123,7 +123,7 @@ export default function Sidebar({ onClose, mobile }: SidebarProps) {
           className="flex items-center gap-3 w-full px-2 py-2.5 text-sm transition-colors"
           style={{
             color: 'var(--text-muted)',
-            fontFamily: 'var(--font-sans)',
+            fontFamily: 'var(--font-body)',
             borderRadius: '6px',
           }}
           onMouseEnter={e => {

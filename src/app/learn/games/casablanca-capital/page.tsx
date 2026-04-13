@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CasablancaCapitalPage() {
   return (
-    <div className="pt-16 min-h-screen bg-white">
+    <div className="pt-16 min-h-screen bg-[var(--bg-base)]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-6 pb-0">
         <Link
           href="/learn?tab=jeux"

@@ -82,7 +82,7 @@ export default function AfterHoldingDonateModal({ ticker, onClose }: Props) {
             <CheckCircle className="w-7 h-7 text-emerald-500" />
           </div>
 
-          <h2 className="text-base font-black text-gray-900 mb-1">
+          <h2 className="text-base font-medium text-gray-900 mb-1">
             ✅ {ticker} — {t('afterHoldingTitle')}
           </h2>
 
@@ -91,21 +91,21 @@ export default function AfterHoldingDonateModal({ ticker, onClose }: Props) {
           <p className="text-sm text-gray-600 leading-relaxed mb-1">
             {t('afterHoldingBody')}
           </p>
-          <p className="text-sm font-semibold text-gray-800 mb-6">
+          <p className="text-sm font-medium text-gray-800 mb-6">
             {t('afterHoldingAsk')}
           </p>
 
           <div className="flex gap-3">
             <button
               onClick={handleDonate}
-              className="flex-1 text-white font-bold py-3 px-4 rounded-xl text-sm transition-colors hover:opacity-90"
+              className="flex-1 text-white font-medium py-3 px-4 rounded-xl text-sm transition-colors hover:opacity-90"
               style={{ background: '#c1272d' }}
             >
               {t('afterHoldingBtn')}
             </button>
             <button
               onClick={handleSkip}
-              className="flex-shrink-0 px-4 py-3 rounded-xl border border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 transition-colors"
+              className="flex-shrink-0 px-4 py-3 rounded-xl border border-gray-200 text-gray-500 font-medium text-sm hover:bg-gray-50 transition-colors"
             >
               {t('afterHoldingSkip')}
             </button>
