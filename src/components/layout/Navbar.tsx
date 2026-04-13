@@ -148,6 +148,7 @@ export default function Navbar() {
             >
               <span>{td('navLabel')}</span>
             </Link>
+          </div>
 
           {/* Desktop Right: Auth + Theme Toggle */}
           <div className="hidden md:flex items-center gap-2">

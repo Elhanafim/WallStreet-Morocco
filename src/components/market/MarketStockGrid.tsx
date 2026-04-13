@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useRef, useState, memo } from 'react';
 import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
