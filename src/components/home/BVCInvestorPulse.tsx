@@ -1,5 +1,4 @@
-'use client';
-
+// Triggering a new build with a fresh comment.
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
