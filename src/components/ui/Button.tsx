@@ -21,9 +21,6 @@ const sizeClasses: Record<ButtonSize, string> = {
   xl: 'px-8 py-4 text-lg',
 };
 
-const baseClasses =
-  'inline-flex items-center justify-center gap-2 font-sans transition-all duration-150 focus:outline-none select-none tracking-tight';
-
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -37,29 +34,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       style,
       children,
       disabled,
-      onMouseEnter,
-      onMouseLeave,
       ...props
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = useState(false);
     const isDisabled = disabled || loading;
 
     const getVariantClasses = () => {
       switch (variant) {
         case 'primary':
-          return 'bg-gold-gradient text-white border-transparent hover:shadow-lg hover:brightness-110';
+          return 'bg-[var(--gold)] text-[var(--bg-base)] border-transparent hover:brightness-110';
         case 'secondary':
           return 'bg-[var(--bg-elevated)] text-[var(--text-primary)] border-[var(--border)] hover:border-[var(--gold)]';
         case 'outline':
-          return 'bg-transparent text-[var(--gold)] border-[var(--gold)] hover:bg-[var(--gold)] hover:text-white';
+          return 'bg-transparent text-[var(--gold)] border-[var(--gold)] hover:bg-[var(--gold)]/10';
         case 'ghost':
           return 'bg-transparent text-[var(--text-secondary)] border-transparent hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]';
         case 'danger':
-          return 'bg-transparent text-[var(--loss)] border-[var(--loss)] hover:bg-[var(--loss)] hover:text-white';
+          return 'bg-transparent text-[var(--loss)] border-[var(--loss)] hover:bg-[var(--loss)]/10';
         case 'gold':
-          return 'text-gold-gradient border-[var(--gold)] hover:bg-[var(--gold)] hover:text-white';
+          return 'text-[var(--gold)] border-[var(--gold)] hover:bg-[var(--gold)]/10';
         default:
           return '';
       }
@@ -70,10 +64,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={isDisabled}
         className={cn(
-          baseClasses,
+          'inline-flex items-center justify-center gap-2 font-body transition-all duration-300 focus:outline-none select-none tracking-tight',
           sizeClasses[size],
           getVariantClasses(),
-          'border rounded-xl font-medium transition-all duration-300',
+          'border rounded-[6px] font-medium',
           fullWidth && 'w-full',
           isDisabled && 'opacity-50 cursor-not-allowed pointer-events-none',
           className

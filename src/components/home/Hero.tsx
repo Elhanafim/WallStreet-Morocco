@@ -23,208 +23,59 @@ export default function Hero() {
   const { t } = useTranslation('home');
 
   return (
-    <section
-      className="relative flex flex-col justify-center overflow-hidden"
-      style={{ minHeight: 'calc(100vh - 160px)' }}
-    >
-      {/* Zone 1: Casablanca photo background */}
+    <section className="relative w-full overflow-hidden flex items-center" style={{ height: '520px' }}>
+      {/* PHOTO BACKGROUND */}
       <div className="absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="https://images.unsplash.com/photo-1566127992631-137a642a90f4?w=1920&q=90&auto=format&fit=crop"
-          alt=""
-          aria-hidden="true"
-          className="w-full h-full object-cover object-center"
+          alt="Casablanca night skyline"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: 'center 40%' }}
         />
-        {/* Dynamic overlay for contrast system compliance — uses var(--bg-base) at high opacity */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundColor: 'var(--bg-base)',
-            opacity: 0.9,
-          }}
+        {/* EDITORIAL OVERLAY */}
+        <div 
+          className="absolute inset-0" 
+          style={{ 
+            background: 'linear-gradient(to bottom, rgba(8,15,30,0.55) 0%, rgba(8,15,30,0.80) 100%)' 
+          }} 
         />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      {/* CONTENT */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-[var(--space-md)]">
+        <div className="max-w-[680px]">
+          {/* Eyebrow */}
+          <span className="block font-body text-[12px] font-medium tracking-[0.12em] uppercase text-[var(--gold-light)] mb-4">
+            {t('hero.badge')}
+          </span>
 
-          {/* LEFT: Copy & CTAs */}
-          <div className="text-center lg:text-left animate-fade-in">
+          {/* Main Heading */}
+          <h1 className="font-display text-[56px] font-medium leading-[1.1] text-white mb-6">
+            {t('hero.headline1')} <span className="italic">{t('hero.headline2')}</span>
+            <br />
+            {t('hero.headline3')}
+          </h1>
 
-            {/* Educational badge */}
-            <div
-              className="inline-flex items-center gap-2 mb-5 px-3 py-1.5"
-              style={{
-                border: '1px solid var(--border)',
-                borderRadius: '4px',
-                backgroundColor: 'var(--bg-elevated)',
-              }}
+          {/* Subtitle */}
+          <p className="font-body text-[16px] font-light leading-[1.7] text-[rgba(255,255,255,0.78)] mb-10 max-w-[520px]">
+            {t('hero.subtitle')}
+          </p>
+
+          {/* CTAs */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/market"
+              className="bg-[var(--gold)] text-[var(--bg-base)] px-7 py-3 rounded-[6px] font-body text-[14px] font-medium transition-all hover:brightness-110"
             >
-              <BookOpen className="w-3.5 h-3.5" style={{ color: 'var(--text-muted)' }} />
-              <span
-                className="text-xs"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-              >
-                {t('hero.badge')}
-              </span>
-            </div>
-
-            {/* Headline */}
-            <h1
-              className="mb-4 leading-tight"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 500,
-                fontSize: '32px',
-                color: 'var(--text-primary)',
-              }}
+              {t('hero.cta1')}
+            </Link>
+            <Link
+              href="/learn"
+              className="bg-transparent border-[1.5px] border-[rgba(255,255,255,0.6)] text-white px-7 py-3 rounded-[6px] font-body text-[14px] font-medium transition-all hover:bg-white/10"
             >
-              {t('hero.headline1')}{' '}
-              <span style={{ color: 'var(--gold)' }}>{t('hero.headline2')}</span>
-              <br />
-              {t('hero.headline3')}
-            </h1>
-
-            <p
-              className="leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)', fontSize: '14px' }}
-            >
-              {t('hero.subtitle')}
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start mb-6">
-              <Link
-                href="/market"
-                className="btn-primary-cta w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-md"
-              >
-                {t('hero.cta1')}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/learn"
-                className="btn-secondary w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium rounded-md"
-              >
-                {t('hero.cta2')}
-              </Link>
-            </div>
-
-            <p
-              className="text-[11px] leading-relaxed max-w-xl mx-auto lg:mx-0 text-center lg:text-left"
-              style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-            >
-              {t('hero.eduNote')}
-            </p>
+              {t('hero.cta2')}
+            </Link>
           </div>
-
-          {/* RIGHT: Live TradingView MASI Chart */}
-          <div className="hidden lg:flex flex-col gap-3 animate-slide-up">
-            <div className="flex items-center justify-between px-1">
-              <div>
-                <p
-                  className="text-xs uppercase tracking-widest mb-0.5"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-                >
-                  {t('hero.chartLabel')}
-                </p>
-                <p
-                  className="text-base font-medium"
-                  style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}
-                >
-                  {t('hero.chartTitle')}
-                </p>
-              </div>
-              <div
-                className="flex items-center gap-2 px-3 py-1"
-                style={{
-                  border: '1px solid var(--border)',
-                  borderRadius: '4px',
-                  backgroundColor: 'var(--bg-elevated)',
-                }}
-              >
-                <span
-                  className="w-1.5 h-1.5 rounded-full animate-pulse"
-                  style={{ backgroundColor: 'var(--gain)' }}
-                />
-                <span
-                  className="text-xs"
-                  style={{ color: 'var(--gain)', fontFamily: 'var(--font-sans)' }}
-                >
-                  {t('hero.chartLive')}
-                </span>
-              </div>
-            </div>
-
-            {/* Chart container */}
-            <div
-              className="relative overflow-hidden"
-              style={{
-                height: '380px',
-                border: '1px solid var(--border)',
-                borderRadius: '8px',
-                backgroundColor: 'var(--bg-surface)',
-              }}
-            >
-              <TradingViewChart
-                symbol="CSEMA:MASI"
-                height={380}
-                theme="dark"
-                interval="D"
-                showToolbar={false}
-              />
-            </div>
-
-            {/* Quick asset strip */}
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { symbol: 'ATW', name: 'Attijariwafa' },
-                { symbol: 'IAM', name: 'Maroc Telecom' },
-                { symbol: 'BCP', name: 'Banque Pop.' },
-              ].map((s) => (
-                <div
-                  key={s.symbol}
-                  className="px-3 py-2.5 text-center transition-colors"
-                  style={{
-                    border: '1px solid var(--border)',
-                    borderRadius: '6px',
-                    backgroundColor: 'var(--bg-elevated)',
-                  }}
-                >
-                  <p
-                    className="text-sm font-medium"
-                    style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}
-                  >
-                    {s.symbol}
-                  </p>
-                  <p
-                    className="text-xs truncate mt-0.5"
-                    style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-                  >
-                    {s.name}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Morocco Economic News Feed */}
-        <div className="hidden sm:block">
-          <MoroccoNewsFeed />
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-bounce">
-        <div
-          className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
-          style={{ border: '1px solid var(--border)' }}
-        >
-          <div
-            className="w-0.5 h-2 rounded-full animate-pulse"
-            style={{ backgroundColor: 'var(--text-muted)' }}
-          />
         </div>
       </div>
     </section>

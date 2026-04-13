@@ -13,50 +13,29 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
   if (variant === 'featured') {
     return (
       <Link href={`/learn/${article.slug}`} className="block group">
-        <div
-          className="relative overflow-hidden h-full flex flex-col justify-end transition-colors"
-          style={{
-            backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border)',
-            borderRadius: '8px',
-            minHeight: '300px',
-            padding: '28px',
-          }}
-        >
+        <div className="relative premium-card min-h-[300px] p-8 flex flex-col justify-end transition-all">
           <div className="relative">
-            <div className="flex items-center gap-2 mb-3">
-              <Badge variant={getCategoryBadgeVariant(article.category)} size="sm">
+            <div className="mb-4">
+              <Badge variant={getCategoryBadgeVariant(article.category)} dot>
                 {article.category}
               </Badge>
             </div>
-            <h2
-              className="text-xl mb-2 leading-snug"
-              style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
-            >
+            <h2 className="font-display text-[26px] font-medium leading-[1.2] text-[var(--text-primary)] mb-3">
               {article.title}
             </h2>
-            <p
-              className="text-sm leading-relaxed mb-4 line-clamp-2"
-              style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-            >
+            <p className="font-body text-[14px] leading-relaxed text-[var(--text-secondary)] mb-6 line-clamp-2">
               {article.excerpt}
             </p>
-            <div className="flex items-center justify-between">
-              <div
-                className="flex items-center gap-3 text-xs"
-                style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-              >
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
+            <div className="flex items-center justify-between pt-4 border-t border-[var(--border)]">
+              <div className="flex items-center gap-4 text-[12px] text-[var(--text-muted)] font-body">
+                <span className="flex items-center gap-1.5">
+                  <Clock size={14} />
                   {article.readTime} min
                 </span>
                 <span>{formatDate(article.date, 'short')}</span>
               </div>
-              <span
-                className="flex items-center gap-1 text-xs"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-              >
-                Lire <ArrowRight className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1 text-[12px] font-medium text-[var(--gold)]">
+                Lire l&apos;article <ArrowRight size={14} />
               </span>
             </div>
           </div>
@@ -67,38 +46,18 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
 
   if (variant === 'compact') {
     return (
-      <Link href={`/learn/${article.slug}`} className="block group">
-        <div
-          className="flex items-start gap-3 py-3 transition-colors"
-          style={{ borderBottom: '1px solid var(--border)' }}
-        >
-          <div
-            className="flex-shrink-0 w-10 h-10 flex items-center justify-center"
-            style={{
-              backgroundColor: 'var(--bg-elevated)',
-              border: '1px solid var(--border)',
-              borderRadius: '6px',
-            }}
-          >
-            <span
-              className="text-xs"
-              style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}
-            >
-              {article.readTime}m
-            </span>
-          </div>
+      <Link href={`/learn/${article.slug}`} className="block group border-b border-[var(--border)] py-4 last:border-0">
+        <div className="flex items-start gap-4">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
+            <h4 className="font-body text-[14px] font-medium text-[var(--text-primary)] leading-snug group-hover:text-[var(--gold)] transition-colors mb-2">
+              {article.title}
+            </h4>
+            <div className="flex items-center gap-3">
               <Badge variant={getCategoryBadgeVariant(article.category)} size="xs">
                 {article.category}
               </Badge>
+              <span className="text-[11px] text-[var(--text-muted)]">{article.readTime} min</span>
             </div>
-            <h4
-              className="text-sm leading-snug line-clamp-2"
-              style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', fontWeight: 400 }}
-            >
-              {article.title}
-            </h4>
           </div>
         </div>
       </Link>
@@ -108,71 +67,33 @@ export default function ArticleCard({ article, variant = 'default' }: ArticleCar
   // Default card
   return (
     <Link href={`/learn/${article.slug}`} className="block group h-full">
-      <div
-        className="overflow-hidden h-full flex flex-col transition-colors"
-        style={{
-          backgroundColor: 'var(--bg-surface)',
-          border: '1px solid var(--border)',
-          borderRadius: '8px',
-        }}
-        onMouseEnter={e => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--text-muted)')}
-        onMouseLeave={e => ((e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)')}
-      >
-        {/* 2px category accent bar at top */}
-        <div
-          style={{
-            height: '2px',
-            backgroundColor:
-              article.category === 'Actions'   ? 'var(--gain)' :
-              article.category === 'OPCVM'     ? 'var(--gold)' :
-              article.category === 'Stratégie' ? 'var(--text-secondary)' :
-              'var(--border)',
-          }}
-        />
+      <div className="premium-card h-full flex flex-col p-6 transition-all hover:translate-y-[-4px]">
+        <div className="mb-4">
+          <Badge variant={getCategoryBadgeVariant(article.category)} dot>
+            {article.category}
+          </Badge>
+        </div>
 
-        <div className="p-5 flex flex-col flex-1">
-          <div className="flex items-center justify-between mb-3">
-            <Badge variant={getCategoryBadgeVariant(article.category)} dot>
-              {article.category}
-            </Badge>
-          </div>
+        <h3 className="font-display text-[20px] font-medium leading-[1.3] text-[var(--text-primary)] mb-3 flex-1">
+          {article.title}
+        </h3>
 
-          <h3
-            className="text-base mb-2 line-clamp-2 leading-snug flex-shrink-0"
-            style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
-          >
-            {article.title}
-          </h3>
+        <p className="font-body text-[14px] leading-relaxed text-[var(--text-secondary)] line-clamp-3 mb-6">
+          {article.excerpt}
+        </p>
 
-          <p
-            className="text-sm leading-relaxed line-clamp-3 flex-1 mb-4"
-            style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-sans)' }}
-          >
-            {article.excerpt}
-          </p>
-
-          <div
-            className="flex items-center justify-between pt-4"
-            style={{ borderTop: '1px solid var(--border)' }}
-          >
-            <div
-              className="flex items-center gap-3 text-xs"
-              style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-            >
-              <span className="flex items-center gap-1">
-                <Clock className="w-3 h-3" />
-                {article.readTime} min
-              </span>
-              <span className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--border)' }} />
-              <span>{formatDate(article.date, 'short')}</span>
-            </div>
-            <span
-              className="text-xs flex items-center gap-0.5"
-              style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}
-            >
-              Lire <ArrowRight className="w-3 h-3" />
+        <div className="flex items-center justify-between pt-4 border-t border-[var(--border)]">
+          <div className="flex items-center gap-3 text-[11px] text-[var(--text-muted)] font-body">
+            <span className="flex items-center gap-1">
+              <Clock size={12} />
+              {article.readTime} min
             </span>
+            <span className="w-1 h-1 rounded-full bg-[var(--border)]" />
+            <span>{formatDate(article.date, 'short')}</span>
           </div>
+          <span className="text-[11px] font-medium text-[var(--gold)] flex items-center gap-1">
+            Lire <ArrowRight size={12} />
+          </span>
         </div>
       </div>
     </Link>

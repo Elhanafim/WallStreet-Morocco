@@ -26,27 +26,27 @@ export default function Section({
 }: SectionProps) {
   const bgStyles = {
     base: 'bg-[var(--bg-base)]',
-    surface: 'bg-[var(--bg-surface)]',
-    elevated: 'bg-[var(--bg-elevated)]',
+    surface: 'bg-[var(--bg-surface)] border-y border-[var(--border)]',
+    elevated: 'bg-[var(--bg-elevated)] border-y border-[var(--border)]',
   };
 
   return (
     <section
       id={id}
-      className={cn('py-16 sm:py-24 transition-colors', bgStyles[variant], className)}
+      className={cn('py-[var(--space-xl)] transition-colors', bgStyles[variant], className)}
     >
       <div className={cn('container-max', containerClassName)}>
         {(title || subtitle || badge || cta) && (
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 animate-fadeIn">
-            <div className="max-w-2xl">
-              {badge && <span className="section-label">{badge}</span>}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 animate-fadeIn">
+            <div className="max-w-3xl">
+              {badge && <span className="section-label mb-6">{badge}</span>}
               {title && (
-                <h2 className="text-3xl sm:text-4xl md:text-5xl mb-4 text-balance">
+                <h2 className="font-display text-[32px] md:text-[42px] font-medium text-[var(--text-primary)] leading-[1.1] mb-4">
                   {title}
                 </h2>
               )}
               {subtitle && (
-                <p className="text-lg text-[var(--text-secondary)] font-body max-w-xl text-balance">
+                <p className="font-body text-[16px] text-[var(--text-secondary)] leading-relaxed max-w-xl">
                   {subtitle}
                 </p>
               )}
@@ -54,7 +54,7 @@ export default function Section({
             {cta && <div className="flex-shrink-0">{cta}</div>}
           </div>
         )}
-        <div className="animate-fadeIn" style={{ animationDelay: '0.1s' }}>
+        <div className="animate-fadeIn">
           {children}
         </div>
       </div>

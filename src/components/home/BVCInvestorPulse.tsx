@@ -106,125 +106,166 @@ export default function BVCInvestorPulse() {
   ];
 
   return (
-    <Section
-      variant="base"
-      title={t('bvc.dashboardTitle')}
-      subtitle={t('bvc.dashboardSubtitle')}
-    >
-      {/* ── Status Bar ── */}
-      <Card variant="glass" className="flex flex-wrap items-center gap-6 px-6 py-4 mb-10 rounded-2xl animate-fadeIn">
-        <div className="flex items-center gap-3">
-          <Badge variant="outline" size="md" dot>
-            <span className={open ? 'text-[var(--gain)]' : 'text-[var(--loss)]'}>
+  return (
+    <section className="py-[var(--space-xl)] px-[var(--space-md)]">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* SECTION HEADER */}
+        <div className="mb-12">
+          <span className="section-label mb-4">{t('bvc.dashboardLabel') || 'INDICATEURS DE MARCHÉ'}</span>
+          <h2 className="font-display text-[32px] font-medium text-[var(--text-primary)]">
+            {t('bvc.dashboardTitle')}
+          </h2>
+          <p className="font-body text-[15px] text-[var(--text-secondary)] mt-2">
+            {t('bvc.dashboardSubtitle')}
+          </p>
+        </div>
+
+        {/* ── MARKET STATUS BAR ── */}
+        <div className="flex flex-wrap items-center gap-6 py-4 border-y border-[var(--border)] mb-12">
+          <div className="flex items-center gap-2">
+            <span className={cn("w-2 h-2 rounded-full", open ? "bg-[var(--gain)] animate-pulse" : "bg-[var(--loss)]")} />
+            <span className="font-body text-[13px] font-medium text-[var(--text-primary)] uppercase tracking-wider">
               {open ? t('market.open') : t('market.closed')}
             </span>
-          </Badge>
+          </div>
+          <span className="w-px h-4 bg-[var(--border)] hidden md:block" />
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-[var(--gold)]" />
+            <span className="font-body text-[13px] text-[var(--text-secondary)]">MASI · Bourse de Casablanca</span>
+          </div>
+          <span className="w-px h-4 bg-[var(--border)] hidden md:block" />
+          <span className="font-body text-[12px] text-[var(--text-muted)] italic">
+            {t('market.delayed')}
+          </span>
+          <div className="ml-auto font-body text-[12px] text-[var(--text-muted)]">
+            {lastUpdate ? th('movers_last_update', { time: lastUpdate }) : t('bvc.liveUnavailable')}
+          </div>
         </div>
-        <div className="hidden sm:block w-px h-6 bg-[var(--border)]" />
-        <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-[var(--gold)]" />
-          <span className="text-sm font-bold tracking-tight">MASI · Bourse de Casablanca</span>
-        </div>
-        <div className="hidden sm:block w-px h-6 bg-[var(--border)]" />
-        <p className="text-xs text-[var(--text-secondary)] font-medium">{t('market.sessionHours')}</p>
-        <div className="hidden sm:block w-px h-6 bg-[var(--border)]" />
-        <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] font-medium">
-          <History className="w-3.5 h-3.5" />
-          {t('market.delayed')}
-        </div>
-      </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* Left: Top Movers */}
-        <Card variant="premium" className="lg:col-span-3 flex flex-col p-8">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-bold tracking-tight">{t('bvc.topMovers')}</h3>
-            <Badge variant="outline" size="xs">Live Update</Badge>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          
+          {/* LEFT: TOP MOVERS */}
+          <div className="lg:col-span-3 premium-card p-0">
+            <div className="p-8 border-b border-[var(--border)]">
+              <div className="flex items-start gap-4">
+                <div className="card-header-bar mt-1.5" />
+                <div>
+                  <h3 className="card-header-title">{t('bvc.topMovers')}</h3>
+                  <span className="card-header-subtitle">Performance quotidienne des valeurs cotées</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-8">
+              {moversLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-pulse">
+                  <div className="space-y-4">
+                    <div className="h-4 w-24 bg-[var(--bg-elevated)] rounded mb-6" />
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="flex justify-between h-4 bg-[var(--bg-elevated)] rounded" />
+                    ))}
+                  </div>
+                  <div className="space-y-4">
+                    <div className="h-4 w-24 bg-[var(--bg-elevated)] rounded mb-6" />
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="flex justify-between h-4 bg-[var(--bg-elevated)] rounded" />
+                    ))}
+                  </div>
+                </div>
+              ) : moversError || !movers ? (
+                <div className="py-20 text-center">
+                  <AlertTriangle className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-4" />
+                  <p className="font-body text-[13px] text-[var(--text-muted)]">{th('movers_unavailable')}</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                  {/* Gainers */}
+                  <div>
+                    <h4 className="font-body text-[11px] font-semibold text-[var(--gain)] uppercase tracking-[0.12em] mb-6">
+                      Plus fortes hausses
+                    </h4>
+                    <div className="space-y-1">
+                      {movers.gainers.slice(0, 8).map((stock) => (
+                        <div key={stock.ticker} className="flex items-center justify-between h-[46px] border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-base)] px-2 transition-colors">
+                          <span className="font-body text-[13px] font-bold text-[var(--text-primary)] w-12">{stock.ticker}</span>
+                          <span className="font-body text-[13px] text-[var(--text-secondary)] flex-1 truncate px-4">{stock.name}</span>
+                          <span className="font-body text-[13px] font-bold text-[var(--gain)]">+{stock.changePercent.toFixed(2)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Losers */}
+                  <div>
+                    <h4 className="font-body text-[11px] font-semibold text-[var(--loss)] uppercase tracking-[0.12em] mb-6">
+                      Plus fortes baisses
+                    </h4>
+                    <div className="space-y-1">
+                      {movers.losers.slice(0, 8).map((stock) => (
+                        <div key={stock.ticker} className="flex items-center justify-between h-[46px] border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-base)] px-2 transition-colors">
+                          <span className="font-body text-[13px] font-bold text-[var(--text-primary)] w-12">{stock.ticker}</span>
+                          <span className="font-body text-[13px] text-[var(--text-secondary)] flex-1 truncate px-4">{stock.name}</span>
+                          <span className="font-body text-[13px] font-bold text-[var(--loss)]">{stock.changePercent.toFixed(2)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-10">
+                <Link href="/market" className="inline-flex items-center gap-2 font-body text-[13px] font-medium text-[var(--gold)] hover:underline">
+                  Consulter toutes les valeurs <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {moversLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 flex-1 animate-pulse">
-              {[0, 1].map((col) => (
-                <div key={col} className="space-y-6">
-                  <div className="h-4 w-24 bg-[var(--bg-elevated)] rounded-full mb-6" />
-                  {Array.from({ length: 10 }, (_, i) => (
-                    <div key={i} className="flex justify-between items-center h-4">
-                      <div className="w-10 bg-[var(--bg-elevated)] rounded h-3" />
-                      <div className="flex-1 mx-4 bg-[var(--bg-elevated)] rounded h-2" />
-                      <div className="w-12 bg-[var(--bg-elevated)] rounded h-3" />
-                    </div>
-                  ))}
+          {/* RIGHT: KEY INDICATORS */}
+          <div className="lg:col-span-2 premium-card p-0">
+            <div className="p-8 border-b border-[var(--border)]">
+              <div className="flex items-start gap-4">
+                <div className="card-header-bar mt-1.5" />
+                <div>
+                  <h3 className="card-header-title">{t('bvc.indicators')}</h3>
+                  <span className="card-header-subtitle">Statistiques et données macro-financières</span>
                 </div>
-              ))}
+              </div>
             </div>
-          ) : moversError || !movers ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 py-12">
-              <AlertTriangle className="w-10 h-10 text-[var(--text-muted)]" />
-              <p className="text-sm text-[var(--text-muted)] max-w-xs">{th('movers_unavailable')}</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 flex-1">
+
+            <div className="p-8 grid grid-cols-1 gap-6">
               {[
-                { title: th('movers_gainers'), items: movers.gainers, positive: true },
-                { title: th('movers_losers'),  items: movers.losers,  positive: false },
-              ].map(({ title, items, positive }) => (
-                <div key={title}>
-                  <p className={`text-xs font-bold uppercase tracking-[0.15em] mb-6 ${positive ? 'text-[var(--gain)]' : 'text-[var(--loss)]'}`}>
-                    {title}
-                  </p>
-                  <div className="space-y-1">
-                    {items.map((stock) => (
-                      <div key={stock.ticker} className="group flex items-center justify-between py-2 px-3 rounded-xl hover:bg-[var(--bg-elevated)] transition-all cursor-default">
-                        <span className="w-12 font-mono text-xs font-bold">{stock.ticker}</span>
-                        <span className="flex-1 px-4 text-[11px] text-[var(--text-secondary)] truncate group-hover:text-[var(--text-primary)] transition-colors">
-                          {stock.name}
-                        </span>
-                        <span className={`font-mono text-xs font-bold ${positive ? 'text-[var(--gain)]' : 'text-[var(--loss)]'}`}>
-                          {positive ? '+' : ''}{stock.changePercent.toFixed(2)}%
-                        </span>
-                      </div>
-                    ))}
+                { icon: <Building2 size={18} />, label: t('bvc.marketCap'), value: '1 050 Mrd', note: 'MAD' },
+                { icon: <Landmark size={18} />, label: t('bvc.bamRate'), value: '2,25 %', note: 'Directeur BAM' },
+                { icon: <BarChart2 size={18} />, label: t('bvc.avgVolume'), value: '350 M', note: 'Volume MAD' },
+                { icon: <Calendar size={18} />, label: t('bvc.nextBamDecision'), value: nextBam ?? 'Déc. 2024', note: 'Prochaine réunion' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-5 p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-base)]/50">
+                  <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-[var(--bg-elevated)] border border-[var(--border)] text-[var(--gold)]">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-body text-[11px] font-medium uppercase tracking-wider text-[var(--text-secondary)] mb-1">
+                      {item.label}
+                    </p>
+                    <div className="flex items-baseline gap-2">
+                      <span className="font-display text-[20px] font-medium text-[var(--text-primary)]">{item.value}</span>
+                      <span className="font-body text-[12px] text-[var(--text-muted)]">{item.note}</span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
-          )}
 
-          <div className="mt-10 pt-6 border-t border-[var(--border)] flex items-center justify-between gap-4 flex-wrap">
-            <p className="text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-medium">
-              {lastUpdate ? th('movers_last_update', { time: lastUpdate }) : t('bvc.liveUnavailable')}
-            </p>
-            <Button variant="ghost" size="sm" icon={<ArrowRight className="w-3.5 h-3.5" />} iconPosition="right">
-              <Link href="/market">{t('bvc.seeAllStocks')}</Link>
-            </Button>
+            <div className="p-8 pt-0">
+              <p className="font-body text-[11px] text-[var(--text-muted)] italic leading-relaxed">
+                Les données sont fournies à titre indicatif et peuvent présenter un retard de 15 minutes.
+              </p>
+            </div>
           </div>
-        </Card>
 
-        {/* Right: Key Metrics */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
-          <Card variant="premium" className="flex-1 p-8 overflow-hidden relative">
-            <h3 className="text-2xl font-bold tracking-tight mb-8">{t('bvc.indicators')}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {metrics.map((m, i) => (
-                <div key={i} className="bg-[var(--bg-elevated)]/50 border border-[var(--border)] rounded-2xl p-5 hover:border-[var(--gold)] transition-all group">
-                  <div className="text-[var(--gold)] mb-3 group-hover:scale-110 transition-transform origin-left">{m.icon}</div>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1">
-                    {m.label}
-                  </p>
-                  <p className="text-2xl font-bold font-display leading-tight mb-1">
-                    {i === 5 ? (nextBam ?? t('bvc.toConfirm')) : m.value}
-                  </p>
-                  <p className="text-[10px] text-[var(--text-muted)] font-medium">{m.note}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 flex items-center gap-2 text-[var(--text-muted)]">
-              <span className="w-1 h-1 rounded-full bg-[var(--text-muted)]" />
-              <p className="text-[9px] font-medium tracking-wider uppercase">{t('bvc.indicativeData')}</p>
-            </div>
-          </Card>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }

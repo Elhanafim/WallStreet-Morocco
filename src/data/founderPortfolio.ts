@@ -71,7 +71,7 @@ export const HOLDINGS: Holding[] = [
     perfPointToPoint: 188,
     dcaReturn: 64,
     color: '#C0C0C0',
-    icon: '⛏️',
+    icon: '',
     rationale: "Exposition directe à l'argent métal, records historiques 2025-2026",
   },
   {
@@ -84,7 +84,7 @@ export const HOLDINGS: Holding[] = [
     perfPointToPoint: 178,
     dcaReturn: 61,
     color: '#FFD700',
-    icon: '🏔️',
+    icon: '',
     rationale: 'Leader minier africain, mine Boto (Sénégal) en production',
   },
   {
@@ -97,7 +97,7 @@ export const HOLDINGS: Holding[] = [
     perfPointToPoint: 136,
     dcaReturn: 50,
     color: '#3B82F6',
-    icon: '💳',
+    icon: '',
     rationale: 'Digitalisation des paiements au Maroc et en Afrique',
   },
   {
@@ -110,7 +110,7 @@ export const HOLDINGS: Holding[] = [
     perfPointToPoint: 112,
     dcaReturn: 43,
     color: '#10B981',
-    icon: '🏗️',
+    icon: '',
     rationale: 'Carnet de commandes plein, Programme national logement social',
   },
 ];
@@ -120,12 +120,12 @@ export const HOLDINGS: Holding[] = [
 export const SCENARIOS: Scenario[] = [
   {
     label: 'A — Concentré',
-    icon: '🏆',
+    icon: '',
     stocks: '4 valeurs',
     capital: 1700,
     value: 2628,
     perf: 54.6,
-    badge: '✅',
+    badge: '',
     highlight: true,
   },
   {
@@ -135,7 +135,7 @@ export const SCENARIOS: Scenario[] = [
     capital: 1700,
     value: 2543,
     perf: 49.6,
-    badge: '⚠️',
+    badge: '',
     highlight: false,
   },
   {
@@ -145,17 +145,17 @@ export const SCENARIOS: Scenario[] = [
     capital: 1700,
     value: 2290,
     perf: 34.7,
-    badge: '❌',
+    badge: '',
     highlight: false,
   },
   {
     label: 'MASI (bench.)',
-    icon: '📊',
+    icon: '',
     stocks: '77 valeurs',
     capital: 1700,
     value: 1736,
     perf: 2.1,
-    badge: '📉',
+    badge: '',
     highlight: false,
     muted: true,
   },
@@ -181,12 +181,12 @@ export const MARKET_EVENTS: MarketEvent[] = [
   },
   {
     date: 'Août 2025',
-    desc: '📍 Pic MASI : 20 340 pts — All-Time High',
+    desc: 'Pic MASI : 20 340 pts — All-Time High',
     type: 'peak',
   },
   {
     date: 'Mars 2026',
-    desc: '📉 Correction -13% — Crise géopolitique (Iran)',
+    desc: 'Correction -13% — Crise géopolitique (Iran)',
     type: 'danger',
   },
 ];
