@@ -1,3 +1,7 @@
+'use client';
+import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
+
 export default function DonateFooterStrip() {
   const { t } = useTranslation('donate');
   return (
