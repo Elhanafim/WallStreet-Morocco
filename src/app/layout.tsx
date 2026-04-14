@@ -54,7 +54,7 @@ export default function RootLayout({
         {/* Light is the canonical mode — no flash of unstyled content */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('wsm-theme');document.documentElement.setAttribute('data-theme',t||'light');})();`,
+            __html: `document.documentElement.setAttribute('data-theme','light');localStorage.removeItem('wsm-theme');`,
           }}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

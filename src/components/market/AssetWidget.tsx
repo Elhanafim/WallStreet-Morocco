@@ -15,9 +15,6 @@ function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
     if (!ref.current) return;
     ref.current.innerHTML = '';
 
-    // Detect theme from DOM (data-theme attribute on <html>)
-    const isDark = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark';
-
     const script = document.createElement('script');
     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
     script.async = true;
@@ -27,7 +24,7 @@ function AssetWidget({ symbol, name, sector }: AssetWidgetProps) {
       height: 200,
       locale: 'fr',
       dateRange: '1M',
-      colorTheme: isDark ? 'dark' : 'light',
+      colorTheme: 'light',
       isTransparent: true,
       autosize: true,
       largeChartUrl: '',

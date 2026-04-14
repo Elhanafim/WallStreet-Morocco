@@ -62,32 +62,7 @@
   --shadow-xl: 0 24px 48px rgba(15,45,82,0.14);
 }
 
-/* ─── Dark mode override ─────────────────────────────────────────────────── */
-[data-theme="dark"] {
-  --bg-base:        #070D1A;
-  --bg-surface:     #0C1527;
-  --bg-elevated:    #121F35;
-  --bg-overlay:     #1A2D4A;
-  --border:         #1C2E48;
-  --border-strong:  #253D5C;
-  --navy:           #5B9BD5;
-  --navy-light:     #7AB4E8;
-  --gold:           #C9A84C;
-  --gold-dim:       #8B6914;
-  --gold-subtle:    rgba(201,168,76,0.10);
-  --text-primary:   #EDF0F7;
-  --text-secondary: #8298B0;
-  --text-muted:     #3D5470;
-  --gain:           #3DB87A;
-  --gain-bg:        rgba(61,184,122,0.08);
-  --loss:           #E05555;
-  --loss-bg:        rgba(224,85,85,0.08);
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.35);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-lg: 0 12px 28px rgba(0,0,0,0.5);
-  --shadow-xl: 0 24px 48px rgba(0,0,0,0.6);
-}
+/* ─── Dark mode — disabled. Light institutional theme only. ──────────────── */
 
 /* ─── Keyframes ──────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
@@ -193,9 +168,6 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid var(--border);
-  }
-  [data-theme="dark"] .glass-surface {
-    background: rgba(12, 21, 39, 0.85);
   }
 
   /* ── Card accent headers ── */
