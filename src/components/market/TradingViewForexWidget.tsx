@@ -28,10 +28,6 @@ function TradingViewForexWidget({
     if (!containerRef.current) return;
     containerRef.current.innerHTML = '';
 
-    const isDark =
-      typeof document !== 'undefined' &&
-      document.documentElement.getAttribute('data-theme') === 'dark';
-
     const script = document.createElement('script');
     script.src =
       'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
@@ -42,7 +38,7 @@ function TradingViewForexWidget({
       height,
       locale: 'en',
       dateRange: '1M',
-      colorTheme: isDark ? 'dark' : 'light',
+      colorTheme: 'light',
       isTransparent: true,
       autosize: true,
       largeChartUrl: '',

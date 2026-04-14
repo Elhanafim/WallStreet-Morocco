@@ -156,8 +156,8 @@ export default function MarketPage() {
       <div
         className="page-hero-bg"
         style={{
-          backgroundColor: 'var(--navy)',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
           '--hero-image': 'url(/images/nick-chong-N__BnvQ_w18-unsplash.jpg)',
         } as React.CSSProperties}
       >
@@ -166,19 +166,19 @@ export default function MarketPage() {
             <div>
               <p
                 className="font-body text-[11px] font-semibold uppercase tracking-[0.1em] mb-1"
-                style={{ color: 'rgba(255,255,255,0.5)' }}
+                style={{ color: 'var(--gold)' }}
               >
                 Bourse de Casablanca
               </p>
               <h1
-                className="font-display font-medium text-white"
-                style={{ fontSize: '32px', lineHeight: 1.1 }}
+                className="font-display font-medium"
+                style={{ fontSize: '32px', lineHeight: 1.1, color: 'var(--navy)' }}
               >
                 Market Overview
               </h1>
               <p
                 className="font-body text-[14px] mt-1.5"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
+                style={{ color: 'var(--text-secondary)' }}
               >
                 Real-time prices, indices, sector heatmap, and top movers.
               </p>
@@ -194,12 +194,12 @@ export default function MarketPage() {
                   key={m.label}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[11.5px]"
                   style={{
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    color: 'rgba(255,255,255,0.75)',
+                    backgroundColor: 'rgba(15,45,82,0.06)',
+                    border: '1px solid rgba(15,45,82,0.12)',
+                    color: 'var(--text-secondary)',
                   }}
                 >
-                  <span style={{ color: 'rgba(255,255,255,0.5)' }}>{m.icon}</span>
+                  <span style={{ color: 'var(--gold)' }}>{m.icon}</span>
                   {m.label}
                 </div>
               ))}

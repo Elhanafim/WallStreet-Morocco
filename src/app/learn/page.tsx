@@ -57,21 +57,22 @@ export default function LearnPage() {
       <div
         className="page-hero-bg py-20 px-4"
         style={{
-          backgroundColor: 'var(--navy)',
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
           '--hero-image': 'url(/images/jeffrey-blum-7-gaPkhIgqs-unsplash.jpg)',
         } as React.CSSProperties}
       >
         <div className="max-w-7xl mx-auto text-center">
           <span
             className="inline-block font-body text-[11px] font-semibold uppercase tracking-[0.12em] px-4 py-1.5 rounded-full mb-4"
-            style={{ backgroundColor: 'rgba(184,151,74,0.2)', color: 'var(--gold-dim)', border: '1px solid rgba(184,151,74,0.35)' }}
+            style={{ backgroundColor: 'rgba(184,151,74,0.15)', color: 'var(--gold)', border: '1px solid rgba(184,151,74,0.4)' }}
           >
             Investment Academy
           </span>
-          <h1 className="font-display font-medium text-white mb-4" style={{ fontSize: 'clamp(36px,5vw,56px)', lineHeight: 1.1 }}>
+          <h1 className="font-display font-medium mb-4" style={{ fontSize: 'clamp(36px,5vw,56px)', lineHeight: 1.1, color: 'var(--navy)' }}>
             Centre d&apos;apprentissage
           </h1>
-          <p className="font-body text-[16px] max-w-2xl mx-auto mb-8" style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>
+          <p className="font-body text-[16px] max-w-2xl mx-auto mb-8" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
             Maîtrisez l&apos;investissement marocain avec nos guides complets,
             analyses et stratégies rédigés en français
           </p>
@@ -79,7 +80,7 @@ export default function LearnPage() {
           <div className="relative max-w-xl mx-auto">
             <Search
               className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5"
-              style={{ color: 'rgba(255,255,255,0.4)' }}
+              style={{ color: 'var(--text-muted)' }}
             />
             <input
               type="text"
@@ -88,9 +89,10 @@ export default function LearnPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full rounded-[10px] pl-12 pr-4 py-4 font-body text-[14px] outline-none transition-all"
               style={{
-                backgroundColor: 'rgba(255,255,255,0.12)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                color: '#fff',
+                backgroundColor: '#FFFFFF',
+                border: '1px solid var(--border-strong)',
+                color: 'var(--text-primary)',
+                boxShadow: 'var(--shadow-xs)',
               }}
             />
           </div>

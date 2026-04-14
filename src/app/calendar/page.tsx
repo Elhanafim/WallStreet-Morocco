@@ -263,29 +263,29 @@ export default function CalendarPage() {
       <div
         className="page-hero-bg py-14 px-4"
         style={{
-          backgroundColor: 'var(--navy)',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
           '--hero-image': 'url(/images/annie-spratt-IT6aov1ScW0-unsplash.jpg)',
         } as React.CSSProperties}
       >
         <div className="max-w-5xl mx-auto text-center">
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4"
-            style={{ backgroundColor: 'rgba(184,151,74,0.2)', border: '1px solid rgba(184,151,74,0.3)' }}
+            style={{ backgroundColor: 'rgba(184,151,74,0.12)', border: '1px solid rgba(184,151,74,0.4)' }}
           >
-            <Calendar className="w-4 h-4" style={{ color: 'var(--gold-dim)' }} />
-            <span className="font-body text-[12px] font-semibold" style={{ color: 'var(--gold-dim)' }}>
+            <Calendar className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+            <span className="font-body text-[12px] font-semibold" style={{ color: 'var(--gold)' }}>
               {t('page.badge')}
             </span>
           </div>
-          <h1 className="font-display font-medium text-white mb-4" style={{ fontSize: 'clamp(32px,5vw,48px)', lineHeight: 1.1 }}>
+          <h1 className="font-display font-medium mb-4" style={{ fontSize: 'clamp(32px,5vw,48px)', lineHeight: 1.1, color: 'var(--navy)' }}>
             {t('page.title1')}{' '}
-            <span style={{ color: 'var(--gold-dim)' }} className="italic">{t('page.title2')}</span>
+            <span style={{ color: 'var(--gold)' }} className="italic">{t('page.title2')}</span>
           </h1>
-          <p className="font-body text-[15px] max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.7 }}>
+          <p className="font-body text-[15px] max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
             {t('page.subtitle')}
           </p>
-          <div className="flex items-center justify-center gap-4 mt-5 text-[12px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+          <div className="flex items-center justify-center gap-4 mt-5 text-[12px]" style={{ color: 'var(--text-muted)' }}>
             {lastRefresh && (
               <span>
                 {tCommon('calendar.updatedAt')}{' '}
@@ -296,9 +296,9 @@ export default function CalendarPage() {
               onClick={() => loadEvents(true)}
               disabled={refreshing}
               className="flex items-center gap-1.5 transition-colors disabled:opacity-50"
-              style={{ color: 'rgba(255,255,255,0.5)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.8)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+              style={{ color: 'var(--text-muted)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--navy)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               {tCommon('calendar.refresh')}

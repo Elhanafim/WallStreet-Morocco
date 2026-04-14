@@ -138,8 +138,8 @@ export default function SimulatorPage() {
       <div
         className="page-hero-bg"
         style={{
-          backgroundColor: 'var(--navy)',
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
           '--hero-image': 'url(/images/jeffrey-blum-7-gaPkhIgqs-unsplash.jpg)',
         } as React.CSSProperties}
       >
@@ -147,31 +147,31 @@ export default function SimulatorPage() {
           <div
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4"
             style={{
-              backgroundColor: 'rgba(176,125,42,0.15)',
-              border: '1px solid rgba(176,125,42,0.3)',
+              backgroundColor: 'rgba(184,151,74,0.12)',
+              border: '1px solid rgba(184,151,74,0.4)',
             }}
           >
-            <Calculator size={13} style={{ color: 'var(--gold-dim)' }} />
+            <Calculator size={13} style={{ color: 'var(--gold)' }} />
             <span
               className="font-body text-[11.5px] font-semibold tracking-[0.1em] uppercase"
-              style={{ color: 'var(--gold-dim)' }}
+              style={{ color: 'var(--gold)' }}
             >
               Portfolio Simulator
             </span>
           </div>
 
           <h1
-            className="font-display font-medium text-white mb-3"
-            style={{ fontSize: 'clamp(32px, 4vw, 48px)', lineHeight: 1.1 }}
+            className="font-display font-medium mb-3"
+            style={{ fontSize: 'clamp(32px, 4vw, 48px)', lineHeight: 1.1, color: 'var(--navy)' }}
           >
             Project Your{' '}
-            <span className="italic" style={{ color: 'var(--gold-dim)' }}>
+            <span className="italic" style={{ color: 'var(--gold)' }}>
               Future Wealth
             </span>
           </h1>
           <p
             className="font-body font-light max-w-xl mx-auto"
-            style={{ fontSize: '15px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}
+            style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7 }}
           >
             Simulate portfolio growth using compound interest projections —
             calibrated to Moroccan market return profiles.
