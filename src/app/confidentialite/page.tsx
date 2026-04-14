@@ -215,22 +215,22 @@ export default function PrivacyPolicyPage() {
           <Section title="11. Contact et réclamations">
             <p className="mb-3">Pour toute question relative à cette politique ou à vos données :</p>
             <ul className="space-y-1">
-              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
+              <li><span style={{ color: 'var(--text-muted)' }}>Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="hover:underline" style={{ color: 'var(--gold)' }}>moroccowallstreet@gmail.com</a></li>
             </ul>
-            <p className="mt-4 text-sm text-primary/60">
+            <p className="mt-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
               Si vous estimez que le traitement de vos données porte atteinte à vos droits, vous
               pouvez déposer une réclamation auprès de :
             </p>
             <ul className="mt-2 space-y-1 text-sm">
-              <li><strong>CNIL</strong> (France / UE) — <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">cnil.fr</a></li>
-              <li><strong>CNDP</strong> (Maroc) — <a href="https://www.cndp.ma" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">cndp.ma</a></li>
+              <li style={{ color: 'var(--text-secondary)' }}><strong>CNIL</strong> (France / UE) — <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: 'var(--gold)' }}>cnil.fr</a></li>
+              <li style={{ color: 'var(--text-secondary)' }}><strong>CNDP</strong> (Maroc) — <a href="https://www.cndp.ma" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: 'var(--gold)' }}>cndp.ma</a></li>
             </ul>
           </Section>
 
         </div>
 
         {/* Footer disclaimer */}
-        <p className="text-center text-primary/40 text-xs mt-8 mb-4">
+        <p className="text-center text-xs mt-8 mb-4" style={{ color: 'var(--text-muted)' }}>
           WallStreet Morocco — Projet indépendant · moroccowallstreet@gmail.com
         </p>
       </div>
@@ -241,8 +241,8 @@ export default function PrivacyPolicyPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
-      <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
+      <h2 className="text-lg font-medium mb-4 pb-2 border-b border-[var(--border)]" style={{ color: 'var(--text-primary)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--text-secondary)' }}>{children}</div>
     </section>
   );
 }
@@ -250,12 +250,12 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function SubSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-3">
-      <p className="font-medium text-primary mb-2">{title}</p>
+      <p className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{title}</p>
       <ul className="space-y-1 pl-2">{children}</ul>
     </div>
   );
 }
 
 function Bullet() {
-  return <span className="flex-shrink-0 w-1.5 h-1.5 bg-secondary rounded-full mt-1.5" />;
+  return <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'var(--gold)' }} />;
 }

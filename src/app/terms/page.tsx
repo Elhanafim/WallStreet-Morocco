@@ -63,13 +63,13 @@ export default function TermsPage() {
           </Section>
 
           <Section title="3. Nature du service — Avertissement important">
-            <div className="bg-danger/5 border border-danger/20 rounded-xl p-5 space-y-3">
-              <p className="font-bold text-danger text-sm">
+            <div className="rounded-[10px] p-5 space-y-3" style={{ backgroundColor: 'rgba(192,57,43,0.05)', border: '1px solid rgba(192,57,43,0.2)' }}>
+              <p className="font-bold text-sm" style={{ color: 'var(--loss)' }}>
                 ⚠️ WallStreet Morocco est un site d&apos;INFORMATION et d&apos;ÉDUCATION financière
                 UNIQUEMENT.
               </p>
               <div>
-                <p className="font-medium text-primary mb-2">CE SITE NE FOURNIT PAS :</p>
+                <p className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>CE SITE NE FOURNIT PAS :</p>
                 <ul className="space-y-1">
                   <li className="flex items-start gap-2"><Bullet /><span>De conseil en investissement au sens de la réglementation AMMC</span></li>
                   <li className="flex items-start gap-2"><Bullet /><span>De recommandations personnalisées d&apos;achat ou de vente de titres financiers</span></li>
@@ -78,15 +78,15 @@ export default function TermsPage() {
                 </ul>
               </div>
               <div>
-                <p className="font-medium text-primary mb-2">LES DONNÉES AFFICHÉES :</p>
+                <p className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>LES DONNÉES AFFICHÉES :</p>
                 <ul className="space-y-1">
                   <li className="flex items-start gap-2"><Bullet /><span>Sont fournies avec un délai minimum de 15 minutes</span></li>
                   <li className="flex items-start gap-2"><Bullet /><span>Peuvent contenir des erreurs, des inexactitudes ou des omissions</span></li>
                   <li className="flex items-start gap-2"><Bullet /><span>Ne doivent en aucun cas servir de base unique à des décisions d&apos;investissement</span></li>
                 </ul>
               </div>
-              <div className="border-t border-danger/20 pt-3">
-                <p className="font-bold text-primary text-sm">
+              <div className="pt-3" style={{ borderTop: '1px solid rgba(192,57,43,0.2)' }}>
+                <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
                   INVESTIR COMPORTE DES RISQUES : vous pouvez perdre tout ou partie du capital
                   investi. Consultez un conseiller financier agréé avant toute décision
                   d&apos;investissement.
@@ -101,7 +101,7 @@ export default function TermsPage() {
               <li className="flex items-start gap-2"><Bullet /><span>Vous devez avoir <strong>au moins 18 ans</strong> pour créer un compte.</span></li>
               <li className="flex items-start gap-2"><Bullet /><span>Un seul compte par personne physique est autorisé.</span></li>
               <li className="flex items-start gap-2"><Bullet /><span>Nous nous réservons le droit de suspendre ou supprimer tout compte en cas d&apos;abus, de fraude ou de violation de ces conditions.</span></li>
-              <li className="flex items-start gap-2"><Bullet /><span>Signalez immédiatement toute utilisation non autorisée de votre compte à <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a>.</span></li>
+              <li className="flex items-start gap-2"><Bullet /><span>Signalez immédiatement toute utilisation non autorisée de votre compte à <a href="mailto:moroccowallstreet@gmail.com" className="hover:underline" style={{ color: 'var(--gold)' }}>moroccowallstreet@gmail.com</a>.</span></li>
             </ul>
           </Section>
 
@@ -180,19 +180,19 @@ export default function TermsPage() {
               autre demande :
             </p>
             <ul className="mt-2 space-y-1">
-              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="text-secondary hover:underline">moroccowallstreet@gmail.com</a></li>
-              <li><span className="text-primary/50">Instagram :</span> <a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="text-secondary hover:underline">@wallstreet.morocco</a></li>
+              <li><span className="text-primary/50">Email :</span> <a href="mailto:moroccowallstreet@gmail.com" className="hover:underline" style={{ color: 'var(--gold)' }}>moroccowallstreet@gmail.com</a></li>
+              <li><span className="text-primary/50">Instagram :</span> <a href="https://www.instagram.com/wallstreet.morocco" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: 'var(--gold)' }}>@wallstreet.morocco</a></li>
             </ul>
           </Section>
 
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 mb-4">
-          <Link href="/confidentialite" className="text-secondary hover:underline text-sm font-medium">
+          <Link href="/confidentialite" className="hover:underline text-sm font-medium transition-colors" style={{ color: 'var(--gold)' }}>
             Politique de confidentialité
           </Link>
-          <span className="text-primary/20 hidden sm:block">·</span>
-          <Link href="/" className="text-primary/50 hover:text-primary text-sm transition-colors">
+          <span className="hidden sm:block" style={{ color: 'var(--border-strong)' }}>·</span>
+          <Link href="/" className="text-sm transition-colors" style={{ color: 'var(--text-muted)' }}>
             Retour à l&apos;accueil
           </Link>
         </div>
@@ -204,12 +204,12 @@ export default function TermsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
-      <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
+      <h2 className="text-lg font-medium mb-4 pb-2 border-b border-[var(--border)]" style={{ color: 'var(--text-primary)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--text-secondary)' }}>{children}</div>
     </section>
   );
 }
 
 function Bullet() {
-  return <span className="flex-shrink-0 w-1.5 h-1.5 bg-secondary rounded-full mt-1.5" />;
+  return <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'var(--gold)' }} />;
 }

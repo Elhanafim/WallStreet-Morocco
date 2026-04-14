@@ -187,21 +187,21 @@ export default function MentionsLegalesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
-      <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
+      <h2 className="text-lg font-medium mb-4 pb-2 border-b border-[var(--border)]" style={{ color: 'var(--text-primary)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--text-secondary)' }}>{children}</div>
     </section>
   );
 }
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <tr className="border-b border-surface-100 last:border-0">
-      <td className="py-2 pr-4 font-medium text-primary/50 whitespace-nowrap">{label}</td>
-      <td className="py-2 text-primary">{value}</td>
+    <tr className="border-b border-[var(--border)] last:border-0">
+      <td className="py-2 pr-4 font-medium whitespace-nowrap" style={{ color: 'var(--text-muted)' }}>{label}</td>
+      <td className="py-2" style={{ color: 'var(--text-primary)' }}>{value}</td>
     </tr>
   );
 }
 
 function Bullet() {
-  return <span className="flex-shrink-0 w-1.5 h-1.5 bg-secondary rounded-full mt-1.5" />;
+  return <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'var(--gold)' }} />;
 }

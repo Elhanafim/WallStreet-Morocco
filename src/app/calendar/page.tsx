@@ -32,7 +32,7 @@ function sortCalendarEvents(evts: LiveCalendarEvent[]): LiveCalendarEvent[] {
     return d !== 0 ? d : byTimeImpact(a, b);
   });
   past.sort((a, b) => {
-    const d = b.date.localeCompare(a.date); // descending
+    const d = b.date.localeCompare(a.date);
     return d !== 0 ? d : b.impactScore - a.impactScore;
   });
 
@@ -43,18 +43,19 @@ function sortCalendarEvents(evts: LiveCalendarEvent[]): LiveCalendarEvent[] {
 
 function EventSkeleton() {
   return (
-    <div className="bg-[var(--bg-elevated)] border border-[var(--border)] rounded-lg p-4 animate-pulse"
-      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}
+    <div
+      className="rounded-[8px] p-4 animate-pulse"
+      style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
     >
       <div className="flex gap-3 mb-3">
-        <div className="w-8 h-8 bg-gray-100 rounded-full" />
+        <div className="w-8 h-8 rounded-full" style={{ backgroundColor: 'var(--border)' }} />
         <div className="flex-1 space-y-2">
-          <div className="h-3 bg-gray-100 rounded w-1/3" />
-          <div className="h-4 bg-gray-100 rounded w-3/4" />
+          <div className="h-3 rounded w-1/3" style={{ backgroundColor: 'var(--border)' }} />
+          <div className="h-4 rounded w-3/4" style={{ backgroundColor: 'var(--border)' }} />
         </div>
       </div>
-      <div className="h-3 bg-gray-50 rounded w-full mb-1" />
-      <div className="h-3 bg-gray-50 rounded w-2/3" />
+      <div className="h-3 rounded w-full mb-1" style={{ backgroundColor: 'var(--border)' }} />
+      <div className="h-3 rounded w-2/3" style={{ backgroundColor: 'var(--border)' }} />
     </div>
   );
 }
@@ -76,36 +77,53 @@ function RegionSection({ label, flag, accentColor, events, collapsed, onToggle }
 
   return (
     <div
-      className="rounded-2xl border border-white/8 overflow-hidden"
-      style={{ borderLeft: `4px solid ${accentColor}` }}
+      className="rounded-[10px] overflow-hidden"
+      style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: '1px solid var(--border)',
+        borderLeft: `4px solid ${accentColor}`,
+        boxShadow: 'var(--shadow-sm)',
+      }}
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-5 py-3.5 bg-white/3 hover:bg-white/5 transition-colors"
+        className="w-full flex items-center justify-between px-5 py-3.5 transition-colors"
+        style={{ backgroundColor: 'var(--bg-elevated)' }}
+        onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'var(--border)')}
+        onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'var(--bg-elevated)')}
       >
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xl">{flag}</span>
-          <span className={`text-sm font-medium ${events.length > 0 ? 'text-white' : 'text-white/40'}`}>
+          <span
+            className="font-body text-[13.5px] font-medium"
+            style={{ color: events.length > 0 ? 'var(--text-primary)' : 'var(--text-muted)' }}
+          >
             {label}
           </span>
-          <span className="text-[10px] text-white/40 font-medium bg-white/8 px-2 py-0.5 rounded-full">
+          <span
+            className="font-body text-[10px] font-medium px-2 py-0.5 rounded-full"
+            style={{ backgroundColor: 'var(--border)', color: 'var(--text-muted)' }}
+          >
             {events.length > 0
               ? t('calendar.events_other', { count: events.length })
               : t('calendar.noEvents_region')}
           </span>
           {maxImpact >= 4 && (
-            <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-              maxImpact >= 5
-                ? 'bg-red-500/15 text-red-400 border border-red-500/25'
-                : 'bg-orange-500/15 text-orange-400 border border-orange-500/25'
-            }`}>
+            <span
+              className="font-body text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+              style={{
+                backgroundColor: maxImpact >= 5 ? 'rgba(192,57,43,0.1)' : 'rgba(176,125,42,0.1)',
+                color: maxImpact >= 5 ? 'var(--loss)' : 'var(--gold)',
+                border: `1px solid ${maxImpact >= 5 ? 'rgba(192,57,43,0.25)' : 'rgba(176,125,42,0.25)'}`,
+              }}
+            >
               {maxImpact >= 5 ? t('calendar.impactCritical') : t('calendar.impactHigh')}
             </span>
           )}
         </div>
         {collapsed
-          ? <ChevronRight className="w-4 h-4 text-white/30 flex-shrink-0" />
-          : <ChevronDown className="w-4 h-4 text-white/40 flex-shrink-0" />
+          ? <ChevronRight className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-muted)' }} />
+          : <ChevronDown className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--text-secondary)' }} />
         }
       </button>
       {!collapsed && events.length > 0 && (
@@ -141,7 +159,6 @@ export default function CalendarPage() {
   const [category, setCategory] = useState<string | null>(null);
   const [upcomingOnly, setUpcomingOnly] = useState(false);
 
-  // Collapse states: false = expanded, true = collapsed
   const [collapseStates, setCollapseStates] = useState<Record<string, boolean>>({
     maroc: false,
     'etats-unis': true,
@@ -156,7 +173,6 @@ export default function CalendarPage() {
       if (stored) {
         setCollapseStates(JSON.parse(stored));
       } else if (window.innerWidth >= 1024) {
-        // Desktop: expand all by default
         setCollapseStates({ maroc: false, 'etats-unis': false, 'zone-euro': false, mena: false, mondial: false });
       }
     } catch { /* ignore */ }
@@ -191,7 +207,6 @@ export default function CalendarPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Apply filters + tab
   const filtered = useMemo(() => {
     return events.filter((ev) => {
       if (activeTab !== 'all' && getRegionId(ev.country) !== activeTab) return false;
@@ -202,7 +217,6 @@ export default function CalendarPage() {
     });
   }, [events, activeTab, impactMin, category, upcomingOnly]);
 
-  // Group filtered events by region (for "all" tab)
   const eventsByRegion = useMemo(() => {
     const map: Record<string, LiveCalendarEvent[]> = {};
     for (const region of REGIONS) map[region.id] = [];
@@ -211,7 +225,6 @@ export default function CalendarPage() {
       if (map[rid]) map[rid].push(ev);
       else map['mondial'].push(ev);
     }
-    // Sort within each region: today → upcoming asc → past desc
     for (const rid of Object.keys(map)) {
       map[rid] = sortCalendarEvents(map[rid]);
     }
@@ -229,7 +242,6 @@ export default function CalendarPage() {
     [events],
   );
 
-  // Tab event counts (based on filtered without tab constraint)
   const tabCounts = useMemo(() => {
     const base = events.filter((ev) => {
       if (impactMin !== null && ev.impactScore < impactMin) return false;
@@ -245,29 +257,48 @@ export default function CalendarPage() {
   }, [events, impactMin, category, upcomingOnly]);
 
   return (
-    <div className="pt-16 min-h-screen" style={{ background: '#0A2540' }}>
-      {/* ── Hero header ── */}
-      <div className="bg-gradient-hero py-14 px-4">
+    <div className="pt-16 min-h-screen" style={{ backgroundColor: 'var(--bg-base)' }}>
+
+      {/* ── Hero header with bg image ── */}
+      <div
+        className="page-hero-bg py-14 px-4"
+        style={{
+          backgroundColor: 'var(--navy)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          '--hero-image': 'url(/images/annie-spratt-IT6aov1ScW0-unsplash.jpg)',
+        } as React.CSSProperties}
+      >
         <div className="max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-4">
-            <Calendar className="w-4 h-4 text-accent" />
-            <span className="text-accent text-sm font-medium">{t('page.badge')}</span>
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4"
+            style={{ backgroundColor: 'rgba(184,151,74,0.2)', border: '1px solid rgba(184,151,74,0.3)' }}
+          >
+            <Calendar className="w-4 h-4" style={{ color: 'var(--gold-dim)' }} />
+            <span className="font-body text-[12px] font-semibold" style={{ color: 'var(--gold-dim)' }}>
+              {t('page.badge')}
+            </span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-medium text-white mb-4">
+          <h1 className="font-display font-medium text-white mb-4" style={{ fontSize: 'clamp(32px,5vw,48px)', lineHeight: 1.1 }}>
             {t('page.title1')}{' '}
-            <span className="gradient-text-gold">{t('page.title2')}</span>
+            <span style={{ color: 'var(--gold-dim)' }} className="italic">{t('page.title2')}</span>
           </h1>
-          <p className="text-white/65 text-base sm:text-lg max-w-2xl mx-auto">
+          <p className="font-body text-[15px] max-w-2xl mx-auto" style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.7 }}>
             {t('page.subtitle')}
           </p>
-          <div className="flex items-center justify-center gap-4 mt-5 text-white/40 text-xs">
+          <div className="flex items-center justify-center gap-4 mt-5 text-[12px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
             {lastRefresh && (
-              <span>{tCommon('calendar.updatedAt')} {lastRefresh.toLocaleTimeString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
+              <span>
+                {tCommon('calendar.updatedAt')}{' '}
+                {lastRefresh.toLocaleTimeString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
+              </span>
             )}
             <button
               onClick={() => loadEvents(true)}
               disabled={refreshing}
-              className="flex items-center gap-1.5 text-white/50 hover:text-white/80 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 transition-colors disabled:opacity-50"
+              style={{ color: 'rgba(255,255,255,0.5)' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.8)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               {tCommon('calendar.refresh')}
@@ -277,7 +308,10 @@ export default function CalendarPage() {
       </div>
 
       {/* ── Region Tabs ── */}
-      <div className="sticky top-16 z-10 border-b border-white/8" style={{ background: '#0A2540' }}>
+      <div
+        className="sticky top-16 z-10"
+        style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)', boxShadow: 'var(--shadow-xs)' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative">
             <div
@@ -291,18 +325,25 @@ export default function CalendarPage() {
                   <button
                     key={id}
                     onClick={() => setActiveTab(id)}
-                    className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-150 ${
-                      isActive
-                        ? 'bg-white text-gray-900 shadow-sm'
-                        : 'text-white/50 hover:text-white/80 hover:bg-white/8'
-                    }`}
+                    className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-all duration-150"
+                    style={{
+                      backgroundColor: isActive ? 'var(--navy)' : 'transparent',
+                      color: isActive ? '#fff' : 'var(--text-secondary)',
+                      border: isActive ? '1px solid var(--navy)' : '1px solid transparent',
+                    }}
+                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.backgroundColor = 'var(--bg-elevated)'; }}
+                    onMouseLeave={e => { if (!isActive) e.currentTarget.style.backgroundColor = 'transparent'; }}
                   >
                     <span>{flag}</span>
                     <span>{label}</span>
                     {count > 0 && (
-                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                        isActive ? 'bg-gray-100 text-gray-500' : 'bg-white/10 text-white/40'
-                      }`}>
+                      <span
+                        className="font-body text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: isActive ? 'rgba(255,255,255,0.2)' : 'var(--bg-elevated)',
+                          color: isActive ? '#fff' : 'var(--text-muted)',
+                        }}
+                      >
                         {count}
                       </span>
                     )}
@@ -310,10 +351,9 @@ export default function CalendarPage() {
                 );
               })}
             </div>
-            {/* Right fade mask */}
             <div
               className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none"
-              style={{ background: 'linear-gradient(to right, transparent, #0A2540)' }}
+              style={{ background: 'linear-gradient(to right, transparent, var(--bg-surface))' }}
             />
           </div>
         </div>
@@ -322,9 +362,12 @@ export default function CalendarPage() {
       {/* ── Content ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {error && (
-          <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/25 rounded-2xl p-4 mb-6">
-            <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-400 font-medium text-sm">{error}</p>
+          <div
+            className="flex items-start gap-3 rounded-[10px] p-4 mb-6"
+            style={{ backgroundColor: 'var(--loss-bg)', border: '1px solid rgba(192,57,43,0.25)' }}
+          >
+            <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--loss)' }} />
+            <p className="font-body text-[13px] font-medium" style={{ color: 'var(--loss)' }}>{error}</p>
           </div>
         )}
 
@@ -343,7 +386,6 @@ export default function CalendarPage() {
               onUpcomingOnlyChange={setUpcomingOnly}
             />
 
-            {/* Placement 7: donate nudge after 3 min on page */}
             <CalendarDonateBanner />
             <EduBannerInline />
 
@@ -371,21 +413,29 @@ export default function CalendarPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
-            <div className="bg-white/5 border border-white/8 rounded-2xl p-5">
-              <h3 className="text-white font-medium text-sm mb-1 flex items-center gap-2">
+          <div className="space-y-5">
+            {/* Upcoming high-impact */}
+            <div
+              className="rounded-[10px] p-5"
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+            >
+              <h3 className="font-body font-semibold text-[13px] mb-1 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                 <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
                 {t('sidebar.upcomingTitle')}
               </h3>
-              <p className="text-white/30 text-[10px] mb-4">{t('sidebar.upcomingImpact')}</p>
+              <p className="font-body text-[10.5px] mb-4" style={{ color: 'var(--text-muted)' }}>
+                {t('sidebar.upcomingImpact')}
+              </p>
               {loading ? (
                 <div className="space-y-2">
                   {Array.from({ length: 4 }, (_, i) => (
-                    <div key={i} className="h-12 bg-white/5 rounded-xl animate-pulse" />
+                    <div key={i} className="h-12 rounded-[8px] animate-pulse" style={{ backgroundColor: 'var(--bg-elevated)' }} />
                   ))}
                 </div>
               ) : upcomingHighImpact.length === 0 ? (
-                <p className="text-white/25 text-xs text-center py-4">{tCommon('calendar.noHighImpact')}</p>
+                <p className="font-body text-[12px] text-center py-4" style={{ color: 'var(--text-muted)' }}>
+                  {tCommon('calendar.noHighImpact')}
+                </p>
               ) : (
                 <div>
                   {upcomingHighImpact.map((ev) => (
@@ -395,31 +445,49 @@ export default function CalendarPage() {
               )}
             </div>
 
-            <div className="bg-white/5 border border-white/8 rounded-2xl p-5">
-              <h3 className="text-white/50 text-xs font-medium uppercase tracking-wider mb-4">{t('sidebar.sourcesTitle')}</h3>
-              <div className="space-y-2">
+            {/* Sources */}
+            <div
+              className="rounded-[10px] p-5"
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+            >
+              <h3
+                className="font-body text-[11px] font-semibold uppercase tracking-[0.08em] mb-4"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                {t('sidebar.sourcesTitle')}
+              </h3>
+              <div className="space-y-2.5">
                 {[
-                  { name: 'Finnhub', desc: t('sidebar.sources.finnhub'), color: 'bg-amber-400' },
-                  { name: 'ForexFactory', desc: t('sidebar.sources.forexfactory'), color: 'bg-yellow-400' },
-                  { name: 'Bank Al-Maghrib', desc: t('sidebar.sources.bam'), color: 'bg-emerald-400' },
-                  { name: 'HCP Maroc', desc: t('sidebar.sources.hcp'), color: 'bg-emerald-400' },
-                  { name: 'Médias24', desc: t('sidebar.sources.medias24'), color: 'bg-white/30' },
-                  { name: 'BourseNews', desc: t('sidebar.sources.boursenews'), color: 'bg-white/30' },
+                  { name: 'Finnhub',        desc: t('sidebar.sources.finnhub'),      color: 'var(--gold)' },
+                  { name: 'ForexFactory',   desc: t('sidebar.sources.forexfactory'), color: 'var(--gold)' },
+                  { name: 'Bank Al-Maghrib', desc: t('sidebar.sources.bam'),         color: 'var(--gain)' },
+                  { name: 'HCP Maroc',      desc: t('sidebar.sources.hcp'),          color: 'var(--gain)' },
+                  { name: 'Médias24',       desc: t('sidebar.sources.medias24'),     color: 'var(--text-muted)' },
+                  { name: 'BourseNews',     desc: t('sidebar.sources.boursenews'),   color: 'var(--text-muted)' },
                 ].map(({ name, desc, color }) => (
                   <div key={name} className="flex items-center gap-2.5">
-                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${color}`} />
+                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
                     <div>
-                      <p className="text-white/60 text-xs font-medium">{name}</p>
-                      <p className="text-white/25 text-[10px]">{desc}</p>
+                      <p className="font-body text-[12px] font-medium" style={{ color: 'var(--text-primary)' }}>{name}</p>
+                      <p className="font-body text-[10.5px]" style={{ color: 'var(--text-muted)' }}>{desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-accent/8 border border-accent/15 rounded-2xl p-5">
-              <h4 className="text-white/80 font-medium text-xs mb-3">💡 {t('sidebar.howToReadTitle')}</h4>
-              <ul className="space-y-1.5 text-[11px] text-white/45">
+            {/* Tips */}
+            <div
+              className="rounded-[10px] p-5"
+              style={{
+                backgroundColor: 'var(--gold-subtle)',
+                border: '1px solid rgba(184,151,74,0.2)',
+              }}
+            >
+              <h4 className="font-body font-semibold text-[12px] mb-3" style={{ color: 'var(--text-primary)' }}>
+                💡 {t('sidebar.howToReadTitle')}
+              </h4>
+              <ul className="space-y-1.5 font-body text-[11.5px]" style={{ color: 'var(--text-secondary)' }}>
                 <li>• {t('sidebar.tips.critical')}</li>
                 <li>• {t('sidebar.tips.bam')}</li>
                 <li>• {t('sidebar.tips.nfp')}</li>

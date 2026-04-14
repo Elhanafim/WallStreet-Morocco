@@ -215,14 +215,14 @@ export default function PolitiqueCookiesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-lg font-medium text-primary mb-4 pb-2 border-b border-surface-200">{title}</h2>
-      <div className="text-primary/75 text-sm leading-relaxed space-y-2">{children}</div>
+      <h2 className="text-lg font-medium mb-4 pb-2 border-b border-[var(--border)]" style={{ color: 'var(--text-primary)' }}>{title}</h2>
+      <div className="text-sm leading-relaxed space-y-2" style={{ color: 'var(--text-secondary)' }}>{children}</div>
     </section>
   );
 }
 
 function Bullet() {
-  return <span className="flex-shrink-0 w-1.5 h-1.5 bg-secondary rounded-full mt-1.5" />;
+  return <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-1.5" style={{ backgroundColor: 'var(--gold)' }} />;
 }
 
 function BulletNo() {

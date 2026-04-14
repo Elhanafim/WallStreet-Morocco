@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { Activity, BarChart2, Clock, Globe2, Layers, TrendingUp, TrendingDown, LayoutGrid } from 'lucide-react';
+import { Activity, BarChart2, Clock, Globe2, Layers, TrendingUp, LayoutGrid } from 'lucide-react';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 
 const TradingViewTicker   = dynamic(() => import('@/components/market/TradingViewTicker'),   { ssr: false });
@@ -119,7 +119,6 @@ function Card({
         boxShadow: 'var(--shadow-sm)',
       }}
     >
-      {/* Header */}
       <div
         className="flex items-center justify-between px-5 py-4"
         style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)' }}
@@ -127,10 +126,7 @@ function Card({
         <div className="flex items-center gap-3">
           <span style={{ color: 'var(--gold)' }}>{icon}</span>
           <div>
-            <p
-              className="font-body font-semibold text-[14px]"
-              style={{ color: 'var(--text-primary)' }}
-            >
+            <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
               {title}
             </p>
             {subtitle && (
@@ -156,17 +152,17 @@ export default function MarketPage() {
         <TradingViewTicker />
       </div>
 
-      {/* ── Page header ─────────────────────────────────────────────────────── */}
+      {/* ── Page header with background image ──────────────────────────────── */}
       <div
+        className="page-hero-bg"
         style={{
           backgroundColor: 'var(--navy)',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
-        }}
+          '--hero-image': 'url(/images/nick-chong-N__BnvQ_w18-unsplash.jpg)',
+        } as React.CSSProperties}
       >
         <div className="container-max py-7">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-
-            {/* Title */}
             <div>
               <p
                 className="font-body text-[11px] font-semibold uppercase tracking-[0.1em] mb-1"
@@ -187,8 +183,6 @@ export default function MarketPage() {
                 Real-time prices, indices, sector heatmap, and top movers.
               </p>
             </div>
-
-            {/* Meta chips */}
             <div className="flex flex-wrap gap-2">
               {[
                 { icon: <Layers size={12} />,    label: '77 Securities' },
@@ -234,7 +228,10 @@ export default function MarketPage() {
           {/* ── LEFT: main content (3 cols) ─────────────────────────────────── */}
           <div className="xl:col-span-3 space-y-6">
 
-            {/* ── ROW 1: MASI + MADEX charts side by side ─────────────────── */}
+            {/* ── ROW 1: KEY MARKET INDICATORS (top movers / gainers / losers) ─ */}
+            <MarketSummary />
+
+            {/* ── ROW 2: MASI + MASI20 CHARTS (big, side by side) ─────────────── */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
               {/* MASI */}
@@ -259,20 +256,16 @@ export default function MarketPage() {
                   </div>
                   <span
                     className="flex items-center gap-1.5 font-mono text-[10.5px] px-2.5 py-1 rounded-full"
-                    style={{
-                      color: 'var(--gain)',
-                      backgroundColor: 'var(--gain-bg)',
-                      border: '1px solid rgba(13,122,78,0.2)',
-                    }}
+                    style={{ color: 'var(--gain)', backgroundColor: 'var(--gain-bg)', border: '1px solid rgba(13,122,78,0.2)' }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse-slow bg-current" />
                     LIVE
                   </span>
                 </div>
-                <TradingViewChart symbol="CSEMA:MASI" height={280} theme="light" interval="D" showToolbar={false} />
+                <TradingViewChart symbol="CSEMA:MASI" height={320} theme="light" interval="D" showToolbar={false} />
               </div>
 
-              {/* MADEX */}
+              {/* MASI20 */}
               <div
                 className="overflow-hidden rounded-[10px]"
                 style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
@@ -285,70 +278,29 @@ export default function MarketPage() {
                     <TrendingUp size={15} style={{ color: 'var(--gold)' }} />
                     <div>
                       <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
-                        MADEX — Most Active Index
+                        MASI20 — Blue Chips Index
                       </p>
                       <p className="font-body text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                        Most liquid stocks · daily
+                        Top 20 most liquid stocks · daily
                       </p>
                     </div>
                   </div>
                   <span
                     className="flex items-center gap-1.5 font-mono text-[10.5px] px-2.5 py-1 rounded-full"
-                    style={{
-                      color: 'var(--gain)',
-                      backgroundColor: 'var(--gain-bg)',
-                      border: '1px solid rgba(13,122,78,0.2)',
-                    }}
+                    style={{ color: 'var(--gain)', backgroundColor: 'var(--gain-bg)', border: '1px solid rgba(13,122,78,0.2)' }}
                   >
                     <span className="w-1.5 h-1.5 rounded-full animate-pulse-slow bg-current" />
                     LIVE
                   </span>
                 </div>
-                <TradingViewChart symbol="CSEMA:MADEX" height={280} theme="light" interval="D" showToolbar={false} />
+                <TradingViewChart symbol="CSEMA:MASI20" height={320} theme="light" interval="D" showToolbar={false} />
               </div>
             </div>
 
-            {/* ── ROW 2: Top Movers (Gainers + Losers) ─────────────────────── */}
-            <MarketSummary />
-
-            {/* ── ROW 3: SECTOR HEATMAP ─────────────────────────────────────── */}
+            {/* ── ROW 2b: MASI ADVANCED FULL-WIDTH CHART ────────────────────────── */}
             <div
               className="overflow-hidden rounded-[10px]"
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-            >
-              <div
-                className="flex items-center justify-between px-5 py-3.5"
-                style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)' }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <LayoutGrid size={15} style={{ color: 'var(--gold)' }} />
-                  <div>
-                    <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
-                      Sector Heatmap
-                    </p>
-                    <p className="font-body text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                      Daily performance by sector — click any tile to expand
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-5">
-                <MarketHeatmap />
-              </div>
-            </div>
-
-            {/* ── ROW 4: MASI Advanced Chart (full width) ────────────────────── */}
-            <div
-              className="overflow-hidden rounded-[10px]"
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-              }}
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
             >
               <div
                 className="flex items-center justify-between px-5 py-3.5"
@@ -367,11 +319,7 @@ export default function MarketPage() {
                 </div>
                 <span
                   className="flex items-center gap-1.5 font-mono text-[10.5px] px-2.5 py-1 rounded-full"
-                  style={{
-                    color: 'var(--gain)',
-                    backgroundColor: 'var(--gain-bg)',
-                    border: '1px solid rgba(13,122,78,0.2)',
-                  }}
+                  style={{ color: 'var(--gain)', backgroundColor: 'var(--gain-bg)', border: '1px solid rgba(13,122,78,0.2)' }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse-slow bg-current" />
                   LIVE
@@ -380,14 +328,36 @@ export default function MarketPage() {
               <TradingViewChart symbol="CSEMA:MASI" height={480} theme="light" interval="D" showToolbar={true} />
             </div>
 
-            {/* ── ROW 5: ALL STOCKS BY SECTOR ───────────────────────────────── */}
+            {/* ── ROW 3: HEATMAP — STOCKS + SECTORS (toggle) ───────────────────── */}
             <div
               className="overflow-hidden rounded-[10px]"
-              style={{
-                backgroundColor: 'var(--bg-surface)',
-                border: '1px solid var(--border)',
-                boxShadow: 'var(--shadow-sm)',
-              }}
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+            >
+              <div
+                className="flex items-center justify-between px-5 py-3.5"
+                style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)' }}
+              >
+                <div className="flex items-center gap-2.5">
+                  <LayoutGrid size={15} style={{ color: 'var(--gold)' }} />
+                  <div>
+                    <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
+                      Market Heatmap
+                    </p>
+                    <p className="font-body text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                      78 stocks & 13 sectors — daily performance · click any tile to expand
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-5">
+                <MarketHeatmap />
+              </div>
+            </div>
+
+            {/* ── ROW 4: ALL STOCKS BY SECTOR ──────────────────────────────────── */}
+            <div
+              className="overflow-hidden rounded-[10px]"
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
             >
               <div
                 className="flex items-center justify-between px-5 py-3.5"
@@ -397,20 +367,16 @@ export default function MarketPage() {
                   <Layers size={15} style={{ color: 'var(--gold)' }} />
                   <div>
                     <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
-                      All Securities
+                      All Securities — Bourse de Casablanca
                     </p>
                     <p className="font-body text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                      77 companies · 13 sectors · Bourse de Casablanca
+                      77 companies · 13 sectors · real-time prices
                     </p>
                   </div>
                 </div>
                 <span
                   className="font-mono text-[11px] px-2 py-0.5 rounded-[4px]"
-                  style={{
-                    backgroundColor: 'var(--bg-elevated)',
-                    color: 'var(--text-muted)',
-                    border: '1px solid var(--border)',
-                  }}
+                  style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
                 >
                   CSE · CSEMA
                 </span>

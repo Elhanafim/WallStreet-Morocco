@@ -3,13 +3,12 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, LogOut, User, LayoutDashboard, TrendingUp } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, User, LayoutDashboard, TrendingUp, Terminal, Heart } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
   { href: '/market',    label: 'Markets'     },
-  { href: '/terminal',  label: 'Terminal'    },
   { href: '/opcvm',     label: 'OPCVM'       },
   { href: '/simulator', label: 'Simulator'   },
   { href: '/calendar',  label: 'Calendar'    },
@@ -95,10 +94,46 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* ── Terminal — special design ── */}
+          {(() => {
+            const active = pathname === '/terminal' || pathname.startsWith('/terminal');
+            return (
+              <Link
+                href="/terminal"
+                className={cn(
+                  'relative flex items-center gap-1.5 px-3.5 py-1.5 rounded-[5px] font-body text-[13.5px] font-semibold tracking-[0.01em] transition-all duration-150',
+                )}
+                style={{
+                  background: active
+                    ? 'linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%)'
+                    : 'linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%)',
+                  color: '#fff',
+                  border: `1.5px solid ${active ? 'var(--gold)' : 'rgba(184,151,74,0.4)'}`,
+                  boxShadow: active ? '0 0 0 3px rgba(184,151,74,0.15)' : 'none',
+                }}
+              >
+                <Terminal size={13} />
+                Terminal
+              </Link>
+            );
+          })()}
         </div>
 
         {/* ── ACTIONS (Right) ── */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Support Us */}
+          <Link
+            href="/donate"
+            className="hidden sm:flex items-center gap-1.5 font-body text-[13px] font-semibold px-3.5 py-1.5 rounded-[6px] transition-all duration-150 hover:brightness-110"
+            style={{
+              backgroundColor: 'var(--gold)',
+              color: '#fff',
+            }}
+          >
+            <Heart size={12} />
+            Support Us
+          </Link>
           {session ? (
             /* ── Authenticated: avatar + dropdown ── */
             <div className="relative" ref={userMenuRef}>
@@ -223,6 +258,22 @@ export default function Navbar() {
               </Link>
             );
           })}
+          {/* Terminal — mobile special */}
+          <Link
+            href="/terminal"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-[6px] font-body text-[14px] font-semibold"
+            style={{ background: 'linear-gradient(135deg, var(--navy), var(--navy-light))', color: '#fff', border: '1.5px solid rgba(184,151,74,0.5)' }}
+          >
+            <Terminal size={14} /> Terminal
+          </Link>
+          {/* Support Us — mobile */}
+          <Link
+            href="/donate"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-[6px] font-body text-[14px] font-semibold"
+            style={{ backgroundColor: 'var(--gold)', color: '#fff' }}
+          >
+            <Heart size={14} /> Support Us
+          </Link>
 
           {!session && (
             <div className="pt-4 border-t flex gap-3" style={{ borderColor: 'var(--border)' }}>

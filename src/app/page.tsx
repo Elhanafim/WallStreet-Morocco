@@ -13,6 +13,7 @@ import { opcvmFunds } from '@/lib/data/opcvm';
 import { formatPercent, cn } from '@/lib/utils';
 
 const TradingViewTicker = dynamic(() => import('@/components/market/TradingViewTicker'), { ssr: false });
+const TradingViewForexWidget = dynamic(() => import('@/components/market/TradingViewForexWidget'), { ssr: false });
 const TradingViewMarketOverview = dynamic(() => import('@/components/market/TradingViewMarketOverview'), {
   ssr: false,
   loading: () => (
@@ -126,7 +127,23 @@ export default function HomePage() {
         <TradingViewTicker />
       </div>
 
-      {/* ── 3. GLOBAL OVERVIEW — Markets at a Glance ────────────────────────── */}
+      {/* ── 3. FOREX MAD CURRENCIES ──────────────────────────────────────────── */}
+      <Section
+        label="Forex · Dirham"
+        title="MAD Currency Rates"
+        subtitle="Live exchange rates for the Moroccan Dirham against major currencies."
+        bg="var(--bg-elevated)"
+        bordered
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <TradingViewForexWidget symbol="FX_IDC:USDMAD" label="USD / MAD" description="US Dollar · Moroccan Dirham" height={200} />
+          <TradingViewForexWidget symbol="FX_IDC:EURMAD" label="EUR / MAD" description="Euro · Moroccan Dirham" height={200} />
+          <TradingViewForexWidget symbol="FX_IDC:GBPMAD" label="GBP / MAD" description="British Pound · Moroccan Dirham" height={200} />
+          <TradingViewForexWidget symbol="FX_IDC:CNYMAD" label="CNY / MAD" description="Chinese Yuan · Moroccan Dirham" height={200} />
+        </div>
+      </Section>
+
+      {/* ── 4. GLOBAL OVERVIEW — Markets at a Glance ────────────────────────── */}
       <Section
         label="Global Overview"
         title="Markets at a Glance"
@@ -151,7 +168,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ── 4. BVC INVESTOR DASHBOARD ────────────────────────────────────────── */}
+      {/* ── 5. BVC INVESTOR DASHBOARD ────────────────────────────────────────── */}
       <Section
         label="BVC Dashboard"
         title="BVC Investor Dashboard"
@@ -170,7 +187,7 @@ export default function HomePage() {
         <BVCInvestorPulse />
       </Section>
 
-      {/* ── 5. MARKET NEWS + QUICK ACCESS ────────────────────────────────────── */}
+      {/* ── 6. MARKET NEWS + QUICK ACCESS ────────────────────────────────────── */}
       <div
         className="py-14"
         style={{
@@ -250,7 +267,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── 6. RESEARCH — Expert Analysis ────────────────────────────────────── */}
+      {/* ── 7. RESEARCH — Expert Analysis ────────────────────────────────────── */}
       <Section
         label="Research"
         title="Expert Analysis"
@@ -278,7 +295,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ── 7. FUND SELECTION — OPCVM ────────────────────────────────────────── */}
+      {/* ── 8. FUND SELECTION — OPCVM ────────────────────────────────────────── */}
       <Section
         label="Fund Selection"
         title="OPCVM — Top Funds"
@@ -362,7 +379,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ── 8. STATS STRIP ────────────────────────────────────────────────────── */}
+      {/* ── 9. STATS STRIP ────────────────────────────────────────────────────── */}
       <div style={{ backgroundColor: 'var(--navy)' }}>
         <div className="container-max">
           <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-white/10">
@@ -394,7 +411,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* ── 9. DISCLAIMER ────────────────────────────────────────────────────── */}
+      {/* ── 10. DISCLAIMER ───────────────────────────────────────────────────── */}
       <div className="py-8">
         <div className="container-max">
           <FinancialDisclaimer variant="short" />

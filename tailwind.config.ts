@@ -9,27 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Text hierarchy
+        // Text hierarchy — updated for white bg
         primary: {
-          DEFAULT: '#E8EAF0',
-          50:  '#F4F5F8',
-          100: '#E8EAF0',
-          200: '#C5CAD5',
-          300: '#9FAAB8',
-          400: '#7A8BA0',   // --text-secondary
-          500: '#5A6B80',
-          600: '#3D4F65',   // --text-muted
-          700: '#2A3A52',
-          800: '#1C2B40',   // --border
-          900: '#080F1E',   // --bg-base
+          DEFAULT: '#0C1828',
+          50:  '#FFFFFF',
+          100: '#F5F7FA',
+          200: '#DDE3EC',
+          300: '#8298B0',
+          400: '#445566',   // --text-secondary
+          500: '#2A3A52',
+          600: '#1A2A3A',   // --text-muted
+          700: '#0F2040',
+          800: '#0A1830',   // --border
+          900: '#060F1E',   // --bg-base
         },
-        // Background surfaces
+        // Background surfaces — light
         surface: {
-          DEFAULT: '#0E1A2E', // --bg-surface
-          50:  '#14243D',     // --bg-elevated
-          100: '#1C2B40',     // --border
-          200: '#243452',
-          300: '#2C3D60',
+          DEFAULT: '#FFFFFF', // --bg-surface
+          50:  '#F5F7FA',     // --bg-elevated
+          100: '#DDE3EC',     // --border
+          200: '#C4CDD8',
+          300: '#8298B0',
         },
         // Muted blue (links, secondary actions)
         secondary: {
@@ -67,10 +67,10 @@ const config: Config = {
         loss:    '#D95B5B',
         gold:    '#B8974A',
         // Direct token names
-        'bg-base':     '#080F1E',
-        'bg-surface':  '#0E1A2E',
-        'bg-elevated': '#14243D',
-        'border-dark': '#1C2B40',
+        'bg-base':     '#FFFFFF',
+        'bg-surface':  '#FFFFFF',
+        'bg-elevated': '#F5F7FA',
+        'border-dark': '#DDE3EC',
       },
       fontFamily: {
         sans:    ['DM Sans', 'system-ui', 'sans-serif'],
@@ -82,9 +82,9 @@ const config: Config = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-hero':   'linear-gradient(180deg, #080F1E 0%, #0E1A2E 100%)',
-        'gradient-card':   'linear-gradient(135deg, #0E1A2E 0%, #14243D 100%)',
-        'gradient-warm':   'linear-gradient(180deg, #080F1E 0%, #0E1A2E 100%)',
+        'gradient-hero':   'linear-gradient(160deg, #0F2D52 0%, #1A4A80 60%, #0F2D52 100%)',
+        'gradient-card':   'linear-gradient(135deg, #0F2D52 0%, #1A4A80 100%)',
+        'gradient-warm':   'linear-gradient(160deg, #0F2D52 0%, #1A4A80 100%)',
       },
       // No glows — only structural shadows
       boxShadow: {

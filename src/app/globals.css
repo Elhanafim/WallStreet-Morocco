@@ -10,7 +10,7 @@
    ───────────────────────────────────────────────────────────────────────────── */
 :root {
   /* ── Backgrounds (layered depth) ─────────────────── */
-  --bg-base:        #EFF2F6;   /* page canvas — cool off-white          */
+  --bg-base:        #FFFFFF;   /* page canvas — pure white              */
   --bg-surface:     #FFFFFF;   /* cards, panels                         */
   --bg-elevated:    #F5F7FA;   /* hover states, inset areas             */
   --bg-overlay:     #FFFFFF;   /* dropdowns, tooltips                   */
@@ -24,9 +24,9 @@
   --navy-light:     #1A4A80;   /* hover navy                            */
 
   /* ── Gold accent — used sparingly ───────────────────*/
-  --gold:           #B07D2A;   /* primary accent (darkened for light bg)*/
+  --gold:           #B8974A;   /* primary accent                        */
   --gold-dim:       #C9A84C;   /* lighter gold for icons                */
-  --gold-subtle:    rgba(176,125,42,0.10);
+  --gold-subtle:    rgba(184,151,74,0.10);
 
   /* ── Text hierarchy ──────────────────────────────── */
   --text-primary:   #0C1828;   /* headings & primary content            */
@@ -320,6 +320,23 @@
     background: var(--bg-elevated); color: var(--text-secondary);
   }
 }
+
+/* ─── Page hero backgrounds with overlay ─────────────────────────────────── */
+.page-hero-bg {
+  position: relative;
+  overflow: hidden;
+}
+.page-hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.08;
+  z-index: 0;
+}
+.page-hero-bg > * { position: relative; z-index: 1; }
 
 /* ─── Utilities ──────────────────────────────────────────────────────────── */
 @layer utilities {

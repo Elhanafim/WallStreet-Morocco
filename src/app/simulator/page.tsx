@@ -136,10 +136,12 @@ export default function SimulatorPage() {
 
       {/* ── Page header ───────────────────────────────────────────────────────── */}
       <div
+        className="page-hero-bg"
         style={{
           backgroundColor: 'var(--navy)',
           borderBottom: '1px solid rgba(255,255,255,0.08)',
-        }}
+          '--hero-image': 'url(/images/jeffrey-blum-7-gaPkhIgqs-unsplash.jpg)',
+        } as React.CSSProperties}
       >
         <div className="container-max py-10 text-center">
           <div

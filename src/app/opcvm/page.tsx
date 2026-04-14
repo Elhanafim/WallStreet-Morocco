@@ -36,35 +36,39 @@ export default function OpcvmPage() {
 
       {/* Page header */}
       <div
-        className="py-12 px-4"
-        style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}
+        className="page-hero-bg py-12 px-4"
+        style={{
+          backgroundColor: 'var(--navy)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          '--hero-image': 'url(/images/sean-pollock-PhYq704ffdA-unsplash.jpg)',
+        } as React.CSSProperties}
       >
         <div className="max-w-6xl mx-auto">
           <div className="flex items-start gap-4 mb-4">
             <div
               className="w-10 h-10 flex items-center justify-center flex-shrink-0"
               style={{
-                backgroundColor: 'var(--bg-elevated)',
-                border: '1px solid var(--border)',
+                backgroundColor: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '6px',
               }}
             >
-              <BarChart2 className="w-5 h-5" style={{ color: 'var(--text-muted)' }} />
+              <BarChart2 className="w-5 h-5" style={{ color: 'var(--gold-dim)' }} />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-1">
                 <h1
-                  className="text-3xl sm:text-4xl"
-                  style={{ fontFamily: 'var(--font-display)', fontWeight: 500, color: 'var(--text-primary)' }}
+                  className="text-3xl sm:text-4xl text-white"
+                  style={{ fontFamily: 'var(--font-display)', fontWeight: 500 }}
                 >
                   Marché des OPCVM
                 </h1>
                 <span
                   className="text-xs px-2.5 py-1"
                   style={{
-                    color: 'var(--gold)',
-                    backgroundColor: 'rgba(184,151,74,0.08)',
-                    border: '1px solid rgba(184,151,74,0.2)',
+                    color: 'var(--gold-dim)',
+                    backgroundColor: 'rgba(184,151,74,0.2)',
+                    border: '1px solid rgba(184,151,74,0.35)',
                     borderRadius: '4px',
                     fontFamily: 'var(--font-body)',
                   }}
@@ -74,11 +78,11 @@ export default function OpcvmPage() {
               </div>
               <p
                 className="text-sm"
-                style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
+                style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-body)' }}
               >
                 Aperçu global et statistiques hebdomadaires du marché marocain des OPCVM.
                 {latest?.date && (
-                  <> · <span style={{ color: 'var(--text-secondary)' }}>Semaine {latest.week_number} ({latest.date})</span></>
+                  <> · <span style={{ color: 'rgba(255,255,255,0.5)' }}>Semaine {latest.week_number} ({latest.date})</span></>
                 )}
               </p>
             </div>
@@ -88,14 +92,14 @@ export default function OpcvmPage() {
             href="/opcvm/ammc"
             className="inline-flex items-center gap-2 text-xs px-4 py-2 mb-8 transition-colors"
             style={{
-              border: '1px solid var(--border)',
+              border: '1px solid rgba(255,255,255,0.2)',
               borderRadius: '6px',
-              color: 'var(--text-secondary)',
-              backgroundColor: 'var(--bg-elevated)',
+              color: 'rgba(255,255,255,0.7)',
+              backgroundColor: 'rgba(255,255,255,0.08)',
               fontFamily: 'var(--font-body)',
             }}
-            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-primary)')}
-            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-secondary)')}
+            onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.color = '#fff')}
+            onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.7)')}
           >
             <span>◈</span>
             <span>Voir le tableau de bord détaillé analytique</span>
@@ -114,15 +118,14 @@ export default function OpcvmPage() {
                 key={kpi.label}
                 className="px-4 py-3"
                 style={{
-                  backgroundColor: 'var(--bg-elevated)',
-                  border: '1px solid var(--border)',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: '6px',
                 }}
               >
                 <p
-                  className="text-xl mb-0.5"
+                  className="text-xl mb-0.5 text-white"
                   style={{
-                    color: 'var(--text-primary)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 500,
                     letterSpacing: '-0.02em',
@@ -132,13 +135,13 @@ export default function OpcvmPage() {
                 </p>
                 <p
                   className="text-xs font-medium"
-                  style={{ color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}
+                  style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-body)' }}
                 >
                   {kpi.label}
                 </p>
                 <p
                   className="text-[10px] mt-0.5 truncate"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
+                  style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-body)' }}
                 >
                   {kpi.sub}
                 </p>
