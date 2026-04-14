@@ -1019,12 +1019,13 @@ export default function PortfolioDetailPage({
     <div className="pt-16 min-h-screen bg-surface-50">
 
       {/* ── Header ── */}
-      <div className="bg-gradient-hero">
+      <div style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* Back */}
           <Link
             href="/portfolio"
-            className="inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-5 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm mb-5 transition-colors hover:opacity-70"
+            style={{ color: 'var(--text-muted)' }}
           >
             <ArrowLeft className="w-4 h-4" /> Mes portefeuilles
           </Link>
@@ -1032,16 +1033,22 @@ export default function PortfolioDetailPage({
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
-                  <Briefcase className="w-5 h-5 text-accent" />
+                <div
+                  className="w-10 h-10 rounded-[8px] flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}
+                >
+                  <Briefcase className="w-5 h-5" style={{ color: 'var(--gold)' }} />
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-medium text-white">{portfolio.name}</h1>
+                <h1 className="font-display font-medium" style={{ fontSize: 'clamp(22px,3vw,32px)', color: 'var(--navy)' }}>{portfolio.name}</h1>
               </div>
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="text-xs font-medium text-accent bg-accent/20 px-3 py-1 rounded-full">
+                <span
+                  className="text-xs font-medium px-3 py-1 rounded-full"
+                  style={{ color: 'var(--gold)', backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}
+                >
                   {STRATEGY_LABELS[portfolio.strategy] ?? portfolio.strategy}
                 </span>
-                <span className="text-white/50 text-sm">
+                <span className="font-body text-[13px]" style={{ color: 'var(--text-muted)' }}>
                   {holdings.length} position{holdings.length !== 1 ? 's' : ''} · Créé le {fmtDate(portfolio.createdAt)}
                 </span>
               </div>
@@ -1052,14 +1059,16 @@ export default function PortfolioDetailPage({
                   <button
                     onClick={() => refreshPrices(holdings)}
                     disabled={pricesLoading}
-                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-medium px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm disabled:opacity-50"
+                    className="flex items-center gap-2 font-body text-[13px] font-medium px-4 py-2.5 rounded-[8px] transition-colors disabled:opacity-50"
+                    style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
                     title="Actualiser les prix"
                   >
                     <RefreshCw className={`w-4 h-4 ${pricesLoading ? 'animate-spin' : ''}`} />
                   </button>
                   <button
                     onClick={() => exportCSV(holdings, portfolio.name)}
-                    className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-medium px-4 py-3 rounded-xl hover:bg-white/20 transition-colors text-sm"
+                    className="flex items-center gap-2 font-body text-[13px] font-medium px-4 py-2.5 rounded-[8px] transition-colors"
+                    style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
                     title="Exporter CSV"
                   >
                     <Download className="w-4 h-4" />
@@ -1069,7 +1078,7 @@ export default function PortfolioDetailPage({
               )}
               <button
                 onClick={() => setShowPanel(true)}
-                className="flex items-center gap-2 bg-accent text-primary font-medium px-5 py-3 rounded-xl hover:bg-accent-600 transition-colors shadow-md text-sm"
+                className="btn-gold flex items-center gap-2"
               >
                 <Plus className="w-4 h-4" /> Ajouter un actif
               </button>

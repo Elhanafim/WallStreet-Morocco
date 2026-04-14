@@ -8,9 +8,6 @@ import {
 import { TrendingUp, DollarSign, Award, Flame, Target, AlertCircle } from 'lucide-react';
 
 // ─── Real DCA portfolio data ─────────────────────────────────────────────────
-// Strategy: DCA $100/month, Nov 2024 → Mar 2026 (17 months)
-// Strong stock selection + caught the BVC run-up → +51% portfolio return
-// MASI benchmark: realistic DCA at ~8% annual (0.64%/month) for comparison
 const CHART_DATA = [
   { month: 'Nov 24', invested: 100,  portfolio: 100,  masi: 100  },
   { month: 'Déc 24', invested: 200,  portfolio: 204,  masi: 201  },
@@ -31,14 +28,11 @@ const CHART_DATA = [
   { month: 'Mar 26', invested: 1700, portfolio: 2567, masi: 1813 },
 ];
 
-// ─── Illustrative BVC portfolio allocation ───────────────────────────────────
-// This represents the type of concentrated BVC stock selection that drove
-// the outperformance. Illustrative — allocation percentages are indicative.
 const ALLOCATION = [
   { ticker: 'ATW',  name: 'Attijariwafa Bank',  sector: 'Banque',          pct: 28, color: '#1B3D6E' },
   { ticker: 'IAM',  name: 'Maroc Telecom',      sector: 'Télécoms',        pct: 22, color: '#3A86FF' },
   { ticker: 'BCP',  name: 'Banque Populaire',   sector: 'Banque',          pct: 18, color: '#2563EB' },
-  { ticker: 'LHM',  name: 'LafargeHolcim',      sector: 'Matériaux',       pct: 15, color: '#D4AF37' },
+  { ticker: 'LHM',  name: 'LafargeHolcim',      sector: 'Matériaux',       pct: 15, color: '#B8974A' },
   { ticker: 'CIH',  name: 'CIH Bank',           sector: 'Banque',          pct: 10, color: '#6366F1' },
   { ticker: 'CSR',  name: 'Cosumar',            sector: 'Agroalimentaire', pct: 7,  color: '#22C55E' },
 ];
@@ -56,12 +50,12 @@ const METRICS = [
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-primary border border-white/10 rounded-xl shadow-2xl px-4 py-3 text-xs min-w-[160px]">
-      <p className="text-white font-medium mb-2">{label}</p>
+    <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-lg)' }} className="px-4 py-3 text-xs min-w-[160px]">
+      <p className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{label}</p>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex justify-between gap-4 mb-1">
           <span style={{ color: p.color }}>{p.name}</span>
-          <span className="text-white font-medium">${p.value.toLocaleString()}</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>${p.value.toLocaleString()}</span>
         </div>
       ))}
     </div>
@@ -73,38 +67,36 @@ function PieTooltip({ active, payload }: any) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="bg-white border border-surface-200 rounded-xl shadow-lg px-3 py-2 text-xs">
-      <p className="font-bold text-primary">{d.ticker} · {d.name}</p>
-      <p className="text-primary/60">{d.sector}</p>
-      <p className="font-medium text-secondary mt-1">{d.pct}%</p>
+    <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-lg)' }} className="px-3 py-2 text-xs">
+      <p className="font-bold" style={{ color: 'var(--text-primary)' }}>{d.ticker} · {d.name}</p>
+      <p style={{ color: 'var(--text-secondary)' }}>{d.sector}</p>
+      <p className="font-medium mt-1" style={{ color: 'var(--navy)' }}>{d.pct}%</p>
     </div>
   );
 }
 
 export default function FounderPortfolio() {
   return (
-    <section className="py-24 bg-gradient-to-br from-primary via-[#112d5e] to-[#0d3060] relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden" style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
-        <div className="absolute inset-0 opacity-[0.02]"
-          style={{ backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" style={{ backgroundColor: 'rgba(184,151,74,0.06)' }} />
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" style={{ backgroundColor: 'rgba(15,45,82,0.04)' }} />
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Section header ──────────────────────────────────────── */}
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-5">
-            <Target className="w-3.5 h-3.5 text-accent" />
-            <span className="text-accent text-xs font-medium uppercase tracking-widest">Stratégie & Performance</span>
+          <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-5" style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}>
+            <Target className="w-3.5 h-3.5" style={{ color: 'var(--gold)' }} />
+            <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--gold)' }}>Stratégie & Performance</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-medium text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-medium mb-4" style={{ color: 'var(--navy)' }}>
             Sélection de titres BVC<br />
-            <span className="text-accent">+51% en 17 mois</span>
+            <span style={{ color: 'var(--gold)' }}>+51% en 17 mois</span>
           </h2>
-          <p className="text-white/60 max-w-2xl mx-auto text-base leading-relaxed">
+          <p className="max-w-2xl mx-auto text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             DCA de 100$/mois depuis novembre 2024. Une sélection rigoureuse des titres les plus
             prometteurs de la Bourse de Casablanca, combinée à un run-up de marché parfaitement capturé.
           </p>
@@ -113,20 +105,20 @@ export default function FounderPortfolio() {
         {/* ── KPI strip ───────────────────────────────────────────── */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
           {METRICS.map((m) => {
-            const bg =
+            const cardStyle =
               m.variant === 'gold'
-                ? 'bg-accent/20 border-accent/40 shadow-[0_0_40px_rgba(212,175,55,0.12)]'
+                ? { backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }
                 : m.variant === 'success'
-                ? 'bg-emerald-500/15 border-emerald-500/30'
-                : 'bg-white/8 border-white/15';
+                ? { backgroundColor: 'rgba(13,122,78,0.06)', border: '1px solid rgba(13,122,78,0.2)' }
+                : { backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' };
             const valColor =
-              m.variant === 'gold' ? 'text-accent' : m.variant === 'success' ? 'text-emerald-400' : 'text-white';
+              m.variant === 'gold' ? 'var(--gold)' : m.variant === 'success' ? 'var(--gain)' : 'var(--text-primary)';
             return (
-              <div key={m.label} className={`rounded-2xl p-5 border ${bg} text-center`}>
-                <m.icon className={`w-5 h-5 mx-auto mb-2 ${m.variant === 'gold' ? 'text-accent' : m.variant === 'success' ? 'text-emerald-400' : 'text-white/40'}`} />
-                <p className={`text-2xl font-medium ${valColor}`}>{m.value}</p>
-                <p className="text-white/60 text-xs font-medium mt-1">{m.label}</p>
-                <p className="text-white/30 text-[10px] mt-0.5">{m.sub}</p>
+              <div key={m.label} className="rounded-[10px] p-5 text-center" style={cardStyle}>
+                <m.icon className="w-5 h-5 mx-auto mb-2" style={{ color: valColor }} />
+                <p className="text-2xl font-medium" style={{ color: valColor }}>{m.value}</p>
+                <p className="text-xs font-medium mt-1" style={{ color: 'var(--text-secondary)' }}>{m.label}</p>
+                <p className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{m.sub}</p>
               </div>
             );
           })}
@@ -136,21 +128,21 @@ export default function FounderPortfolio() {
         <div className="grid lg:grid-cols-3 gap-6 mb-8">
 
           {/* Growth chart — 2/3 width */}
-          <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+          <div className="lg:col-span-2 rounded-[12px] p-6 sm:p-8" style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-white font-medium text-lg">Évolution du portefeuille</h3>
-                <p className="text-white/40 text-xs mt-0.5">Nov 2024 — Mar 2026 · DCA 100$/mois</p>
+                <h3 className="font-medium text-lg" style={{ color: 'var(--text-primary)' }}>Évolution du portefeuille</h3>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>Nov 2024 — Mar 2026 · DCA 100$/mois</p>
               </div>
               <div className="flex flex-col gap-1.5 text-xs text-right">
-                <span className="flex items-center gap-1.5 text-white/60 justify-end">
-                  <span className="w-3 h-0.5 bg-secondary inline-block rounded-full" /> Mon portefeuille
+                <span className="flex items-center gap-1.5 justify-end" style={{ color: 'var(--text-secondary)' }}>
+                  <span className="w-3 h-0.5 inline-block rounded-full" style={{ backgroundColor: '#3A86FF' }} /> Mon portefeuille
                 </span>
-                <span className="flex items-center gap-1.5 text-white/40 justify-end">
-                  <span className="w-3 h-0.5 bg-accent inline-block rounded-full" style={{ borderStyle: 'dashed' }} /> MASI DCA
+                <span className="flex items-center gap-1.5 justify-end" style={{ color: 'var(--text-muted)' }}>
+                  <span className="w-3 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'var(--gold)' }} /> MASI DCA
                 </span>
-                <span className="flex items-center gap-1.5 text-white/25 justify-end">
-                  <span className="w-3 h-0.5 bg-white/30 inline-block rounded-full" style={{ borderStyle: 'dotted' }} /> Capital investi
+                <span className="flex items-center gap-1.5 justify-end" style={{ color: 'var(--text-muted)' }}>
+                  <span className="w-3 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'var(--border)' }} /> Capital investi
                 </span>
               </div>
             </div>
@@ -158,43 +150,43 @@ export default function FounderPortfolio() {
             <ResponsiveContainer width="100%" height={260}>
               <AreaChart data={CHART_DATA} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
                 <defs>
-                  <linearGradient id="pfGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#3A86FF" stopOpacity={0.5} />
+                  <linearGradient id="fpfGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%"  stopColor="#3A86FF" stopOpacity={0.2} />
                     <stop offset="95%" stopColor="#3A86FF" stopOpacity={0} />
                   </linearGradient>
-                  <linearGradient id="masiGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#D4AF37" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#D4AF37" stopOpacity={0} />
+                  <linearGradient id="fmasiGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%"  stopColor="#B8974A" stopOpacity={0.15} />
+                    <stop offset="95%" stopColor="#B8974A" stopOpacity={0} />
                   </linearGradient>
-                  <linearGradient id="invGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#ffffff" stopOpacity={0.06} />
-                    <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+                  <linearGradient id="finvGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%"  stopColor="#F5F7FA" stopOpacity={0.6} />
+                    <stop offset="95%" stopColor="#F5F7FA" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" />
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 10 }}
+                  tick={{ fill: '#8298B0', fontSize: 10 }}
                   axisLine={false} tickLine={false} interval={2}
                 />
                 <YAxis
-                  tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 10 }}
+                  tick={{ fill: '#8298B0', fontSize: 10 }}
                   axisLine={false} tickLine={false}
                   tickFormatter={(v) => `$${v}`}
                   width={50}
                 />
                 <Tooltip content={<ChartTooltip />} />
-                <Area type="monotone" dataKey="invested"  name="Investi"       stroke="rgba(255,255,255,0.2)" strokeWidth={1} strokeDasharray="4 4" fill="url(#invGrad)"  />
-                <Area type="monotone" dataKey="masi"      name="MASI DCA"      stroke="#D4AF37" strokeWidth={1.5} strokeDasharray="5 3" fill="url(#masiGrad)" />
-                <Area type="monotone" dataKey="portfolio" name="Mon portefeuille" stroke="#3A86FF" strokeWidth={2.5} fill="url(#pfGrad)" />
+                <Area type="monotone" dataKey="invested"  name="Investi"       stroke="#C8D6E5" strokeWidth={1} strokeDasharray="4 4" fill="url(#finvGrad)"  />
+                <Area type="monotone" dataKey="masi"      name="MASI DCA"      stroke="#B8974A" strokeWidth={1.5} strokeDasharray="5 3" fill="url(#fmasiGrad)" />
+                <Area type="monotone" dataKey="portfolio" name="Mon portefeuille" stroke="#3A86FF" strokeWidth={2.5} fill="url(#fpfGrad)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
 
           {/* Allocation — 1/3 width */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
-            <h3 className="text-white font-medium text-base mb-1">Répartition</h3>
-            <p className="text-white/40 text-xs mb-5">Portefeuille BVC illustratif</p>
+          <div className="rounded-[12px] p-6" style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
+            <h3 className="font-medium text-base mb-1" style={{ color: 'var(--text-primary)' }}>Répartition</h3>
+            <p className="text-xs mb-5" style={{ color: 'var(--text-muted)' }}>Portefeuille BVC illustratif</p>
 
             {/* Pie chart */}
             <div className="flex justify-center mb-5">
@@ -223,11 +215,11 @@ export default function FounderPortfolio() {
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: a.color }} />
-                      <span className="text-white/70 text-xs font-medium">{a.ticker}</span>
+                      <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>{a.ticker}</span>
                     </div>
-                    <span className="text-white/50 text-xs">{a.pct}%</span>
+                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{a.pct}%</span>
                   </div>
-                  <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--border)' }}>
                     <div className="h-full rounded-full" style={{ width: `${a.pct}%`, background: a.color }} />
                   </div>
                 </div>
@@ -239,16 +231,16 @@ export default function FounderPortfolio() {
         {/* ── Performance vs MASI ─────────────────────────────────── */}
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           {[
-            { label: 'Mon portefeuille DCA',       pct: 51.0,  gain: '+$867',  color: 'from-emerald-500/20 to-emerald-500/5',  border: 'border-emerald-500/30', text: 'text-emerald-400', highlight: true  },
-            { label: 'MASI benchmark DCA',          pct: 6.5,   gain: '+$113',  color: 'from-accent/10 to-accent/5',           border: 'border-accent/20',      text: 'text-accent',       highlight: false },
-            { label: 'Livret épargne (3.5%/an)',    pct: 4.7,   gain: '+$60',   color: 'from-white/5 to-white/0',              border: 'border-white/10',       text: 'text-white/50',     highlight: false },
+            { label: 'Mon portefeuille DCA',       pct: 51.0,  gain: '+$867',  style: { backgroundColor: 'rgba(13,122,78,0.06)', border: '1px solid rgba(13,122,78,0.2)' },  textColor: 'var(--gain)', highlight: true  },
+            { label: 'MASI benchmark DCA',          pct: 6.5,   gain: '+$113',  style: { backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.2)' },  textColor: 'var(--gold)',  highlight: false },
+            { label: 'Livret épargne (3.5%/an)',    pct: 4.7,   gain: '+$60',   style: { backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)' },           textColor: 'var(--text-muted)',    highlight: false },
           ].map((b) => (
-            <div key={b.label} className={`bg-gradient-to-br ${b.color} border ${b.border} rounded-2xl p-5`}>
-              <p className="text-white/50 text-xs font-medium uppercase tracking-wide mb-2">{b.label}</p>
-              <p className={`text-4xl font-medium ${b.text} mb-1`}>+{b.pct}%</p>
-              <p className="text-white/40 text-sm">{b.gain} sur $1 700</p>
+            <div key={b.label} className="rounded-[10px] p-5" style={b.style}>
+              <p className="text-xs font-medium uppercase tracking-wide mb-2" style={{ color: 'var(--text-muted)' }}>{b.label}</p>
+              <p className="text-4xl font-medium mb-1" style={{ color: b.textColor }}>+{b.pct}%</p>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{b.gain} sur $1 700</p>
               {b.highlight && (
-                <div className="mt-3 inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 text-xs font-medium px-2.5 py-1 rounded-full">
+                <div className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full" style={{ backgroundColor: 'rgba(13,122,78,0.1)', color: 'var(--gain)' }}>
                   <Flame className="w-3 h-3" />
                   7,8× le MASI · 10,9× un livret
                 </div>
@@ -258,10 +250,10 @@ export default function FounderPortfolio() {
         </div>
 
         {/* ── Disclaimer ──────────────────────────────────────────── */}
-        <div className="flex items-start gap-3 bg-white/5 border border-white/10 rounded-2xl p-5 text-sm text-white/50">
-          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-white/30" />
+        <div className="flex items-start gap-3 rounded-[10px] p-5 text-sm" style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+          <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--text-muted)' }} />
           <p className="leading-relaxed">
-            <strong className="text-white/60">Portefeuille illustratif.</strong>{' '}
+            <strong style={{ color: 'var(--text-secondary)' }}>Portefeuille illustratif.</strong>{' '}
             Les performances du portefeuille (+51%) sont basées sur une modélisation DCA appliquée aux
             résultats réels d&apos;une sélection de titres BVC sur la période. La répartition par actif est
             indicative. Le benchmark MASI DCA est calculé au taux annuel de ~8%. Les performances passées

@@ -415,24 +415,27 @@ export default function PortfolioPage() {
     <div className="pt-16 min-h-screen bg-surface-50">
 
       {/* ── Header ── */}
-      <div className="bg-gradient-hero">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <div className="inline-flex items-center gap-2 bg-white/15 border border-white/20 rounded-full px-3 py-1 mb-4">
-                <Briefcase className="w-3.5 h-3.5 text-accent" />
-                <span className="text-white text-xs font-medium">Portfolio Builder</span>
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-4"
+                style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}
+              >
+                <Briefcase className="w-3.5 h-3.5" style={{ color: 'var(--gold)' }} />
+                <span className="text-xs font-medium" style={{ color: 'var(--gold)' }}>Portfolio Builder</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-medium text-white mb-2">
+              <h1 className="font-display font-medium mb-2" style={{ fontSize: 'clamp(24px,3vw,36px)', color: 'var(--navy)' }}>
                 Mes Portefeuilles
               </h1>
-              <p className="text-white/60 text-sm">
+              <p className="font-body text-[14px]" style={{ color: 'var(--text-secondary)' }}>
                 Suivez vos positions en actions BVC et fonds OPCVM
               </p>
             </div>
             <button
               onClick={() => setShowCreate(true)}
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-md text-sm flex-shrink-0"
+              className="btn-gold flex items-center gap-2 flex-shrink-0"
             >
               <Plus className="w-4 h-4" /> Créer un portefeuille
             </button>

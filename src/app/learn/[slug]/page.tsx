@@ -116,34 +116,48 @@ export default function ArticlePage({ params }: PageProps) {
   return (
     <div className="pt-16 min-h-screen bg-[var(--bg-base)]">
       {/* Article Header */}
-      <div className="bg-gradient-hero py-16 px-4">
+      <div
+        className="page-hero-bg py-14 px-4"
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
+          '--hero-image': 'url(/images/jeffrey-blum-7-gaPkhIgqs-unsplash.jpg)',
+        } as React.CSSProperties}
+      >
         <div className="max-w-4xl mx-auto">
           <Link
             href="/learn"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-sm mb-6 transition-colors hover:opacity-70"
+            style={{ color: 'var(--text-muted)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Retour aux articles
           </Link>
 
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-3 mb-5">
             <Badge variant={getCategoryBadgeVariant(article.category)}>
               {article.category}
             </Badge>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-white mb-6 leading-tight">
+          <h1
+            className="font-display font-medium mb-5 leading-tight"
+            style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--navy)' }}
+          >
             {article.title}
           </h1>
 
-          <p className="text-white/70 text-lg mb-6 leading-relaxed max-w-2xl">
+          <p className="text-[15px] mb-6 leading-relaxed max-w-2xl font-body" style={{ color: 'var(--text-secondary)' }}>
             {article.excerpt}
           </p>
 
           {/* Meta */}
-          <div className="flex items-center gap-6 text-white/50 text-sm">
+          <div className="flex flex-wrap items-center gap-5 text-sm" style={{ color: 'var(--text-muted)' }}>
             <span className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary/80 rounded-full flex items-center justify-center overflow-hidden">
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden"
+                style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}
+              >
                 <img src="/logo-icon.svg" alt="WallStreet Morocco" className="w-5 h-5 object-contain" />
               </div>
               WallStreet Morocco
@@ -171,13 +185,18 @@ export default function ArticlePage({ params }: PageProps) {
 
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
-              <div className="mt-10 pt-6 border-t border-surface-200">
-                <p className="text-sm font-medium text-primary/50 mb-3">Tags</p>
+              <div className="mt-10 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+                <p className="font-body text-[12px] font-semibold uppercase tracking-[0.08em] mb-3" style={{ color: 'var(--text-muted)' }}>Tags</p>
                 <div className="flex flex-wrap gap-2">
                   {article.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs bg-surface-100 text-primary/60 px-3 py-1.5 rounded-full hover:bg-surface-200 transition-colors cursor-pointer"
+                      className="font-body text-[12px] px-3 py-1 rounded-full cursor-pointer transition-colors"
+                      style={{
+                        backgroundColor: 'var(--bg-elevated)',
+                        color: 'var(--text-secondary)',
+                        border: '1px solid var(--border)',
+                      }}
                     >
                       #{tag}
                     </span>
@@ -187,19 +206,23 @@ export default function ArticlePage({ params }: PageProps) {
             )}
 
             {/* Share */}
-            <div className="mt-8 pt-6 border-t border-surface-200">
-              <p className="text-sm font-medium text-primary mb-3">Partager cet article</p>
+            <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--border)' }}>
+              <p className="font-body text-[13px] font-medium mb-3" style={{ color: 'var(--text-primary)' }}>Partager cet article</p>
               <div className="flex items-center gap-3">
                 <a
                   href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent('https://wallstreetmorocco.com/learn/' + article.slug)}&title=${encodeURIComponent(article.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-[#0A66C2]/10 text-[#0A66C2] rounded-xl text-sm font-medium hover:bg-[#0A66C2]/20 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-colors"
+                  style={{ backgroundColor: 'rgba(10,102,194,0.08)', color: '#0A66C2' }}
                 >
                   <Linkedin className="w-4 h-4" />
                   LinkedIn
                 </a>
-                <button className="flex items-center gap-2 px-4 py-2 bg-surface-100 text-primary/60 rounded-xl text-sm font-medium hover:bg-surface-200 transition-colors">
+                <button
+                  className="flex items-center gap-2 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-colors"
+                  style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-secondary)', border: '1px solid var(--border)' }}
+                >
                   <Share2 className="w-4 h-4" />
                   Copier le lien
                 </button>
@@ -210,38 +233,53 @@ export default function ArticlePage({ params }: PageProps) {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Author Card */}
-            <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-card">
+            <div
+              className="rounded-[10px] p-5"
+              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+            >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <div
+                  className="w-10 h-10 rounded-[8px] flex items-center justify-center flex-shrink-0 overflow-hidden"
+                  style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }}
+                >
                   <img src="/logo-icon.svg" alt="WallStreet Morocco" className="w-7 h-7 object-contain" />
                 </div>
-                <p className="font-bold text-primary">WallStreet Morocco</p>
+                <p className="font-semibold font-body text-[13px]" style={{ color: 'var(--text-primary)' }}>WallStreet Morocco</p>
               </div>
             </div>
 
             {/* Article Info */}
-            <div className="bg-surface-50 rounded-2xl p-6">
-              <h3 className="text-sm font-medium text-primary/50 uppercase tracking-wider mb-4">
+            <div
+              className="rounded-[10px] p-5"
+              style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}
+            >
+              <h3
+                className="font-body text-[11px] font-semibold uppercase tracking-[0.1em] mb-4"
+                style={{ color: 'var(--text-muted)' }}
+              >
                 À propos de cet article
               </h3>
               <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-primary/50">Catégorie</span>
+                <div className="flex justify-between text-[13px]">
+                  <span style={{ color: 'var(--text-muted)' }}>Catégorie</span>
                   <Badge variant={getCategoryBadgeVariant(article.category)} size="xs">
                     {article.category}
                   </Badge>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-primary/50">Durée de lecture</span>
-                  <span className="font-medium text-primary">{article.readTime} min</span>
+                <div className="flex justify-between text-[13px]">
+                  <span style={{ color: 'var(--text-muted)' }}>Durée de lecture</span>
+                  <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{article.readTime} min</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-primary/50">Publié le</span>
-                  <span className="font-medium text-primary">{formatDate(article.date, 'short')}</span>
+                <div className="flex justify-between text-[13px]">
+                  <span style={{ color: 'var(--text-muted)' }}>Publié le</span>
+                  <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{formatDate(article.date, 'short')}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-primary/50">Accès</span>
-                  <span className="font-medium text-xs px-2 py-0.5 rounded-full bg-success/10 text-success">
+                <div className="flex justify-between text-[13px]">
+                  <span style={{ color: 'var(--text-muted)' }}>Accès</span>
+                  <span
+                    className="font-medium text-xs px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: 'var(--gain-bg)', color: 'var(--gain)' }}
+                  >
                     Gratuit
                   </span>
                 </div>
@@ -250,8 +288,14 @@ export default function ArticlePage({ params }: PageProps) {
 
             {/* Related Articles */}
             {relatedArticles.length > 0 && (
-              <div className="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-6 shadow-card">
-                <h3 className="text-sm font-medium text-primary/50 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <div
+                className="rounded-[10px] p-5"
+                style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+              >
+                <h3
+                  className="font-body text-[11px] font-semibold uppercase tracking-[0.1em] mb-4 flex items-center gap-2"
+                  style={{ color: 'var(--text-muted)' }}
+                >
                   <BookOpen className="w-4 h-4" />
                   Articles similaires
                 </h3>

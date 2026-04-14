@@ -87,39 +87,39 @@ function KPICard({
 }: KPICardProps) {
   const animated = useCountUp(target, 1800, inView, delay);
 
-  const bgClass =
+  const cardStyle =
     variant === 'dominant'
-      ? 'bg-emerald-500/20 border-emerald-500/40 shadow-[0_0_30px_rgba(16,185,129,0.15)]'
+      ? { backgroundColor: 'rgba(13,122,78,0.08)', border: '1px solid rgba(13,122,78,0.25)', boxShadow: '0 0 30px rgba(13,122,78,0.08)' }
       : variant === 'gold'
-      ? 'bg-accent/20 border-accent/40'
+      ? { backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.3)' }
       : variant === 'success'
-      ? 'bg-emerald-500/15 border-emerald-500/25'
-      : 'bg-white/8 border-white/15';
+      ? { backgroundColor: 'rgba(13,122,78,0.06)', border: '1px solid rgba(13,122,78,0.2)' }
+      : { backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' };
 
-  const valueClass =
+  const valueStyle =
     variant === 'dominant'
-      ? 'text-emerald-400 text-4xl font-medium'
+      ? { color: 'var(--gain)', fontSize: '1.875rem', fontWeight: 500 }
       : variant === 'gold'
-      ? 'text-accent text-2xl font-medium'
+      ? { color: 'var(--gold)', fontSize: '1.5rem', fontWeight: 500 }
       : variant === 'success'
-      ? 'text-emerald-400 text-2xl font-medium'
-      : 'text-white text-2xl font-medium';
+      ? { color: 'var(--gain)', fontSize: '1.5rem', fontWeight: 500 }
+      : { color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 500 };
 
   return (
     <div
-      className={`rounded-2xl p-5 border text-center transition-all duration-300 ${bgClass}`}
-      style={{ opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(12px)', transitionDelay: `${delay}ms` }}
+      className="rounded-[10px] p-5 text-center transition-all duration-300"
+      style={{ ...cardStyle, opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(12px)', transitionDelay: `${delay}ms` } as React.CSSProperties}
       aria-label={ariaLabel}
     >
-      <p className={valueClass}>
+      <p style={valueStyle as React.CSSProperties}>
         {format(animated)}{suffix}
       </p>
-      <p className="text-white/55 text-xs font-medium mt-1 uppercase tracking-wide">{label}</p>
+      <p className="text-xs font-medium mt-1 uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>{label}</p>
       <div className="flex items-center justify-center gap-1.5 mt-1">
         {live && (
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true" />
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: 'var(--gain)' }} aria-hidden="true" />
         )}
-        <p className="text-white/30 text-[10px]">{sub}</p>
+        <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{sub}</p>
       </div>
     </div>
   );

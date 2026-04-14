@@ -128,29 +128,35 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero flex items-center justify-center px-4 py-20 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-20 relative overflow-hidden"
+      style={{ backgroundColor: 'var(--bg-elevated)' }}
+    >
+      {/* Background subtle decoration */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: `linear-gradient(#3A86FF 1px, transparent 1px), linear-gradient(90deg, #3A86FF 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)`,
             backgroundSize: '60px 60px',
           }}
         />
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 -left-20 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(184,151,74,0.06)' }} />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(15,45,82,0.04)' }} />
       </div>
 
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-10 h-10 bg-white/10 border border-white/20 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-accent" />
+          <Link href="/" className="inline-flex items-center gap-2.5">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{ backgroundColor: 'var(--gold)', boxShadow: '0 0 0 1px rgba(184,151,74,0.3)' }}
+            >
+              <TrendingUp className="w-5 h-5 text-white" />
             </div>
-            <span className="font-medium text-2xl text-white">
-              WallStreet <span className="text-accent">Morocco</span>
+            <span className="font-display font-medium text-xl" style={{ color: 'var(--text-primary)' }}>
+              WallStreet <span style={{ color: 'var(--gold)' }} className="italic">Morocco</span>
             </span>
           </Link>
         </div>

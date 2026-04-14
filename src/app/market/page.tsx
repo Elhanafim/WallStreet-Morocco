@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { Activity, BarChart2, Clock, Globe2, Layers, TrendingUp, LayoutGrid } from 'lucide-react';
+import { Activity, Clock, Globe2, Layers, TrendingUp, LayoutGrid } from 'lucide-react';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
 
 const TradingViewTicker   = dynamic(() => import('@/components/market/TradingViewTicker'),   { ssr: false });
@@ -295,37 +295,6 @@ export default function MarketPage() {
                 </div>
                 <TradingViewChart symbol="CSEMA:MASI20" height={320} theme="light" interval="D" showToolbar={false} />
               </div>
-            </div>
-
-            {/* ── ROW 2b: MASI ADVANCED FULL-WIDTH CHART ────────────────────────── */}
-            <div
-              className="overflow-hidden rounded-[10px]"
-              style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
-            >
-              <div
-                className="flex items-center justify-between px-5 py-3.5"
-                style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)' }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <BarChart2 size={15} style={{ color: 'var(--gold)' }} />
-                  <div>
-                    <p className="font-body font-semibold text-[14px]" style={{ color: 'var(--text-primary)' }}>
-                      MASI — Advanced Chart
-                    </p>
-                    <p className="font-body text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                      Full interactive chart with drawing tools and indicators
-                    </p>
-                  </div>
-                </div>
-                <span
-                  className="flex items-center gap-1.5 font-mono text-[10.5px] px-2.5 py-1 rounded-full"
-                  style={{ color: 'var(--gain)', backgroundColor: 'var(--gain-bg)', border: '1px solid rgba(13,122,78,0.2)' }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full animate-pulse-slow bg-current" />
-                  LIVE
-                </span>
-              </div>
-              <TradingViewChart symbol="CSEMA:MASI" height={480} theme="light" interval="D" showToolbar={true} />
             </div>
 
             {/* ── ROW 3: HEATMAP — STOCKS + SECTORS (toggle) ───────────────────── */}

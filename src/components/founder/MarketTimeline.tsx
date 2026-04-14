@@ -28,19 +28,19 @@ function useInView(threshold = 0.15) {
 
 function dotColor(type: MarketEvent['type']): string {
   switch (type) {
-    case 'peak':    return '#D4AF37'; // accent gold
-    case 'positive': return '#10B981'; // success green
-    case 'danger':  return '#EF4444'; // danger red
-    default:        return '#3A86FF'; // secondary blue
+    case 'peak':    return '#B8974A'; // gold
+    case 'positive': return '#0D7A4E'; // gain green
+    case 'danger':  return '#D95B5B'; // loss red
+    default:        return '#3A86FF'; // blue
   }
 }
 
-function textColor(type: MarketEvent['type']): string {
+function textStyle(type: MarketEvent['type']): React.CSSProperties {
   switch (type) {
-    case 'peak':    return 'text-accent';
-    case 'positive': return 'text-emerald-400';
-    case 'danger':  return 'text-red-400';
-    default:        return 'text-white/70';
+    case 'peak':    return { color: 'var(--gold)' };
+    case 'positive': return { color: 'var(--gain)' };
+    case 'danger':  return { color: 'var(--loss)' };
+    default:        return { color: 'var(--text-secondary)' };
   }
 }
 
@@ -60,10 +60,10 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
     <div ref={ref} className="mb-16">
       {/* Header */}
       <div className="mb-8">
-        <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
+        <h3 className="font-medium text-xl sm:text-2xl mb-1" style={{ color: 'var(--text-primary)' }}>
           Le contexte de marché en 17 mois
         </h3>
-        <p className="text-white/40 text-sm">
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
           Novembre 2024 → Mars 2026 · Bourse de Casablanca
         </p>
       </div>
@@ -72,14 +72,14 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
       <div className="hidden sm:block relative py-10">
         {/* Horizontal connector line */}
         <div
-          className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-          style={{ top: '50%' }}
+          className="absolute left-0 right-0 h-px"
+          style={{ top: '50%', background: 'linear-gradient(to right, transparent, var(--border), transparent)' }}
           aria-hidden="true"
         />
 
         <div className="grid grid-cols-5 gap-1">
           {events.map((event, i) => {
-            const isAbove = i % 2 === 0; // events 0,2,4 above; 1,3 below
+            const isAbove = i % 2 === 0;
             const delay = prefersReduced ? 0 : i * 200;
 
             return (
@@ -97,19 +97,20 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                   className={`w-full text-center px-2 pb-3 ${isAbove ? 'min-h-[72px]' : 'min-h-[72px] invisible pointer-events-none select-none'}`}
                   aria-hidden={!isAbove}
                 >
-                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-1">
+                  <p className="text-[10px] font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-muted)' }}>
                     {event.date}
                   </p>
-                  <p className={`text-xs leading-tight font-medium ${textColor(event.type)}`}>
+                  <p className="text-xs leading-tight font-medium" style={textStyle(event.type)}>
                     {event.desc}
                   </p>
                 </div>
 
                 {/* Dot */}
                 <div
-                  className="w-3 h-3 rounded-full border-2 border-[#0d2847] flex-shrink-0 z-10 transition-transform duration-300"
+                  className="w-3 h-3 rounded-full flex-shrink-0 z-10 transition-transform duration-300"
                   style={{
                     background: dotColor(event.type),
+                    border: '2px solid var(--bg-elevated)',
                     boxShadow: `0 0 8px ${dotColor(event.type)}60`,
                     transform: inView ? 'scale(1)' : 'scale(0)',
                     transitionDelay: `${delay}ms`,
@@ -122,10 +123,10 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                   className={`w-full text-center px-2 pt-3 ${!isAbove ? 'min-h-[72px]' : 'min-h-[72px] invisible pointer-events-none select-none'}`}
                   aria-hidden={isAbove}
                 >
-                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-1">
+                  <p className="text-[10px] font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--text-muted)' }}>
                     {event.date}
                   </p>
-                  <p className={`text-xs leading-tight font-medium ${textColor(event.type)}`}>
+                  <p className="text-xs leading-tight font-medium" style={textStyle(event.type)}>
                     {event.desc}
                   </p>
                 </div>
@@ -153,23 +154,24 @@ export default function MarketTimeline({ events }: MarketTimelineProps) {
                 {/* Left: dot + connector */}
                 <div className="flex flex-col items-center flex-shrink-0 pt-0.5">
                   <div
-                    className="w-3 h-3 rounded-full border-2 border-[#0d2847] flex-shrink-0"
+                    className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{
                       background: dotColor(event.type),
+                      border: '2px solid var(--bg-elevated)',
                       boxShadow: `0 0 6px ${dotColor(event.type)}50`,
                     }}
                     aria-hidden="true"
                   />
                   {i < events.length - 1 && (
-                    <div className="w-px flex-1 bg-white/10 mt-1.5 mb-0 min-h-[32px]" aria-hidden="true" />
+                    <div className="w-px flex-1 mt-1.5 mb-0 min-h-[32px]" style={{ backgroundColor: 'var(--border)' }} aria-hidden="true" />
                   )}
                 </div>
                 {/* Right: text */}
                 <div className="pb-6">
-                  <p className="text-white/40 text-[10px] font-medium uppercase tracking-wide mb-0.5">
+                  <p className="text-[10px] font-medium uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>
                     {event.date}
                   </p>
-                  <p className={`text-sm leading-snug font-medium ${textColor(event.type)}`}>
+                  <p className="text-sm leading-snug font-medium" style={textStyle(event.type)}>
                     {event.desc}
                   </p>
                 </div>

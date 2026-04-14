@@ -55,29 +55,29 @@ export default function InvestmentThesis() {
     >
       {/* Header */}
       <div className="mb-6">
-        <h3 className="text-white font-medium text-xl sm:text-2xl mb-1">
+        <h3 className="font-medium text-xl sm:text-2xl mb-1" style={{ color: 'var(--text-primary)' }}>
           Ma thèse d&apos;investissement
         </h3>
-        <p className="text-white/40 text-sm">Novembre 2024 · Analyse fondamentale · Mégatendances</p>
+        <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Novembre 2024 · Analyse fondamentale · Mégatendances</p>
       </div>
 
       {/* 2-col on desktop, 1-col mobile */}
       <div className="grid lg:grid-cols-5 gap-8 items-start">
 
         {/* Left: prose — 3 columns */}
-        <div className="lg:col-span-3 bg-white/5 border border-white/8 rounded-2xl p-6 sm:p-7">
-          <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+        <div className="lg:col-span-3 rounded-[10px] p-6 sm:p-7" style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
+          <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             Entre novembre 2024 et mars 2026, j&apos;ai appliqué une stratégie DCA disciplinée
             sur la Bourse de Casablanca, en concentrant mon capital sur quatre convictions
             fortes : deux minières exposées aux records historiques de l&apos;or et de l&apos;argent,
             une fintech sur la vague de la digitalisation des paiements, et un promoteur
             immobilier porté par le programme national de logement social.
           </p>
-          <p className="text-white/70 text-sm sm:text-base leading-relaxed mt-4">
+          <p className="text-sm sm:text-base leading-relaxed mt-4" style={{ color: 'var(--text-secondary)' }}>
             Le résultat —{' '}
-            <span className="text-emerald-400 font-medium">+54,6% en DCA</span>
+            <span className="font-medium" style={{ color: 'var(--gain)' }}>+54,6% en DCA</span>
             {' '}contre{' '}
-            <span className="text-white/50">+2,1% pour le MASI</span>
+            <span style={{ color: 'var(--text-muted)' }}>+2,1% pour le MASI</span>
             {' '}— démontre que la sélection active, basée sur l&apos;analyse
             fondamentale des mégatendances, crée une valeur significative dans un marché
             émergent comme le Maroc.
@@ -86,19 +86,21 @@ export default function InvestmentThesis() {
 
         {/* Right: conviction pills — 2 columns */}
         <div className="lg:col-span-2 space-y-3">
-          <p className="text-white/40 text-xs uppercase tracking-widest font-medium mb-4">
+          <p className="text-xs uppercase tracking-widest font-medium mb-4" style={{ color: 'var(--text-muted)' }}>
             3 convictions fondamentales
           </p>
           {CONVICTIONS.map((c, i) => (
             <div
               key={i}
-              className="flex items-center gap-3 bg-accent/10 border border-accent/20 rounded-xl px-4 py-3"
+              className="flex items-center gap-3 rounded-[10px] px-4 py-3"
               style={{
+                backgroundColor: 'var(--gold-subtle)',
+                border: '1px solid rgba(184,151,74,0.25)',
                 transitionDelay: `${i * 100}ms`,
               }}
             >
               <span className="text-xl flex-shrink-0" aria-hidden="true">{c.icon}</span>
-              <p className="text-white/80 text-sm font-medium leading-snug">{c.text}</p>
+              <p className="text-sm font-medium leading-snug" style={{ color: 'var(--text-primary)' }}>{c.text}</p>
             </div>
           ))}
         </div>

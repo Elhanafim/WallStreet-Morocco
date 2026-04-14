@@ -46,8 +46,11 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
   return (
     <div
       ref={ref}
-      className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300"
+      className="group rounded-[12px] overflow-hidden hover:-translate-y-1 transition-all duration-300"
       style={{
+        backgroundColor: 'var(--bg-surface)',
+        border: inView ? `1px solid ${holding.color}30` : '1px solid var(--border)',
+        boxShadow: 'var(--shadow-sm)',
         opacity: inView ? 1 : 0,
         transform: inView
           ? 'translateY(0)'
@@ -56,13 +59,12 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
           : 'translateY(24px)',
         transitionDelay: prefersReduced ? '0ms' : `${delay}ms`,
         transitionDuration: '400ms',
-        borderColor: inView ? `${holding.color}30` : 'rgba(255,255,255,0.1)',
       }}
     >
       {/* Top accent bar */}
       <div
         className="h-1 w-full"
-        style={{ background: holding.color, opacity: 0.7 }}
+        style={{ background: holding.color, opacity: 0.8 }}
         aria-hidden="true"
       />
 
@@ -79,7 +81,7 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
             >
               {holding.ticker}
             </p>
-            <p className="text-white/70 text-xs font-medium mt-0.5 truncate">
+            <p className="text-xs font-medium mt-0.5 truncate" style={{ color: 'var(--text-secondary)' }}>
               {holding.name}
             </p>
           </div>
@@ -94,34 +96,34 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
 
       {/* Sector */}
       <div className="px-5 pb-3">
-        <p className="text-white/40 text-[11px] uppercase tracking-wide font-medium">
+        <p className="text-[11px] uppercase tracking-wide font-medium" style={{ color: 'var(--text-muted)' }}>
           {holding.sector}
         </p>
       </div>
 
       {/* Price grid */}
-      <div className="px-5 pb-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-white/8 pt-3">
+      <div className="px-5 pb-4 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3" style={{ borderTop: '1px solid var(--border)' }}>
         <div>
-          <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Prix entrée</p>
-          <p className="text-white/70 text-sm font-medium">{fmt(holding.priceNov2024)} MAD</p>
+          <p className="text-[9px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Prix entrée</p>
+          <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{fmt(holding.priceNov2024)} MAD</p>
         </div>
         <div>
-          <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Prix actuel</p>
-          <p className="text-white font-medium text-sm">{fmt(holding.priceMar2026)} MAD</p>
+          <p className="text-[9px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Prix actuel</p>
+          <p className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>{fmt(holding.priceMar2026)} MAD</p>
         </div>
         <div>
-          <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">Perf. P/P</p>
-          <p className="text-emerald-400 font-medium text-base">+{holding.perfPointToPoint}%</p>
+          <p className="text-[9px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Perf. P/P</p>
+          <p className="font-medium text-base" style={{ color: 'var(--gain)' }}>+{holding.perfPointToPoint}%</p>
         </div>
         <div>
-          <p className="text-white/35 text-[9px] uppercase tracking-wide mb-0.5">DCA est.</p>
-          <p className="text-emerald-300 font-medium text-base">+{holding.dcaReturn}%</p>
+          <p className="text-[9px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>DCA est.</p>
+          <p className="font-medium text-base" style={{ color: 'var(--gain)' }}>+{holding.dcaReturn}%</p>
         </div>
       </div>
 
       {/* Weight bar */}
       <div className="px-5 pb-2">
-        <div className="h-1 bg-white/8 rounded-full overflow-hidden">
+        <div className="h-1 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--border)' }}>
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{
@@ -136,7 +138,7 @@ export default function HoldingCard({ holding, index }: HoldingCardProps) {
 
       {/* Rationale */}
       <div className="px-5 pb-4 pt-2">
-        <p className="text-white/40 text-[11px] italic leading-snug">
+        <p className="text-[11px] italic leading-snug" style={{ color: 'var(--text-muted)' }}>
           {holding.rationale}
         </p>
       </div>

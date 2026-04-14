@@ -8,6 +8,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
+  { href: '/',          label: 'Home'        },
   { href: '/market',    label: 'Markets'     },
   { href: '/opcvm',     label: 'OPCVM'       },
   { href: '/simulator', label: 'Simulator'   },
@@ -72,7 +73,7 @@ export default function Navbar() {
         {/* ── NAV LINKS (Desktop) ── */}
         <div className="hidden lg:flex items-center gap-1">
           {NAV_LINKS.map((link) => {
-            const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const active = link.href === '/' ? pathname === '/' : (pathname === link.href || pathname.startsWith(link.href));
             return (
               <Link
                 key={link.href}
@@ -242,7 +243,7 @@ export default function Navbar() {
       >
         <div className="px-6 py-6 space-y-1">
           {NAV_LINKS.map((link) => {
-            const active = pathname === link.href;
+            const active = link.href === '/' ? pathname === '/' : pathname === link.href;
             return (
               <Link
                 key={link.href}

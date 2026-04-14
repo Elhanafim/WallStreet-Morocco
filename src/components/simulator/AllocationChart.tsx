@@ -24,15 +24,15 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-primary border border-secondary/30 rounded-xl px-4 py-3 shadow-xl">
+      <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-lg)' }} className="px-4 py-3">
         <div className="flex items-center gap-2">
           <span
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: data.color }}
           />
-          <span className="text-white font-medium text-sm">{data.name}</span>
+          <span className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>{data.name}</span>
         </div>
-        <p className="text-accent font-medium text-xl mt-1">{data.percentage}%</p>
+        <p className="font-medium text-xl mt-1" style={{ color: 'var(--gold)' }}>{data.percentage}%</p>
       </div>
     );
   }

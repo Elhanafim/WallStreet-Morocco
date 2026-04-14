@@ -74,40 +74,49 @@ export default function AboutContent() {
     <main className="pt-16 min-h-screen bg-surface-50">
 
       {/* ══ HERO ══════════════════════════════════════════════════════════════ */}
-      <section className="relative bg-gradient-to-br from-primary via-[#112d5e] to-[#0d3060] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl -translate-x-1/4 translate-y-1/3" />
-          <div className="absolute inset-0 opacity-[0.025]"
-            style={{ backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
-        </div>
-
+      <section
+        className="relative overflow-hidden page-hero-bg"
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderBottom: '1px solid var(--border)',
+          '--hero-image': 'url(/images/nick-chong-N__BnvQ_w18-unsplash.jpg)',
+        } as React.CSSProperties}
+      >
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 bg-accent/20 border border-accent/30 rounded-full px-4 py-1.5 mb-6">
-                <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-                <span className="text-accent text-xs font-medium uppercase tracking-widest">{t('hero.badge')}</span>
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-6"
+                style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.35)' }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: 'var(--gold)' }} />
+                <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--gold)' }}>{t('hero.badge')}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight mb-2">
+              <h1 className="font-display font-medium leading-tight mb-1" style={{ fontSize: 'clamp(36px,5vw,60px)', color: 'var(--navy)' }}>
                 El Hanafi
               </h1>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium text-accent leading-tight mb-6">
+              <h2 className="font-display font-medium leading-tight mb-5 italic" style={{ fontSize: 'clamp(36px,5vw,60px)', color: 'var(--gold)' }}>
                 Mohammed
               </h2>
 
-              <p className="text-white/70 text-lg leading-relaxed mb-4">
+              <p className="font-body text-[16px] leading-relaxed mb-5" style={{ color: 'var(--text-secondary)' }}>
                 {t('hero.subtitle')}
               </p>
 
-              <div className="inline-flex items-center gap-3 bg-emerald-500/15 border border-emerald-500/30 rounded-2xl px-5 py-3 mb-8">
-                <div className="w-8 h-8 bg-emerald-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+              <div
+                className="inline-flex items-center gap-3 rounded-[10px] px-5 py-3 mb-7"
+                style={{ backgroundColor: 'rgba(13,122,78,0.06)', border: '1px solid rgba(13,122,78,0.2)' }}
+              >
+                <div
+                  className="w-8 h-8 rounded-[8px] flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: 'rgba(13,122,78,0.1)' }}
+                >
+                  <TrendingUp className="w-4 h-4" style={{ color: 'var(--gain)' }} />
                 </div>
                 <div>
-                  <p className="text-emerald-400 font-medium text-xl leading-none">+51%</p>
-                  <p className="text-white/50 text-xs mt-0.5">{t('hero.achievementBadge')}</p>
+                  <p className="font-body font-medium text-xl leading-none" style={{ color: 'var(--gain)' }}>+51%</p>
+                  <p className="font-body text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{t('hero.achievementBadge')}</p>
                 </div>
               </div>
 
@@ -116,7 +125,8 @@ export default function AboutContent() {
                   href={CONTACT.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-white/75 hover:bg-white/20 hover:text-white transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-all"
+                  style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
                 >
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -125,14 +135,16 @@ export default function AboutContent() {
                 </a>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-white/75 hover:bg-white/20 hover:text-white transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-all"
+                  style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
                 >
                   <Mail className="w-3.5 h-3.5" />
                   Email
                 </a>
                 <a
                   href="/"
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/15 text-white/75 hover:bg-white/20 hover:text-white transition-all text-sm font-medium"
+                  className="flex items-center gap-2 px-4 py-2 rounded-[8px] font-body text-[13px] font-medium transition-all"
+                  style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}
                 >
                   <Globe className="w-3.5 h-3.5" />
                   WallStreet Morocco
@@ -142,9 +154,9 @@ export default function AboutContent() {
 
             <div className="flex justify-center lg:justify-end">
               <div className="relative">
-                <div className="absolute inset-0 rounded-3xl border-2 border-accent/20 scale-105" />
-                <div className="absolute inset-0 rounded-3xl border border-white/8 scale-110" />
-                <div className="relative w-72 sm:w-80 rounded-3xl overflow-hidden shadow-2xl border border-white/20">
+                <div className="absolute inset-0 rounded-3xl scale-105" style={{ border: '2px solid rgba(184,151,74,0.2)' }} />
+                <div className="absolute inset-0 rounded-3xl scale-110" style={{ border: '1px solid var(--border)' }} />
+                <div className="relative w-72 sm:w-80 rounded-3xl overflow-hidden shadow-xl" style={{ border: '1px solid var(--border)' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/founder.jpg"
@@ -154,15 +166,15 @@ export default function AboutContent() {
                     className="w-full h-96 object-cover object-top"
                     loading="eager"
                   />
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-primary/90 to-transparent p-5">
+                  <div className="absolute bottom-0 inset-x-0 p-5" style={{ background: 'linear-gradient(to top, rgba(15,45,82,0.92), transparent)' }}>
                     <p className="text-white font-medium text-lg">WallStreet Morocco</p>
-                    <p className="text-accent text-sm font-medium">{t('hero.founderTitle')}</p>
+                    <p className="text-sm font-medium" style={{ color: 'var(--gold)' }}>{t('hero.founderTitle')}</p>
                   </div>
                 </div>
                 <div className="absolute -top-4 -right-4 bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30">
                   {t('hero.activeSince')}
                 </div>
-                <div className="absolute -bottom-4 -left-4 bg-accent text-primary text-xs font-medium px-4 py-2 rounded-2xl shadow-lg">
+                <div className="absolute -bottom-4 -left-4 text-xs font-medium px-4 py-2 rounded-2xl shadow-lg" style={{ backgroundColor: 'var(--gold)', color: '#fff' }}>
                   {t('hero.returns')}
                 </div>
               </div>
@@ -263,13 +275,21 @@ export default function AboutContent() {
             {VALUES.map((v, i) => (
               <div
                 key={i}
-                className="group bg-gradient-hero rounded-2xl p-6 hover:-translate-y-1 hover:shadow-xl transition-all duration-200"
+                className="group rounded-[12px] p-6 hover:-translate-y-1 transition-all duration-200"
+                style={{
+                  backgroundColor: 'var(--bg-surface)',
+                  border: '1px solid var(--border)',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
               >
-                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-                  <v.icon className="w-5 h-5 text-accent" />
+                <div
+                  className="w-10 h-10 rounded-[8px] flex items-center justify-center mb-4"
+                  style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.25)' }}
+                >
+                  <v.icon className="w-5 h-5" style={{ color: 'var(--gold)' } as React.CSSProperties} />
                 </div>
-                <h3 className="font-bold text-white mb-2">{v.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{v.desc}</p>
+                <h3 className="font-semibold text-sm mb-2" style={{ color: 'var(--text-primary)' }}>{v.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{v.desc}</p>
               </div>
             ))}
           </div>

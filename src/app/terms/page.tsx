@@ -12,29 +12,33 @@ export default function TermsPage() {
   return (
     <div className="min-h-screen bg-surface-50 pt-16">
       {/* Header */}
-      <div className="bg-gradient-to-br from-primary via-[#112d5e] to-[#0d3060] py-16 px-4">
+      <div className="py-12 px-4" style={{ backgroundColor: 'var(--bg-surface)', borderBottom: '1px solid var(--border)' }}>
         <div className="max-w-4xl mx-auto">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-white text-sm mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:opacity-80"
+            style={{ color: 'var(--text-muted)' }}
           >
             <ArrowLeft className="w-4 h-4" />
             Retour à l&apos;accueil
           </Link>
           <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-              <FileText className="w-6 h-6 text-accent" />
+            <div
+              className="w-12 h-12 rounded-2xl flex items-center justify-center"
+              style={{ backgroundColor: 'var(--gold-subtle)', border: '1px solid rgba(184,151,74,0.25)' }}
+            >
+              <FileText className="w-6 h-6" style={{ color: 'var(--gold)' }} />
             </div>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-medium text-white">
+              <h1 className="text-3xl sm:text-4xl font-medium" style={{ color: 'var(--text-primary)' }}>
                 Conditions d&apos;utilisation
               </h1>
-              <p className="text-white/50 text-sm mt-1">Dernière mise à jour : 25 mars 2026</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Dernière mise à jour : 25 mars 2026</p>
             </div>
           </div>
           {/* Important disclaimer */}
-          <div className="bg-warning/20 border border-warning/40 rounded-xl px-5 py-3 mt-4">
-            <p className="text-warning text-sm font-medium">
+          <div className="rounded-xl px-5 py-3 mt-4" style={{ backgroundColor: 'rgba(176,125,42,0.08)', border: '1px solid rgba(184,151,74,0.3)' }}>
+            <p className="text-sm font-medium" style={{ color: 'var(--warning)' }}>
               ⚠️ WallStreet Morocco est un site d&apos;information et d&apos;éducation financière
               uniquement — pas un service de conseil en investissement réglementé.
             </p>

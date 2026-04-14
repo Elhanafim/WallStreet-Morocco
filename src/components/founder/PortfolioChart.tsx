@@ -45,20 +45,20 @@ function ChartTooltip({ active, payload, label }: any) {
   const fmt = (v: number) => v.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
 
   return (
-    <div className="bg-primary border border-white/15 rounded-xl shadow-2xl px-4 py-3 text-xs min-w-[200px]">
-      <p className="text-white font-medium mb-2">{label}</p>
+    <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-lg)' }} className="px-4 py-3 text-xs min-w-[200px]">
+      <p className="font-medium mb-2" style={{ color: 'var(--text-primary)' }}>{label}</p>
       <div className="space-y-1">
         <div className="flex justify-between gap-4">
-          <span className="text-emerald-400">Portefeuille</span>
-          <span className="text-white font-medium">${fmt(port.value)}</span>
+          <span style={{ color: 'var(--gain)' }}>Portefeuille</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>${fmt(port.value)}</span>
         </div>
         <div className="flex justify-between gap-4">
-          <span className="text-white/40">Capital investi</span>
-          <span className="text-white font-medium">${fmt(cap.value)}</span>
+          <span style={{ color: 'var(--text-muted)' }}>Capital investi</span>
+          <span className="font-medium" style={{ color: 'var(--text-primary)' }}>${fmt(cap.value)}</span>
         </div>
-        <div className="flex justify-between gap-4 pt-1 border-t border-white/10">
-          <span className="text-emerald-400/70">Performance</span>
-          <span className={`font-bold ${parseFloat(perf) >= 0 ? 'text-emerald-400' : 'text-danger'}`}>
+        <div className="flex justify-between gap-4 pt-1" style={{ borderTop: '1px solid var(--border)' }}>
+          <span style={{ color: 'var(--gain)' }}>Performance</span>
+          <span className="font-bold" style={{ color: parseFloat(perf) >= 0 ? 'var(--gain)' : 'var(--loss)' }}>
             {parseFloat(perf) >= 0 ? '+' : ''}{perf.replace('.', ',')}%
           </span>
         </div>
@@ -80,26 +80,26 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
     <div className="mb-10">
       <div
         ref={ref}
-        className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8"
-        style={{ opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease-out' }}
+        className="rounded-[12px] p-6 sm:p-8"
+        style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)', opacity: inView ? 1 : 0, transition: 'opacity 0.5s ease-out' }}
       >
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-white font-medium text-lg">
+            <h3 className="font-medium text-lg" style={{ color: 'var(--text-primary)' }}>
               Évolution du portefeuille
             </h3>
-            <p className="text-white/40 text-xs mt-0.5">
+            <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
               Nov 2024 — Mar 2026 · DCA 100$/mois
             </p>
           </div>
           <div className="flex flex-row sm:flex-col gap-3 sm:gap-1.5 text-xs sm:text-right flex-wrap">
-            <span className="flex items-center gap-1.5 text-white/70">
-              <span className="w-4 h-0.5 bg-emerald-400 inline-block rounded-full" aria-hidden="true" />
+            <span className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+              <span className="w-4 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'var(--gain)' }} aria-hidden="true" />
               Valeur du portefeuille
             </span>
-            <span className="flex items-center gap-1.5 text-white/40">
-              <span className="w-4 h-0.5 bg-white/30 inline-block rounded-full" style={{ borderStyle: 'dashed' }} aria-hidden="true" />
+            <span className="flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
+              <span className="w-4 h-0.5 inline-block rounded-full" style={{ backgroundColor: 'var(--border)', borderStyle: 'dashed' }} aria-hidden="true" />
               Capital investi
             </span>
           </div>
@@ -114,32 +114,30 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 10, right: 5, left: 0, bottom: 0 }}>
               <defs>
-                {/* Green fill for portfolio P&L layer */}
                 <linearGradient id="portGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.45} />
-                  <stop offset="95%" stopColor="#10B981" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="#0D7A4E" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#0D7A4E" stopOpacity={0.03} />
                 </linearGradient>
-                {/* Near-opaque dark fill to mask portfolio fill below the invested line */}
                 <linearGradient id="capGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#0A2540" stopOpacity={0.97} />
-                  <stop offset="100%" stopColor="#0A2540" stopOpacity={0.97} />
+                  <stop offset="0%" stopColor="#F5F7FA" stopOpacity={0.97} />
+                  <stop offset="100%" stopColor="#F5F7FA" stopOpacity={0.97} />
                 </linearGradient>
               </defs>
 
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(0,0,0,0.06)"
                 vertical={false}
               />
               <XAxis
                 dataKey="month"
-                tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 10 }}
+                tick={{ fill: '#8298B0', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
                 interval={2}
               />
               <YAxis
-                tick={{ fill: 'rgba(255,255,255,0.35)', fontSize: 10 }}
+                tick={{ fill: '#8298B0', fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(v) => `$${v.toLocaleString('fr-FR')}`}
@@ -152,12 +150,12 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
               {/* ATH annotation */}
               <ReferenceLine
                 x="Aoû 25"
-                stroke="rgba(212,175,55,0.5)"
+                stroke="rgba(184,151,74,0.5)"
                 strokeDasharray="3 3"
                 label={{
                   value: '📍 ATH MASI',
                   position: 'insideTopLeft',
-                  fill: 'rgba(212,175,55,0.75)',
+                  fill: 'rgba(184,151,74,0.85)',
                   fontSize: 9,
                   fontWeight: 'bold',
                 }}
@@ -165,23 +163,23 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
               {/* Correction annotation */}
               <ReferenceLine
                 x="Mar 26"
-                stroke="rgba(239,68,68,0.4)"
+                stroke="rgba(217,91,91,0.4)"
                 strokeDasharray="3 3"
                 label={{
                   value: '📉 -13%',
                   position: 'insideTopRight',
-                  fill: 'rgba(239,68,68,0.7)',
+                  fill: 'rgba(217,91,91,0.7)',
                   fontSize: 9,
                   fontWeight: 'bold',
                 }}
               />
 
-              {/* Portfolio value — fills green from curve down */}
+              {/* Portfolio value */}
               <Area
                 type="monotone"
                 dataKey="portfolioValue"
                 name="Valeur du portefeuille"
-                stroke="#10B981"
+                stroke="#0D7A4E"
                 strokeWidth={2.5}
                 fill="url(#portGrad)"
                 isAnimationActive={inView}
@@ -189,12 +187,12 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
                 animationBegin={0}
                 animationEasing="ease-out"
               />
-              {/* Capital invested — dashed, dark fill masks portfolio fill below line */}
+              {/* Capital invested */}
               <Area
                 type="monotone"
                 dataKey="capitalInvested"
                 name="Capital investi"
-                stroke="rgba(255,255,255,0.35)"
+                stroke="#8298B0"
                 strokeWidth={1.5}
                 strokeDasharray="5 3"
                 fill="url(#capGrad)"
@@ -208,7 +206,7 @@ export default function PortfolioChart({ data }: PortfolioChartProps) {
         </div>
 
         {/* Disclaimer */}
-        <p className="mt-5 text-white/25 text-[10px] leading-relaxed text-center">
+        <p className="mt-5 text-[10px] leading-relaxed text-center" style={{ color: 'var(--text-muted)' }}>
           Simulation DCA sur prix de clôture estimés · Modèle linéaire · Hors frais de courtage (~0,3%/transaction) · Les performances passées ne préjugent pas des performances futures.
         </p>
       </div>

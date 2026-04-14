@@ -30,18 +30,18 @@ interface CustomTooltipProps {
 function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-primary border border-secondary/30 rounded-xl p-4 shadow-2xl min-w-[200px]">
-        <p className="text-accent font-medium text-sm mb-3">Année {label}</p>
+      <div style={{ backgroundColor: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 10, boxShadow: 'var(--shadow-lg)' }} className="p-4 min-w-[200px]">
+        <p className="font-medium text-sm mb-3" style={{ color: 'var(--gold)' }}>Année {label}</p>
         {payload.map((entry) => (
           <div key={entry.name} className="flex items-center justify-between gap-4 mb-1.5">
-            <span className="flex items-center gap-1.5 text-white/70 text-xs">
+            <span className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-secondary)' }}>
               <span
                 className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                 style={{ backgroundColor: entry.color }}
               />
               {entry.name}
             </span>
-            <span className="text-white font-medium text-xs">
+            <span className="font-medium text-xs" style={{ color: 'var(--text-primary)' }}>
               {formatCurrency(entry.value)}
             </span>
           </div>
@@ -69,9 +69,9 @@ export default function PortfolioChart({ data, monthlyAmount }: PortfolioChartPr
     <div className="space-y-4">
       {/* Summary stats */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-primary/5 rounded-xl p-3 text-center">
-          <p className="text-primary/50 text-xs mb-1">Capital investi</p>
-          <p className="text-primary font-medium text-sm">
+        <div className="rounded-[8px] p-3 text-center" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+          <p className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Capital investi</p>
+          <p className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
             {formatCurrency(totalContributions)}
           </p>
         </div>
