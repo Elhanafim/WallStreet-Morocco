@@ -8,6 +8,8 @@ import SummaryCards from './SummaryCards';
 import IndicatorsTable from './IndicatorsTable';
 import AmmcDonneesPanel from './AmmcDonneesPanel';
 import RawDataPanel from './RawDataPanel';
+import M2MDonneesPanel from './M2MDonneesPanel';
+import SNEPDonneesPanel from './SNEPDonneesPanel';
 import type { AmmcCompanyData } from '@/types/ammc';
 import { useCompanyFinancials } from '@/hooks/useCompanyFinancials';
 
@@ -642,6 +644,14 @@ export default function ValuesFinancials({ ticker }: Props) {
 
             {/* ─ DONNÉES AMMC ─ */}
             {finTab === 'DONNEES' && (() => {
+              // M2M Group: use dedicated dashboard (ENCG Meknès report data)
+              if (ticker?.toUpperCase() === 'M2M') {
+                return <M2MDonneesPanel />;
+              }
+              if (ticker?.toUpperCase() === 'SNEP') {
+                return <SNEPDonneesPanel />;
+              }
+
               // Loading state
               if (rawAmmc.status === 'loading') {
                 return (
