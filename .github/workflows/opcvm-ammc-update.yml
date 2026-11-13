@@ -10,38 +10,51 @@ on:
         description: 'Force re-download even if date already exists'
         required: false
         default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
 
-permissions:
-  contents: write
+# Deny everything by default; each job requests only what it needs.
+permissions: {}
+
+concurrency:
+  group: opcvm-ammc-update
+  cancel-in-progress: false
 
 jobs:
+  # Runs third-party Python packages, so it gets a read-only token and no
+  # persisted git credentials. It can only hand files to the next job.
   update-opcvm:
     name: Download & process AMMC weekly XLS
     runs-on: ubuntu-latest
-
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
           cache: 'pip'
           cache-dependency-path: price_service/requirements.txt
 
       - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r price_service/requirements.txt
+        run: python -m pip install -r price_service/requirements.txt
 
       - name: Run AMMC pipeline
         env:
           PYTHONPATH: ${{ github.workspace }}
+          FORCE_DOWNLOAD: ${{ github.event.inputs.force }}
         run: |
-          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+          if [ "$FORCE_DOWNLOAD" = "true" ]; then
             python -m price_service.opcvm.ammc_pipeline --force
           else
             python -m price_service.opcvm.ammc_pipeline
@@ -50,17 +63,61 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet public/data/opcvm/ || echo "changed=true" >> $GITHUB_OUTPUT
+          if [ -n "$(git status --porcelain -- public/data/opcvm/history.json public/data/opcvm/latest.json)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes detected — OPCVM data is already up to date."
+          fi
+
+      - name: Upload updated data
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: opcvm-data
+          path: |
+            public/data/opcvm/history.json
+            public/data/opcvm/latest.json
+          if-no-files-found: error
+          retention-days: 1
+
+  # Holds the write token but runs no third-party code: it only validates
+  # the two JSON files and commits them.
+  commit-data:
+    name: Commit updated OPCVM data
+    needs: update-opcvm
+    if: needs.update-opcvm.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download updated data
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: opcvm-data
+          path: ${{ runner.temp }}/opcvm-data
+
+      - name: Validate and stage data
+        env:
+          DATA_DIR: ${{ runner.temp }}/opcvm-data
+        run: |
+          for f in history.json latest.json; do
+            python3 -c 'import json, sys; json.load(open(sys.argv[1], encoding="utf-8"))' "$DATA_DIR/$f"
+            cp "$DATA_DIR/$f" "public/data/opcvm/$f"
+          done
 
       - name: Commit updated OPCVM data
-        if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/data/opcvm/history.json public/data/opcvm/latest.json
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
           git commit -m "data(opcvm): weekly AMMC update $(date -u +%Y-%m-%d) [skip ci]"
           git push
-
-      - name: No new data
-        if: steps.changes.outputs.changed != 'true'
-        run: echo "No changes detected — OPCVM data is already up to date."
