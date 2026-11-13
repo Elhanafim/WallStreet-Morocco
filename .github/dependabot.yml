@@ -52,6 +52,22 @@ updates:
       - "security"
       - "python"
 
+  - package-ecosystem: "pip"
+    directory: "/.github/security"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 5
+      semver-major-days: 14
+    groups:
+      security-tooling:
+        patterns: ["*"]
+    labels:
+      - "dependencies"
+      - "security"
+
   # Keeps the SHA-pinned actions in .github/workflows up to date.
   - package-ecosystem: "github-actions"
     directory: "/"

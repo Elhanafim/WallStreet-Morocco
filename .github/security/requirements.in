@@ -1,0 +1,3 @@
+# Tooling for the "Security checks" workflow. Edit this file, then regenerate:
+#   pip-compile --generate-hashes --allow-unsafe --strip-extras .github/security/requirements.in
+pip-audit

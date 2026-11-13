@@ -56,3 +56,9 @@ data/ammc_reports_cache.json
 
 # Third-party agent-skills collection: keep any local copy out of the public repository
 /skills/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/

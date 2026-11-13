@@ -115,19 +115,29 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 
 ## Dependency Vulnerability Management
 
-Run these commands regularly:
+Automated checks:
+
+- **Pull requests** — GitHub dependency review blocks changes that add dependencies with known vulnerabilities (moderate and above). See `.github/workflows/security.yml`.
+- **Every push to `main` and weekly** — `npm audit`, npm registry signature/provenance verification, and `pip-audit` against the hash-pinned Python lockfiles; CodeQL (`security-extended`) for TypeScript, Python and the workflows themselves (`.github/workflows/codeql.yml`).
+- **Dependabot** — weekly grouped updates for npm, pip and GitHub Actions, with a short cooldown before proposing brand-new releases (security updates are never delayed). See `.github/dependabot.yml`.
+
+Supply-chain rules for this repository:
+
+- Python dependencies are declared in `*.in` files and installed only from hash-pinned lockfiles, e.g. `pip install --require-hashes -r price_service/requirements.txt`. To change a dependency, edit the `.in` file and regenerate the lock with `pip-compile --generate-hashes --allow-unsafe --strip-extras <file>.in`.
+- JavaScript dependencies are installed from `package-lock.json` (`npm ci`).
+- GitHub Actions are pinned to full commit SHAs, and workflow tokens default to no permissions.
+- Never install a package at runtime, or because an error message or an AI assistant suggests a name: confirm it is the dependency declared in the requirements/package files and that it exists on the official registry.
+- Third-party agent skills or plugins are not committed to this repository.
+- Builds never modify the database; schema changes are applied deliberately with `npm run db:push`.
+
+Manual check:
 
 ```bash
-# Frontend
-npm audit --audit-level=high
-npm audit fix
-
-# Backend
-pip install pip-audit
-pip-audit -r price_service/requirements.txt
+npm audit
+npm audit signatures
+pip install --require-hashes -r .github/security/requirements.txt
+pip-audit --strict --require-hashes --disable-pip -r price_service/requirements.txt
 ```
-
-Dependabot is configured to auto-create PRs for weekly dependency updates.
 
 ---
 
@@ -150,12 +160,20 @@ Dependabot is configured to auto-create PRs for weekly dependency updates.
 
 ---
 
-## Known Dependency Vulnerabilities (npm audit — 25 March 2026)
+## Known Dependency Vulnerabilities
 
-| Package | Severity | Advisory | Status | Mitigation |
-|---------|----------|----------|--------|------------|
-| `next` (14.x) | HIGH | GHSA-ggv3-7p47-pfv8, GHSA-h25m-26qc-wcjf, GHSA-9g9p-9gw9-jx7f, GHSA-3x4c-7xq6-9pq8 | Fix requires breaking upgrade to next@16+ | Monitor Next.js 14 security patches; plan upgrade to Next.js 15 or 16 in Q2 2026 |
-| `xlsx` (0.18.x) | HIGH | GHSA-4r6h-8v6p-xvw6, GHSA-5pgg-2g8v-p4x9 | No fix available upstream | xlsx is used server-side only for OPCVM static data (src/lib/data/opcvm-stats.ts). Data is read-only static files from trusted sources — no user-controlled input is parsed. Risk is acceptable in current usage pattern. Evaluate migration to `exceljs` when feasible. |
-| `fastify` (via @neondatabase/neon-js) | HIGH | GHSA-mrq3-vjjr-p77c, GHSA-jx2c-rxcm-jvmq | Fix requires breaking upgrade | Fastify is a transitive dependency of @neondatabase/neon-js; update neon-js when a compatible fixed version is available. |
+*Status on 13 November 2026: `npm audit` reports 0 vulnerabilities; `pip-audit` reports no known vulnerabilities in `price_service/requirements.txt` and `scripts/requirements.txt`.*
 
-*Last updated: 25 March 2026*
+Resolved in the November 2026 security update:
+
+| Package | Previous issue | Resolution |
+|---------|----------------|------------|
+| `next` 14.2.35 | Critical and high advisories (e.g. GHSA-2464-fhr4-w9xw, GHSA-2xp9-vwfh-vxw4, GHSA-36qx-fr4f-26g5); no 14.x fix | Upgraded to Next.js 16.4.6 with React 19 |
+| `next-auth` 4.24.13 | Critical email-normalisation bypass (GHSA-7rqj-j65f-68wh) and others | Upgraded to 4.24.15 |
+| `xlsx` 0.18.5 (npm) | Prototype pollution (GHSA-4r6h-8v6p-xvw6) and ReDoS (GHSA-5pgg-2g8v-p4x9); no fix on the npm registry | Replaced with the official SheetJS 0.20.3 build (cdn.sheetjs.com), integrity-pinned in `package-lock.json` |
+| `@neondatabase/neon-js` | Unused; pulled in vulnerable `better-auth` and `fastify` | Removed, together with the unused `cheerio`, `node-fetch`, `pdf-parse` and `react-router-dom` |
+| `zod` 3.25 | Memory exhaustion (GHSA-mrhx-c7xc-m3w5) | Upgraded to 4.6.7 |
+| `starlette` 0.37.2 (via FastAPI 0.111.0) | Multiple advisories | FastAPI 0.162.5 / Starlette 1.10.0, hash-pinned |
+| `python-dotenv` 1.0.1 | CVE-2026-28684 | 1.2.4, hash-pinned |
+
+*Last updated: 13 November 2026*
