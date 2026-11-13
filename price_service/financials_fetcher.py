@@ -1,5 +1,5 @@
 import logging
-import bvc
+import BVCscrap as bvc  # declared in requirements.in as "BVCscrap"
 from ticker_map import get_company_name
 
 log = logging.getLogger("bvc-financials")
