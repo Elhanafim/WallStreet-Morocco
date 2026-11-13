@@ -1,0 +1,6 @@
+# Dependencies of the offline data-extraction tools in scripts/ (not used by
+# the web app or by CI). Edit this file, then regenerate the hash-pinned lock:
+#   pip-compile --generate-hashes --allow-unsafe --strip-extras scripts/requirements.in
+requests
+beautifulsoup4
+pdfplumber

@@ -23,8 +23,8 @@ from typing import Optional
 try:
     import pdfplumber
 except ImportError:
-    os.system(f"{sys.executable} -m pip install pdfplumber")
-    import pdfplumber
+    # Never install packages at runtime: install the pinned, hash-checked set instead.
+    sys.exit("pdfplumber is required: pip install --require-hashes -r scripts/requirements.txt")
 
 import logging
 logging.getLogger("pdfminer").setLevel(logging.ERROR)
