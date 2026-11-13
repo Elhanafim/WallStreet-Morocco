@@ -53,3 +53,6 @@ price_service/.env.*
 *.p12
 *.pfx
 data/ammc_reports_cache.json
+
+# Third-party agent-skills collection: keep any local copy out of the public repository
+/skills/
