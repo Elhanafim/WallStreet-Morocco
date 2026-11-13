@@ -1,17 +1,11 @@
 import { Metadata } from 'next';
 import TrackLayout from '@/components/games/finance-students/shared/TrackLayout';
+import { RatioRaceGame } from '@/components/games/finance-students/ClientGames';
 
 export const metadata: Metadata = {
   title: 'Financial Analyst — Jeux étudiants | Walltreet Morocco',
   description: 'Analysez des états financiers simplifiés, calculez les ratios clés et identifiez les signaux d\'alerte.',
 };
-
-import dynamic from 'next/dynamic';
-
-const RatioRaceGame = dynamic(
-  () => import('@/components/games/finance-students/financial-analyst/RatioRaceGame'),
-  { ssr: false }
-);
 
 export default function FinancialAnalystPage() {
   return (

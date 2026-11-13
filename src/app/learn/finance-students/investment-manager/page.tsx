@@ -1,17 +1,11 @@
 import { Metadata } from 'next';
 import TrackLayout from '@/components/games/finance-students/shared/TrackLayout';
+import { CapitalBudgetingGame } from '@/components/games/finance-students/ClientGames';
 
 export const metadata: Metadata = {
   title: 'Investment Manager — Jeux étudiants | Walltreet Morocco',
   description: 'Évaluez des projets d\'investissement avec VAN, TRI, payback et indice de profitabilité.',
 };
-
-import dynamic from 'next/dynamic';
-
-const CapitalBudgetingGame = dynamic(
-  () => import('@/components/games/finance-students/investment-manager/CapitalBudgetingGame'),
-  { ssr: false }
-);
 
 export default function InvestmentManagerPage() {
   return (

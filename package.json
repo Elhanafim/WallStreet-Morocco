@@ -2,6 +2,9 @@
   "name": "wallstreet-morocco",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
@@ -11,36 +14,31 @@
     "price-service": "cd price_service && python3 -m uvicorn main:app --host 0.0.0.0 --port 8001 --reload"
   },
   "dependencies": {
-    "@neondatabase/neon-js": "^0.2.0-beta.1",
     "@prisma/client": "^5.13.0",
     "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^2.4.3",
-    "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "i18next": "^25.10.9",
-    "lucide-react": "^0.378.0",
-    "next": "14.2.35",
-    "next-auth": "^4.24.7",
-    "node-fetch": "^3.3.2",
-    "pdf-parse": "^2.4.5",
-    "react": "^18",
-    "react-dom": "^18",
+    "lucide-react": "^0.577.0",
+    "next": "16.4.6",
+    "next-auth": "^4.24.15",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-i18next": "^16.6.6",
-    "react-router-dom": "^7.13.1",
-    "recharts": "^2.12.7",
+    "recharts": "^2.15.4",
     "tailwind-merge": "^2.3.0",
-    "xlsx": "^0.18.5",
-    "zod": "^3.23.8"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.0.1",
-    "postcss": "^8",
+    "postcss": "^8.5.32",
     "prisma": "^5.13.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

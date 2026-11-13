@@ -1,14 +1,6 @@
-import dynamic from 'next/dynamic';
 import { Activity, Clock, Globe2, Layers, TrendingUp, LayoutGrid } from 'lucide-react';
 import FinancialDisclaimer from '@/components/legal/FinancialDisclaimer';
-
-const TradingViewTicker   = dynamic(() => import('@/components/market/TradingViewTicker'),   { ssr: false });
-const TradingViewChart    = dynamic(() => import('@/components/market/TradingViewChart'),    { ssr: false });
-const WatchlistPanel      = dynamic(() => import('@/components/market/WatchlistPanel'),      { ssr: false });
-const MarketSummary       = dynamic(() => import('@/components/market/MarketSummary'),       { ssr: false });
-const MarketStockGrid     = dynamic(() => import('@/components/market/MarketStockGrid'),     { ssr: false });
-const MarketHeatmap       = dynamic(() => import('@/components/market/MarketHeatmap'),       { ssr: false });
-const ChatHint            = dynamic(() => import('@/components/chat/ChatHint'),              { ssr: false });
+import { TradingViewTicker, TradingViewChart, WatchlistPanel, MarketSummary, MarketStockGrid, MarketHeatmap, ChatHint } from '@/components/market/ClientWidgets';
 
 // ── All 77 CSEMA stocks ────────────────────────────────────────────────────────
 const ASSETS = [

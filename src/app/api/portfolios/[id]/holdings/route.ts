@@ -17,15 +17,16 @@ const holdingSchema = z.object({
 // GET /api/portfolios/[id]/holdings — list holdings for a portfolio
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
   const portfolio = await prisma.namedPortfolio.findUnique({
-    where: { id: params.id },
+    where: { id: routeParams.id },
   });
 
   if (!portfolio) {
@@ -36,7 +37,7 @@ export async function GET(
   }
 
   const holdings = await prisma.portfolioHolding.findMany({
-    where: { portfolioId: params.id },
+    where: { portfolioId: routeParams.id },
     orderBy: { createdAt: 'desc' },
   });
 
@@ -46,15 +47,16 @@ export async function GET(
 // POST /api/portfolios/[id]/holdings — add a holding to a portfolio
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
   const portfolio = await prisma.namedPortfolio.findUnique({
-    where: { id: params.id },
+    where: { id: routeParams.id },
   });
 
   if (!portfolio) {
@@ -67,12 +69,12 @@ export async function POST(
   const body = await req.json();
   const parsed = holdingSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
+    return NextResponse.json({ error: parsed.error.issues[0].message }, { status: 400 });
   }
 
   const holding = await prisma.portfolioHolding.create({
     data: {
-      portfolioId:   params.id,
+      portfolioId:   routeParams.id,
       assetType:     parsed.data.assetType,
       assetSymbol:   parsed.data.assetSymbol,
       assetName:     parsed.data.assetName,
@@ -85,7 +87,7 @@ export async function POST(
 
   // Touch parent portfolio updatedAt
   await prisma.namedPortfolio.update({
-    where: { id: params.id },
+    where: { id: routeParams.id },
     data: { updatedAt: new Date() },
   });
 

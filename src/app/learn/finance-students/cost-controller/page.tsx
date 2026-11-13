@@ -1,17 +1,11 @@
 import { Metadata } from 'next';
 import TrackLayout from '@/components/games/finance-students/shared/TrackLayout';
+import { FactoryBreakEvenGame } from '@/components/games/finance-students/ClientGames';
 
 export const metadata: Metadata = {
   title: 'Cost Controller — Jeux étudiants | Walltreet Morocco',
   description: 'Maîtrisez la structure de coûts, le seuil de rentabilité et la marge de contribution.',
 };
-
-import dynamic from 'next/dynamic';
-
-const FactoryBreakEvenGame = dynamic(
-  () => import('@/components/games/finance-students/cost-controller/FactoryBreakEvenGame'),
-  { ssr: false }
-);
 
 export default function CostControllerPage() {
   return (

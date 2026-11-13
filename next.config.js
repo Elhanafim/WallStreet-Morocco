@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Do not advertise the framework in an X-Powered-By header.
+  poweredByHeader: false,
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,

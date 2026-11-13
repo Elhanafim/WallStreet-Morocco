@@ -20,8 +20,9 @@ const updateSchema = z.object({
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
@@ -30,7 +31,7 @@ export async function DELETE(
   try {
     const userId = (session.user as any).id;
     const entry = await prisma.portfolio.findUnique({
-      where: { id: params.id },
+      where: { id: routeParams.id },
     });
 
     if (!entry) {
@@ -41,7 +42,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
     }
 
-    await prisma.portfolio.delete({ where: { id: params.id } });
+    await prisma.portfolio.delete({ where: { id: routeParams.id } });
     return NextResponse.json({ message: 'Entrée supprimée' });
   } catch (error) {
     console.error('Portfolio DELETE error:', error);
@@ -51,8 +52,9 @@ export async function DELETE(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
@@ -61,7 +63,7 @@ export async function PATCH(
   try {
     const userId = (session.user as any).id;
     const entry = await prisma.portfolio.findUnique({
-      where: { id: params.id },
+      where: { id: routeParams.id },
     });
 
     if (!entry) {
@@ -77,7 +79,7 @@ export async function PATCH(
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: parsed.error.errors[0].message },
+        { error: parsed.error.issues[0].message },
         { status: 400 }
       );
     }
@@ -87,7 +89,7 @@ export async function PATCH(
     if (date) updateData.date = new Date(date);
 
     const updated = await prisma.portfolio.update({
-      where: { id: params.id },
+      where: { id: routeParams.id },
       data: updateData,
     });
 

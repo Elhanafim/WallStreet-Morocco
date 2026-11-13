@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { use, useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { canShowPrompt, canShowAnotherPrompt, DONATE_KEYS } from '@/services/donatePromptService';
@@ -865,8 +865,9 @@ function HoldingsTable({
 export default function PortfolioDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id: portfolioId } = use(params);
   const [portfolio, setPortfolio]     = useState<NamedPortfolio | null>(null);
   const [holdings, setHoldings]       = useState<Holding[]>([]);
   const [loading, setLoading]         = useState(true);
@@ -882,7 +883,7 @@ export default function PortfolioDetailPage({
     try {
       const [pfRes, holdRes] = await Promise.all([
         fetch(`/api/portfolios`),
-        fetch(`/api/portfolios/${params.id}/holdings`),
+        fetch(`/api/portfolios/${portfolioId}/holdings`),
       ]);
 
       if (holdRes.status === 404 || holdRes.status === 403) {
@@ -892,7 +893,7 @@ export default function PortfolioDetailPage({
 
       if (pfRes.ok) {
         const all: NamedPortfolio[] = await pfRes.json();
-        const found = all.find((p) => p.id === params.id);
+        const found = all.find((p) => p.id === portfolioId);
         if (found) setPortfolio(found);
         else setNotFound(true);
       }
@@ -903,7 +904,7 @@ export default function PortfolioDetailPage({
     } finally {
       setLoading(false);
     }
-  }, [params.id]);
+  }, [portfolioId]);
 
   const refreshPrices = useCallback(async (currentHoldings: Holding[]) => {
     const stockTickers = currentHoldings
@@ -936,19 +937,19 @@ export default function PortfolioDetailPage({
       setPerf(newPerf);
 
       // Save daily snapshot
-      saveSnapshot(params.id, newPerf.totalValue, newPerf.totalCost);
-      setSnapshots(loadSnapshots(params.id));
+      saveSnapshot(portfolioId, newPerf.totalValue, newPerf.totalCost);
+      setSnapshots(loadSnapshots(portfolioId));
     } finally {
       setPricesLoading(false);
     }
-  }, [params.id]);
+  }, [portfolioId]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
   // Load snapshots from localStorage on mount
   useEffect(() => {
-    setSnapshots(loadSnapshots(params.id));
-  }, [params.id]);
+    setSnapshots(loadSnapshots(portfolioId));
+  }, [portfolioId]);
 
   // Fetch live prices when holdings are loaded
   useEffect(() => {
@@ -961,18 +962,18 @@ export default function PortfolioDetailPage({
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      if (detail?.portfolioId === params.id) {
+      if (detail?.portfolioId === portfolioId) {
         fetchData();
       }
     };
     window.addEventListener('portfolioUpdated', handler);
     return () => window.removeEventListener('portfolioUpdated', handler);
-  }, [params.id, fetchData]);
+  }, [portfolioId, fetchData]);
 
   const handleHoldingAdded = (h: Holding) => {
     setHoldings((prev) => [h, ...prev]);
     setShowPanel(false);
-    window.dispatchEvent(new CustomEvent('portfolioUpdated', { detail: { portfolioId: params.id } }));
+    window.dispatchEvent(new CustomEvent('portfolioUpdated', { detail: { portfolioId } }));
     // Placement 3: show donate nudge at peak moment (after adding a holding)
     if (canShowPrompt(DONATE_KEYS.promptLastShown) && canShowAnotherPrompt()) {
       const ticker = h.assetSymbol.split(':')[1] ?? h.assetSymbol;
@@ -1151,7 +1152,7 @@ export default function PortfolioDetailPage({
             <LearnCTA />
             <HoldingsTable
               holdings={holdings}
-              portfolioId={params.id}
+              portfolioId={portfolioId}
               livePrices={livePrices}
               pricesLoading={pricesLoading}
               onDeleted={handleHoldingDeleted}
@@ -1163,7 +1164,7 @@ export default function PortfolioDetailPage({
       {/* ── Add Holding Panel ── */}
       {showPanel && (
         <AddHoldingPanel
-          portfolioId={params.id}
+          portfolioId={portfolioId}
           onClose={() => setShowPanel(false)}
           onAdded={handleHoldingAdded}
         />

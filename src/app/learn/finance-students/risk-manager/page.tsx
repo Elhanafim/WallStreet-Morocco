@@ -1,22 +1,11 @@
 import { Metadata } from 'next';
 import TrackLayout from '@/components/games/finance-students/shared/TrackLayout';
+import { RiskRadarGame, HedgeOrHoldGame } from '@/components/games/finance-students/ClientGames';
 
 export const metadata: Metadata = {
   title: 'Risk Manager — Jeux étudiants | Walltreet Morocco',
   description: 'Identifiez et mitigez les risques bancaires. Gérez vos expositions et décidez quand couvrir.',
 };
-
-import dynamic from 'next/dynamic';
-
-const RiskRadarGame = dynamic(
-  () => import('@/components/games/finance-students/risk-manager/RiskRadarGame'),
-  { ssr: false }
-);
-
-const HedgeOrHoldGame = dynamic(
-  () => import('@/components/games/finance-students/risk-manager/HedgeOrHoldGame'),
-  { ssr: false }
-);
 
 export default function RiskManagerPage() {
   return (

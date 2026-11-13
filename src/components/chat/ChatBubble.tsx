@@ -146,11 +146,7 @@ export default function ChatBubble() {
 
         {/* ── Bounce tooltip ───────────────────────────────────────── */}
         {showTooltip && !chat.isOpen && (
-          <div className="
-            bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100
-            text-xs font-medium rounded-xl shadow-lg border border-gray-200 dark:border-gray-700
-            px-3 py-2 max-w-[200px] animate-fade-in
-          ">
+          <div className="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-xs font-medium rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 px-3 py-2 max-w-[200px] animate-fade-in">
             👋 {t("bounceTooltip", "Bonjour ! Je peux vous aider.")}
             <span className="absolute bottom-[-6px] right-6 w-3 h-3 bg-white dark:bg-gray-800 border-r border-b border-gray-200 dark:border-gray-700 rotate-45 block" />
           </div>
@@ -171,12 +167,7 @@ export default function ChatBubble() {
         >
           {/* Unread badge */}
           {!chat.isOpen && chat.unreadCount > 0 && (
-            <span className="
-              absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1
-              rounded-full bg-red-500 text-white text-[10px] font-medium
-              flex items-center justify-center
-              animate-badge-in
-            ">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-medium flex items-center justify-center animate-badge-in">
               {chat.unreadCount > 9 ? "9+" : chat.unreadCount}
             </span>
           )}

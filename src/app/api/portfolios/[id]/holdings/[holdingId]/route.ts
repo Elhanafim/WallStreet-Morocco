@@ -6,8 +6,9 @@ import { prisma } from '@/lib/db';
 // DELETE /api/portfolios/[id]/holdings/[holdingId]
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string; holdingId: string } }
+  { params }: { params: Promise<{ id: string; holdingId: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
@@ -15,7 +16,7 @@ export async function DELETE(
 
   // Verify portfolio ownership
   const portfolio = await prisma.namedPortfolio.findUnique({
-    where: { id: params.id },
+    where: { id: routeParams.id },
   });
 
   if (!portfolio) {
@@ -26,14 +27,14 @@ export async function DELETE(
   }
 
   const holding = await prisma.portfolioHolding.findUnique({
-    where: { id: params.holdingId },
+    where: { id: routeParams.holdingId },
   });
 
-  if (!holding || holding.portfolioId !== params.id) {
+  if (!holding || holding.portfolioId !== routeParams.id) {
     return NextResponse.json({ error: 'Introuvable' }, { status: 404 });
   }
 
-  await prisma.portfolioHolding.delete({ where: { id: params.holdingId } });
+  await prisma.portfolioHolding.delete({ where: { id: routeParams.holdingId } });
 
   return NextResponse.json({ success: true });
 }

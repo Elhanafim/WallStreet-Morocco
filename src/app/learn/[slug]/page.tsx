@@ -8,7 +8,7 @@ import { formatDate } from '@/lib/utils';
 import DonateLearnBanner from '@/components/donate/DonateLearnBanner';
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
@@ -17,8 +17,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: PageProps) {
-  const article = getArticleBySlug(params.slug);
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
   if (!article) return {};
   return {
     title: article.title,
@@ -104,14 +105,15 @@ function ArticleContent({ content }: { content: string }) {
   );
 }
 
-export default function ArticlePage({ params }: PageProps) {
-  const article = getArticleBySlug(params.slug);
+export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
-  const relatedArticles = getRelatedArticles(params.slug, 3);
+  const relatedArticles = getRelatedArticles(slug, 3);
 
   return (
     <div className="pt-16 min-h-screen bg-[var(--bg-base)]">

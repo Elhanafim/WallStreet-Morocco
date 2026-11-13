@@ -6,15 +6,16 @@ import { prisma } from '@/lib/db';
 // DELETE /api/portfolios/[id] — delete a portfolio and all its holdings (cascade)
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
 
   const portfolio = await prisma.namedPortfolio.findUnique({
-    where: { id: params.id },
+    where: { id: routeParams.id },
   });
 
   if (!portfolio) {
@@ -24,7 +25,7 @@ export async function DELETE(
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 });
   }
 
-  await prisma.namedPortfolio.delete({ where: { id: params.id } });
+  await prisma.namedPortfolio.delete({ where: { id: routeParams.id } });
 
   return NextResponse.json({ success: true });
 }
